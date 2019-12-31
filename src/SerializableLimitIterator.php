@@ -1,20 +1,18 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Paginator
+ * @see       https://github.com/laminas/laminas-paginator for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-paginator/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-paginator/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Paginator;
+namespace Laminas\Paginator;
 
 use Iterator;
 
 /**
- * @category   Zend
- * @package    Zend_Paginator
+ * @category   Laminas
+ * @package    Laminas_Paginator
  */
 class SerializableLimitIterator extends \LimitIterator implements \Serializable, \ArrayAccess
 {
@@ -34,7 +32,7 @@ class SerializableLimitIterator extends \LimitIterator implements \Serializable,
     private $count;
 
     /**
-     * Construct a Zend\Paginator\SerializableLimitIterator
+     * Construct a Laminas\Paginator\SerializableLimitIterator
      *
      * @param Iterator $it Iterator to limit (must be serializable by un-/serialize)
      * @param int $offset Offset to first element
