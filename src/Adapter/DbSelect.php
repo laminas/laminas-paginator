@@ -1,20 +1,19 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-paginator for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-paginator/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-paginator/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Paginator\Adapter;
+namespace Laminas\Paginator\Adapter;
 
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Sql\Sql;
-use Zend\Db\Sql\Expression;
-use Zend\Db\Sql\Select;
-use Zend\Db\ResultSet\ResultSet;
-use Zend\Db\ResultSet\ResultSetInterface;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\ResultSet\ResultSet;
+use Laminas\Db\ResultSet\ResultSetInterface;
+use Laminas\Db\Sql\Expression;
+use Laminas\Db\Sql\Select;
+use Laminas\Db\Sql\Sql;
 
 class DbSelect implements AdapterInterface
 {
@@ -76,7 +75,7 @@ class DbSelect implements AdapterInterface
 
         if (!$adapterOrSqlObject instanceof Sql) {
             throw new Exception\InvalidArgumentException(
-                '$adapterOrSqlObject must be an instance of Zend\Db\Adapter\Adapter or Zend\Db\Sql\Sql'
+                '$adapterOrSqlObject must be an instance of Laminas\Db\Adapter\Adapter or Laminas\Db\Sql\Sql'
             );
         }
 
