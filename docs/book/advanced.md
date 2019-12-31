@@ -5,7 +5,7 @@
 At some point you may run across a data type that is not covered by the packaged
 adapters. In this case, you will need to write your own.
 
-To do so, you must implement `Zend\Paginator\Adapter\AdapterInterface`. There
+To do so, you must implement `Laminas\Paginator\Adapter\AdapterInterface`. There
 are two methods required to do this:
 
 - `count() : int`
@@ -15,11 +15,11 @@ Additionally, you'll typically implement a constructor that takes your data
 source as a parameter.
 
 If you've ever used the SPL interface [Countable](http://php.net/Countable),
-you're familiar with `count()`. As used with zend-paginator, this is the total
-number of items in the data collection; `Zend\Paginator\Paginator::countAllItems`
+you're familiar with `count()`. As used with laminas-paginator, this is the total
+number of items in the data collection; `Laminas\Paginator\Paginator::countAllItems`
 proxies to this method.
 
-When retrieving items for the current page, `Zend\Paginator\Paginator` calls on
+When retrieving items for the current page, `Laminas\Paginator\Paginator` calls on
 your adapter's `getItems()` method, providing it with an offset and the number
 of items to display per page; your job is to return the appropriate slice of
 data. For an array, that would be:
@@ -34,7 +34,7 @@ implementing your own.
 ## Custom scrolling styles
 
 Creating your own scrolling style requires that you implement
-`Zend\Paginator\ScrollingStyle\ScrollingStyleInterface`, which defines a single
+`Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface`, which defines a single
 method:
 
 ```php
@@ -46,7 +46,7 @@ range of so-called "local" pages (that is, pages that are nearby the current
 page).
 
 Unless it extends another scrolling style (see
-`Zend\Paginator\ScrollingStyle\Elastic` for an example), your custom scrolling
+`Laminas\Paginator\ScrollingStyle\Elastic` for an example), your custom scrolling
 style will inevitably end with something similar to the following line of code:
 
 ```php
@@ -58,12 +58,12 @@ check the validity of the lower and upper bound and return an array with the ran
 to the paginator.
 
 When you're ready to use your new scrolling style, you'll need to notif
-`Zend\Paginator\Paginator`:
+`Laminas\Paginator\Paginator`:
 
 ```php
 use My\Paginator\ScrollingStyle;
-use Zend\Paginator\Paginator;
-use Zend\ServiceManager\Factory\InvokableFactory;
+use Laminas\Paginator\Paginator;
+use Laminas\ServiceManager\Factory\InvokableFactory;
 
 $manager = Paginator::getScrollingStyleManager();
 $manager->setAlias('my-style', ScrollingStyle::class);
@@ -74,22 +74,22 @@ $manager->setFactory(ScrollingStyle::class, InvokableFactory::class);
 
 > ### Installation Requirements
 >
-> The caching features depends on the zend-cache component, so be sure to have
+> The caching features depends on the laminas-cache component, so be sure to have
 > it installed before getting started:
 >
 > ```bash
-> $ composer require zendframework/zend-cache
+> $ composer require laminas/laminas-cache
 > ```
 
-`Zend\Paginator\Paginator` can be told to cache the data it has already used,
+`Laminas\Paginator\Paginator` can be told to cache the data it has already used,
 preventing the adapter from fetching on next request. To tell
 paginator to automatically cache the adapter's data, pass a pre-configured
-[zend-cache adapter](https://docs.zendframework.com/zend-cache/storage/adapter/)
+[laminas-cache adapter](https://docs.laminas.dev/laminas-cache/storage/adapter/)
 to the static `setCache()` method:
 
 ```php
-use Zend\Cache\StorageFactory;
-use Zend\Paginator\Paginator;
+use Laminas\Cache\StorageFactory;
+use Laminas\Paginator\Paginator;
 
 $cache = StorageFactory::adapterFactory('filesystem', [
     'cache_dir' => '/tmp',
@@ -104,9 +104,9 @@ the data any instance generates will be cached. If you want to disable caching, 
 `setCacheEnabled()` with a boolean `false` on a concrete instance:
 
 ```php
-use Zend\Paginator\Paginator;
+use Laminas\Paginator\Paginator;
 
-// $cache is a Zend\Cache\Storage\StorageInterface instance
+// $cache is a Laminas\Cache\Storage\StorageInterface instance
 Paginator::setCache($cache);
 
 // ... later on the script:
@@ -121,9 +121,9 @@ whole cache will be empty. You can optionally pass a parameter representing the
 page number to empty in the cache:
 
 ```php
-use Zend\Paginator\Paginator;
+use Laminas\Paginator\Paginator;
 
-// $cache is a Zend\Cache\Storage\StorageInterface instance
+// $cache is a Laminas\Cache\Storage\StorageInterface instance
 Paginator::setCache($cache);
 
 // $paginator is a fully configured Paginator instance:
@@ -143,9 +143,9 @@ Changing the item count per page will empty the whole cache as it would have
 become invalid:
 
 ```php
-use Zend\Paginator\Paginator;
+use Laminas\Paginator\Paginator;
 
-// $cache is a Zend\Cache\Storage\StorageInterface instance
+// $cache is a Laminas\Cache\Storage\StorageInterface instance
 Paginator::setCache($cache);
 
 // Fetch some items from an instance:
@@ -159,9 +159,9 @@ It is also possible to see the data in cache and ask for it directly.
 `getPageItemCache()` can be used for that:
 
 ```php
-use Zend\Paginator\Paginator;
+use Laminas\Paginator\Paginator;
 
-// $cache is a Zend\Cache\Storage\StorageInterface instance
+// $cache is a Laminas\Cache\Storage\StorageInterface instance
 Paginator::setCache($cache);
 
 // Set the item count:

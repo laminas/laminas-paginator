@@ -1,18 +1,17 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-paginator for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-paginator/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-paginator/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Paginator;
+namespace LaminasTest\Paginator;
 
+use Laminas\Paginator\Adapter\ArrayAdapter;
+use Laminas\Paginator\Paginator;
+use Laminas\Paginator\PaginatorIterator;
 use PHPUnit\Framework\TestCase;
-use Zend\Paginator\Adapter\ArrayAdapter;
-use Zend\Paginator\Paginator;
-use Zend\Paginator\PaginatorIterator;
 
 class PaginatorIteratorTest extends TestCase
 {

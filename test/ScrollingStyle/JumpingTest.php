@@ -1,30 +1,29 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-paginator for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-paginator/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-paginator/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Paginator\ScrollingStyle;
+namespace LaminasTest\Paginator\ScrollingStyle;
 
+use Laminas\Paginator\Adapter\ArrayAdapter;
+use Laminas\Paginator\Paginator;
 use PHPUnit\Framework\TestCase;
-use Zend\Paginator\Paginator;
-use Zend\Paginator\Adapter\ArrayAdapter;
 
 /**
- * @group      Zend_Paginator
- * @covers  Zend\Paginator\ScrollingStyle\Jumping<extended>
+ * @group      Laminas_Paginator
+ * @covers  Laminas\Paginator\ScrollingStyle\Jumping<extended>
  */
 class JumpingTest extends TestCase
 {
     /**
-     * @var \Zend\Paginator\ScrollingStyle\Jumping
+     * @var \Laminas\Paginator\ScrollingStyle\Jumping
      */
     private $scrollingStyle;
     /**
-     * @var \Zend\Paginator\Paginator
+     * @var \Laminas\Paginator\Paginator
      */
     private $paginator;
 
@@ -36,7 +35,7 @@ class JumpingTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->scrollingStyle = new \Zend\Paginator\ScrollingStyle\Jumping();
+        $this->scrollingStyle = new \Laminas\Paginator\ScrollingStyle\Jumping();
         $this->paginator = new Paginator(new ArrayAdapter(range(1, 101)));
         $this->paginator->setItemCountPerPage(10);
         $this->paginator->setPageRange(10);
