@@ -1,16 +1,17 @@
 <?php
+
 /**
- * @link      http://github.com/zendframework/zend-paginator for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-paginator for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-paginator/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-paginator/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Paginator;
+namespace Laminas\Paginator;
 
 class ConfigProvider
 {
     /**
-     * Retrieve default zend-paginator configuration.
+     * Retrieve default laminas-paginator configuration.
      *
      * @return array
      */
@@ -22,13 +23,18 @@ class ConfigProvider
     }
 
     /**
-     * Retrieve dependency configuration for zend-paginator.
+     * Retrieve dependency configuration for laminas-paginator.
      *
      * @return array
      */
     public function getDependencyConfig()
     {
         return [
+            // Legacy Zend Framework aliases
+            'aliases' => [
+                \Zend\Paginator\AdapterPluginManager::class => AdapterPluginManager::class,
+                \Zend\Paginator\ScrollingStylePluginManager::class => ScrollingStylePluginManager::class,
+            ],
             'factories' => [
                 AdapterPluginManager::class => AdapterPluginManagerFactory::class,
                 ScrollingStylePluginManager::class => ScrollingStylePluginManagerFactory::class,
