@@ -1,39 +1,22 @@
 {
-    "name": "zendframework/zend-paginator",
+    "name": "laminas/laminas-paginator",
     "description": " ",
     "license": "BSD-3-Clause",
     "keywords": [
-        "zf2",
+        "laminas",
         "paginator"
     ],
-    "homepage": "https://github.com/zendframework/zend-paginator",
-    "autoload": {
-        "psr-4": {
-            "Zend\\Paginator\\": "src/"
-        }
+    "homepage": "https://laminas.dev",
+    "support": {
+        "docs": "https://docs.laminas.dev/laminas-paginator/",
+        "issues": "https://github.com/laminas/laminas-paginator/issues",
+        "source": "https://github.com/laminas/laminas-paginator",
+        "rss": "https://github.com/laminas/laminas-paginator/releases.atom",
+        "chat": "https://laminas.dev/chat",
+        "forum": "https://discourse.laminas.dev"
     },
-    "require": {
-        "php": ">=5.3.23",
-        "zendframework/zend-stdlib": "self.version"
-    },
-    "require-dev": {
-        "zendframework/zend-cache": "self.version",
-        "zendframework/zend-db": "self.version",
-        "zendframework/zend-filter": "self.version",
-        "zendframework/zend-json": "self.version",
-        "zendframework/zend-servicemanager": "self.version",
-        "zendframework/zend-view": "self.version",
-        "fabpot/php-cs-fixer": "1.7.*",
-        "satooshi/php-coveralls": "dev-master",
-        "phpunit/PHPUnit": "~4.0"
-    },
-    "suggest": {
-        "zendframework/zend-cache": "Zend\\Cache component to support cache features",
-        "zendframework/zend-db": "Zend\\Db component",
-        "zendframework/zend-filter": "Zend\\Filter component",
-        "zendframework/zend-json": "Zend\\Json component",
-        "zendframework/zend-servicemanager": "Zend\\ServiceManager component",
-        "zendframework/zend-view": "Zend\\View component"
+    "config": {
+        "sort-packages": true
     },
     "extra": {
         "branch-alias": {
@@ -41,9 +24,41 @@
             "dev-develop": "2.4-dev"
         }
     },
+    "require": {
+        "php": ">=5.3.23",
+        "laminas/laminas-stdlib": "self.version",
+        "laminas/laminas-zendframework-bridge": "^1.0"
+    },
+    "require-dev": {
+        "fabpot/php-cs-fixer": "1.7.*",
+        "laminas/laminas-cache": "self.version",
+        "laminas/laminas-db": "self.version",
+        "laminas/laminas-filter": "self.version",
+        "laminas/laminas-json": "self.version",
+        "laminas/laminas-servicemanager": "self.version",
+        "laminas/laminas-view": "self.version",
+        "phpunit/phpunit": "~4.0",
+        "satooshi/php-coveralls": "dev-master"
+    },
+    "suggest": {
+        "laminas/laminas-cache": "Laminas\\Cache component to support cache features",
+        "laminas/laminas-db": "Laminas\\Db component",
+        "laminas/laminas-filter": "Laminas\\Filter component",
+        "laminas/laminas-json": "Laminas\\Json component",
+        "laminas/laminas-servicemanager": "Laminas\\ServiceManager component",
+        "laminas/laminas-view": "Laminas\\View component"
+    },
+    "autoload": {
+        "psr-4": {
+            "Laminas\\Paginator\\": "src/"
+        }
+    },
     "autoload-dev": {
         "psr-4": {
-            "ZendTest\\Paginator\\": "test/"
+            "LaminasTest\\Paginator\\": "test/"
         }
+    },
+    "replace": {
+        "zendframework/zend-paginator": "self.version"
     }
 }
