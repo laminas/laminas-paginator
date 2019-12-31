@@ -1,15 +1,14 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-paginator for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-paginator/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-paginator/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Paginator;
+namespace Laminas\Paginator;
 
-use Zend\ServiceManager\AbstractPluginManager;
+use Laminas\ServiceManager\AbstractPluginManager;
 
 /**
  * Plugin manager implementation for paginator adapters.
@@ -30,6 +29,9 @@ class AdapterPluginManager extends AbstractPluginManager
      */
     protected $aliases = array(
         'null'                        => 'nullfill',
+        'Laminas\Paginator\Adapter\Null' => 'nullfill',
+
+        // Legacy Zend Framework aliases
         'Zend\Paginator\Adapter\Null' => 'nullfill',
     );
 
@@ -39,9 +41,9 @@ class AdapterPluginManager extends AbstractPluginManager
      * @var array
      */
     protected $invokableClasses = array(
-        'array'         => 'Zend\Paginator\Adapter\ArrayAdapter',
-        'iterator'      => 'Zend\Paginator\Adapter\Iterator',
-        'nullfill'      => 'Zend\Paginator\Adapter\NullFill',
+        'array'         => 'Laminas\Paginator\Adapter\ArrayAdapter',
+        'iterator'      => 'Laminas\Paginator\Adapter\Iterator',
+        'nullfill'      => 'Laminas\Paginator\Adapter\NullFill',
     );
 
     /**
@@ -50,9 +52,9 @@ class AdapterPluginManager extends AbstractPluginManager
      * @var array
      */
     protected $factories = array(
-        'dbselect'         => 'Zend\Paginator\Adapter\Service\DbSelectFactory',
-        'dbtablegateway'   => 'Zend\Paginator\Adapter\Service\DbTableGatewayFactory',
-        'callback'         => 'Zend\Paginator\Adapter\Service\CallbackFactory',
+        'dbselect'         => 'Laminas\Paginator\Adapter\Service\DbSelectFactory',
+        'dbtablegateway'   => 'Laminas\Paginator\Adapter\Service\DbTableGatewayFactory',
+        'callback'         => 'Laminas\Paginator\Adapter\Service\CallbackFactory',
     );
 
     /**
@@ -61,7 +63,7 @@ class AdapterPluginManager extends AbstractPluginManager
      * @param  string $canonicalName
      * @param  string $requestedName
      * @return mixed
-     * @throws \Zend\ServiceManager\Exception\ServiceNotCreatedException If factory is not callable
+     * @throws \Laminas\ServiceManager\Exception\ServiceNotCreatedException If factory is not callable
      */
     protected function createFromFactory($canonicalName, $requestedName)
     {
