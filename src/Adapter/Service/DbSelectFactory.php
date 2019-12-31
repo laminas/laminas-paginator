@@ -1,16 +1,15 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-paginator for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-paginator/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-paginator/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Paginator\Adapter\Service;
+namespace Laminas\Paginator\Adapter\Service;
 
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\FactoryInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class DbSelectFactory implements FactoryInterface
 {
@@ -31,11 +30,11 @@ class DbSelectFactory implements FactoryInterface
 
     /**
      * @param ServiceLocatorInterface $serviceLocator
-     * @return \Zend\Paginator\Adapter\DbSelect
+     * @return \Laminas\Paginator\Adapter\DbSelect
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $class = new \ReflectionClass('Zend\Paginator\Adapter\DbSelect');
+        $class = new \ReflectionClass('Laminas\Paginator\Adapter\DbSelect');
         return $class->newInstanceArgs($this->creationOptions);
     }
 }
