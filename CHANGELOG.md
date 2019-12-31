@@ -6,12 +6,12 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#19](https://github.com/zendframework/zend-paginator/pull/19) adds:
-  - `Zend\Paginator\AdapterPluginManagerFactory`
-  - `Zend\Paginator\ScrollingStylePluginManagerFactory`
+- [zendframework/zend-paginator#19](https://github.com/zendframework/zend-paginator/pull/19) adds:
+  - `Laminas\Paginator\AdapterPluginManagerFactory`
+  - `Laminas\Paginator\ScrollingStylePluginManagerFactory`
   - `ConfigProvider`, which maps the `AdapterPluginManager` and
     `ScrollingStylePluginManager` services to the above factories.
-  - `Module`, which does the same, for zend-mvc contexts.
+  - `Module`, which does the same, for laminas-mvc contexts.
 
 ### Deprecated
 
@@ -41,7 +41,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#7](https://github.com/zendframework/zend-paginator/pull/7) adds aliases for
+- [zendframework/zend-paginator#7](https://github.com/zendframework/zend-paginator/pull/7) adds aliases for
   the old `Null` adapter, mapping them to the new `NullFill` adapter.
 
 ## 2.6.0 - 2016-02-23
@@ -60,8 +60,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#4](https://github.com/zendframework/zend-paginator/pull/4),
-  [#8](https://github.com/zendframework/zend-paginator/pull/8), and
-  [#18](https://github.com/zendframework/zend-paginator/pull/18) update the code
-  base to be forwards-compatible with the v3 releases of zend-servicemanager and
-  zend-stdlib.
+- [zendframework/zend-paginator#4](https://github.com/zendframework/zend-paginator/pull/4),
+  [zendframework/zend-paginator#8](https://github.com/zendframework/zend-paginator/pull/8), and
+  [zendframework/zend-paginator#18](https://github.com/zendframework/zend-paginator/pull/18) update the code
+  base to be forwards-compatible with the v3 releases of laminas-servicemanager and
+  laminas-stdlib.

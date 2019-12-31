@@ -1,18 +1,17 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-paginator for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-paginator/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-paginator/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Paginator;
+namespace Laminas\Paginator;
 
 use OuterIterator;
 
 /**
- * Class allowing for the continuous iteration of a Zend\Paginator\Paginator instance.
+ * Class allowing for the continuous iteration of a Laminas\Paginator\Paginator instance.
  * Useful for representing remote paginated data sources as a single Iterator
  */
 class PaginatorIterator implements OuterIterator
@@ -78,7 +77,7 @@ class PaginatorIterator implements OuterIterator
     public function key()
     {
         $innerKey = $this->getInnerIterator()->key();
-        $innerKey += 1; //Zend\Paginator\Paginator normalizes 0 to 1
+        $innerKey += 1; //Laminas\Paginator\Paginator normalizes 0 to 1
 
         $page = $this->paginator->getCurrentPageNumber();
         return ($this->paginator->getAbsoluteItemNumber(

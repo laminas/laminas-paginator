@@ -1,18 +1,19 @@
 <?php
+
 /**
- * @link      http://github.com/zendframework/zend-paginator for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-paginator for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-paginator/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-paginator/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Paginator;
+namespace LaminasTest\Paginator;
 
 use Interop\Container\ContainerInterface;
+use Laminas\Paginator\Adapter\AdapterInterface;
+use Laminas\Paginator\AdapterPluginManager;
+use Laminas\Paginator\AdapterPluginManagerFactory;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 use PHPUnit_Framework_TestCase as TestCase;
-use Zend\Paginator\Adapter\AdapterInterface;
-use Zend\Paginator\AdapterPluginManager;
-use Zend\Paginator\AdapterPluginManagerFactory;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 class AdapterPluginManagerFactoryTest extends TestCase
 {
@@ -25,10 +26,10 @@ class AdapterPluginManagerFactoryTest extends TestCase
         $this->assertInstanceOf(AdapterPluginManager::class, $adapters);
 
         if (method_exists($adapters, 'configure')) {
-            // zend-servicemanager v3
+            // laminas-servicemanager v3
             $this->assertAttributeSame($container, 'creationContext', $adapters);
         } else {
-            // zend-servicemanager v2
+            // laminas-servicemanager v2
             $this->assertSame($container, $adapters->getServiceLocator());
         }
     }
