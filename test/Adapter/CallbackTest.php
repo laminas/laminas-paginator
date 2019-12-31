@@ -1,19 +1,18 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-paginator for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-paginator/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-paginator/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Paginator\Adapter;
+namespace LaminasTest\Paginator\Adapter;
 
-use Zend\Paginator\Adapter\Callback;
-use Zend\Stdlib\CallbackHandler;
+use Laminas\Paginator\Adapter\Callback;
+use Laminas\Stdlib\CallbackHandler;
 
 /**
- * @group      Zend_Paginator
+ * @group      Laminas_Paginator
  */
 class CallbackTest extends \PHPUnit_Framework_TestCase
 {
@@ -39,8 +38,8 @@ class CallbackTest extends \PHPUnit_Framework_TestCase
         $countCallback = 'rand';
         $adapter = new Callback($itemsCallback, $countCallback);
 
-        $this->assertAttributeInstanceOf('Zend\Stdlib\CallbackHandler', 'itemsCallback', $adapter);
-        $this->assertAttributeInstanceOf('Zend\Stdlib\CallbackHandler', 'countCallback', $adapter);
+        $this->assertAttributeInstanceOf('Laminas\Stdlib\CallbackHandler', 'itemsCallback', $adapter);
+        $this->assertAttributeInstanceOf('Laminas\Stdlib\CallbackHandler', 'countCallback', $adapter);
     }
 
     public function testMustRunItemCallbackToGetItems()
