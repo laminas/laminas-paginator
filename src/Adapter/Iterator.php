@@ -1,15 +1,14 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-paginator for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-paginator/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-paginator/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Paginator\Adapter;
+namespace Laminas\Paginator\Adapter;
 
-use Zend\Paginator;
+use Laminas\Paginator;
 
 class Iterator implements AdapterInterface
 {
@@ -31,7 +30,7 @@ class Iterator implements AdapterInterface
      * Constructor.
      *
      * @param  \Iterator $iterator Iterator to paginate
-     * @throws \Zend\Paginator\Adapter\Exception\InvalidArgumentException
+     * @throws \Laminas\Paginator\Adapter\Exception\InvalidArgumentException
      */
     public function __construct(\Iterator $iterator)
     {
@@ -48,7 +47,7 @@ class Iterator implements AdapterInterface
      *
      * @param  int $offset Page offset
      * @param  int $itemCountPerPage Number of items per page
-     * @return array|\Zend\Paginator\SerializableLimitIterator
+     * @return array|\Laminas\Paginator\SerializableLimitIterator
      */
     public function getItems($offset, $itemCountPerPage)
     {
