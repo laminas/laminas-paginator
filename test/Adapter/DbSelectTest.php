@@ -1,34 +1,33 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-paginator for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-paginator/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-paginator/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Paginator\Adapter;
+namespace LaminasTest\Paginator\Adapter;
 
-use Zend\Paginator\Adapter\DbSelect;
+use Laminas\Paginator\Adapter\DbSelect;
 
 /**
- * @group      Zend_Paginator
+ * @group      Laminas_Paginator
  */
 class DbSelectTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Zend\Db\Sql\Select */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Laminas\Db\Sql\Select */
     protected $mockSelect;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Zend\Db\Sql\Select */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Laminas\Db\Sql\Select */
     protected $mockSelectCount;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Zend\Db\Adapter\Driver\StatementInterface */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Laminas\Db\Adapter\Driver\StatementInterface */
     protected $mockStatement;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Zend\Db\Adapter\Driver\ResultInterface */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Laminas\Db\Adapter\Driver\ResultInterface */
     protected $mockResult;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Zend\Db\Sql\Sql */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Laminas\Db\Sql\Sql */
     protected $mockSql;
 
     /** @var DbSelect */
@@ -36,32 +35,32 @@ class DbSelectTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->mockResult    = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface');
-        $this->mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
+        $this->mockResult    = $this->getMock('Laminas\Db\Adapter\Driver\ResultInterface');
+        $this->mockStatement = $this->getMock('Laminas\Db\Adapter\Driver\StatementInterface');
 
         $this->mockStatement->expects($this->any())->method('execute')->will($this->returnValue($this->mockResult));
 
-        $mockDriver   = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
-        $mockPlatform = $this->getMock('Zend\Db\Adapter\Platform\PlatformInterface');
+        $mockDriver   = $this->getMock('Laminas\Db\Adapter\Driver\DriverInterface');
+        $mockPlatform = $this->getMock('Laminas\Db\Adapter\Platform\PlatformInterface');
 
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue($this->mockStatement));
         $mockPlatform->expects($this->any())->method('getName')->will($this->returnValue('platform'));
 
         $this->mockSql = $this->getMock(
-            'Zend\Db\Sql\Sql',
+            'Laminas\Db\Sql\Sql',
             ['prepareStatementForSqlObject', 'execute'],
-            [$this->getMockForAbstractClass('Zend\Db\Adapter\Adapter', [$mockDriver, $mockPlatform])]
+            [$this->getMockForAbstractClass('Laminas\Db\Adapter\Adapter', [$mockDriver, $mockPlatform])]
         );
 
         $this
             ->mockSql
             ->expects($this->any())
             ->method('prepareStatementForSqlObject')
-            ->with($this->isInstanceOf('Zend\Db\Sql\Select'))
+            ->with($this->isInstanceOf('Laminas\Db\Sql\Select'))
             ->will($this->returnValue($this->mockStatement));
 
-        $this->mockSelect      = $this->getMock('Zend\Db\Sql\Select');
-        $this->mockSelectCount = $this->getMock('Zend\Db\Sql\Select');
+        $this->mockSelect      = $this->getMock('Laminas\Db\Sql\Select');
+        $this->mockSelectCount = $this->getMock('Laminas\Db\Sql\Select');
         $this->dbSelect        = new DbSelect($this->mockSelect, $this->mockSql);
     }
 

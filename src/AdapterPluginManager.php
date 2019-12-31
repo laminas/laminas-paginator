@@ -1,17 +1,16 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-paginator for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-paginator/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-paginator/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Paginator;
+namespace Laminas\Paginator;
 
-use Zend\ServiceManager\AbstractPluginManager;
-use Zend\ServiceManager\Exception\InvalidServiceException;
-use Zend\ServiceManager\Factory\InvokableFactory;
+use Laminas\ServiceManager\AbstractPluginManager;
+use Laminas\ServiceManager\Exception\InvalidServiceException;
+use Laminas\ServiceManager\Factory\InvokableFactory;
 
 /**
  * Plugin manager implementation for paginator adapters.
@@ -48,6 +47,22 @@ class AdapterPluginManager extends AbstractPluginManager
         'Array'          => Adapter\ArrayAdapter::class,
         'iterator'       => Adapter\Iterator::class,
         'Iterator'       => Adapter\Iterator::class,
+
+        // Legacy Zend Framework aliases
+        \Zend\Paginator\Adapter\Callback::class => Adapter\Callback::class,
+        \Zend\Paginator\Adapter\DbSelect::class => Adapter\DbSelect::class,
+        \Zend\Paginator\Adapter\DbTableGateway::class => Adapter\DbTableGateway::class,
+        \Zend\Paginator\Adapter\NullFill::class => Adapter\NullFill::class,
+        \Zend\Paginator\Adapter\Iterator::class => Adapter\Iterator::class,
+        \Zend\Paginator\Adapter\ArrayAdapter::class => Adapter\ArrayAdapter::class,
+
+        // v2 normalized FQCNs
+        'zendpaginatoradaptercallback' => Adapter\Callback::class,
+        'zendpaginatoradapterdbselect' => Adapter\DbSelect::class,
+        'zendpaginatoradapterdbtablegateway' => Adapter\DbTableGateway::class,
+        'zendpaginatoradapternullfill' => Adapter\NullFill::class,
+        'zendpaginatoradapteriterator' => Adapter\Iterator::class,
+        'zendpaginatoradapterarrayadapter' => Adapter\ArrayAdapter::class,
     ];
 
     /**
@@ -65,12 +80,12 @@ class AdapterPluginManager extends AbstractPluginManager
 
         // v2 normalized names
 
-        'zendpaginatoradaptercallback'       => Adapter\Service\CallbackFactory::class,
-        'zendpaginatoradapterdbselect'       => Adapter\Service\DbSelectFactory::class,
-        'zendpaginatoradapterdbtablegateway' => Adapter\Service\DbTableGatewayFactory::class,
-        'zendpaginatoradapternullfill'       => InvokableFactory::class,
-        'zendpaginatoradapteriterator'       => Adapter\Service\IteratorFactory::class,
-        'zendpaginatoradapterarrayadapter'   => InvokableFactory::class,
+        'laminaspaginatoradaptercallback'       => Adapter\Service\CallbackFactory::class,
+        'laminaspaginatoradapterdbselect'       => Adapter\Service\DbSelectFactory::class,
+        'laminaspaginatoradapterdbtablegateway' => Adapter\Service\DbTableGatewayFactory::class,
+        'laminaspaginatoradapternullfill'       => InvokableFactory::class,
+        'laminaspaginatoradapteriterator'       => Adapter\Service\IteratorFactory::class,
+        'laminaspaginatoradapterarrayadapter'   => InvokableFactory::class,
     ];
 
     protected $instanceOf = Adapter\AdapterInterface::class;

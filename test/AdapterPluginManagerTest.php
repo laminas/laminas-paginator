@@ -1,26 +1,25 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-paginator for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-paginator/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-paginator/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Paginator;
+namespace LaminasTest\Paginator;
 
 use ArrayIterator;
 use Interop\Container\ContainerInterface;
-use Zend\Db\Adapter\Adapter as DbAdapter;
-use Zend\Db\Adapter\Driver as DbDriver;
-use Zend\Db\Adapter\Platform;
-use Zend\Db\Sql\Select;
-use Zend\Db\TableGateway\TableGateway;
-use Zend\Paginator\Adapter;
-use Zend\Paginator\AdapterPluginManager;
+use Laminas\Db\Adapter\Adapter as DbAdapter;
+use Laminas\Db\Adapter\Driver as DbDriver;
+use Laminas\Db\Adapter\Platform;
+use Laminas\Db\Sql\Select;
+use Laminas\Db\TableGateway\TableGateway;
+use Laminas\Paginator\Adapter;
+use Laminas\Paginator\AdapterPluginManager;
 
 /**
- * @group      Zend_Paginator
+ * @group      Laminas_Paginator
  */
 class AdapterPluginManagerTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,20 +1,19 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-paginator for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-paginator/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-paginator/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Paginator;
+namespace LaminasTest\Paginator;
 
-use Zend\Paginator;
-use Zend\Paginator\Adapter;
-use ZendTest\Paginator\TestAsset\TestArrayAggregate;
+use Laminas\Paginator;
+use Laminas\Paginator\Adapter;
+use LaminasTest\Paginator\TestAsset\TestArrayAggregate;
 
 /**
- * @group      Zend_Paginator
+ * @group      Laminas_Paginator
  */
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,19 +26,19 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->mockSelect = $this->getMock('Zend\Db\Sql\Select');
+        $this->mockSelect = $this->getMock('Laminas\Db\Sql\Select');
 
-        $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
-        $mockResult = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface');
+        $mockStatement = $this->getMock('Laminas\Db\Adapter\Driver\StatementInterface');
+        $mockResult = $this->getMock('Laminas\Db\Adapter\Driver\ResultInterface');
 
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockDriver = $this->getMock('Laminas\Db\Adapter\Driver\DriverInterface');
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue($mockStatement));
         $mockStatement->expects($this->any())->method('execute')->will($this->returnValue($mockResult));
-        $mockPlatform = $this->getMock('Zend\Db\Adapter\Platform\PlatformInterface');
+        $mockPlatform = $this->getMock('Laminas\Db\Adapter\Platform\PlatformInterface');
         $mockPlatform->expects($this->any())->method('getName')->will($this->returnValue('platform'));
 
         $this->mockAdapter = $this->getMockForAbstractClass(
-            'Zend\Db\Adapter\Adapter',
+            'Laminas\Db\Adapter\Adapter',
             [$mockDriver, $mockPlatform]
         );
     }
@@ -48,7 +47,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $datas = [1, 2, 3];
         $paginator = Paginator\Factory::factory($datas, new Adapter\ArrayAdapter($datas));
-        $this->assertInstanceOf('Zend\Paginator\Adapter\ArrayAdapter', $paginator->getAdapter());
+        $this->assertInstanceOf('Laminas\Paginator\Adapter\ArrayAdapter', $paginator->getAdapter());
         $this->assertEquals(count($datas), $paginator->getCurrentItemCount());
     }
 
@@ -56,20 +55,20 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $datas = [1, 2, 3];
         $paginator = Paginator\Factory::factory($datas, 'array');
-        $this->assertInstanceOf('Zend\Paginator\Adapter\ArrayAdapter', $paginator->getAdapter());
+        $this->assertInstanceOf('Laminas\Paginator\Adapter\ArrayAdapter', $paginator->getAdapter());
         $this->assertEquals(count($datas), $paginator->getCurrentItemCount());
     }
 
     public function testCanFactoryPaginatorWithStringAdapterAggregate()
     {
         $paginator = Paginator\Factory::factory(null, new TestArrayAggregate);
-        $this->assertInstanceOf('Zend\Paginator\Adapter\ArrayAdapter', $paginator->getAdapter());
+        $this->assertInstanceOf('Laminas\Paginator\Adapter\ArrayAdapter', $paginator->getAdapter());
     }
 
     public function testCanFactoryPaginatorWithDbSelect()
     {
         $paginator = Paginator\Factory::factory([$this->mockSelect, $this->mockAdapter], 'dbselect');
-        $this->assertInstanceOf('Zend\Paginator\Adapter\DbSelect', $paginator->getAdapter());
+        $this->assertInstanceOf('Laminas\Paginator\Adapter\DbSelect', $paginator->getAdapter());
     }
 
     public function testCanFactoryPaginatorWithOneParameterWithArrayAdapter()
@@ -79,7 +78,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             'adapter' => 'array',
         ];
         $paginator = Paginator\Factory::factory($datas);
-        $this->assertInstanceOf('Zend\Paginator\Adapter\ArrayAdapter', $paginator->getAdapter());
+        $this->assertInstanceOf('Laminas\Paginator\Adapter\ArrayAdapter', $paginator->getAdapter());
         $this->assertEquals(count($datas['items']), $paginator->getCurrentItemCount());
     }
 
@@ -90,7 +89,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             'adapter' => 'dbselect',
         ];
         $paginator = Paginator\Factory::factory($datas);
-        $this->assertInstanceOf('Zend\Paginator\Adapter\DbSelect', $paginator->getAdapter());
+        $this->assertInstanceOf('Laminas\Paginator\Adapter\DbSelect', $paginator->getAdapter());
     }
 
     public function testCanFactoryPaginatorWithOneBadParameter()
@@ -99,7 +98,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             [1, 2, 3],
             'array',
         ];
-        $this->setExpectedException('Zend\Paginator\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Paginator\Exception\InvalidArgumentException');
         $paginator = Paginator\Factory::factory($datas);
     }
 }
