@@ -1,20 +1,19 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zend-paginator for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-paginator for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-paginator/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-paginator/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Paginator;
+namespace LaminasTest\Paginator;
 
+use Laminas\Paginator\Exception\InvalidArgumentException;
+use Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface;
+use Laminas\Paginator\ScrollingStylePluginManager;
+use Laminas\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\Test\CommonPluginManagerTrait;
 use PHPUnit_Framework_TestCase as TestCase;
-use Zend\Paginator\ScrollingStylePluginManager;
-use Zend\Paginator\ScrollingStyle\ScrollingStyleInterface;
-use Zend\Paginator\Exception\InvalidArgumentException;
-use Zend\ServiceManager\ServiceManager;
-use Zend\ServiceManager\Test\CommonPluginManagerTrait;
 
 class ScrollingStylePluginManagerCompatibilityTest extends TestCase
 {

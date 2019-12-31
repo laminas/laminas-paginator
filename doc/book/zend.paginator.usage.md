@@ -2,9 +2,9 @@
 
 ## Paginating data collections
 
-In order to paginate items into pages, `Zend\Paginator` must have a generic way of accessing that
+In order to paginate items into pages, `Laminas\Paginator` must have a generic way of accessing that
 data. For that reason, all data access takes place through data source adapters. Several adapters
-ship with Zend Framework by default:
+ship with Laminas by default:
 
 > ### Note
 >
@@ -13,10 +13,10 @@ ship with Zend Framework by default:
 > current page. Because of this, a second query is dynamically generated to
 > determine the total number of matching rows.
 
-To create an instance of `Zend\Paginator`, you must supply an adapter to the constructor:
+To create an instance of `Laminas\Paginator`, you must supply an adapter to the constructor:
 
 ```php
-$paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($array));
+$paginator = new \Laminas\Paginator\Paginator(new \Laminas\Paginator\Adapter\ArrayAdapter($array));
 ```
 
 In the case of the `NullFill` adapter, in lieu of a data collection you must supply an item count to
@@ -49,17 +49,17 @@ return array(
 );
 ```
 
-With the above route (and using Zend Framework *MVC* components), you might set the current page
+With the above route (and using Laminas *MVC* components), you might set the current page
 number in your controller action like so:
 
 ```php
 $paginator->setCurrentPageNumber($this->params()->fromRoute('page'));
 ```
 
-There are other options available; see \[Configuration\](zend.paginator.configuration) for more on
+There are other options available; see \[Configuration\](laminas.paginator.configuration) for more on
 them.
 
-Finally, you'll need to assign the paginator instance to your view. If you're using Zend Framework
+Finally, you'll need to assign the paginator instance to your view. If you're using Laminas
 *MVC* component, you can assign the paginator object to your view model:
 
 ```php
@@ -76,7 +76,7 @@ detailed explanation regarding the retrieval and count of the data from the data
 To use the DbSelect adapter you don't have to retrieve the data upfront from the database. The
 adapter will do the retrieval for you, as well as the counting of the total pages. If additional
 work has to be done on the database results which cannot be expressed via the provided
-`Zend\Db\Sql\Select` object you must extend the adapter and override the `getItems()` method.
+`Laminas\Db\Sql\Select` object you must extend the adapter and override the `getItems()` method.
 
 Additionally this adapter does **not** fetch all records from the database in order to count them.
 Instead, the adapter manipulates the original query to produce a corresponding COUNT query.
@@ -91,11 +91,11 @@ adapter and implement a custom `count` method. For example, if you keep track of
 posts in a separate table, you could achieve a faster count query with the following setup:
 
 ```php
-class MyDbSelect extends Zend\Paginator\Adapter\DbSelect
+class MyDbSelect extends Laminas\Paginator\Adapter\DbSelect
 {
     public function count()
     {
-        $select = new Zend\Db\Sql\Select();
+        $select = new Laminas\Db\Sql\Select();
         $select->from('item_counts')->columns(array('c'=>'post_count'));
 
         $statement = $this->sql->prepareStatementForSqlObject($select);
@@ -108,26 +108,26 @@ class MyDbSelect extends Zend\Paginator\Adapter\DbSelect
 }
 
 $adapter = new MyDbSelect($query, $adapter);
-$paginator = new Zend\Paginator\Paginator($adapter);
+$paginator = new Laminas\Paginator\Paginator($adapter);
 ```
 
 This approach will probably not give you a huge performance gain on small collections and/or simple
 select queries. However, with complex queries and large collections, a similar approach could give
 you a significant performance boost.
 
-The DbSelect adapter also supports returning of fetched records using the `Zend\Db\ResultSet`
-component of `Zend\Db`. You can override the concrete RowSet implementation by passing an object
-implementing `Zend\Db\ResultSet\ResultSetInterface` as the third constructor argument to the
+The DbSelect adapter also supports returning of fetched records using the `Laminas\Db\ResultSet`
+component of `Laminas\Db`. You can override the concrete RowSet implementation by passing an object
+implementing `Laminas\Db\ResultSet\ResultSetInterface` as the third constructor argument to the
 DbSelect adapter:
 
 ```php
 // $objectPrototype is an instance of our custom entity
 // $hydrator is a custom hydrator for our entity (implementing
-Zend\Stdlib\Hydrator\HydratorInterface)
-$resultSet = new Zend\Db\ResultSet\HydratingResultSet($hydrator, $objectPrototype);
+Laminas\Stdlib\Hydrator\HydratorInterface)
+$resultSet = new Laminas\Db\ResultSet\HydratingResultSet($hydrator, $objectPrototype);
 
-$adapter = new Zend\Paginator\Adapter\DbSelect($query, $dbAdapter, $resultSet)
-$paginator = new Zend\Paginator\Paginator($adapter);
+$adapter = new Laminas\Paginator\Adapter\DbSelect($query, $dbAdapter, $resultSet)
+$paginator = new Laminas\Paginator\Paginator($adapter);
 ```
 
 Now when we iterate over `$paginator` we will get instances of our custom entity instead of
@@ -135,10 +135,10 @@ key-value-pair arrays.
 
 ## Rendering pages with view scripts
 
-The view script is used to render the page items (if you're using `Zend\Paginator` to do so) and
+The view script is used to render the page items (if you're using `Laminas\Paginator` to do so) and
 display the pagination control.
 
-Because `Zend\Paginator` implements the *SPL* interface
+Because `Laminas\Paginator` implements the *SPL* interface
 [IteratorAggregate](http://www.php.net/~helly/php/ext/spl/interfaceIteratorAggregate.html), looping
 over your items and displaying them is simple.
 
@@ -170,7 +170,7 @@ determine how the pagination control should **look**, the scrolling style is use
 should **behave**. Say the view script is in the style of a search pagination control, like the one
 below:
 
-![image](../images/zend.paginator.usage.rendering.control.png)
+![image](../images/laminas.paginator.usage.rendering.control.png)
 
 What happens when the user clicks the "next" link a few times? Well, any number of things could
 happen. The current page number could stay in the middle as you click through (as it does on
@@ -178,7 +178,7 @@ Yahoo!), or it could advance to the end of the page range and then appear again 
 user clicks "next" one more time. The page numbers might even expand and contract as the user
 advances (or "scrolls") through them (as they do on Google).
 
-There are four scrolling styles packaged with Zend Framework:
+There are four scrolling styles packaged with Laminas:
 
 The fourth and final parameter is reserved for an optional associative array of additional variables
 that you want available in your view (available via `$this`). For instance, these values could
@@ -188,8 +188,8 @@ By setting the default view script name, default scrolling style, and view insta
 eliminate the calls to PaginationControl completely:
 
 ```php
-Zend\Paginator\Paginator::setDefaultScrollingStyle('Sliding');
-Zend\View\Helper\PaginationControl::setDefaultViewPartial(
+Laminas\Paginator\Paginator::setDefaultScrollingStyle('Sliding');
+Laminas\View\Helper\PaginationControl::setDefaultViewPartial(
     'my_pagination_control'
 );
 ```
@@ -202,7 +202,7 @@ a simple echo statement:
 ```
 
 > ### Note
-Of course, it's possible to use `Zend\Paginator` with other template engines. For example, with
+Of course, it's possible to use `Laminas\Paginator` with other template engines. For example, with
 Smarty you might do the following:
 ```php
 $smarty-assign('pages', $paginator-getPages());

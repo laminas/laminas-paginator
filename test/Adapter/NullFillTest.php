@@ -1,25 +1,24 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-paginator for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-paginator/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-paginator/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Paginator\Adapter;
+namespace LaminasTest\Paginator\Adapter;
 
-use Zend\Paginator\Adapter;
-use Zend\Paginator;
+use Laminas\Paginator;
+use Laminas\Paginator\Adapter;
 
 /**
- * @group      Zend_Paginator
- * @covers  Zend\Paginator\Adapter\NullFill<extended>
+ * @group      Laminas_Paginator
+ * @covers  Laminas\Paginator\Adapter\NullFill<extended>
  */
 class NullFillTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Zend\Paginator\Adapter\NullFill
+     * @var \Laminas\Paginator\Adapter\NullFill
      */
     private $adapter;
 
@@ -52,7 +51,7 @@ class NullFillTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-3873
+     * @group Laminas-3873
      */
     public function testAdapterReturnsCorrectValues()
     {
@@ -76,7 +75,7 @@ class NullFillTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-4151
+     * @group Laminas-4151
      */
     public function testEmptySet()
     {
@@ -86,7 +85,7 @@ class NullFillTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Verify that the fix for ZF-4151 doesn't create an OBO error
+     * Verify that the fix for Laminas-4151 doesn't create an OBO error
      */
     public function testSetOfOne()
     {
