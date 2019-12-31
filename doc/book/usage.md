@@ -2,14 +2,14 @@
 
 ## Paginating data collections
 
-In order to paginate items into pages, `Zend\Paginator` must have a generic way
+In order to paginate items into pages, `Laminas\Paginator` must have a generic way
 of accessing that data. For that reason, all data access takes place through
-data source adapters. Several adapters ship with zend-paginator by default:
+data source adapters. Several adapters ship with laminas-paginator by default:
 
 Adapter      | Description
 ------------ | -----------
 ArrayAdapter | Accepts a PHP array.
-DbSelect     | Accepts a `Zend\Db\Sql\Select` instance, plus either a `Zend\Db\Adapter\Adapter` or `Zend\Db\Sql\Sql` instance; paginates rows from a database.
+DbSelect     | Accepts a `Laminas\Db\Sql\Select` instance, plus either a `Laminas\Db\Adapter\Adapter` or `Laminas\Db\Sql\Sql` instance; paginates rows from a database.
 Iterator     | Accepts any `Iterator` instance.
 NullFill     | Dummy paginator.
 
@@ -23,8 +23,8 @@ NullFill     | Dummy paginator.
 To create a paginator instance, you must supply an adapter to the constructor:
 
 ```php
-use Zend\Paginator\Adapter;
-use Zend\Paginator\Paginator;
+use Laminas\Paginator\Adapter;
+use Laminas\Paginator\Paginator;
 
 $paginator = new Paginator(new Adapter\ArrayAdapter($array));
 ```
@@ -41,7 +41,7 @@ $paginator->setCurrentPageNumber($page);
 ```
 
 The simplest way to keep track of this value is through a URL parameter. The
-following is an example [zend-router](https://zendframework.github.com/zend-router)
+following is an example [laminas-router](https://laminas.github.com/laminas-router)
 route configuration:
 
 ```php
@@ -60,7 +60,7 @@ return [
 ];
 ```
 
-With the above route (and using [zend-mvc](https://zendframework.github.io/zend-mvc/)
+With the above route (and using [laminas-mvc](https://docs.laminas.dev/laminas-mvc/)
 controllers), you might set the current page number in your controller action
 like so:
 
@@ -72,7 +72,7 @@ There are other options available; see the [Configuration chapter](configuration
 for more on them.
 
 Finally, you'll need to assign the paginator instance to your view. If you're
-using zend-mvc and zend-view, you can assign the paginator object to your view
+using laminas-mvc and laminas-view, you can assign the paginator object to your view
 model:
 
 ```php
@@ -90,7 +90,7 @@ data from the database.
 You do not have to retrieve data from the database prior to using the `DbSelect`
 adapter; the adapter will do the retrieval for you, as well as provide a count
 of total pages. If additional work has to be done on the database results which
-cannot be expressed via the provided `Zend\Db\Sql\Select`, object you must
+cannot be expressed via the provided `Laminas\Db\Sql\Select`, object you must
 extend the adapter and override the `getItems()` method.
 
 Additionally this adapter does **not** fetch all records from the database in
@@ -110,9 +110,9 @@ For example, if you keep track of the count of blog posts in a separate table,
 you could achieve a faster count query with the following setup:
 
 ```php
-use Zend\Db\Sql\Select;
-use Zend\Paginator\Adapter\DbSelect;
-use Zend\Paginator\Paginator;
+use Laminas\Db\Sql\Select;
+use Laminas\Paginator\Adapter\DbSelect;
+use Laminas\Paginator\Paginator;
 
 class MyDbSelect extends DbSelect
 {
@@ -146,23 +146,23 @@ large collections, a similar approach could give you a significant performance
 boost.
 
 The `DbSelect` adapter also supports returning of fetched records using the
-[ResultSet subcomponent of zend-db](http://zendframework.github.io/zend-db/result-set/).
+[ResultSet subcomponent of laminas-db](http://docs.laminas.dev/laminas-db/result-set/).
 You can override the concrete `ResultSet` implementation by passing an object
-implementing `Zend\Db\ResultSet\ResultSetInterface` as the third constructor
+implementing `Laminas\Db\ResultSet\ResultSetInterface` as the third constructor
 argument to the `DbSelect` adapter:
 
 ```php
-use Zend\Db\ResultSet\HydratingResultSet;
-use Zend\Paginator\Adapter\DbSelect;
-use Zend\Paginator\Paginator;
+use Laminas\Db\ResultSet\HydratingResultSet;
+use Laminas\Paginator\Adapter\DbSelect;
+use Laminas\Paginator\Paginator;
 
 // $objectPrototype is an instance of our custom entity
 // $hydrator is a custom hydrator for our entity
-// (implementing Zend\Hydrator\HydratorInterface)
+// (implementing Laminas\Hydrator\HydratorInterface)
 $resultSet = new HydratingResultSet($hydrator, $objectPrototype);
 
 $adapter = new DbSelect($query, $dbAdapter, $resultSet)
-$paginator = new Zend\Paginator\Paginator($adapter);
+$paginator = new Laminas\Paginator\Paginator($adapter);
 ```
 
 Now when we iterate over `$paginator` we will get instances of our custom entity
@@ -171,9 +171,9 @@ instead of associative arrays.
 ## Rendering pages with view scripts
 
 The view script is used to render the page items (if you're using
-zend-paginator to do so) and display the pagination control.
+laminas-paginator to do so) and display the pagination control.
 
-Because `Zend\Paginator\Paginator` implements the SPL interface
+Because `Laminas\Paginator\Paginator` implements the SPL interface
 [IteratorAggregate](http://php.net/IteratorAggregate), you can loop over an
 instance using `foreach`:
 
@@ -220,7 +220,7 @@ happen:
 - The page numbers might even expand and contract as the user advances (or
   "scrolls") through them (as they do on Google).
 
-There are four scrolling styles packaged with Zend Framework:
+There are four scrolling styles packaged with Laminas:
 
 Scrolling style | Description
 --------------- | -----------
@@ -237,8 +237,8 @@ By setting the default view script name, default scrolling style, and view
 instance, you can eliminate the calls to `PaginationControl` completely:
 
 ```php
-use Zend\Paginator\Paginator;
-use Zend\View\Helper\PaginationControl;
+use Laminas\Paginator\Paginator;
+use Laminas\View\Helper\PaginationControl;
 
 Paginator::setDefaultScrollingStyle('Sliding');
 PaginationControl::setDefaultViewPartial('my_pagination_control');
@@ -253,7 +253,7 @@ your view script by echoing the paginator instance:
 
 > ### Using other template engines
 >
-> Of course, it's possible to use zend-paginator with other template engines.
+> Of course, it's possible to use laminas-paginator with other template engines.
 > For example, with Smarty you might do the following:
 >
 > ```php
@@ -269,7 +269,7 @@ your view script by echoing the paginator instance:
 ### Example pagination controls
 
 The following example pagination controls will help you get started with
-zend-view:
+laminas-view:
 
 Search pagination:
 
