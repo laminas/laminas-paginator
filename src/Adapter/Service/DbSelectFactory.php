@@ -1,19 +1,18 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-paginator for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-paginator/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-paginator/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Paginator\Adapter\Service;
+namespace Laminas\Paginator\Adapter\Service;
 
 use Interop\Container\ContainerInterface;
-use Zend\Paginator\Adapter\DbSelect;
-use Zend\ServiceManager\Exception\ServiceNotCreatedException;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\Paginator\Adapter\DbSelect;
+use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
+use Laminas\ServiceManager\FactoryInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class DbSelectFactory implements FactoryInterface
 {
@@ -33,7 +32,7 @@ class DbSelectFactory implements FactoryInterface
     {
         if (null === $options || empty($options)) {
             throw new ServiceNotCreatedException(sprintf(
-                '%s requires a minimum of zend-db Sql\Select and Adapter instance',
+                '%s requires a minimum of laminas-db Sql\Select and Adapter instance',
                 DbSelect::class
             ));
         }

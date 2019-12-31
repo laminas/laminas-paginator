@@ -1,17 +1,16 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-paginator for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-paginator/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-paginator/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Paginator;
+namespace Laminas\Paginator;
 
-use Zend\ServiceManager\AbstractPluginManager;
-use Zend\ServiceManager\Exception\InvalidServiceException;
-use Zend\ServiceManager\Factory\InvokableFactory;
+use Laminas\ServiceManager\AbstractPluginManager;
+use Laminas\ServiceManager\Exception\InvalidServiceException;
+use Laminas\ServiceManager\Factory\InvokableFactory;
 
 /**
  * Plugin manager implementation for scrolling style adapters
@@ -36,6 +35,18 @@ class ScrollingStylePluginManager extends AbstractPluginManager
         'Jumping' => ScrollingStyle\Jumping::class,
         'sliding' => ScrollingStyle\Sliding::class,
         'Sliding' => ScrollingStyle\Sliding::class,
+
+        // Legacy Zend Framework aliases
+        \Zend\Paginator\ScrollingStyle\All::class => ScrollingStyle\All::class,
+        \Zend\Paginator\ScrollingStyle\Elastic::class => ScrollingStyle\Elastic::class,
+        \Zend\Paginator\ScrollingStyle\Jumping::class => ScrollingStyle\Jumping::class,
+        \Zend\Paginator\ScrollingStyle\Sliding::class => ScrollingStyle\Sliding::class,
+
+        // v2 normalized FQCNs
+        'zendpaginatorscrollingstyleall' => ScrollingStyle\All::class,
+        'zendpaginatorscrollingstyleelastic' => ScrollingStyle\Elastic::class,
+        'zendpaginatorscrollingstylejumping' => ScrollingStyle\Jumping::class,
+        'zendpaginatorscrollingstylesliding' => ScrollingStyle\Sliding::class,
     ];
 
     /**
@@ -50,10 +61,10 @@ class ScrollingStylePluginManager extends AbstractPluginManager
         ScrollingStyle\Sliding::class => InvokableFactory::class,
 
         // v2 normalized names
-        'zendpaginatorscrollingstyleall'     => InvokableFactory::class,
-        'zendpaginatorscrollingstyleelastic' => InvokableFactory::class,
-        'zendpaginatorscrollingstylejumping' => InvokableFactory::class,
-        'zendpaginatorscrollingstylesliding' => InvokableFactory::class,
+        'laminaspaginatorscrollingstyleall'     => InvokableFactory::class,
+        'laminaspaginatorscrollingstyleelastic' => InvokableFactory::class,
+        'laminaspaginatorscrollingstylejumping' => InvokableFactory::class,
+        'laminaspaginatorscrollingstylesliding' => InvokableFactory::class,
     ];
 
     protected $instanceOf = ScrollingStyle\ScrollingStyleInterface::class;
