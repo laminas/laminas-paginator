@@ -1,25 +1,23 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Paginator
+ * @see       https://github.com/laminas/laminas-paginator for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-paginator/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-paginator/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Paginator\Adapter;
+namespace LaminasTest\Paginator\Adapter;
 
-use Zend\Paginator\Adapter\DbSelect;
-use Zend\Db\Sql\Select;
-use Zend\Db\Sql\Expression;
-use Zend\Db\Adapter\Adapter as DbAdapter;
+use Laminas\Db\Adapter\Adapter as DbAdapter;
+use Laminas\Db\Sql\Expression;
+use Laminas\Db\Sql\Select;
+use Laminas\Paginator\Adapter\DbSelect;
 
 /**
- * @category   Zend
- * @package    Zend_Paginator
+ * @category   Laminas
+ * @package    Laminas_Paginator
  * @subpackage UnitTests
- * @group      Zend_Paginator
+ * @group      Laminas_Paginator
  */
 class DbSelectTest extends \PHPUnit_Framework_TestCase
 {
@@ -33,20 +31,20 @@ class DbSelectTest extends \PHPUnit_Framework_TestCase
 
     public function setup()
     {
-        $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
-        $mockResult = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface');
+        $mockStatement = $this->getMock('Laminas\Db\Adapter\Driver\StatementInterface');
+        $mockResult = $this->getMock('Laminas\Db\Adapter\Driver\ResultInterface');
 
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockDriver = $this->getMock('Laminas\Db\Adapter\Driver\DriverInterface');
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue($mockStatement));
         $mockStatement->expects($this->any())->method('execute')->will($this->returnValue($mockResult));
-        $mockPlatform = $this->getMock('Zend\Db\Adapter\Platform\PlatformInterface');
+        $mockPlatform = $this->getMock('Laminas\Db\Adapter\Platform\PlatformInterface');
         $mockPlatform->expects($this->any())->method('getName')->will($this->returnValue('platform'));
         $mockAdapter = $this->getMockForAbstractClass(
-            'Zend\Db\Adapter\Adapter',
+            'Laminas\Db\Adapter\Adapter',
             array($mockDriver, $mockPlatform)
         );
 
-        $this->mockSelect = $this->getMock('Zend\Db\Sql\Select');
+        $this->mockSelect = $this->getMock('Laminas\Db\Sql\Select');
         $this->mockResult = $mockResult;
         $this->dbSelect = new DbSelect($this->mockSelect, $mockAdapter);
     }
@@ -56,7 +54,7 @@ class DbSelectTest extends \PHPUnit_Framework_TestCase
         $this->mockSelect->expects($this->once())->method('limit')->with($this->equalTo(10));
         $this->mockSelect->expects($this->once())->method('offset')->with($this->equalTo(2));
         $items = $this->dbSelect->getItems(2, 10);
-        $this->assertInstanceOf('Zend\Db\ResultSet\ResultSet', $items);
+        $this->assertInstanceOf('Laminas\Db\ResultSet\ResultSet', $items);
     }
 
     public function testCount()
