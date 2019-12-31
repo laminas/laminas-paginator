@@ -1,20 +1,19 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-paginator for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-paginator/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-paginator/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Paginator\Adapter;
+namespace LaminasTest\Paginator\Adapter;
 
-use Zend\Db\Adapter\Platform\Sql92;
-use Zend\Paginator\Adapter\DbSelect;
-use Zend\Paginator\Adapter\DbTableGateway;
+use Laminas\Db\Adapter\Platform\Sql92;
+use Laminas\Paginator\Adapter\DbSelect;
+use Laminas\Paginator\Adapter\DbTableGateway;
 
 /**
- * @group Zend_Paginator
+ * @group Laminas_Paginator
  */
 class DbTableGatewayTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,13 +23,13 @@ class DbTableGatewayTest extends \PHPUnit_Framework_TestCase
     /** @var DbTableGateway */
     protected $dbTableGateway;
 
-    /** @var \Zend\Db\TableGateway\TableGateway */
+    /** @var \Laminas\Db\TableGateway\TableGateway */
     protected $mockTableGateway;
 
     public function setup()
     {
-        $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockStatement = $this->getMock('Laminas\Db\Adapter\Driver\StatementInterface');
+        $mockDriver = $this->getMock('Laminas\Db\Adapter\Driver\DriverInterface');
         $mockDriver->expects($this->any())
                    ->method('createStatement')
                    ->will($this->returnValue($mockStatement));
@@ -38,13 +37,13 @@ class DbTableGatewayTest extends \PHPUnit_Framework_TestCase
             ->method('formatParameterName')
             ->will($this->returnArgument(0));
         $mockAdapter = $this->getMockForAbstractClass(
-            'Zend\Db\Adapter\Adapter',
+            'Laminas\Db\Adapter\Adapter',
             array($mockDriver, new Sql92())
         );
 
         $tableName = 'foobar';
         $mockTableGateway = $this->getMockForAbstractClass(
-            'Zend\Db\TableGateway\TableGateway',
+            'Laminas\Db\TableGateway\TableGateway',
             array($tableName, $mockAdapter)
         );
 
@@ -57,7 +56,7 @@ class DbTableGatewayTest extends \PHPUnit_Framework_TestCase
     {
         $this->dbTableGateway = new DbTableGateway($this->mockTableGateway);
 
-        $mockResult = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface');
+        $mockResult = $this->getMock('Laminas\Db\Adapter\Driver\ResultInterface');
         $this->mockStatement
              ->expects($this->any())
              ->method('execute')
@@ -71,7 +70,7 @@ class DbTableGatewayTest extends \PHPUnit_Framework_TestCase
     {
         $this->dbTableGateway = new DbTableGateway($this->mockTableGateway);
 
-        $mockResult = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface');
+        $mockResult = $this->getMock('Laminas\Db\Adapter\Driver\ResultInterface');
         $mockResult->expects($this->any())
                    ->method('current')
                    ->will($this->returnValue(array(DbSelect::ROW_COUNT_COLUMN_NAME => 10)));
@@ -90,7 +89,7 @@ class DbTableGatewayTest extends \PHPUnit_Framework_TestCase
         $order = "foo";
         $this->dbTableGateway = new DbTableGateway($this->mockTableGateway, $where, $order);
 
-        $mockResult = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface');
+        $mockResult = $this->getMock('Laminas\Db\Adapter\Driver\ResultInterface');
         $this->mockStatement
              ->expects($this->any())
              ->method('execute')
@@ -107,7 +106,7 @@ class DbTableGatewayTest extends \PHPUnit_Framework_TestCase
         $group = "foo";
         $this->dbTableGateway = new DbTableGateway($this->mockTableGateway, $where, $order, $group);
 
-        $mockResult = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface');
+        $mockResult = $this->getMock('Laminas\Db\Adapter\Driver\ResultInterface');
         $this->mockStatement
             ->expects($this->once())
             ->method('setSql')
@@ -129,7 +128,7 @@ class DbTableGatewayTest extends \PHPUnit_Framework_TestCase
         $having = "count(foo)>0";
         $this->dbTableGateway = new DbTableGateway($this->mockTableGateway, $where, $order, $group, $having);
 
-        $mockResult = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface');
+        $mockResult = $this->getMock('Laminas\Db\Adapter\Driver\ResultInterface');
         $this->mockStatement
             ->expects($this->once())
             ->method('setSql')
