@@ -28,7 +28,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#49](https://github.com/zendframework/zend-paginator/pull/49) adds support for PHP 7.3.
+- [zendframework/zend-paginator#49](https://github.com/zendframework/zend-paginator/pull/49) adds support for PHP 7.3.
 
 ### Changed
 
@@ -66,32 +66,32 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#45](https://github.com/zendframework/zend-paginator/pull/45) fixes an error
+- [zendframework/zend-paginator#45](https://github.com/zendframework/zend-paginator/pull/45) fixes an error
   in the `DbSelectFactory` whereby it ignored the fourth option passed via
-  `$options`, which can be used to specify a zend-db `Select` instance for
+  `$options`, which can be used to specify a laminas-db `Select` instance for
   purposes of counting the rows that will be returned.
 
 ## 2.8.0 - 2017-11-01
 
 ### Added
 
-- [#20](https://github.com/zendframework/zend-paginator/pull/20) adds
-  and publishes the documentation to https://docs.zendframework.com/zend-paginator/
+- [zendframework/zend-paginator#20](https://github.com/zendframework/zend-paginator/pull/20) adds
+  and publishes the documentation to https://docs.laminas.dev/laminas-paginator/
 
-- [#38](https://github.com/zendframework/zend-paginator/pull/38) adds support
+- [zendframework/zend-paginator#38](https://github.com/zendframework/zend-paginator/pull/38) adds support
   for PHP 7.1.
 
-- [#38](https://github.com/zendframework/zend-paginator/pull/38) adds
-  support for PHP 7.2. This is dependent on fixes in the upstream zend-db
+- [zendframework/zend-paginator#38](https://github.com/zendframework/zend-paginator/pull/38) adds
+  support for PHP 7.2. This is dependent on fixes in the upstream laminas-db
   package if you are using the various database-backed paginators; other
   paginators work on 7.2 at this time.
 
 ### Changed
 
-- [#32](https://github.com/zendframework/zend-paginator/pull/32) updates the
+- [zendframework/zend-paginator#32](https://github.com/zendframework/zend-paginator/pull/32) updates the
   `DbTableGateway` adapter's constructor to allow any
-  `Zend\Db\TableGateway\AbstractTableGateway` implementation, and not just
-  `Zend\Db\TableGateway\TableGateway` instances. This is a parameter widening,
+  `Laminas\Db\TableGateway\AbstractTableGateway` implementation, and not just
+  `Laminas\Db\TableGateway\TableGateway` instances. This is a parameter widening,
   which poses no backwards compatibility break, but does provide users the
   ability to consume their own `AbstractTableGateway` extensions.
 
@@ -101,19 +101,19 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- [#35](https://github.com/zendframework/zend-paginator/pull/35) removes support
+- [zendframework/zend-paginator#35](https://github.com/zendframework/zend-paginator/pull/35) removes support
   for PHP 5.5.
 
-- [#35](https://github.com/zendframework/zend-paginator/pull/35) removes support
+- [zendframework/zend-paginator#35](https://github.com/zendframework/zend-paginator/pull/35) removes support
   for HHVM.
 
 ### Fixed
 
-- [#33](https://github.com/zendframework/zend-paginator/pull/33) fixes how cache
+- [zendframework/zend-paginator#33](https://github.com/zendframework/zend-paginator/pull/33) fixes how cache
   identifiers are generated to work propertly with non-serializable pagination
   adapters.
 
-- [#26](https://github.com/zendframework/zend-paginator/pull/26) fixes an issue
+- [zendframework/zend-paginator#26](https://github.com/zendframework/zend-paginator/pull/26) fixes an issue
   in `Paginator::count()` whereby it would re-count when zero pages had been
   previously detected.
 
@@ -121,12 +121,12 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#19](https://github.com/zendframework/zend-paginator/pull/19) adds:
-  - `Zend\Paginator\AdapterPluginManagerFactory`
-  - `Zend\Paginator\ScrollingStylePluginManagerFactory`
+- [zendframework/zend-paginator#19](https://github.com/zendframework/zend-paginator/pull/19) adds:
+  - `Laminas\Paginator\AdapterPluginManagerFactory`
+  - `Laminas\Paginator\ScrollingStylePluginManagerFactory`
   - `ConfigProvider`, which maps the `AdapterPluginManager` and
     `ScrollingStylePluginManager` services to the above factories.
-  - `Module`, which does the same, for zend-mvc contexts.
+  - `Module`, which does the same, for laminas-mvc contexts.
 
 ### Deprecated
 
@@ -156,7 +156,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#7](https://github.com/zendframework/zend-paginator/pull/7) adds aliases for
+- [zendframework/zend-paginator#7](https://github.com/zendframework/zend-paginator/pull/7) adds aliases for
   the old `Null` adapter, mapping them to the new `NullFill` adapter.
 
 ## 2.6.0 - 2016-02-23
@@ -175,8 +175,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#4](https://github.com/zendframework/zend-paginator/pull/4),
-  [#8](https://github.com/zendframework/zend-paginator/pull/8), and
-  [#18](https://github.com/zendframework/zend-paginator/pull/18) update the code
-  base to be forwards-compatible with the v3 releases of zend-servicemanager and
-  zend-stdlib.
+- [zendframework/zend-paginator#4](https://github.com/zendframework/zend-paginator/pull/4),
+  [zendframework/zend-paginator#8](https://github.com/zendframework/zend-paginator/pull/8), and
+  [zendframework/zend-paginator#18](https://github.com/zendframework/zend-paginator/pull/18) update the code
+  base to be forwards-compatible with the v3 releases of laminas-servicemanager and
+  laminas-stdlib.

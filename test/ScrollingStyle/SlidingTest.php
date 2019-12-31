@@ -1,32 +1,31 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-paginator for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-paginator/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-paginator/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Paginator\ScrollingStyle;
+namespace LaminasTest\Paginator\ScrollingStyle;
 
-use Zend\Paginator\Paginator;
-use Zend\Paginator\Adapter\ArrayAdapter;
+use Laminas\Paginator\Adapter\ArrayAdapter;
+use Laminas\Paginator\Paginator;
 
 /**
- * @group      Zend_Paginator
- * @covers  Zend\Paginator\ScrollingStyle\Sliding<extended>
+ * @group      Laminas_Paginator
+ * @covers  Laminas\Paginator\ScrollingStyle\Sliding<extended>
  */
 class SlidingTest extends \PHPUnit\Framework\TestCase
 {
     // @codingStandardsIgnoreStart
     /**
-     * @var \Zend\Paginator\ScrollingStyle\Sliding
+     * @var \Laminas\Paginator\ScrollingStyle\Sliding
      */
     private $_scrollingStyle;
     // @codingStandardsIgnoreEnd
 
     /**
-     * @var \Zend\Paginator\Paginator
+     * @var \Laminas\Paginator\Paginator
      */
     private $paginator;
 
@@ -36,7 +35,7 @@ class SlidingTest extends \PHPUnit\Framework\TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_scrollingStyle = new \Zend\Paginator\ScrollingStyle\Sliding();
+        $this->_scrollingStyle = new \Laminas\Paginator\ScrollingStyle\Sliding();
         $this->paginator = new Paginator(new ArrayAdapter(range(1, 101)));
         $this->paginator->setItemCountPerPage(10);
         $this->paginator->setPageRange(5);
