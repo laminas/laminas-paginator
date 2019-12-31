@@ -1,15 +1,14 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-paginator for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-paginator/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-paginator/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Paginator\ScrollingStyle;
+namespace Laminas\Paginator\ScrollingStyle;
 
-use Zend\Paginator\Paginator;
+use Laminas\Paginator\Paginator;
 
 /**
  * A Yahoo! Search-like scrolling style.  The cursor will advance to
@@ -17,7 +16,7 @@ use Zend\Paginator\Paginator;
  * the end of the page set, at which point it will continue on to
  * the end of the range and the last page in the set.
  *
- * @link       http://search.yahoo.com/search?p=Zend+Framework
+ * @link       http://search.yahoo.com/search?p=Laminas+Framework
  */
 class Sliding implements ScrollingStyleInterface
 {
