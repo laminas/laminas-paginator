@@ -1,28 +1,27 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-paginator for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-paginator/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-paginator/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Paginator\ScrollingStyle;
+namespace LaminasTest\Paginator\ScrollingStyle;
 
-use Zend\Paginator\Paginator;
-use Zend\Paginator\Adapter\ArrayAdapter;
+use Laminas\Paginator\Adapter\ArrayAdapter;
+use Laminas\Paginator\Paginator;
 
 /**
- * @group      Zend_Paginator
+ * @group      Laminas_Paginator
  */
 class ElasticTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Zend\Paginator\ScrollingStyle\Elastic
+     * @var \Laminas\Paginator\ScrollingStyle\Elastic
      */
     private $scrollingStyle;
     /**
-     * @var \Zend\Paginator\Paginator
+     * @var \Laminas\Paginator\Paginator
      */
     private $paginator;
 
@@ -32,7 +31,7 @@ class ElasticTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->scrollingStyle = new \Zend\Paginator\ScrollingStyle\Elastic();
+        $this->scrollingStyle = new \Laminas\Paginator\ScrollingStyle\Elastic();
         $this->paginator = new Paginator(new ArrayAdapter(range(1, 101)));
         $this->paginator->setItemCountPerPage(5);
         $this->paginator->setPageRange(5);
