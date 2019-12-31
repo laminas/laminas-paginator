@@ -1,27 +1,26 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-paginator for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-paginator/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-paginator/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Paginator;
+namespace Laminas\Paginator;
 
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
+use Laminas\Cache\Storage\IteratorInterface as CacheIterator;
+use Laminas\Cache\Storage\StorageInterface as CacheStorage;
+use Laminas\Db\ResultSet\AbstractResultSet;
+use Laminas\Filter\FilterInterface;
+use Laminas\Json\Json;
+use Laminas\Paginator\Adapter\AdapterInterface;
+use Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface;
+use Laminas\Stdlib\ArrayUtils;
+use Laminas\View;
 use Traversable;
-use Zend\Cache\Storage\IteratorInterface as CacheIterator;
-use Zend\Cache\Storage\StorageInterface as CacheStorage;
-use Zend\Db\ResultSet\AbstractResultSet;
-use Zend\Filter\FilterInterface;
-use Zend\Json\Json;
-use Zend\Paginator\Adapter\AdapterInterface;
-use Zend\Paginator\ScrollingStyle\ScrollingStyleInterface;
-use Zend\Stdlib\ArrayUtils;
-use Zend\View;
 
 class Paginator implements Countable, IteratorAggregate
 {
@@ -29,7 +28,7 @@ class Paginator implements Countable, IteratorAggregate
      * The cache tag prefix used to namespace Paginator results in the cache
      *
      */
-    const CACHE_TAG_PREFIX = 'Zend_Paginator_';
+    const CACHE_TAG_PREFIX = 'Laminas_Paginator_';
 
     /**
      * Adapter plugin manager
@@ -74,7 +73,7 @@ class Paginator implements Countable, IteratorAggregate
     protected static $cache;
 
     /**
-     * Enable or disable the cache by Zend\Paginator\Paginator instance
+     * Enable or disable the cache by Laminas\Paginator\Paginator instance
      *
      * @var bool
      */
@@ -147,7 +146,7 @@ class Paginator implements Countable, IteratorAggregate
     /**
      * View instance used for self rendering
      *
-     * @var \Zend\View\Renderer\RendererInterface
+     * @var \Laminas\View\Renderer\RendererInterface
      */
     protected $view = null;
 
@@ -280,8 +279,8 @@ class Paginator implements Countable, IteratorAggregate
             $this->adapter = $adapter->getPaginatorAdapter();
         } else {
             throw new Exception\InvalidArgumentException(
-                'Zend\Paginator only accepts instances of the type ' .
-                'Zend\Paginator\Adapter\AdapterInterface or Zend\Paginator\AdapterAggregateInterface.'
+                'Laminas\Paginator only accepts instances of the type ' .
+                'Laminas\Paginator\Adapter\AdapterInterface or Laminas\Paginator\AdapterAggregateInterface.'
             );
         }
 
@@ -719,7 +718,7 @@ class Paginator implements Countable, IteratorAggregate
      *
      * If none registered, instantiates a PhpRenderer instance.
      *
-     * @return \Zend\View\Renderer\RendererInterface|null
+     * @return \Laminas\View\Renderer\RendererInterface|null
      */
     public function getView()
     {
@@ -733,7 +732,7 @@ class Paginator implements Countable, IteratorAggregate
     /**
      * Sets the view object.
      *
-     * @param  \Zend\View\Renderer\RendererInterface $view
+     * @param  \Laminas\View\Renderer\RendererInterface $view
      * @return Paginator
      */
     public function setView(View\Renderer\RendererInterface $view = null)
@@ -790,7 +789,7 @@ class Paginator implements Countable, IteratorAggregate
     /**
      * Renders the paginator.
      *
-     * @param  \Zend\View\Renderer\RendererInterface $view
+     * @param  \Laminas\View\Renderer\RendererInterface $view
      * @return string
      */
     public function render(View\Renderer\RendererInterface $view = null)
@@ -939,7 +938,7 @@ class Paginator implements Countable, IteratorAggregate
             case 'object':
                 if (!$scrollingStyle instanceof ScrollingStyleInterface) {
                     throw new Exception\InvalidArgumentException(
-                        'Scrolling style must implement Zend\Paginator\ScrollingStyle\ScrollingStyleInterface'
+                        'Scrolling style must implement Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface'
                     );
                 }
 
@@ -954,7 +953,7 @@ class Paginator implements Countable, IteratorAggregate
             default:
                 throw new Exception\InvalidArgumentException(
                     'Scrolling style must be a class ' .
-                    'name or object implementing Zend\Paginator\ScrollingStyle\ScrollingStyleInterface'
+                    'name or object implementing Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface'
                 );
         }
     }
