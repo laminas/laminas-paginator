@@ -1,35 +1,34 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-paginator for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-paginator/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-paginator/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Paginator;
+namespace LaminasTest\Paginator;
 
 use ArrayIterator;
 use ArrayObject;
+use Laminas\Cache\Storage\StorageInterface;
+use Laminas\Cache\StorageFactory as CacheFactory;
+use Laminas\Config;
+use Laminas\Db\Adapter as DbAdapter;
+use Laminas\Db\ResultSet\ResultSet;
+use Laminas\Db\Sql;
+use Laminas\Filter;
+use Laminas\Paginator;
+use Laminas\Paginator\Adapter;
+use Laminas\Paginator\Adapter\DbSelect;
+use Laminas\Paginator\Exception;
+use Laminas\View;
+use Laminas\View\Helper;
+use LaminasTest\Paginator\TestAsset\TestArrayAggregate;
 use ReflectionMethod;
 use stdClass;
-use Zend\Cache\Storage\StorageInterface;
-use Zend\Cache\StorageFactory as CacheFactory;
-use Zend\Config;
-use Zend\Db\ResultSet\ResultSet;
-use Zend\Db\Adapter as DbAdapter;
-use Zend\Db\Sql;
-use Zend\Filter;
-use Zend\Paginator;
-use Zend\Paginator\Adapter;
-use Zend\Paginator\Adapter\DbSelect;
-use Zend\Paginator\Exception;
-use Zend\View;
-use Zend\View\Helper;
-use ZendTest\Paginator\TestAsset\TestArrayAggregate;
 
 /**
- * @group      Zend_Paginator
+ * @group      Laminas_Paginator
  */
 class PaginatorTest extends \PHPUnit_Framework_TestCase
 {
@@ -81,7 +80,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
 
     protected function _getTmpDir()
     {
-        $tmpDir = rtrim(sys_get_temp_dir(), '/\\') . DIRECTORY_SEPARATOR . 'zend_paginator';
+        $tmpDir = rtrim(sys_get_temp_dir(), '/\\') . DIRECTORY_SEPARATOR . 'laminas_paginator';
         if (!is_dir($tmpDir)) {
             mkdir($tmpDir);
         }
@@ -150,7 +149,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Scrolling', Paginator\Paginator::getDefaultScrollingStyle());
 
         $plugins = Paginator\Paginator::getScrollingStylePluginManager();
-        $this->assertInstanceOf('ZendTest\Paginator\TestAsset\ScrollingStylePluginManager', $plugins);
+        $this->assertInstanceOf('LaminasTest\Paginator\TestAsset\ScrollingStylePluginManager', $plugins);
 
         $paginator = new Paginator\Paginator(new Adapter\ArrayAdapter(range(1, 101)));
         $this->assertEquals(3, $paginator->getItemCountPerPage());
@@ -241,7 +240,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-5376
+     * @group Laminas-5376
      */
     public function testGetsAndSetsItemCounterPerPageOfNegativeOne()
     {
@@ -253,7 +252,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-5376
+     * @group Laminas-5376
      */
     public function testGetsAndSetsItemCounterPerPageOfZero()
     {
@@ -265,7 +264,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-5376
+     * @group Laminas-5376
      */
     public function testGetsAndSetsItemCounterPerPageOfNull()
     {
@@ -349,13 +348,13 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
     {
         $paginator = new Paginator\Paginator(new Adapter\ArrayAdapter(array()));
 
-        $this->setExpectedException('Zend\Paginator\Exception\InvalidArgumentException', 'Page 1 does not exist');
+        $this->setExpectedException('Laminas\Paginator\Exception\InvalidArgumentException', 'Page 1 does not exist');
         $paginator->getItem(1);
     }
 
     public function testThrowsExceptionWhenRetrievingNonexistentItemFromLastPage()
     {
-        $this->setExpectedException('Zend\Paginator\Exception\InvalidArgumentException', 'Page 11 does not contain item number 10');
+        $this->setExpectedException('Laminas\Paginator\Exception\InvalidArgumentException', 'Page 11 does not contain item number 10');
         $this->paginator->getItem(10, 11);
     }
 
@@ -382,7 +381,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-8656
+     * @group Laminas-8656
      */
     public function testNormalizesPageNumberWhenGivenAFloat()
     {
@@ -396,7 +395,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-8656
+     * @group Laminas-8656
      */
     public function testNormalizesItemNumberWhenGivenAFloat()
     {
@@ -438,7 +437,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
     public function testGetsItemsByPageHandleDbSelectAdapter()
     {
         $resultSet = new ResultSet;
-        $result = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface');
+        $result = $this->getMock('Laminas\Db\Adapter\Driver\ResultInterface');
         $resultSet->initialize(array(
             new ArrayObject(array('foo' => 'bar')),
             new ArrayObject(array('foo' => 'bar')),
@@ -451,26 +450,26 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(array(DbSelect::ROW_COUNT_COLUMN_NAME => 3)));
         $result->expects($this->once())->method('current')->will($this->returnValue($resultSet->getDataSource()));
 
-        $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
+        $mockStatement = $this->getMock('Laminas\Db\Adapter\Driver\StatementInterface');
         $mockStatement->expects($this->any())->method('execute')->will($this->returnValue($result));
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockDriver = $this->getMock('Laminas\Db\Adapter\Driver\DriverInterface');
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue($mockStatement));
-        $mockPlatform = $this->getMock('Zend\Db\Adapter\Platform\PlatformInterface');
+        $mockPlatform = $this->getMock('Laminas\Db\Adapter\Platform\PlatformInterface');
         $mockPlatform->expects($this->any())->method('getName')->will($this->returnValue('platform'));
         $mockAdapter = $this->getMockForAbstractClass(
-            'Zend\Db\Adapter\Adapter',
+            'Laminas\Db\Adapter\Adapter',
             array($mockDriver, $mockPlatform)
         );
         $mockSql = $this->getMock(
-            'Zend\Db\Sql\Sql',
+            'Laminas\Db\Sql\Sql',
             array('prepareStatementForSqlObject', 'execute'),
             array($mockAdapter)
         );
         $mockSql->expects($this->any())
             ->method('prepareStatementForSqlObject')
-            ->with($this->isInstanceOf('Zend\Db\Sql\Select'))
+            ->with($this->isInstanceOf('Laminas\Db\Sql\Select'))
             ->will($this->returnValue($mockStatement));
-        $mockSelect = $this->getMock('Zend\Db\Sql\Select');
+        $mockSelect = $this->getMock('Laminas\Db\Sql\Select');
 
         $dbSelect = new DbSelect($mockSelect, $mockSql);
         $this->assertInstanceOf('ArrayIterator', $resultSet->getDataSource());
@@ -495,18 +494,18 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
 
     public function testGeneratesViewIfNonexistent()
     {
-        $this->assertInstanceOf('Zend\\View\\Renderer\\RendererInterface', $this->paginator->getView());
+        $this->assertInstanceOf('Laminas\\View\\Renderer\\RendererInterface', $this->paginator->getView());
     }
 
     public function testGetsAndSetsView()
     {
         $this->paginator->setView(new View\Renderer\PhpRenderer());
-        $this->assertInstanceOf('Zend\\View\\Renderer\\RendererInterface', $this->paginator->getView());
+        $this->assertInstanceOf('Laminas\\View\\Renderer\\RendererInterface', $this->paginator->getView());
     }
 
     public function testRenders()
     {
-        $this->setExpectedException('Zend\\View\\Exception\\ExceptionInterface', 'view partial');
+        $this->setExpectedException('Laminas\\View\\Exception\\ExceptionInterface', 'view partial');
         $this->paginator->render(new View\Renderer\PhpRenderer());
     }
 
@@ -518,7 +517,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-3720
+     * @group Laminas-3720
      */
     public function testGivesCorrectItemCount()
     {
@@ -531,7 +530,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-3737
+     * @group Laminas-3737
      */
     public function testKeepsCurrentPageNumberAfterItemCountPerPageSet()
     {
@@ -545,7 +544,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-4193
+     * @group Laminas-4193
      */
     public function testCastsIntegerValuesToInteger()
     {
@@ -563,7 +562,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-4207
+     * @group Laminas-4207
      */
     public function testAcceptsTraversableInstanceFromAdapter()
     {
@@ -670,7 +669,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
         $this->assertContains($expected, $json);
     }
 
-    // ZF-5519
+    // Laminas-5519
     public function testFilter()
     {
         $filter = new Filter\Callback(array($this, 'filterCallback'));
@@ -694,7 +693,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-5785
+     * @group Laminas-5785
      */
     public function testGetSetDefaultItemCountPerPage()
     {
@@ -713,7 +712,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-7207
+     * @group Laminas-7207
      */
     public function testItemCountPerPageByDefault()
     {
@@ -722,7 +721,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-5427
+     * @group Laminas-5427
      */
     public function testNegativeItemNumbers()
     {
@@ -732,48 +731,48 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-7602
+     * @group Laminas-7602
      */
     public function testAcceptAndHandlePaginatorAdapterAggregateDataInFactory()
     {
         $p = new Paginator\Paginator(new TestArrayAggregate());
 
         $this->assertEquals(1, count($p));
-        $this->assertInstanceOf('Zend\Paginator\Adapter\ArrayAdapter', $p->getAdapter());
+        $this->assertInstanceOf('Laminas\Paginator\Adapter\ArrayAdapter', $p->getAdapter());
         $this->assertEquals(4, count($p->getAdapter()));
     }
 
     /**
-     * @group ZF-7602
+     * @group Laminas-7602
      */
     public function testAcceptAndHandlePaginatorAdapterAggregateInConstructor()
     {
         $p = new Paginator\Paginator(new TestArrayAggregate());
 
         $this->assertEquals(1, count($p));
-        $this->assertInstanceOf('Zend\Paginator\Adapter\ArrayAdapter', $p->getAdapter());
+        $this->assertInstanceOf('Laminas\Paginator\Adapter\ArrayAdapter', $p->getAdapter());
         $this->assertEquals(4, count($p->getAdapter()));
     }
 
     /**
-     * @group ZF-7602
+     * @group Laminas-7602
      */
     public function testInvalidDataInConstructor_ThrowsException()
     {
-        $this->setExpectedException('Zend\Paginator\Exception\ExceptionInterface');
+        $this->setExpectedException('Laminas\Paginator\Exception\ExceptionInterface');
 
         new Paginator\Paginator(array());
     }
 
     /**
-     * @group ZF-9396
+     * @group Laminas-9396
      */
     public function testArrayAccessInClassSerializableLimitIterator()
     {
-        $iterator  = new \ArrayIterator(array('zf9396', 'foo', null));
+        $iterator  = new \ArrayIterator(array('laminas9396', 'foo', null));
         $paginator = new Paginator\Paginator(new Adapter\Iterator($iterator));
 
-        $this->assertEquals('zf9396', $paginator->getItem(1));
+        $this->assertEquals('laminas9396', $paginator->getItem(1));
 
         $items = $paginator->getAdapter()
                            ->getItems(0, 10);
@@ -788,7 +787,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
     public function testSetGlobalConfigThrowsInvalidArgumentException()
     {
         $this->setExpectedException(
-            'Zend\Paginator\Exception\InvalidArgumentException',
+            'Laminas\Paginator\Exception\InvalidArgumentException',
             'setGlobalConfig expects an array or Traversable'
         );
 
@@ -798,7 +797,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
     public function testSetScrollingStylePluginManagerWithStringThrowsInvalidArgumentException()
     {
         $this->setExpectedException(
-            'Zend\Paginator\Exception\InvalidArgumentException',
+            'Laminas\Paginator\Exception\InvalidArgumentException',
             'Unable to locate scrolling style plugin manager with class "invalid adapter"; class not found'
         );
 
@@ -808,7 +807,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
     public function testSetScrollingStylePluginManagerWithAdapterThrowsInvalidArgumentException()
     {
         $this->setExpectedException(
-            'Zend\Paginator\Exception\InvalidArgumentException',
+            'Laminas\Paginator\Exception\InvalidArgumentException',
             'Pagination scrolling-style manager must extend ScrollingStylePluginManager; received "stdClass"'
         );
 
@@ -825,9 +824,9 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
         $reflection->setAccessible(true);
 
         $this->setExpectedException(
-            'Zend\Paginator\Exception\InvalidArgumentException',
+            'Laminas\Paginator\Exception\InvalidArgumentException',
             'Scrolling style must be a class ' .
-                'name or object implementing Zend\Paginator\ScrollingStyle\ScrollingStyleInterface'
+                'name or object implementing Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface'
         );
 
         $reflection->invoke($paginator, 12345);
@@ -841,8 +840,8 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
         $reflection->setAccessible(true);
 
         $this->setExpectedException(
-            'Zend\Paginator\Exception\InvalidArgumentException',
-            'Scrolling style must implement Zend\Paginator\ScrollingStyle\ScrollingStyleInterface'
+            'Laminas\Paginator\Exception\InvalidArgumentException',
+            'Scrolling style must implement Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface'
         );
 
         $reflection->invoke($paginator, new stdClass());
@@ -860,7 +859,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
         $reflectionGetCacheInternalId->setAccessible(true);
         $outputGetCacheInternalId = $reflectionGetCacheInternalId->invoke($paginator);
 
-        $this->assertEquals($outputGetCacheId, 'Zend_Paginator_1_' . $outputGetCacheInternalId);
+        $this->assertEquals($outputGetCacheId, 'Laminas_Paginator_1_' . $outputGetCacheInternalId);
     }
 
     /**
