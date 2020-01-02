@@ -10,3 +10,6 @@ nav:
 site_name: laminas-paginator
 site_description: 'Paginate collections of data from arbitrary sources.'
 repo_url: 'https://github.com/laminas/laminas-paginator'
+extra:
+    project: Components
+    project_url: 'https://docs.laminas.dev'
