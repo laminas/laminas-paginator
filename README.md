@@ -1,6 +1,6 @@
 # laminas-paginator
 
-[![Build Status](https://travis-ci.org/laminas/laminas-paginator.svg?branch=master)](https://travis-ci.org/laminas/laminas-paginator)
+[![Build Status](https://travis-ci.com/laminas/laminas-paginator.svg?branch=master)](https://travis-ci.com/laminas/laminas-paginator)
 [![Coverage Status](https://coveralls.io/repos/github/laminas/laminas-paginator/badge.svg?branch=master)](https://coveralls.io/github/laminas/laminas-paginator?branch=master)
 
 laminas-paginator is a flexible component for paginating collections of data and
