@@ -20,7 +20,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -268,55 +272,50 @@ current page. Because of this, a second query is dynamically generated to
 determine the total number of matching rows.</p>
 </blockquote>
 <p>To create a paginator instance, you must supply an adapter to the constructor:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Paginator\Adapter;</span>
-<span class=x>use Laminas\Paginator\Paginator;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Paginator\Adapter;
+use Laminas\Paginator\Paginator;
 
-<span class=x>$paginator = new Paginator(new Adapter\ArrayAdapter($array));</span>
-</pre></div></p>
+$paginator = new Paginator(new Adapter\ArrayAdapter($array));</code></pre>
 <p>In the case of the <code>NullFill</code> adapter, in lieu of a data collection you must
 supply an item count to its constructor.</p>
 <p>Although the instance is technically usable in this state, in your controller
 action you'll need to tell the paginator what page number the user requested.
 This allows advancing through the paginated data.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$paginator-&gt;setCurrentPageNumber($page);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$paginator-&gt;setCurrentPageNumber($page);</code></pre>
 <p>The simplest way to keep track of this value is through a URL parameter. The
 following is an example <a href="https://laminas.github.com/laminas-router">laminas-router</a>
 route configuration:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>return [</span>
-<span class=x>    &#39;routes&#39; =&gt; [</span>
-<span class=x>        &#39;paginator&#39; =&gt; [</span>
-<span class=x>            &#39;type&#39; =&gt; &#39;segment&#39;,</span>
-<span class=x>            &#39;options&#39; =&gt; [</span>
-<span class=x>                &#39;route&#39; =&gt; &#39;/list/[page/:page]&#39;,</span>
-<span class=x>                &#39;defaults&#39; =&gt; [</span>
-<span class=x>                    &#39;page&#39; =&gt; 1,</span>
-<span class=x>                ],</span>
-<span class=x>            ],</span>
-<span class=x>        ],</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>return [
+    'routes' =&gt; [
+        'paginator' =&gt; [
+            'type' =&gt; 'segment',
+            'options' =&gt; [
+                'route' =&gt; '/list/[page/:page]',
+                'defaults' =&gt; [
+                    'page' =&gt; 1,
+                ],
+            ],
+        ],
+    ],
+];</code></pre>
 <p>With the above route (and using <a href="https://docs.laminas.dev/laminas-mvc/">laminas-mvc</a>
 controllers), you might set the current page number in your controller action
 like so:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$paginator-&gt;setCurrentPageNumber($this-&gt;params()-&gt;fromRoute(&#39;page&#39;));</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$paginator-&gt;setCurrentPageNumber($this-&gt;params()-&gt;fromRoute('page'));</code></pre>
 <p>There are other options available; see the <a href="../configuration/">Configuration chapter</a>
 for more on them.</p>
 <p>Finally, you'll need to assign the paginator instance to your view. If you're
 using laminas-mvc and laminas-view, you can assign the paginator object to your view
 model:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$vm = new ViewModel();</span>
-<span class=x>$vm-&gt;setVariable(&#39;paginator&#39;, $paginator);</span>
-<span class=x>return $vm;</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$vm = new ViewModel();
+$vm-&gt;setVariable('paginator', $paginator);
+return $vm;</code></pre>
 <h2 id="the-dbselect-adapter">The DbSelect adapter</h2>
 <blockquote>
 <h3>Installation Requirements</h3>
 <p>The DbSelect adapter depends on the laminas-db component, so be sure to have it
 installed before getting started:</p>
-<pre class=codehilite><code class=language-bash>
+<pre class="codehilite"><code class="language-bash">
 $ composer require laminas/laminas-db
 </code></pre>
 </blockquote>
@@ -340,66 +339,63 @@ or even your own schema setup, there might be more efficient ways to get a
 rowcount.</p>
 <p>There are two approaches for doing this. The first is to extend the <code>DbSelect</code>
 adapter and override the <code>count()</code> method:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>class MyDbSelect extends DbSelect</span>
-<span class=x>{</span>
-<span class=x>    public function count()</span>
-<span class=x>    {</span>
-<span class=x>        if ($this-&gt;rowCount) {</span>
-<span class=x>            return $this-&gt;rowCount;</span>
-<span class=x>        }</span>
+<pre class=codehilite><code class=language-php>class MyDbSelect extends DbSelect
+{
+    public function count()
+    {
+        if ($this-&gt;rowCount) {
+            return $this-&gt;rowCount;
+        }
 
-<span class=x>        $select = new Select();</span>
-<span class=x>        $select</span>
-<span class=x>          -&gt;from(&#39;item_counts&#39;)</span>
-<span class=x>          -&gt;columns([&#39;c&#39;=&gt;&#39;post_count&#39;]);</span>
+        $select = new Select();
+        $select
+          -&gt;from('item_counts')
+          -&gt;columns(['c'=&gt;'post_count']);
 
-<span class=x>        $statement = $this-&gt;sql-&gt;prepareStatementForSqlObject($select);</span>
-<span class=x>        $result    = $statement-&gt;execute();</span>
-<span class=x>        $row       = $result-&gt;current();</span>
-<span class=x>        $this-&gt;rowCount = $row[&#39;c&#39;];</span>
+        $statement = $this-&gt;sql-&gt;prepareStatementForSqlObject($select);
+        $result    = $statement-&gt;execute();
+        $row       = $result-&gt;current();
+        $this-&gt;rowCount = $row['c'];
 
-<span class=x>        return $this-&gt;rowCount;</span>
-<span class=x>    }</span>
-<span class=x>}</span>
+        return $this-&gt;rowCount;
+    }
+}
 
-<span class=x>$adapter = new MyDbSelect($query, $adapter);</span>
-</pre></div></p>
+$adapter = new MyDbSelect($query, $adapter);</code></pre>
 <p>Alternately, you can pass an additional <code>Laminas\Db\Sql\Select</code> object as the
 fourth constructor argument to the <code>DbSelect</code> adapter to implement a custom
 count query.</p>
 <p>For example, if you keep track of the count of blog posts in a separate table,
 you could achieve a faster count query with the following setup:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Db\Sql\Select;</span>
-<span class=x>use Laminas\Paginator\Adapter\DbSelect;</span>
-<span class=x>use Laminas\Paginator\Paginator;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Db\Sql\Select;
+use Laminas\Paginator\Adapter\DbSelect;
+use Laminas\Paginator\Paginator;
 
-<span class=x>$countQuery = new Select();</span>
-<span class=x>$countQuery</span>
-<span class=x>    -&gt;from(&#39;item_counts&#39;)</span>
-<span class=x>    -&gt;columns([ DbSelect::ROW_COUNT_COLUMN_NAME =&gt; &#39;post_count&#39; ]);</span>
+$countQuery = new Select();
+$countQuery
+    -&gt;from('item_counts')
+    -&gt;columns([ DbSelect::ROW_COUNT_COLUMN_NAME =&gt; 'post_count' ]);
 
-<span class=x>$adapter = new DbSelect($query, $dbAdapter, null, $countQuery);</span>
-<span class=x>$paginator = new Paginator($adapter);</span>
-</pre></div></p>
+$adapter = new DbSelect($query, $dbAdapter, null, $countQuery);
+$paginator = new Paginator($adapter);</code></pre>
 <p>Alternatively, the same can be achieved using the provided factory:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Paginator\Adapter\DbSelect;</span>
-<span class=x>use Laminas\Paginator\Factory as PaginatorFactory;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Paginator\Adapter\DbSelect;
+use Laminas\Paginator\Factory as PaginatorFactory;
 
-<span class=x>$countQuery = new Select();</span>
-<span class=x>$countQuery</span>
-<span class=x>    -&gt;from(&#39;item_counts&#39;)</span>
-<span class=x>    -&gt;columns([ DbSelect::ROW_COUNT_COLUMN_NAME =&gt; &#39;post_count&#39; ]);</span>
+$countQuery = new Select();
+$countQuery
+    -&gt;from('item_counts')
+    -&gt;columns([ DbSelect::ROW_COUNT_COLUMN_NAME =&gt; 'post_count' ]);
 
-<span class=x>$paginator = PaginatorFactory::factory(</span>
-<span class=x>    [</span>
-<span class=x>        $query,</span>
-<span class=x>        $dbAdapter,</span>
-<span class=x>        null,</span>
-<span class=x>        $countQuery,</span>
-<span class=x>    ],</span>
-<span class=x>    DbSelect::class</span>
-<span class=x>);</span>
-</pre></div></p>
+$paginator = PaginatorFactory::factory(
+    [
+        $query,
+        $dbAdapter,
+        null,
+        $countQuery,
+    ],
+    DbSelect::class
+);</code></pre>
 <p>This approach will probably not give you a huge performance gain on small
 collections and/or simple select queries. However, with complex queries and
 large collections, a similar approach could give you a significant performance
@@ -409,18 +405,17 @@ boost.</p>
 You can override the concrete <code>ResultSet</code> implementation by passing an object
 implementing <code>Laminas\Db\ResultSet\ResultSetInterface</code> as the third constructor
 argument to the <code>DbSelect</code> adapter:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Db\ResultSet\HydratingResultSet;</span>
-<span class=x>use Laminas\Paginator\Adapter\DbSelect;</span>
-<span class=x>use Laminas\Paginator\Paginator;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Db\ResultSet\HydratingResultSet;
+use Laminas\Paginator\Adapter\DbSelect;
+use Laminas\Paginator\Paginator;
 
-<span class=x>// $objectPrototype is an instance of our custom entity</span>
-<span class=x>// $hydrator is a custom hydrator for our entity</span>
-<span class=x>// (implementing Laminas\Hydrator\HydratorInterface)</span>
-<span class=x>$resultSet = new HydratingResultSet($hydrator, $objectPrototype);</span>
+// $objectPrototype is an instance of our custom entity
+// $hydrator is a custom hydrator for our entity
+// (implementing Laminas\Hydrator\HydratorInterface)
+$resultSet = new HydratingResultSet($hydrator, $objectPrototype);
 
-<span class=x>$adapter = new DbSelect($query, $dbAdapter, $resultSet)</span>
-<span class=x>$paginator = new Laminas\Paginator\Paginator($adapter);</span>
-</pre></div></p>
+$adapter = new DbSelect($query, $dbAdapter, $resultSet)
+$paginator = new Laminas\Paginator\Paginator($adapter);</code></pre>
 <p>Now when we iterate over <code>$paginator</code> we will get instances of our custom entity
 instead of associative arrays.</p>
 <h2 id="rendering-pages-with-view-scripts">Rendering pages with view scripts</h2>
@@ -428,7 +423,7 @@ instead of associative arrays.</p>
 <h3>Installation Requirements</h3>
 <p>The rendering with view scripts depends on the laminas-view component, so be sure
 to have it installed before getting started:</p>
-<pre class=codehilite><code class=language-bash>
+<pre class="codehilite"><code class="language-bash">
 $ composer require laminas/laminas-view
 </code></pre>
 </blockquote>
@@ -437,26 +432,25 @@ laminas-paginator to do so) and display the pagination control.</p>
 <p>Because <code>Laminas\Paginator\Paginator</code> implements the SPL interface
 <a href="http://php.net/IteratorAggregate">IteratorAggregate</a>, you can loop over an
 instance using <code>foreach</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>&lt;html&gt;</span>
-<span class=x>&lt;body&gt;</span>
-<span class=x>&lt;h1&gt;Example&lt;/h1&gt;</span>
-<span class=cp>&lt;?php</span> <span class=k>if</span> <span class=p>(</span><span class=nb>count</span><span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>paginator</span><span class=p>))</span><span class=o>:</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=x>&lt;ul&gt;</span>
-<span class=cp>&lt;?php</span> <span class=k>foreach</span> <span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>paginator</span> <span class=k>as</span> <span class=nv>$item</span><span class=p>)</span><span class=o>:</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=x>  &lt;li&gt;</span><span class=cp>&lt;?</span><span class=o>=</span> <span class=nv>$item</span><span class=p>;</span> <span class=cp>?&gt;</span><span class=x>&lt;/li&gt;</span>
-<span class=cp>&lt;?php</span> <span class=k>endforeach</span><span class=p>;</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=x>&lt;/ul&gt;</span>
-<span class=cp>&lt;?php</span> <span class=k>endif</span><span class=p>;</span> <span class=cp>?&gt;</span><span class=x></span>
+<pre class=codehilite><code class=language-php>&lt;html&gt;
+&lt;body&gt;
+&lt;h1&gt;Example&lt;/h1&gt;
+&lt;?php if (count($this-&gt;paginator)): ?&gt;
+&lt;ul&gt;
+&lt;?php foreach ($this-&gt;paginator as $item): ?&gt;
+  &lt;li&gt;&lt;?= $item; ?&gt;&lt;/li&gt;
+&lt;?php endforeach; ?&gt;
+&lt;/ul&gt;
+&lt;?php endif; ?&gt;
 
-<span class=cp>&lt;?</span><span class=o>=</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>paginationControl</span><span class=p>(</span>
-    <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>paginator</span><span class=p>,</span>
-    <span class=s1>&#39;Sliding&#39;</span><span class=p>,</span>
-    <span class=s1>&#39;my_pagination_control&#39;</span><span class=p>,</span>
-    <span class=p>[</span><span class=s1>&#39;route&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;application/paginator&#39;</span><span class=p>]</span>
-<span class=p>)</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=x>&lt;/body&gt;</span>
-<span class=x>&lt;/html&gt;</span>
-</pre></div></p>
+&lt;?= $this-&gt;paginationControl(
+    $this-&gt;paginator,
+    'Sliding',
+    'my_pagination_control',
+    ['route' =&gt; 'application/paginator']
+) ?&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
 <p>Notice the view helper call near the end. <code>PaginationControl</code> accepts up to four
 parameters: the paginator instance, a scrolling style, a view script name, and
 an array of additional parameters.</p>
@@ -507,25 +501,23 @@ variables that you want available in your view (available via <code>$this</code>
 instance, these values could include extra URL parameters for pagination links.</p>
 <p>By setting the default view script name, default scrolling style, and view
 instance, you can eliminate the calls to <code>PaginationControl</code> completely:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Paginator\Paginator;</span>
-<span class=x>use Laminas\View\Helper\PaginationControl;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Paginator\Paginator;
+use Laminas\View\Helper\PaginationControl;
 
-<span class=x>Paginator::setDefaultScrollingStyle(&#39;Sliding&#39;);</span>
-<span class=x>PaginationControl::setDefaultViewPartial(&#39;my_pagination_control&#39;);</span>
-</pre></div></p>
+Paginator::setDefaultScrollingStyle('Sliding');
+PaginationControl::setDefaultViewPartial('my_pagination_control');</code></pre>
 <p>When all of these values are set, you can render the pagination control inside
 your view script by echoing the paginator instance:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?</span><span class=o>=</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>paginator</span> <span class=cp>?&gt;</span><span class=x></span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>&lt;?= $this-&gt;paginator ?&gt;</code></pre>
 <blockquote>
 <h3>Using other template engines</h3>
 <p>Of course, it's possible to use laminas-paginator with other template engines.
 For example, with Smarty you might do the following:</p>
-<pre class=codehilite><code class=language-php>
+<pre class="codehilite"><code class="language-php">
 $smarty-assign('pages', $paginator-&gt;getPages());
 </code></pre>
 <p>You could then access paginator values from a template like so:</p>
-<pre class=codehilite><code class=language-php>
+<pre class="codehilite"><code class="language-php">
 {$pages.pageCount}
 </code></pre>
 </blockquote>
@@ -533,113 +525,110 @@ $smarty-assign('pages', $paginator-&gt;getPages());
 <p>The following example pagination controls will help you get started with
 laminas-view:</p>
 <p>Search pagination:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>&lt;!--</span>
-<span class=x>See http://developer.yahoo.com/ypatterns/pattern.php?pattern=searchpagination</span>
-<span class=x>--&gt;</span>
+<pre class=codehilite><code class=language-php>&lt;!--
+See http://developer.yahoo.com/ypatterns/pattern.php?pattern=searchpagination
+--&gt;
 
-<span class=cp>&lt;?php</span> <span class=k>if</span> <span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>pageCount</span><span class=p>)</span><span class=o>:</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=x>&lt;div class=&quot;paginationControl&quot;&gt;</span>
-<span class=x>&lt;!-- Previous page link --&gt;</span>
-<span class=cp>&lt;?php</span> <span class=k>if</span> <span class=p>(</span><span class=nb>isset</span><span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>previous</span><span class=p>))</span><span class=o>:</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=x>  &lt;a href=&quot;</span><span class=cp>&lt;?</span><span class=o>=</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>url</span><span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>route</span><span class=p>,</span> <span class=p>[</span><span class=s1>&#39;page&#39;</span> <span class=o>=&gt;</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>previous</span><span class=p>]);</span> <span class=cp>?&gt;</span><span class=x>&quot;&gt;</span>
-<span class=x>    &amp;lt; Previous</span>
-<span class=x>  &lt;/a&gt; |</span>
-<span class=cp>&lt;?php</span> <span class=k>else</span><span class=o>:</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=x>  &lt;span class=&quot;disabled&quot;&gt;&amp;lt; Previous&lt;/span&gt; |</span>
-<span class=cp>&lt;?php</span> <span class=k>endif</span><span class=p>;</span> <span class=cp>?&gt;</span><span class=x></span>
+&lt;?php if ($this-&gt;pageCount): ?&gt;
+&lt;div class=&quot;paginationControl&quot;&gt;
+&lt;!-- Previous page link --&gt;
+&lt;?php if (isset($this-&gt;previous)): ?&gt;
+  &lt;a href=&quot;&lt;?= $this-&gt;url($this-&gt;route, ['page' =&gt; $this-&gt;previous]); ?&gt;&quot;&gt;
+    &amp;lt; Previous
+  &lt;/a&gt; |
+&lt;?php else: ?&gt;
+  &lt;span class=&quot;disabled&quot;&gt;&amp;lt; Previous&lt;/span&gt; |
+&lt;?php endif; ?&gt;
 
-<span class=x>&lt;!-- Numbered page links --&gt;</span>
-<span class=cp>&lt;?php</span> <span class=k>foreach</span> <span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>pagesInRange</span> <span class=k>as</span> <span class=nv>$page</span><span class=p>)</span><span class=o>:</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=x>  </span><span class=cp>&lt;?php</span> <span class=k>if</span> <span class=p>(</span><span class=nv>$page</span> <span class=o>!=</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>current</span><span class=p>)</span><span class=o>:</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=x>    &lt;a href=&quot;</span><span class=cp>&lt;?</span><span class=o>=</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>url</span><span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>route</span><span class=p>,</span> <span class=p>[</span><span class=s1>&#39;page&#39;</span> <span class=o>=&gt;</span> <span class=nv>$page</span><span class=p>]);</span> <span class=cp>?&gt;</span><span class=x>&quot;&gt;</span>
-<span class=x>        </span><span class=cp>&lt;?</span><span class=o>=</span> <span class=nv>$page</span><span class=p>;</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=x>    &lt;/a&gt; |</span>
-<span class=x>  </span><span class=cp>&lt;?php</span> <span class=k>else</span><span class=o>:</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=x>    </span><span class=cp>&lt;?</span><span class=o>=</span> <span class=nv>$page</span><span class=p>;</span> <span class=cp>?&gt;</span><span class=x> |</span>
-<span class=x>  </span><span class=cp>&lt;?php</span> <span class=k>endif</span><span class=p>;</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=cp>&lt;?php</span> <span class=k>endforeach</span><span class=p>;</span> <span class=cp>?&gt;</span><span class=x></span>
+&lt;!-- Numbered page links --&gt;
+&lt;?php foreach ($this-&gt;pagesInRange as $page): ?&gt;
+  &lt;?php if ($page != $this-&gt;current): ?&gt;
+    &lt;a href=&quot;&lt;?= $this-&gt;url($this-&gt;route, ['page' =&gt; $page]); ?&gt;&quot;&gt;
+        &lt;?= $page; ?&gt;
+    &lt;/a&gt; |
+  &lt;?php else: ?&gt;
+    &lt;?= $page; ?&gt; |
+  &lt;?php endif; ?&gt;
+&lt;?php endforeach; ?&gt;
 
-<span class=x>&lt;!-- Next page link --&gt;</span>
-<span class=cp>&lt;?php</span> <span class=k>if</span> <span class=p>(</span><span class=nb>isset</span><span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>next</span><span class=p>))</span><span class=o>:</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=x>  &lt;a href=&quot;</span><span class=cp>&lt;?</span><span class=o>=</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>url</span><span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>route</span><span class=p>,</span> <span class=p>[</span><span class=s1>&#39;page&#39;</span> <span class=o>=&gt;</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>next</span><span class=p>]);</span> <span class=cp>?&gt;</span><span class=x>&quot;&gt;</span>
-<span class=x>    Next &amp;gt;</span>
-<span class=x>  &lt;/a&gt;</span>
-<span class=cp>&lt;?php</span> <span class=k>else</span><span class=o>:</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=x>  &lt;span class=&quot;disabled&quot;&gt;Next &amp;gt;&lt;/span&gt;</span>
-<span class=cp>&lt;?php</span> <span class=k>endif</span><span class=p>;</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=x>&lt;/div&gt;</span>
-<span class=cp>&lt;?php</span> <span class=k>endif</span><span class=p>;</span> <span class=cp>?&gt;</span><span class=x></span>
-</pre></div></p>
+&lt;!-- Next page link --&gt;
+&lt;?php if (isset($this-&gt;next)): ?&gt;
+  &lt;a href=&quot;&lt;?= $this-&gt;url($this-&gt;route, ['page' =&gt; $this-&gt;next]); ?&gt;&quot;&gt;
+    Next &amp;gt;
+  &lt;/a&gt;
+&lt;?php else: ?&gt;
+  &lt;span class=&quot;disabled&quot;&gt;Next &amp;gt;&lt;/span&gt;
+&lt;?php endif; ?&gt;
+&lt;/div&gt;
+&lt;?php endif; ?&gt;</code></pre>
 <p>Item pagination:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>&lt;!--</span>
-<span class=x>See http://developer.yahoo.com/ypatterns/pattern.php?pattern=itempagination</span>
-<span class=x>--&gt;</span>
+<pre class=codehilite><code class=language-php>&lt;!--
+See http://developer.yahoo.com/ypatterns/pattern.php?pattern=itempagination
+--&gt;
 
-<span class=cp>&lt;?php</span> <span class=k>if</span> <span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>pageCount</span><span class=p>)</span><span class=o>:</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=x>&lt;div class=&quot;paginationControl&quot;&gt;</span>
-<span class=cp>&lt;?</span><span class=o>=</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>firstItemNumber</span><span class=p>;</span> <span class=cp>?&gt;</span><span class=x> - </span><span class=cp>&lt;?</span><span class=o>=</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>lastItemNumber</span><span class=p>;</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=x>of </span><span class=cp>&lt;?</span><span class=o>=</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>totalItemCount</span><span class=p>;</span> <span class=cp>?&gt;</span><span class=x></span>
+&lt;?php if ($this-&gt;pageCount): ?&gt;
+&lt;div class=&quot;paginationControl&quot;&gt;
+&lt;?= $this-&gt;firstItemNumber; ?&gt; - &lt;?= $this-&gt;lastItemNumber; ?&gt;
+of &lt;?= $this-&gt;totalItemCount; ?&gt;
 
-<span class=x>&lt;!-- First page link --&gt;</span>
-<span class=cp>&lt;?php</span> <span class=k>if</span> <span class=p>(</span><span class=nb>isset</span><span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>previous</span><span class=p>))</span><span class=o>:</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=x>  &lt;a href=&quot;</span><span class=cp>&lt;?</span><span class=o>=</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>url</span><span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>route</span><span class=p>,</span> <span class=p>[</span><span class=s1>&#39;page&#39;</span> <span class=o>=&gt;</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>first</span><span class=p>]);</span> <span class=cp>?&gt;</span><span class=x>&quot;&gt;</span>
-<span class=x>    First</span>
-<span class=x>  &lt;/a&gt; |</span>
-<span class=cp>&lt;?php</span> <span class=k>else</span><span class=o>:</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=x>  &lt;span class=&quot;disabled&quot;&gt;First&lt;/span&gt; |</span>
-<span class=cp>&lt;?php</span> <span class=k>endif</span><span class=p>;</span> <span class=cp>?&gt;</span><span class=x></span>
+&lt;!-- First page link --&gt;
+&lt;?php if (isset($this-&gt;previous)): ?&gt;
+  &lt;a href=&quot;&lt;?= $this-&gt;url($this-&gt;route, ['page' =&gt; $this-&gt;first]); ?&gt;&quot;&gt;
+    First
+  &lt;/a&gt; |
+&lt;?php else: ?&gt;
+  &lt;span class=&quot;disabled&quot;&gt;First&lt;/span&gt; |
+&lt;?php endif; ?&gt;
 
-<span class=x>&lt;!-- Previous page link --&gt;</span>
-<span class=cp>&lt;?php</span> <span class=k>if</span> <span class=p>(</span><span class=nb>isset</span><span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>previous</span><span class=p>))</span><span class=o>:</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=x>  &lt;a href=&quot;</span><span class=cp>&lt;?</span><span class=o>=</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>url</span><span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>route</span><span class=p>,</span> <span class=p>[</span><span class=s1>&#39;page&#39;</span> <span class=o>=&gt;</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>previous</span><span class=p>]);</span> <span class=cp>?&gt;</span><span class=x>&quot;&gt;</span>
-<span class=x>    &amp;lt; Previous</span>
-<span class=x>  &lt;/a&gt; |</span>
-<span class=cp>&lt;?php</span> <span class=k>else</span><span class=o>:</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=x>  &lt;span class=&quot;disabled&quot;&gt;&amp;lt; Previous&lt;/span&gt; |</span>
-<span class=cp>&lt;?php</span> <span class=k>endif</span><span class=p>;</span> <span class=cp>?&gt;</span><span class=x></span>
+&lt;!-- Previous page link --&gt;
+&lt;?php if (isset($this-&gt;previous)): ?&gt;
+  &lt;a href=&quot;&lt;?= $this-&gt;url($this-&gt;route, ['page' =&gt; $this-&gt;previous]); ?&gt;&quot;&gt;
+    &amp;lt; Previous
+  &lt;/a&gt; |
+&lt;?php else: ?&gt;
+  &lt;span class=&quot;disabled&quot;&gt;&amp;lt; Previous&lt;/span&gt; |
+&lt;?php endif; ?&gt;
 
-<span class=x>&lt;!-- Next page link --&gt;</span>
-<span class=cp>&lt;?php</span> <span class=k>if</span> <span class=p>(</span><span class=nb>isset</span><span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>next</span><span class=p>))</span><span class=o>:</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=x>  &lt;a href=&quot;</span><span class=cp>&lt;?</span><span class=o>=</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>url</span><span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>route</span><span class=p>,</span> <span class=p>[</span><span class=s1>&#39;page&#39;</span> <span class=o>=&gt;</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>next</span><span class=p>]);</span> <span class=cp>?&gt;</span><span class=x>&quot;&gt;</span>
-<span class=x>    Next &amp;gt;</span>
-<span class=x>  &lt;/a&gt; |</span>
-<span class=cp>&lt;?php</span> <span class=k>else</span><span class=o>:</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=x>  &lt;span class=&quot;disabled&quot;&gt;Next &amp;gt;&lt;/span&gt; |</span>
-<span class=cp>&lt;?php</span> <span class=k>endif</span><span class=p>;</span> <span class=cp>?&gt;</span><span class=x></span>
+&lt;!-- Next page link --&gt;
+&lt;?php if (isset($this-&gt;next)): ?&gt;
+  &lt;a href=&quot;&lt;?= $this-&gt;url($this-&gt;route, ['page' =&gt; $this-&gt;next]); ?&gt;&quot;&gt;
+    Next &amp;gt;
+  &lt;/a&gt; |
+&lt;?php else: ?&gt;
+  &lt;span class=&quot;disabled&quot;&gt;Next &amp;gt;&lt;/span&gt; |
+&lt;?php endif; ?&gt;
 
-<span class=x>&lt;!-- Last page link --&gt;</span>
-<span class=cp>&lt;?php</span> <span class=k>if</span> <span class=p>(</span><span class=nb>isset</span><span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>next</span><span class=p>))</span><span class=o>:</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=x>  &lt;a href=&quot;</span><span class=cp>&lt;?</span><span class=o>=</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>url</span><span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>route</span><span class=p>,</span> <span class=p>[</span><span class=s1>&#39;page&#39;</span> <span class=o>=&gt;</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>last</span><span class=p>]);</span> <span class=cp>?&gt;</span><span class=x>&quot;&gt;</span>
-<span class=x>    Last</span>
-<span class=x>  &lt;/a&gt;</span>
-<span class=cp>&lt;?php</span> <span class=k>else</span><span class=o>:</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=x>  &lt;span class=&quot;disabled&quot;&gt;Last&lt;/span&gt;</span>
-<span class=cp>&lt;?php</span> <span class=k>endif</span><span class=p>;</span> <span class=cp>?&gt;</span><span class=x></span>
+&lt;!-- Last page link --&gt;
+&lt;?php if (isset($this-&gt;next)): ?&gt;
+  &lt;a href=&quot;&lt;?= $this-&gt;url($this-&gt;route, ['page' =&gt; $this-&gt;last]); ?&gt;&quot;&gt;
+    Last
+  &lt;/a&gt;
+&lt;?php else: ?&gt;
+  &lt;span class=&quot;disabled&quot;&gt;Last&lt;/span&gt;
+&lt;?php endif; ?&gt;
 
-<span class=x>&lt;/div&gt;</span>
-<span class=cp>&lt;?php</span> <span class=k>endif</span><span class=p>;</span> <span class=cp>?&gt;</span><span class=x></span>
-</pre></div></p>
+&lt;/div&gt;
+&lt;?php endif; ?&gt;</code></pre>
 <p>Dropdown pagination:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span> <span class=k>if</span> <span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>pageCount</span><span class=p>)</span><span class=o>:</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=x>&lt;select id=&quot;paginationControl&quot; size=&quot;1&quot;&gt;</span>
-<span class=cp>&lt;?php</span> <span class=k>foreach</span> <span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>pagesInRange</span> <span class=k>as</span> <span class=nv>$page</span><span class=p>)</span><span class=o>:</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=x>  </span><span class=cp>&lt;?php</span> <span class=nv>$selected</span> <span class=o>=</span> <span class=p>(</span><span class=nv>$page</span> <span class=o>==</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>current</span><span class=p>)</span> <span class=o>?</span> <span class=s1>&#39; selected=&quot;selected&quot;&#39;</span> <span class=o>:</span> <span class=s1>&#39;&#39;</span><span class=p>;</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=x>  &lt;option value=&quot;</span><span class=cp>&lt;?</span><span class=o>=</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>url</span><span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>route</span><span class=p>,</span> <span class=p>[</span><span class=s1>&#39;page&#39;</span> <span class=o>=&gt;</span> <span class=nv>$page</span><span class=p>]);</span><span class=cp>?&gt;</span><span class=x>&quot;</span><span class=cp>&lt;?</span><span class=o>=</span> <span class=nv>$selected</span> <span class=cp>?&gt;</span><span class=x>&gt;</span>
-<span class=x>    </span><span class=cp>&lt;?</span><span class=o>=</span> <span class=nv>$page</span><span class=p>;</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=x>  &lt;/option&gt;</span>
-<span class=cp>&lt;?php</span> <span class=k>endforeach</span><span class=p>;</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=x>&lt;/select&gt;</span>
-<span class=cp>&lt;?php</span> <span class=k>endif</span><span class=p>;</span> <span class=cp>?&gt;</span><span class=x></span>
+<pre class=codehilite><code class=language-php>&lt;?php if ($this-&gt;pageCount): ?&gt;
+&lt;select id=&quot;paginationControl&quot; size=&quot;1&quot;&gt;
+&lt;?php foreach ($this-&gt;pagesInRange as $page): ?&gt;
+  &lt;?php $selected = ($page == $this-&gt;current) ? ' selected=&quot;selected&quot;' : ''; ?&gt;
+  &lt;option value=&quot;&lt;?= $this-&gt;url($this-&gt;route, ['page' =&gt; $page]);?&gt;&quot;&lt;?= $selected ?&gt;&gt;
+    &lt;?= $page; ?&gt;
+  &lt;/option&gt;
+&lt;?php endforeach; ?&gt;
+&lt;/select&gt;
+&lt;?php endif; ?&gt;
 
-<span class=x>&lt;script type=&quot;text/javascript&quot;</span>
-<span class=x>     src=&quot;http://ajax.googleapis.com/ajax/libs/prototype/1.6.0.2/prototype.js&quot;&gt;</span>
-<span class=x>&lt;/script&gt;</span>
-<span class=x>&lt;script type=&quot;text/javascript&quot;&gt;</span>
-<span class=x>$(&#39;paginationControl&#39;).observe(&#39;change&#39;, function() {</span>
-<span class=x>    window.location = this.options[this.selectedIndex].value;</span>
-<span class=x>})</span>
-<span class=x>&lt;/script&gt;</span>
-</pre></div></p>
+&lt;script type=&quot;text/javascript&quot;
+     src=&quot;http://ajax.googleapis.com/ajax/libs/prototype/1.6.0.2/prototype.js&quot;&gt;
+&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+$('paginationControl').observe('change', function() {
+    window.location = this.options[this.selectedIndex].value;
+})
+&lt;/script&gt;</code></pre>
 <h3>Listing of properties</h3>
 <p>The following options are available to pagination control view scripts:</p>
 <div class="table-responsive"><table>
@@ -864,9 +853,10 @@ laminas-view:</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -903,7 +893,7 @@ laminas-view:</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/laminas/laminas-paginator//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/laminas/laminas-paginator/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -912,8 +902,8 @@ laminas-view:</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/laminas/laminas-paginator//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/laminas/laminas-paginator/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>
