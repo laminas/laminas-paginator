@@ -73,6 +73,6 @@
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
     },
     "replace": {
-        "zendframework/zend-paginator": "self.version"
+        "zendframework/zend-paginator": "^2.8.2"
     }
 }
