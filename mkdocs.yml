@@ -9,7 +9,7 @@ nav:
         - Configuration: configuration.md
         - "Advanced Usage": advanced.md
 site_name: laminas-paginator
-site_description: 'Paginate collections of data from arbitrary sources.'
+site_description: 'Paginate collections of data from arbitrary sources'
 repo_url: 'https://github.com/laminas/laminas-paginator'
 extra:
     project: Components
