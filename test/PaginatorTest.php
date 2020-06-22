@@ -500,7 +500,7 @@ class PaginatorTest extends TestCase
             ->will($this->returnValue($mockStatement));
         $mockSelect = $this->createMock('Laminas\Db\Sql\Select');
 
-        $dbSelect = new DbSelect($mockSelect, $mockSql);
+        $dbSelect = new DbSelect($mockSelect, $mockSql, null, $mockSelect);
         $this->assertInstanceOf('ArrayIterator', $resultSet->getDataSource());
 
         $paginator = new Paginator\Paginator($dbSelect);
@@ -932,6 +932,56 @@ class PaginatorTest extends TestCase
         $reflectionGetCacheInternalId->setAccessible(true);
         $secondOutputGetCacheInternalId = $reflectionGetCacheInternalId->invoke($paginator);
         $this->assertNotEquals($firstOutputGetCacheInternalId, $secondOutputGetCacheInternalId);
+    }
+
+    public function testDbSelectAdapterShouldProduceValidCacheId()
+    {
+        // Create first interal cache ID
+        $paginator                    = new Paginator\Paginator(
+            new TestAsset\TestDbSelectAdapter(
+                (new Sql\Select('table1'))
+                    ->where('id = 1')
+                    ->where("foo = 'bar'"),
+                new DbAdapter\Adapter(
+                    new DbAdapter\Driver\Pdo\Pdo(
+                        new DbAdapter\Driver\Pdo\Connection([])
+                    )
+                )
+            )
+        );
+        $reflectionGetCacheInternalId = new ReflectionMethod(
+            $paginator,
+            '_getCacheInternalId'
+        );
+        $reflectionGetCacheInternalId->setAccessible(true);
+        $firstCacheId = $reflectionGetCacheInternalId->invoke(
+            $paginator
+        );
+
+        // Create second internal cache ID
+        $paginator                    = new Paginator\Paginator(
+            new TestAsset\TestDbSelectAdapter(
+                (new Sql\Select('table2'))
+                    ->where('id = 2')
+                    ->where("foo = 'bar'"),
+                new DbAdapter\Adapter(
+                    new DbAdapter\Driver\Pdo\Pdo(
+                        new DbAdapter\Driver\Pdo\Connection([])
+                    )
+                )
+            )
+        );
+        $reflectionGetCacheInternalId = new ReflectionMethod(
+            $paginator,
+            '_getCacheInternalId'
+        );
+        $reflectionGetCacheInternalId->setAccessible(true);
+        $secondCacheIde = $reflectionGetCacheInternalId->invoke(
+            $paginator
+        );
+
+        // Test
+        $this->assertNotEquals($firstCacheId, $secondCacheIde);
     }
 
     public function testAcceptsComplexAdapters()

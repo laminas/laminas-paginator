@@ -17,6 +17,7 @@ use Laminas\Db\ResultSet\AbstractResultSet;
 use Laminas\Filter\FilterInterface;
 use Laminas\Json\Json;
 use Laminas\Paginator\Adapter\AdapterInterface;
+use Laminas\Paginator\Adapter\DbSelect;
 use Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface;
 use Laminas\ServiceManager\ServiceManager;
 use Laminas\Stdlib\ArrayUtils;
@@ -861,10 +862,15 @@ class Paginator implements Countable, IteratorAggregate
     // @codingStandardsIgnoreStart
     protected function _getCacheInternalId()
     {
+        $adapter            = $this->getAdapter();
+        $adapterToSerialize = $adapter instanceof DbSelect
+            ? $adapter->getArrayCopy()
+            : $adapter;
+
         // @codingStandardsIgnoreEnd
         return md5(
-            get_class($this->getAdapter())
-            . json_encode($this->getAdapter())
+            get_class($adapter)
+            . json_encode($adapterToSerialize)
             . $this->getItemCountPerPage()
         );
     }

@@ -150,4 +150,19 @@ class DbSelect implements AdapterInterface
 
         return $countSelect;
     }
+
+    /**
+     * @see https://github.com/laminas/laminas-paginator/issues/3 Reference for creating an internal cache ID
+     * @todo The next major version should rework the entire caching of a paginator.
+     * @internal
+     */
+    public function getArrayCopy()
+    {
+        return [
+            'select'       => $this->sql->buildSqlString($this->select),
+            'count_select' => $this->sql->buildSqlString(
+                $this->getSelectCount()
+            ),
+        ];
+    }
 }
