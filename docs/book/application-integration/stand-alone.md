@@ -36,44 +36,44 @@ $paginator->setCurrentPageNumber((int) $_GET['page'] ?? 1);
 ```php
 $albums = [
     [
-        'artist' => "David Bowie",
-        'title'  => "The Next Day (Deluxe Version)",
+        'artist' => 'David Bowie',
+        'title'  => 'The Next Day (Deluxe Version)',
     ],
     [
-        'artist' => "Bastille",
-        'title'  => "Bad Blood",
+        'artist' => 'Bastille',
+        'title'  => 'Bad Blood',
     ],
     [
-        'artist' => "Bruno Mars",
-        'title'  => "Unorthodox Jukebox",
+        'artist' => 'Bruno Mars',
+        'title'  => 'Unorthodox Jukebox',
     ],
     [
-        'artist' => "Emeli Sandé",
-        'title'  => "Our Version of Events (Special Edition)",
+        'artist' => 'Emeli Sandé',
+        'title'  => 'Our Version of Events (Special Edition)',
     ],
     [
-        'artist' => "Bon Jovi",
-        'title'  => "What About Now (Deluxe Version)",
+        'artist' => 'Bon Jovi',
+        'title'  => 'What About Now (Deluxe Version)',
     ],
     [
-        'artist' => "Justin Timberlake",
-        'title'  => "The 20/20 Experience (Deluxe Version)",
+        'artist' => 'Justin Timberlake',
+        'title'  => 'The 20/20 Experience (Deluxe Version)',
     ],
     [
-        'artist' => "Bastille",
-        'title'  => "Bad Blood (The Extended Cut)",
+        'artist' => 'Bastille',
+        'title'  => 'Bad Blood (The Extended Cut)',
     ],
     [
-        'artist' => "P!nk",
-        'title'  => "The Truth About Love",
+        'artist' => 'P!nk',
+        'title'  => 'The Truth About Love',
     ],
     [
-        'artist' => "Sound City - Real to Reel",
-        'title'  => "Sound City - Real to Reel",
+        'artist' => 'Sound City - Real to Reel',
+        'title'  => 'Sound City - Real to Reel',
     ],
     [
-        'artist' => "Jake Bugg",
-        'title'  => "Jake Bugg",
+        'artist' => 'Jake Bugg',
+        'title'  => 'Jake Bugg',
     ],
 ];
 ```
@@ -232,44 +232,44 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 $albums = [
     [
-        'artist' => "David Bowie",
-        'title'  => "The Next Day (Deluxe Version)",
+        'artist' => 'David Bowie',
+        'title'  => 'The Next Day (Deluxe Version)',
     ],
     [
-        'artist' => "Bastille",
-        'title'  => "Bad Blood",
+        'artist' => 'Bastille',
+        'title'  => 'Bad Blood',
     ],
     [
-        'artist' => "Bruno Mars",
-        'title'  => "Unorthodox Jukebox",
+        'artist' => 'Bruno Mars',
+        'title'  => 'Unorthodox Jukebox',
     ],
     [
-        'artist' => "Emeli Sandé",
-        'title'  => "Our Version of Events (Special Edition)",
+        'artist' => 'Emeli Sandé',
+        'title'  => 'Our Version of Events (Special Edition)',
     ],
     [
-        'artist' => "Bon Jovi",
-        'title'  => "What About Now (Deluxe Version)",
+        'artist' => 'Bon Jovi',
+        'title'  => 'What About Now (Deluxe Version)',
     ],
     [
-        'artist' => "Justin Timberlake",
-        'title'  => "The 20/20 Experience (Deluxe Version)",
+        'artist' => 'Justin Timberlake',
+        'title'  => 'The 20/20 Experience (Deluxe Version)',
     ],
     [
-        'artist' => "Bastille",
-        'title'  => "Bad Blood (The Extended Cut)",
+        'artist' => 'Bastille',
+        'title'  => 'Bad Blood (The Extended Cut)',
     ],
     [
-        'artist' => "P!nk",
-        'title'  => "The Truth About Love",
+        'artist' => 'P!nk',
+        'title'  => 'The Truth About Love',
     ],
     [
-        'artist' => "Sound City - Real to Reel",
-        'title'  => "Sound City - Real to Reel",
+        'artist' => 'Sound City - Real to Reel',
+        'title'  => 'Sound City - Real to Reel',
     ],
     [
-        'artist' => "Jake Bugg",
-        'title'  => "Jake Bugg",
+        'artist' => 'Jake Bugg',
+        'title'  => 'Jake Bugg',
     ],
 ];
 
