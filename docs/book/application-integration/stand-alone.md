@@ -28,7 +28,7 @@ $paginator = new Laminas\Paginator\Paginator(
 
 // Configure paginator
 $paginator->setItemCountPerPage(4);
-$paginator->setCurrentPageNumber((int) $_GET['page'] ?? 1);
+$paginator->setCurrentPageNumber((int) ($_GET['page'] ?? 1));
 ```
 
 <details><summary>Example Data</summary>
@@ -278,7 +278,7 @@ $paginator = new Laminas\Paginator\Paginator(
     new Laminas\Paginator\Adapter\ArrayAdapter($albums)
 );
 $paginator->setItemCountPerPage(4);
-$paginator->setCurrentPageNumber((int) $_GET['page'] ?? 1);
+$paginator->setCurrentPageNumber((int) ($_GET['page'] ?? 1));
 
 // Create template resolver
 $templateResolver = new Laminas\View\Resolver\TemplatePathStack([
