@@ -500,7 +500,7 @@ class PaginatorTest extends TestCase
             ->will($this->returnValue($mockStatement));
         $mockSelect = $this->createMock('Laminas\Db\Sql\Select');
 
-        $dbSelect = new DbSelect($mockSelect, $mockSql);
+        $dbSelect = new DbSelect($mockSelect, $mockSql, null, $mockSelect);
         $this->assertInstanceOf('ArrayIterator', $resultSet->getDataSource());
 
         $paginator = new Paginator\Paginator($dbSelect);
