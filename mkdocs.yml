@@ -3,6 +3,7 @@ site_dir: docs/html
 nav:
     - Home: index.md
     - Introduction: intro.md
+    - Installation: installation.md
     - Usage: usage.md
     - Reference:
         - Configuration: configuration.md
@@ -10,7 +11,10 @@ nav:
     - 'Application Integration':
         - 'Stand-Alone': application-integration/stand-alone.md
 site_name: laminas-paginator
-site_description: 'Paginate collections of data from arbitrary sources.'
+site_description: 'Paginate collections of data from arbitrary sources'
 repo_url: 'https://github.com/laminas/laminas-paginator'
 extra:
     project: Components
+    installation:
+        config_provider_class: 'Laminas\Paginator\ConfigProvider'
+        module_class: 'Laminas\Paginator\Module'
