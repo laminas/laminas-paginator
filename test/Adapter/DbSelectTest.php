@@ -108,4 +108,21 @@ class DbSelectTest extends TestCase
     {
         $this->assertInternalType('array', $this->dbSelect->getItems(0, 10));
     }
+
+    public function testGetArrayCopyShouldContainSelectItems()
+    {
+        $this->dbSelect = new DbSelect(
+            $this->mockSelect,
+            $this->mockSql,
+            null,
+            $this->mockSelectCount
+        );
+        $this->assertSame(
+            [
+                'select',
+                'count_select',
+            ],
+            array_keys($this->dbSelect->getArrayCopy())
+        );
+    }
 }
