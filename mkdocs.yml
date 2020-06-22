@@ -7,6 +7,8 @@ nav:
     - Reference:
         - Configuration: configuration.md
         - "Advanced Usage": advanced.md
+    - 'Application Integration':
+        - 'Stand-Alone': application-integration/stand-alone.md
 site_name: laminas-paginator
 site_description: 'Paginate collections of data from arbitrary sources.'
 repo_url: 'https://github.com/laminas/laminas-paginator'
