@@ -38,7 +38,7 @@ class AdapterPluginManagerTest extends TestCase
 
     protected $mockAdapter;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->adapterPluginManager = new AdapterPluginManager(
             $this->getMockBuilder(ContainerInterface::class)->getMock()

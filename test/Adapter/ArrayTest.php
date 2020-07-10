@@ -25,7 +25,7 @@ class ArrayTest extends TestCase
     /**
      * Prepares the environment before running a test.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->adapter = new Adapter\ArrayAdapter(range(1, 101));
@@ -33,7 +33,7 @@ class ArrayTest extends TestCase
     /**
      * Cleans up the environment after running a test.
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->adapter = null;
         parent::tearDown();

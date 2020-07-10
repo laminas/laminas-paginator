@@ -24,14 +24,6 @@ class ScrollingStylePluginManagerFactoryTest extends TestCase
 
         $scrollingStyles = $factory($container, ScrollingStylePluginManager::class);
         $this->assertInstanceOf(ScrollingStylePluginManager::class, $scrollingStyles);
-
-        if (method_exists($scrollingStyles, 'configure')) {
-            // laminas-servicemanager v3
-            $this->assertAttributeSame($container, 'creationContext', $scrollingStyles);
-        } else {
-            // laminas-servicemanager v2
-            $this->assertSame($container, $scrollingStyles->getServiceLocator());
-        }
     }
 
     /**

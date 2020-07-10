@@ -35,7 +35,7 @@ class DbSelectTest extends TestCase
     /** @var DbSelect */
     protected $dbSelect;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->mockResult    = $this->createMock('Laminas\Db\Adapter\Driver\ResultInterface');
         $this->mockStatement = $this->createMock('Laminas\Db\Adapter\Driver\StatementInterface');
@@ -106,7 +106,7 @@ class DbSelectTest extends TestCase
      */
     public function testReturnValueIsArray()
     {
-        $this->assertInternalType('array', $this->dbSelect->getItems(0, 10));
+        $this->assertIsArray($this->dbSelect->getItems(0, 10));
     }
 
     public function testGetArrayCopyShouldContainSelectItems()

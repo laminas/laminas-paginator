@@ -58,7 +58,7 @@ class PaginatorTest extends TestCase
      */
     protected $adapter = null;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->select = new Sql\Select;
         $this->select->from('test');
@@ -74,7 +74,7 @@ class PaginatorTest extends TestCase
         $this->_restorePaginatorDefaults();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->testCollection = null;
         $this->paginator = null;
@@ -696,7 +696,7 @@ class PaginatorTest extends TestCase
 
         $expected = '"0":1,"1":2,"2":3,"3":4,"4":5,"5":6,"6":7,"7":8,"8":9,"9":10';
 
-        $this->assertContains($expected, $json);
+        $this->assertStringContainsString($expected, $json);
     }
 
     // Laminas-5519
