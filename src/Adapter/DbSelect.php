@@ -17,7 +17,7 @@ use Laminas\Db\Sql\Sql;
 
 class DbSelect implements AdapterInterface
 {
-    const ROW_COUNT_COLUMN_NAME = 'C';
+    const ROW_COUNT_COLUMN_NAME = 'c';
 
     /**
      * @var Sql
