@@ -66,6 +66,15 @@ class DbSelectTest extends TestCase
             ->with($this->isInstanceOf('Laminas\Db\Sql\Select'))
             ->will($this->returnValue($this->mockStatement));
 
+        $this->mockAdapter = $this->getMockBuilder('Laminas\Db\Adapter\AdapterInterface')->getMock();
+        $this->mockAdapter->expects($this->any())
+                          ->method('getDriver')
+                          ->will($this->returnValue($mockDriver));
+        $this->mockSql
+            ->expects($this->any())
+            ->method('getAdapter')
+            ->will($this->returnValue($this->mockAdapter));
+
         $this->mockSelect      = $this->createMock('Laminas\Db\Sql\Select');
         $this->mockSelectCount = $this->createMock('Laminas\Db\Sql\Select');
         $this->dbSelect        = new DbSelect($this->mockSelect, $this->mockSql);
