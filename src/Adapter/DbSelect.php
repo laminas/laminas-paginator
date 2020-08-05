@@ -171,10 +171,15 @@ class DbSelect implements AdapterInterface
     private function getRowCountColumnName()
     {
         $driver = $this->sql->getAdapter()->getDriver();
-        if (get_class($driver) === Pdo::class && $driver->getConnection()->getResource()->getAttribute(\PDO::ATTR_CASE) !== \PDO::CASE_LOWER) {
+        if (get_class($driver) !== Pdo::class) {
             return self::ROW_COUNT_COLUMN_NAME;
         }
 
-        return self::ROW_COUNT_COLUMN_NAME_SMALL;
+        $attrCase = $driver->getConnection()
+                           ->getResource()
+                           ->getAttribute(\PDO::ATTR_CASE);
+        return $attrCase !== \PDO::CASE_LOWER
+            ? self::ROW_COUNT_COLUMN_NAME
+            : self::ROW_COUNT_COLUMN_NAME_SMALL;
     }
 }
