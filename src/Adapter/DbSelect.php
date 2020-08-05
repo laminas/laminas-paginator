@@ -9,6 +9,7 @@
 namespace Laminas\Paginator\Adapter;
 
 use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\Driver\Pdo\Pdo;
 use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Db\ResultSet\ResultSetInterface;
 use Laminas\Db\Sql\Expression;
@@ -18,6 +19,7 @@ use Laminas\Db\Sql\Sql;
 class DbSelect implements AdapterInterface
 {
     const ROW_COUNT_COLUMN_NAME = 'C';
+    const ROW_COUNT_COLUMN_NAME_SMALL = 'c';
 
     /**
      * @var Sql
@@ -122,7 +124,7 @@ class DbSelect implements AdapterInterface
         $result    = $statement->execute();
         $row       = $result->current();
 
-        $this->rowCount = (int) $row[self::ROW_COUNT_COLUMN_NAME];
+        $this->rowCount = (int) $row[$this->getRowCountColumnName()];
 
         return $this->rowCount;
     }
@@ -145,7 +147,7 @@ class DbSelect implements AdapterInterface
 
         $countSelect = new Select;
 
-        $countSelect->columns([self::ROW_COUNT_COLUMN_NAME => new Expression('COUNT(1)')]);
+        $countSelect->columns([$this->getRowCountColumnName() => new Expression('COUNT(1)')]);
         $countSelect->from(['original_select' => $select]);
 
         return $countSelect;
@@ -164,5 +166,15 @@ class DbSelect implements AdapterInterface
                 $this->getSelectCount()
             ),
         ];
+    }
+
+    private function getRowCountColumnName()
+    {
+        $driver = $this->sql->getAdapter()->getDriver();
+        if (get_class($driver) === Pdo::class && $driver->getConnection()->getResource()->getAttribute(\PDO::ATTR_CASE) !== \PDO::CASE_LOWER) {
+            return self::ROW_COUNT_COLUMN_NAME;
+        }
+
+        return self::ROW_COUNT_COLUMN_NAME_SMALL;
     }
 }
