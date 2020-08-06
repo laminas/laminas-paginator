@@ -122,9 +122,9 @@ class DbSelect implements AdapterInterface
         $result    = $statement->execute();
         $row       = $result->current();
 
-        $this->rowCount = (int) isset($row[self::ROW_COUNT_COLUMN_NAME])
-            ? $row[self::ROW_COUNT_COLUMN_NAME]
-            : $row['c'];
+        $this->rowCount = isset($row[self::ROW_COUNT_COLUMN_NAME])
+            ? (int) $row[self::ROW_COUNT_COLUMN_NAME]
+            : (int) $row['c'];
 
         return $this->rowCount;
     }
