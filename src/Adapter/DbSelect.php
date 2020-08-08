@@ -149,7 +149,7 @@ class DbSelect implements AdapterInterface
 
         $countSelect->columns([
             self::ROW_COUNT_COLUMN_NAME => new Expression('COUNT(1)'),
-            'c' => new Expression('COUNT(1)')
+            strtolower(self::ROW_COUNT_COLUMN_NAME) => new Expression('COUNT(1)')
         ]);
         $countSelect->from(['original_select' => $select]);
 

@@ -96,7 +96,7 @@ class DbSelectTest extends TestCase
         $this->mockResult
             ->expects($this->once())
             ->method('current')
-            ->will($this->returnValue(['c' => 7]));
+            ->will($this->returnValue([strtolower(DbSelect::ROW_COUNT_COLUMN_NAME) => 7]));
 
         $count = $this->dbSelect->count();
         $this->assertEquals(7, $count);
