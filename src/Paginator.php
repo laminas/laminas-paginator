@@ -791,18 +791,21 @@ class Paginator implements Countable, IteratorAggregate
     /**
      * Renders the paginator.
      *
-     * @param  \Laminas\View\Renderer\RendererInterface $view
+     * @param View\Renderer\RendererInterface|null $view
+     * @param array                                $params
      * @return string
      */
-    public function render(View\Renderer\RendererInterface $view = null)
-    {
+    public function render(
+        View\Renderer\RendererInterface $view = null,
+        array $params = []
+    ) {
         if (null !== $view) {
             $this->setView($view);
         }
 
         $view = $this->getView();
 
-        return $view->paginationControl($this);
+        return $view->paginationControl($this, null, null, $params);
     }
 
     /**
