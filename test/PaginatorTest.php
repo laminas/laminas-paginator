@@ -249,6 +249,20 @@ class PaginatorTest extends TestCase
         $this->assertEquals('partial rendered successfully', $string);
     }
 
+    public function testSetParamsOnRenderShouldPassToView()
+    {
+        $view = new View\Renderer\PhpRenderer();
+        $view->resolver()->addPath(__DIR__ . '/_files/scripts');
+
+        Helper\PaginationControl::setDefaultViewPartial('partial-with-vars.phtml');
+
+        $message = 'partial rendered successfully with vars';
+        $this->assertSame(
+            'partial rendered successfully with vars',
+            $this->paginator->render($view, ['message' => $message])
+        );
+    }
+
     public function testGetsPageCount()
     {
         $this->assertEquals(11, $this->paginator->count());
