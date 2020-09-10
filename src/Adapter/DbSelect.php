@@ -14,7 +14,7 @@ use Laminas\Db\ResultSet\ResultSetInterface;
 use Laminas\Db\Sql\Expression;
 use Laminas\Db\Sql\Select;
 use Laminas\Db\Sql\Sql;
-use LogicException;
+use Laminas\Paginator\Adapter\Exception\MissingRowCountColumnException;
 
 class DbSelect implements AdapterInterface
 {
@@ -110,6 +110,7 @@ class DbSelect implements AdapterInterface
      * Returns the total number of rows in the result set.
      *
      * @return int
+     * @throws MissingRowCountColumnException
      */
     public function count()
     {
@@ -117,12 +118,10 @@ class DbSelect implements AdapterInterface
             return $this->rowCount;
         }
 
-        $select = $this->getSelectCount();
-
-        $statement = $this->sql->prepareStatementForSqlObject($select);
-        $result    = $statement->execute();
-        $row       = $result->current();
-
+        $select         = $this->getSelectCount();
+        $statement      = $this->sql->prepareStatementForSqlObject($select);
+        $result         = $statement->execute();
+        $row            = $result->current();
         $this->rowCount = $this->locateRowCount($row);
 
         return $this->rowCount;
@@ -167,6 +166,10 @@ class DbSelect implements AdapterInterface
         ];
     }
 
+    /**
+     * @return int
+     * @throws MissingRowCountColumnException
+     */
     private function locateRowCount(array $row)
     {
         if (array_key_exists(self::ROW_COUNT_COLUMN_NAME, $row)) {
@@ -178,6 +181,6 @@ class DbSelect implements AdapterInterface
             return (int) $row[$lowerCaseColumnName];
         }
 
-        throw new LogicException('Unable to determine row count; missing row count column in result');
+        throw MissingRowCountColumnException::forColumn(self::ROW_COUNT_COLUMN_NAME);
     }
 }

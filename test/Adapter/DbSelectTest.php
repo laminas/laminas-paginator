@@ -9,6 +9,7 @@
 namespace LaminasTest\Paginator\Adapter;
 
 use Laminas\Paginator\Adapter\DbSelect;
+use Laminas\Paginator\Adapter\Exception\MissingRowCountColumnException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -100,6 +101,18 @@ class DbSelectTest extends TestCase
 
         $count = $this->dbSelect->count();
         $this->assertEquals(7, $count);
+    }
+
+    public function testCountQueryWithMissingColumnNameShouldRaiseException()
+    {
+        $this->dbSelect = new DbSelect($this->mockSelect, $this->mockSql);
+        $this->mockResult
+            ->expects($this->once())
+            ->method('current')
+            ->will($this->returnValue([]));
+
+        $this->expectException(MissingRowCountColumnException::class);
+        $this->dbSelect->count();
     }
 
     public function testCustomCount()
