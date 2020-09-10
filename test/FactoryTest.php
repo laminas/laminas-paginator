@@ -26,7 +26,7 @@ class FactoryTest extends TestCase
 
     protected $mockAdapter;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->mockSelect = $this->createMock('Laminas\Db\Sql\Select');
 

@@ -28,7 +28,7 @@ class DbTableGatewayTest extends TestCase
     /** @var \Laminas\Db\TableGateway\TableGateway */
     protected $mockTableGateway;
 
-    public function setup()
+    public function setup(): void
     {
         $mockStatement = $this->createMock('Laminas\Db\Adapter\Driver\StatementInterface');
         $mockDriver = $this->createMock('Laminas\Db\Adapter\Driver\DriverInterface');

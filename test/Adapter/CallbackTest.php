@@ -26,8 +26,8 @@ class CallbackTest extends TestCase
         };
         $adapter = new Callback($itemsCallback, $countCallback);
 
-        $this->assertAttributeSame($itemsCallback, 'itemsCallback', $adapter);
-        $this->assertAttributeSame($countCallback, 'countCallback', $adapter);
+        $this->assertSame([], $adapter->getItems(1, 1));
+        $this->assertSame(0, $adapter->count());
     }
 
     public function testShouldAcceptAnyCallableOnConstructor()
@@ -38,8 +38,8 @@ class CallbackTest extends TestCase
         $countCallback = 'rand';
         $adapter = new Callback($itemsCallback, $countCallback);
 
-        $this->assertAttributeInternalType('callable', 'itemsCallback', $adapter);
-        $this->assertAttributeInternalType('callable', 'countCallback', $adapter);
+        $this->assertSame(range(1, 10), $adapter->getItems(1, 1));
+        $this->assertIsInt($adapter->count());
     }
 
     public function testMustRunItemCallbackToGetItems()

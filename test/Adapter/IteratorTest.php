@@ -26,7 +26,7 @@ class IteratorTest extends TestCase
     /**
      * Prepares the environment before running a test.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $iterator = new \ArrayIterator(range(1, 101));
@@ -35,7 +35,7 @@ class IteratorTest extends TestCase
     /**
      * Cleans up the environment after running a test.
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->adapter = null;
         parent::tearDown();
