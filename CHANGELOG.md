@@ -2,27 +2,32 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 2.8.4 - TBD
-
-### Added
-
-- Nothing.
-
-### Changed
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
+## 2.8.4 - 2020-09-10
 
 ### Fixed
 
 - [#11](https://github.com/laminas/laminas-paginator/pull/11) fixes the `DbSelect` adapter to allow testing for the row count column using its lowercased name; this is required when `PDO::CASE_LOWER` is used for the `PDO::ATTR_CASE` option.
+
+
+-----
+
+### Release Notes for [2.8.4](https://github.com/laminas/laminas-paginator/milestone/4)
+
+next bugfix release (mini)
+
+### 2.8.4
+
+- Total issues resolved: **1**
+- Total pull requests resolved: **1**
+- Total contributors: **2**
+
+#### Bug
+
+ - [11: Fixes #10 : Fix incorrect DbSelect::count() when setted \PDO::ATTR&#95;CASE =&gt; \PDO::CASE&#95;LOWER in driver options](https://github.com/laminas/laminas-paginator/pull/11) thanks to @samsonasik
+
+#### Bug,Unit Test Needed
+
+ - [10: some DbAdapter driver&#95;options can make DbSelect::count() incorrect](https://github.com/laminas/laminas-paginator/issues/10) thanks to @richcem
 
 ## 2.8.3 - 2020-06-22
 
