@@ -14,6 +14,7 @@ use Laminas\Db\ResultSet\ResultSetInterface;
 use Laminas\Db\Sql\Expression;
 use Laminas\Db\Sql\Select;
 use Laminas\Db\Sql\Sql;
+use LogicException;
 
 class DbSelect implements AdapterInterface
 {
@@ -122,9 +123,7 @@ class DbSelect implements AdapterInterface
         $result    = $statement->execute();
         $row       = $result->current();
 
-        $this->rowCount = isset($row[self::ROW_COUNT_COLUMN_NAME])
-            ? (int) $row[self::ROW_COUNT_COLUMN_NAME]
-            : (int) $row[strtolower(self::ROW_COUNT_COLUMN_NAME)];
+        $this->rowCount = $this->locateRowCount($row);
 
         return $this->rowCount;
     }
@@ -166,5 +165,19 @@ class DbSelect implements AdapterInterface
                 $this->getSelectCount()
             ),
         ];
+    }
+
+    private function locateRowCount(array $row)
+    {
+        if (array_key_exists(self::ROW_COUNT_COLUMN_NAME, $row)) {
+            return (int) $row[self::ROW_COUNT_COLUMN_NAME];
+        }
+
+        $lowerCaseColumnName = strtolower(self::ROW_COUNT_COLUMN_NAME);
+        if (array_key_exists($lowerCaseColumnName, $row)) {
+            return (int) $row[$lowerCaseColumnName];
+        }
+
+        throw new LogicException('Unable to determine row count; missing row count column in result');
     }
 }
