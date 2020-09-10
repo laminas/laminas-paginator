@@ -6,11 +6,11 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#9](https://github.com/laminas/laminas-paginator/pull/9) adds support for PHP 7.4.
 
 ### Changed
 
-- Nothing.
+- [#9](https://github.com/laminas/laminas-paginator/pull/9) bumps the minimum supported PHP version to 7.3.
 
 ### Deprecated
 
@@ -18,7 +18,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- Nothing.
+- [#9](https://github.com/laminas/laminas-paginator/pull/9) removes support for PHP versions 5.6, 7.0, 7.1, and 7.2.
 
 ### Fixed
 
