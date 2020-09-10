@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 2.9.0 - TBD
+## 2.9.0 - 2020-09-10
 
 ### Added
 
@@ -12,17 +12,28 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#9](https://github.com/laminas/laminas-paginator/pull/9) bumps the minimum supported PHP version to 7.3.
 
-### Deprecated
-
-- Nothing.
-
 ### Removed
 
 - [#9](https://github.com/laminas/laminas-paginator/pull/9) removes support for PHP versions 5.6, 7.0, 7.1, and 7.2.
 
-### Fixed
 
-- Nothing.
+-----
+
+### Release Notes for [2.9.0](https://github.com/laminas/laminas-paginator/milestone/2)
+
+next feature release (minor)
+
+### 2.9.0
+
+- Total issues resolved: **0**
+- Total pull requests resolved: **2**
+- Total contributors: **2**
+
+ - [14: Merge release 2.8.4 into 2.9.x](https://github.com/laminas/laminas-paginator/pull/14) thanks to @github-actions[bot]
+
+#### Enhancement
+
+ - [9: QA: bump minimum supported PHP version to 7.3](https://github.com/laminas/laminas-paginator/pull/9) thanks to @froschdesign
 
 ## 2.8.4 - 2020-09-10
 
