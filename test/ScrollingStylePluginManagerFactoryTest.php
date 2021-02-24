@@ -12,7 +12,7 @@ use Interop\Container\ContainerInterface;
 use Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface;
 use Laminas\Paginator\ScrollingStylePluginManager;
 use Laminas\Paginator\ScrollingStylePluginManagerFactory;
-use LaminasTest\Paginator\TestAsset\ServiceLocator;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 use PHPUnit\Framework\TestCase;
 
 class ScrollingStylePluginManagerFactoryTest extends TestCase
@@ -48,7 +48,7 @@ class ScrollingStylePluginManagerFactoryTest extends TestCase
      */
     public function testFactoryConfiguresPluginManagerUnderServiceManagerV2()
     {
-        $container      = $this->createMock(ServiceLocator::class);
+        $container      = $this->createMock(ServiceLocatorInterface::class);
         $scrollingStyle = $this->createMock(ScrollingStyleInterface::class);
 
         $factory = new ScrollingStylePluginManagerFactory();

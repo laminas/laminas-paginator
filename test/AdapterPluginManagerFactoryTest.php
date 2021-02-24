@@ -12,7 +12,7 @@ use Interop\Container\ContainerInterface;
 use Laminas\Paginator\Adapter\AdapterInterface;
 use Laminas\Paginator\AdapterPluginManager;
 use Laminas\Paginator\AdapterPluginManagerFactory;
-use LaminasTest\Paginator\TestAsset\ServiceLocator;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 use PHPUnit\Framework\TestCase;
 
 class AdapterPluginManagerFactoryTest extends TestCase
@@ -66,7 +66,7 @@ class AdapterPluginManagerFactoryTest extends TestCase
      */
     public function testFactoryConfiguresPluginManagerUnderServiceManagerV2()
     {
-        $container = $this->createMock(ServiceLocator::class);
+        $container = $this->createMock(ServiceLocatorInterface::class);
         $container
             ->expects($this->once())
             ->method('has')
