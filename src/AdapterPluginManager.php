@@ -47,6 +47,8 @@ class AdapterPluginManager extends AbstractPluginManager
         'Array'          => Adapter\ArrayAdapter::class,
         'iterator'       => Adapter\Iterator::class,
         'Iterator'       => Adapter\Iterator::class,
+        'preselected'    => Adapter\PreselectedPaginator::class,
+        'Preselected'    => Adapter\PreselectedPaginator::class,
         'laminaspaginatoradapternull' => Adapter\NullFill::class,
 
         // Legacy Zend Framework aliases
@@ -73,12 +75,13 @@ class AdapterPluginManager extends AbstractPluginManager
      * @var array
      */
     protected $factories = [
-        Adapter\Callback::class       => Adapter\Service\CallbackFactory::class,
-        Adapter\DbSelect::class       => Adapter\Service\DbSelectFactory::class,
-        Adapter\DbTableGateway::class => Adapter\Service\DbTableGatewayFactory::class,
-        Adapter\NullFill::class       => InvokableFactory::class,
-        Adapter\Iterator::class       => Adapter\Service\IteratorFactory::class,
-        Adapter\ArrayAdapter::class   => InvokableFactory::class,
+        Adapter\Callback::class             => Adapter\Service\CallbackFactory::class,
+        Adapter\DbSelect::class             => Adapter\Service\DbSelectFactory::class,
+        Adapter\DbTableGateway::class       => Adapter\Service\DbTableGatewayFactory::class,
+        Adapter\NullFill::class             => InvokableFactory::class,
+        Adapter\Iterator::class             => Adapter\Service\IteratorFactory::class,
+        Adapter\ArrayAdapter::class         => InvokableFactory::class,
+        Adapter\PreselectedPaginator::class => InvokableFactory::class,
 
         // v2 normalized names
 

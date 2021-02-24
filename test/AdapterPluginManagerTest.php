@@ -70,6 +70,8 @@ class AdapterPluginManagerTest extends TestCase
         $this->assertInstanceOf(Adapter\DbSelect::class, $plugin);
         $plugin = $this->adapterPluginManager->get('null', [ 101 ]);
         $this->assertInstanceOf(Adapter\NullFill::class, $plugin);
+        $plugin = $this->adapterPluginManager->get('preselected', [1, 2, 3]);
+        $this->assertInstanceOf(Adapter\PreselectedPaginator::class, $plugin);
 
         // Test dbtablegateway
         $mockStatement = $this->createMock(DbDriver\StatementInterface::class);
