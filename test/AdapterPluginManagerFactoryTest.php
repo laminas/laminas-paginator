@@ -19,10 +19,13 @@ class AdapterPluginManagerFactoryTest extends TestCase
 {
     public function testFactoryReturnsPluginManager()
     {
-        $container = $this->prophesize(ContainerInterface::class)->reveal();
+        $container = $this->prophesize(ContainerInterface::class);
+        $container->has('config')->willReturn(false);
+        $container->get('config')->shouldNotBeCalled();
+
         $factory = new AdapterPluginManagerFactory();
 
-        $adapters = $factory($container, AdapterPluginManager::class);
+        $adapters = $factory($container->reveal(), AdapterPluginManager::class);
         $this->assertInstanceOf(AdapterPluginManager::class, $adapters);
     }
 
@@ -31,11 +34,14 @@ class AdapterPluginManagerFactoryTest extends TestCase
      */
     public function testFactoryConfiguresPluginManagerUnderContainerInterop()
     {
-        $container = $this->prophesize(ContainerInterface::class)->reveal();
+        $container = $this->prophesize(ContainerInterface::class);
+        $container->has('config')->willReturn(false);
+        $container->get('config')->shouldNotBeCalled();
+
         $adapter = $this->prophesize(AdapterInterface::class)->reveal();
 
         $factory = new AdapterPluginManagerFactory();
-        $adapters = $factory($container, AdapterPluginManager::class, [
+        $adapters = $factory($container->reveal(), AdapterPluginManager::class, [
             'services' => [
                 'test' => $adapter,
             ],
@@ -50,6 +56,8 @@ class AdapterPluginManagerFactoryTest extends TestCase
     {
         $container = $this->prophesize(ServiceLocatorInterface::class);
         $container->willImplement(ContainerInterface::class);
+        $container->has('config')->willReturn(false);
+        $container->get('config')->shouldNotBeCalled();
 
         $adapter = $this->prophesize(AdapterInterface::class)->reveal();
 
@@ -62,5 +70,68 @@ class AdapterPluginManagerFactoryTest extends TestCase
 
         $adapters = $factory->createService($container->reveal());
         $this->assertSame($adapter, $adapters->get('test'));
+    }
+
+    public function testDoesNotConfigureAdditionalPaginatorsWhenConfigServiceDoesNotContainPaginatorsConfig()
+    {
+        $container = $this->createMock(ContainerInterface::class);
+
+        $container
+            ->expects($this->once())
+            ->method('has')
+            ->with('config')
+            ->willReturn(true);
+
+        $container
+            ->expects($this->once())
+            ->method('get')
+            ->with('config')
+            ->willReturn(['foo' => 'bar']);
+
+        $factory = new AdapterPluginManagerFactory();
+        $adapters = $factory($container, AdapterPluginManager::class);
+
+        $this->assertInstanceOf(AdapterPluginManager::class, $adapters);
+        $this->assertFalse($adapters->has('foo'));
+    }
+
+    public function testConfiguresPaginatorServicesWhenFound()
+    {
+        $paginator = $this->createMock(AdapterInterface::class);
+        $config = [
+            'paginators' => [
+                'aliases' => [
+                    'test' => 'test-too',
+                ],
+                'factories' => [
+                    'test-too' => function ($container) use ($paginator) {
+                        return $paginator;
+                    },
+                ],
+            ],
+        ];
+
+        $container = $this->createMock(ContainerInterface::class);
+
+        $container
+            ->expects($this->once())
+            ->method('has')
+            ->with('config')
+            ->willReturn(true);
+
+        $container
+            ->expects($this->once())
+            ->method('get')
+            ->with('config')
+            ->willReturn($config);
+
+        $factory = new AdapterPluginManagerFactory();
+        $paginators = $factory($container, AdapterPluginManager::class);
+
+        $this->assertInstanceOf(AdapterPluginManager::class, $paginators);
+        $this->assertTrue($paginators->has('test'));
+        $this->assertSame($paginator, $paginators->get('test'));
+        $this->assertTrue($paginators->has('test-too'));
+        $this->assertSame($paginator, $paginators->get('test-too'));
     }
 }

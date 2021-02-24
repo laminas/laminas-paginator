@@ -1,5 +1,35 @@
 # Advanced usage
 
+## Using the Paginator Adapter Plugin Manager
+
+laminas-paginator ships with a plugin manager for adapters, `Laminas\Paginator\AdapterPluginManager`.
+The plugin manager can be used to retrieve adapters.
+Since most adapters require constructor arguments, they may be passed as the second argument to the `get()` method in the same order they appear in the constructor.
+
+### Examples
+
+```php
+use Laminas\Paginator\Adapter;
+use Laminas\Paginator\AdapterPluginManager;
+
+$pluginManager = new AdapterPluginManager();
+
+// Get an array adapter for an array of items
+$arrayAdapter = $pluginManager->get(Adapter\ArrayAdapter::class, [$arrayOfItems]);
+
+// Get a DbSelect adapter based on a Laminas\Db\Sql\Select instance and a DB adapter:
+$dbSelectAdapter = $pluginManager->get(Adapter\DbSelect::class, [
+    $select,
+    $dbAdapter
+]);
+
+// Get a DbTableGateway adapter based on a Laminas\Db\TableGateway\TableGateway instance:
+$dbTDGAdapter = $pluginManager->get(Adapter\DbTableGateway::class, [$tableGateway]);
+
+// Get an Iterator adapter based on an iterator:
+$iteratorAdapter = $pluginManager->get(Adapter\Iterator::class, [$iterator]);
+```
+
 ## Custom data source adapters
 
 At some point you may run across a data type that is not covered by the packaged
@@ -30,6 +60,45 @@ return array_slice($this->array, $offset, $itemCountPerPage);
 
 Take a look at the packaged adapters for ideas of how you might go about
 implementing your own.
+
+### Registering Your Adapter with the Plugin Manager
+
+> Available since version 2.10.0.
+
+If you want to register your adapter with the `Laminas\Pagiantor\AdapterPluginManager`, you can do so via configuration.
+The "paginators" configuration key can contain [standard laminas-servicemanager-style configuration](https://docs.laminas.dev/laminas-servicemanager/configuring-the-service-manager/).
+
+One possibility is to add it to the `config/autoload/global.php` file:
+
+```php
+return [
+    // ...
+    'paginators' => [
+        'factories' => [
+            YourCustomPaginationAdapter::class => YourCustomPaginationAdapterFactory::class,
+        ],
+    ],
+];
+```
+
+This allows you to retrieve the `AdapterPluginManager` in a factory, and then pull your adapter from it.
+As an example, consider the following factory:
+
+```php
+use Laminas\Paginator\AdapterPluginManager;
+use Laminas\Paginator\Paginator;
+use Psr\Container\ContainerInterface;
+
+class SomeServiceFactory
+{
+    public function __invoke(ContainerInterface $container)
+    {
+        $paginators = $container->get(AdapterPluginManager::class);
+        $paginator  = new Paginator($paginators->get(YourCustomPaginatorAdapter::class));
+        // ...
+    }
+}
+```
 
 ## Custom scrolling styles
 
