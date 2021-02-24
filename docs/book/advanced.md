@@ -1,12 +1,12 @@
 # Advanced usage
 
-## Using the paginator adapter plugin manager
+## Using the Paginator Adapter Plugin Manager
 
 laminas-paginator ships with a plugin manager for adapters, `Laminas\Paginator\AdapterPluginManager`.
 The plugin manager can be used to retrieve adapters.
 Since most adapters require constructor arguments, they may be passed as the second argument to the `get()` method in the same order they appear in the constructor.
 
-As examples:
+### Examples
 
 ```php
 use Laminas\Paginator\Adapter;
@@ -61,9 +61,9 @@ return array_slice($this->array, $offset, $itemCountPerPage);
 Take a look at the packaged adapters for ideas of how you might go about
 implementing your own.
 
-### Registering your adapter with the plugin manager
+### Registering Your Adapter with the Plugin Manager
 
-> - Since 2.10.0.
+> Available since version 2.10.0.
 
 If you want to register your adapter with the `Laminas\Pagiantor\AdapterPluginManager`, you can do so via configuration.
 The "paginators" configuration key can contain [standard laminas-servicemanager-style configuration](https://docs.laminas.dev/laminas-servicemanager/configuring-the-service-manager/).
