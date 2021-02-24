@@ -12,20 +12,26 @@ use Interop\Container\ContainerInterface;
 use Laminas\Paginator\Adapter\AdapterInterface;
 use Laminas\Paginator\AdapterPluginManager;
 use Laminas\Paginator\AdapterPluginManagerFactory;
-use Laminas\ServiceManager\ServiceLocatorInterface;
+use LaminasTest\Paginator\TestAsset\ServiceLocator;
 use PHPUnit\Framework\TestCase;
 
 class AdapterPluginManagerFactoryTest extends TestCase
 {
     public function testFactoryReturnsPluginManager()
     {
-        $container = $this->prophesize(ContainerInterface::class);
-        $container->has('config')->willReturn(false);
-        $container->get('config')->shouldNotBeCalled();
+        $container = $this->createMock(ContainerInterface::class);
+        $container
+            ->expects($this->once())
+            ->method('has')
+            ->with('config')
+            ->willReturn(false);
+        $container
+            ->expects($this->never())
+            ->method('get');
 
         $factory = new AdapterPluginManagerFactory();
 
-        $adapters = $factory($container->reveal(), AdapterPluginManager::class);
+        $adapters = $factory($container, AdapterPluginManager::class);
         $this->assertInstanceOf(AdapterPluginManager::class, $adapters);
     }
 
@@ -34,14 +40,20 @@ class AdapterPluginManagerFactoryTest extends TestCase
      */
     public function testFactoryConfiguresPluginManagerUnderContainerInterop()
     {
-        $container = $this->prophesize(ContainerInterface::class);
-        $container->has('config')->willReturn(false);
-        $container->get('config')->shouldNotBeCalled();
+        $container = $this->createMock(ContainerInterface::class);
+        $container
+            ->expects($this->once())
+            ->method('has')
+            ->with('config')
+            ->willReturn(false);
+        $container
+            ->expects($this->never())
+            ->method('get');
 
-        $adapter = $this->prophesize(AdapterInterface::class)->reveal();
+        $adapter = $this->createMock(AdapterInterface::class);
 
         $factory = new AdapterPluginManagerFactory();
-        $adapters = $factory($container->reveal(), AdapterPluginManager::class, [
+        $adapters = $factory($container, AdapterPluginManager::class, [
             'services' => [
                 'test' => $adapter,
             ],
@@ -54,12 +66,17 @@ class AdapterPluginManagerFactoryTest extends TestCase
      */
     public function testFactoryConfiguresPluginManagerUnderServiceManagerV2()
     {
-        $container = $this->prophesize(ServiceLocatorInterface::class);
-        $container->willImplement(ContainerInterface::class);
-        $container->has('config')->willReturn(false);
-        $container->get('config')->shouldNotBeCalled();
+        $container = $this->createMock(ServiceLocator::class);
+        $container
+            ->expects($this->once())
+            ->method('has')
+            ->with('config')
+            ->willReturn(false);
+        $container
+            ->expects($this->never())
+            ->method('get');
 
-        $adapter = $this->prophesize(AdapterInterface::class)->reveal();
+        $adapter = $this->createMock(AdapterInterface::class);
 
         $factory = new AdapterPluginManagerFactory();
         $factory->setCreationOptions([
@@ -68,7 +85,7 @@ class AdapterPluginManagerFactoryTest extends TestCase
             ],
         ]);
 
-        $adapters = $factory->createService($container->reveal());
+        $adapters = $factory->createService($container);
         $this->assertSame($adapter, $adapters->get('test'));
     }
 
