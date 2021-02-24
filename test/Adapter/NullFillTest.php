@@ -10,7 +10,10 @@ namespace LaminasTest\Paginator\Adapter;
 
 use Laminas\Paginator;
 use Laminas\Paginator\Adapter;
+use Laminas\Paginator\Adapter\NullFill;
 use PHPUnit\Framework\TestCase;
+
+use function array_fill;
 
 /**
  * @group      Laminas_Paginator
@@ -18,9 +21,7 @@ use PHPUnit\Framework\TestCase;
  */
 class NullFillTest extends TestCase
 {
-    /**
-     * @var \Laminas\Paginator\Adapter\NullFill
-     */
+    /** @var NullFill */
     private $adapter;
 
     /**
@@ -31,6 +32,7 @@ class NullFillTest extends TestCase
         parent::setUp();
         $this->adapter = new Adapter\NullFill(101);
     }
+
     /**
      * Cleans up the environment after running a test.
      */
@@ -81,7 +83,7 @@ class NullFillTest extends TestCase
     public function testEmptySet()
     {
         $this->adapter = new Adapter\NullFill(0);
-        $actual = $this->adapter->getItems(0, 10);
+        $actual        = $this->adapter->getItems(0, 10);
         $this->assertEquals([], $actual);
     }
 
@@ -91,7 +93,7 @@ class NullFillTest extends TestCase
     public function testSetOfOne()
     {
         $this->adapter = new Adapter\NullFill(1);
-        $actual = $this->adapter->getItems(0, 10);
+        $actual        = $this->adapter->getItems(0, 10);
         $this->assertEquals(array_fill(0, 1, null), $actual);
     }
 }

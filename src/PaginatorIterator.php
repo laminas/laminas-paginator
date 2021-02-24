@@ -8,7 +8,10 @@
 
 namespace Laminas\Paginator;
 
+use Iterator;
 use OuterIterator;
+
+use function count;
 
 /**
  * Class allowing for the continuous iteration of a Laminas\Paginator\Paginator instance.
@@ -37,7 +40,9 @@ class PaginatorIterator implements OuterIterator
 
     /**
      * Return the current element
+     *
      * @link http://php.net/manual/en/iterator.current.php
+     *
      * @return mixed Can return any type.
      */
     public function current()
@@ -47,7 +52,9 @@ class PaginatorIterator implements OuterIterator
 
     /**
      * Move forward to next element
+     *
      * @link http://php.net/manual/en/iterator.next.php
+     *
      * @return void Any returned value is ignored.
      */
     public function next()
@@ -59,7 +66,7 @@ class PaginatorIterator implements OuterIterator
             return;
         }
 
-        $page = $this->paginator->getCurrentPageNumber();
+        $page     = $this->paginator->getCurrentPageNumber();
         $nextPage = $page + 1;
         $this->paginator->setCurrentPageNumber($nextPage);
 
@@ -71,12 +78,14 @@ class PaginatorIterator implements OuterIterator
 
     /**
      * Return the key of the current element
+     *
      * @link http://php.net/manual/en/iterator.key.php
+     *
      * @return mixed scalar on success, or null on failure.
      */
     public function key()
     {
-        $innerKey = $this->getInnerIterator()->key();
+        $innerKey  = $this->getInnerIterator()->key();
         $innerKey += 1; //Laminas\Paginator\Paginator normalizes 0 to 1
 
         $page = $this->paginator->getCurrentPageNumber();
@@ -88,7 +97,9 @@ class PaginatorIterator implements OuterIterator
 
     /**
      * Checks if current position is valid
+     *
      * @link http://php.net/manual/en/iterator.valid.php
+     *
      * @return boolean The return value will be casted to boolean and then evaluated.
      * Returns true on success or false on failure.
      */
@@ -102,7 +113,9 @@ class PaginatorIterator implements OuterIterator
 
     /**
      * Rewind the Iterator to the first element
+     *
      * @link http://php.net/manual/en/iterator.rewind.php
+     *
      * @return void Any returned value is ignored.
      */
     public function rewind()
@@ -113,8 +126,10 @@ class PaginatorIterator implements OuterIterator
 
     /**
      * Returns the inner iterator for the current entry.
+     *
      * @link http://php.net/manual/en/outeriterator.getinneriterator.php
-     * @return \Iterator The inner iterator for the current entry.
+     *
+     * @return Iterator The inner iterator for the current entry.
      */
     public function getInnerIterator()
     {

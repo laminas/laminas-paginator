@@ -11,6 +11,15 @@ namespace Laminas\Paginator;
 use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\Exception\InvalidServiceException;
 use Laminas\ServiceManager\Factory\InvokableFactory;
+use Zend\Paginator\ScrollingStyle\All;
+use Zend\Paginator\ScrollingStyle\Elastic;
+use Zend\Paginator\ScrollingStyle\Jumping;
+use Zend\Paginator\ScrollingStyle\Sliding;
+
+use function get_class;
+use function gettype;
+use function is_object;
+use function sprintf;
 
 /**
  * Plugin manager implementation for scrolling style adapters
@@ -37,13 +46,13 @@ class ScrollingStylePluginManager extends AbstractPluginManager
         'Sliding' => ScrollingStyle\Sliding::class,
 
         // Legacy Zend Framework aliases
-        \Zend\Paginator\ScrollingStyle\All::class => ScrollingStyle\All::class,
-        \Zend\Paginator\ScrollingStyle\Elastic::class => ScrollingStyle\Elastic::class,
-        \Zend\Paginator\ScrollingStyle\Jumping::class => ScrollingStyle\Jumping::class,
-        \Zend\Paginator\ScrollingStyle\Sliding::class => ScrollingStyle\Sliding::class,
+        All::class     => ScrollingStyle\All::class,
+        Elastic::class => ScrollingStyle\Elastic::class,
+        Jumping::class => ScrollingStyle\Jumping::class,
+        Sliding::class => ScrollingStyle\Sliding::class,
 
         // v2 normalized FQCNs
-        'zendpaginatorscrollingstyleall' => ScrollingStyle\All::class,
+        'zendpaginatorscrollingstyleall'     => ScrollingStyle\All::class,
         'zendpaginatorscrollingstyleelastic' => ScrollingStyle\Elastic::class,
         'zendpaginatorscrollingstylejumping' => ScrollingStyle\Jumping::class,
         'zendpaginatorscrollingstylesliding' => ScrollingStyle\Sliding::class,
@@ -67,6 +76,7 @@ class ScrollingStylePluginManager extends AbstractPluginManager
         'laminaspaginatorscrollingstylesliding' => InvokableFactory::class,
     ];
 
+    /** @var string */
     protected $instanceOf = ScrollingStyle\ScrollingStyleInterface::class;
 
     /**
@@ -80,7 +90,7 @@ class ScrollingStylePluginManager extends AbstractPluginManager
         if (! $plugin instanceof $this->instanceOf) {
             throw new InvalidServiceException(sprintf(
                 'Plugin of type %s is invalid; must implement %s',
-                (is_object($plugin) ? get_class($plugin) : gettype($plugin)),
+                is_object($plugin) ? get_class($plugin) : gettype($plugin),
                 Adapter\AdapterInterface::class
             ));
         }

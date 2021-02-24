@@ -11,15 +11,15 @@ namespace LaminasTest\Paginator\Adapter;
 use Laminas\Paginator\Adapter;
 use PHPUnit\Framework\TestCase;
 
+use function range;
+
 /**
  * @group      Laminas_Paginator
  * @covers  Laminas\Paginator\Adapter\ArrayAdapter<extended>
  */
 class ArrayTest extends TestCase
 {
-    /**
-     * @var Adapter\ArrayAdapter
-     */
+    /** @var Adapter\ArrayAdapter */
     private $adapter;
 
     /**
@@ -30,6 +30,7 @@ class ArrayTest extends TestCase
         parent::setUp();
         $this->adapter = new Adapter\ArrayAdapter(range(1, 101));
     }
+
     /**
      * Cleans up the environment after running a test.
      */
@@ -42,14 +43,14 @@ class ArrayTest extends TestCase
     public function testGetsItemsAtOffsetZero()
     {
         $expected = range(1, 10);
-        $actual = $this->adapter->getItems(0, 10);
+        $actual   = $this->adapter->getItems(0, 10);
         $this->assertEquals($expected, $actual);
     }
 
     public function testGetsItemsAtOffsetTen()
     {
         $expected = range(11, 20);
-        $actual = $this->adapter->getItems(10, 10);
+        $actual   = $this->adapter->getItems(10, 10);
         $this->assertEquals($expected, $actual);
     }
 
@@ -58,14 +59,13 @@ class ArrayTest extends TestCase
         $this->assertEquals(101, $this->adapter->count());
     }
 
-
     /**
      * @group Laminas-4151
      */
     public function testEmptySet()
     {
         $this->adapter = new Adapter\ArrayAdapter([]);
-        $actual = $this->adapter->getItems(0, 10);
+        $actual        = $this->adapter->getItems(0, 10);
         $this->assertEquals([], $actual);
     }
 }

@@ -52,7 +52,7 @@ class AdapterPluginManagerFactoryTest extends TestCase
 
         $adapter = $this->createMock(AdapterInterface::class);
 
-        $factory = new AdapterPluginManagerFactory();
+        $factory  = new AdapterPluginManagerFactory();
         $adapters = $factory($container, AdapterPluginManager::class, [
             'services' => [
                 'test' => $adapter,
@@ -105,7 +105,7 @@ class AdapterPluginManagerFactoryTest extends TestCase
             ->with('config')
             ->willReturn(['foo' => 'bar']);
 
-        $factory = new AdapterPluginManagerFactory();
+        $factory  = new AdapterPluginManagerFactory();
         $adapters = $factory($container, AdapterPluginManager::class);
 
         $this->assertInstanceOf(AdapterPluginManager::class, $adapters);
@@ -115,9 +115,9 @@ class AdapterPluginManagerFactoryTest extends TestCase
     public function testConfiguresPaginatorServicesWhenFound()
     {
         $paginator = $this->createMock(AdapterInterface::class);
-        $config = [
+        $config    = [
             'paginators' => [
-                'aliases' => [
+                'aliases'   => [
                     'test' => 'test-too',
                 ],
                 'factories' => [
@@ -142,7 +142,7 @@ class AdapterPluginManagerFactoryTest extends TestCase
             ->with('config')
             ->willReturn($config);
 
-        $factory = new AdapterPluginManagerFactory();
+        $factory    = new AdapterPluginManagerFactory();
         $paginators = $factory($container, AdapterPluginManager::class);
 
         $this->assertInstanceOf(AdapterPluginManager::class, $paginators);

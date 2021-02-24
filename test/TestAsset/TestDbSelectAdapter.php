@@ -10,6 +10,8 @@ namespace LaminasTest\Paginator\TestAsset;
 
 use Laminas\Paginator\Adapter\DbSelect;
 
+use function range;
+
 class TestDbSelectAdapter extends DbSelect
 {
     /**

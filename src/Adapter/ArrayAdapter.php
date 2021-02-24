@@ -8,6 +8,9 @@
 
 namespace Laminas\Paginator\Adapter;
 
+use function array_slice;
+use function count;
+
 class ArrayAdapter implements AdapterInterface
 {
     /**
@@ -15,18 +18,16 @@ class ArrayAdapter implements AdapterInterface
      *
      * @var array
      */
-    protected $array = null;
+    protected $array;
 
     /**
      * Item count
      *
      * @var int
      */
-    protected $count = null;
+    protected $count;
 
     /**
-     * Constructor.
-     *
      * @param array $array ArrayAdapter to paginate
      */
     public function __construct(array $array = [])

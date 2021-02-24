@@ -8,8 +8,13 @@
 
 namespace LaminasTest\Paginator\TestAsset;
 
-class TestSimilarAdapter extends TestAdapter implements \Laminas\Paginator\Adapter\AdapterInterface
+use Laminas\Paginator\Adapter\AdapterInterface;
+
+class TestSimilarAdapter extends TestAdapter implements AdapterInterface
 {
+    /**
+     * @return string
+     */
     public function differentFunction()
     {
         return "test";

@@ -10,6 +10,7 @@ namespace Laminas\Paginator;
 
 use ArrayIterator;
 use Countable;
+use Exception;
 use IteratorAggregate;
 use Laminas\Cache\Storage\IteratorInterface as CacheIterator;
 use Laminas\Cache\Storage\StorageInterface as CacheStorage;
@@ -21,29 +22,56 @@ use Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface;
 use Laminas\ServiceManager\ServiceManager;
 use Laminas\Stdlib\ArrayUtils;
 use Laminas\View;
+use Laminas\View\Renderer\RendererInterface;
+use stdClass;
 use Traversable;
+
+use function ceil;
+use function class_exists;
+use function count;
+use function get_class;
+use function gettype;
+use function is_array;
+use function is_object;
+use function is_string;
+use function iterator_count;
+use function json_encode;
+use function max;
+use function md5;
+use function min;
+use function sprintf;
+use function strlen;
+use function strpos;
+use function strtolower;
+use function substr;
+use function trigger_error;
+
+use const E_USER_WARNING;
+use const JSON_HEX_AMP;
+use const JSON_HEX_APOS;
+use const JSON_HEX_QUOT;
+use const JSON_HEX_TAG;
 
 class Paginator implements Countable, IteratorAggregate
 {
     /**
      * The cache tag prefix used to namespace Paginator results in the cache
-     *
      */
-    const CACHE_TAG_PREFIX = 'Laminas_Paginator_';
+    public const CACHE_TAG_PREFIX = 'Laminas_Paginator_';
 
     /**
      * Adapter plugin manager
      *
      * @var AdapterPluginManager
      */
-    protected static $adapters = null;
+    protected static $adapters;
 
     /**
      * Configuration file
      *
      * @var array|null
      */
-    protected static $config = null;
+    protected static $config;
 
     /**
      * Default scrolling style
@@ -64,7 +92,7 @@ class Paginator implements Countable, IteratorAggregate
      *
      * @var ScrollingStylePluginManager
      */
-    protected static $scrollingStyles = null;
+    protected static $scrollingStyles;
 
     /**
      * Cache object
@@ -85,21 +113,21 @@ class Paginator implements Countable, IteratorAggregate
      *
      * @var AdapterInterface
      */
-    protected $adapter = null;
+    protected $adapter;
 
     /**
      * Number of items in the current page
      *
      * @var int
      */
-    protected $currentItemCount = null;
+    protected $currentItemCount;
 
     /**
      * Current page items
      *
      * @var Traversable
      */
-    protected $currentItems = null;
+    protected $currentItems;
 
     /**
      * Current page number (starting from 1)
@@ -113,21 +141,21 @@ class Paginator implements Countable, IteratorAggregate
      *
      * @var FilterInterface
      */
-    protected $filter = null;
+    protected $filter;
 
     /**
      * Number of items per page
      *
      * @var int
      */
-    protected $itemCountPerPage = null;
+    protected $itemCountPerPage;
 
     /**
      * Number of pages
      *
      * @var int
      */
-    protected $pageCount = null;
+    protected $pageCount;
 
     /**
      * Number of local pages (i.e., the number of discrete page numbers
@@ -140,16 +168,16 @@ class Paginator implements Countable, IteratorAggregate
     /**
      * Pages
      *
-     * @var \stdClass
+     * @var stdClass
      */
-    protected $pages = null;
+    protected $pages;
 
     /**
      * View instance used for self rendering
      *
-     * @var \Laminas\View\Renderer\RendererInterface
+     * @var RendererInterface
      */
-    protected $view = null;
+    protected $view;
 
     /**
      * Set a global config
@@ -168,13 +196,14 @@ class Paginator implements Countable, IteratorAggregate
 
         static::$config = $config;
 
-        if (isset($config['scrolling_style_plugins'])
+        if (
+            isset($config['scrolling_style_plugins'])
             && null !== ($adapters = $config['scrolling_style_plugins'])
         ) {
             static::setScrollingStylePluginManager($adapters);
         }
 
-        $scrollingStyle = isset($config['scrolling_style']) ? $config['scrolling_style'] : null;
+        $scrollingStyle = $config['scrolling_style'] ?? null;
 
         if ($scrollingStyle !== null) {
             static::setDefaultScrollingStyle($scrollingStyle);
@@ -213,8 +242,6 @@ class Paginator implements Countable, IteratorAggregate
 
     /**
      * Sets a cache object
-     *
-     * @param CacheStorage $cache
      */
     public static function setCache(CacheStorage $cache)
     {
@@ -231,6 +258,10 @@ class Paginator implements Countable, IteratorAggregate
         static::$defaultScrollingStyle = $scrollingStyle;
     }
 
+    /**
+     * @param string|ScrollingStylePluginManager $scrollingAdapters
+     * @return void
+     */
     public static function setScrollingStylePluginManager($scrollingAdapters)
     {
         if (is_string($scrollingAdapters)) {
@@ -240,12 +271,12 @@ class Paginator implements Countable, IteratorAggregate
                     $scrollingAdapters
                 ));
             }
-            $scrollingAdapters = new $scrollingAdapters(new ServiceManager);
+            $scrollingAdapters = new $scrollingAdapters(new ServiceManager());
         }
         if (! $scrollingAdapters instanceof ScrollingStylePluginManager) {
             throw new Exception\InvalidArgumentException(sprintf(
                 'Pagination scrolling-style manager must extend ScrollingStylePluginManager; received "%s"',
-                (is_object($scrollingAdapters) ? get_class($scrollingAdapters) : gettype($scrollingAdapters))
+                is_object($scrollingAdapters) ? get_class($scrollingAdapters) : gettype($scrollingAdapters)
             ));
         }
         static::$scrollingStyles = $scrollingAdapters;
@@ -260,15 +291,13 @@ class Paginator implements Countable, IteratorAggregate
     public static function getScrollingStylePluginManager()
     {
         if (static::$scrollingStyles === null) {
-            static::$scrollingStyles = new ScrollingStylePluginManager(new ServiceManager);
+            static::$scrollingStyles = new ScrollingStylePluginManager(new ServiceManager());
         }
 
         return static::$scrollingStyles;
     }
 
     /**
-     * Constructor.
-     *
      * @param AdapterInterface|AdapterAggregateInterface $adapter
      * @throws Exception\InvalidArgumentException
      */
@@ -280,8 +309,8 @@ class Paginator implements Countable, IteratorAggregate
             $this->adapter = $adapter->getPaginatorAdapter();
         } else {
             throw new Exception\InvalidArgumentException(
-                'Laminas\Paginator only accepts instances of the type ' .
-                'Laminas\Paginator\Adapter\AdapterInterface or Laminas\Paginator\AdapterAggregateInterface.'
+                'Laminas\Paginator only accepts instances of the type '
+                . 'Laminas\Paginator\Adapter\AdapterInterface or Laminas\Paginator\AdapterAggregateInterface.'
             );
         }
 
@@ -292,7 +321,7 @@ class Paginator implements Countable, IteratorAggregate
 
             foreach ($setupMethods as $setupMethod) {
                 $key   = strtolower($setupMethod);
-                $value = isset($config[$key]) ? $config[$key] : null;
+                $value = $config[$key] ?? null;
 
                 if ($value !== null) {
                     $setupMethod = 'set' . $setupMethod;
@@ -310,9 +339,8 @@ class Paginator implements Countable, IteratorAggregate
     public function __toString()
     {
         try {
-            $return = $this->render();
-            return $return;
-        } catch (\Exception $e) {
+            return $this->render();
+        } catch (Exception $e) {
             trigger_error($e->getMessage(), E_USER_WARNING);
         }
 
@@ -373,7 +401,7 @@ class Paginator implements Countable, IteratorAggregate
             $cacheIterator->setMode(CacheIterator::CURRENT_AS_KEY);
             foreach ($cacheIterator as $key) {
                 if (0 === strpos($key, self::CACHE_TAG_PREFIX)) {
-                    static::$cache->removeItem($this->_getCacheId((int)substr($key, $prefixLength)));
+                    static::$cache->removeItem($this->_getCacheId((int) substr($key, $prefixLength)));
                 }
             }
         } else {
@@ -479,7 +507,6 @@ class Paginator implements Countable, IteratorAggregate
     /**
      * Set a filter chain
      *
-     * @param  FilterInterface $filter
      * @return Paginator
      */
     public function setFilter(FilterInterface $filter)
@@ -506,10 +533,10 @@ class Paginator implements Countable, IteratorAggregate
             $pageNumber = ($this->count() + 1) + $pageNumber;
         }
 
-        $page = $this->getItemsByPage($pageNumber);
+        $page      = $this->getItemsByPage($pageNumber);
         $itemCount = $this->getItemCount($page);
 
-        if ($itemCount == 0) {
+        if ($itemCount === 0) {
             throw new Exception\InvalidArgumentException('Page ' . $pageNumber . ' does not exist');
         }
 
@@ -629,7 +656,7 @@ class Paginator implements Countable, IteratorAggregate
     {
         try {
             return $this->getCurrentItems();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new Exception\RuntimeException('Error producing an iterator', null, $e);
         }
     }
@@ -661,7 +688,7 @@ class Paginator implements Countable, IteratorAggregate
      * Returns the page collection.
      *
      * @param  string $scrollingStyle Scrolling style
-     * @return \stdClass
+     * @return stdClass
      */
     public function getPages($scrollingStyle = null)
     {
@@ -719,7 +746,7 @@ class Paginator implements Countable, IteratorAggregate
      *
      * If none registered, instantiates a PhpRenderer instance.
      *
-     * @return \Laminas\View\Renderer\RendererInterface|null
+     * @return RendererInterface|null
      */
     public function getView()
     {
@@ -733,10 +760,9 @@ class Paginator implements Countable, IteratorAggregate
     /**
      * Sets the view object.
      *
-     * @param  \Laminas\View\Renderer\RendererInterface $view
      * @return Paginator
      */
-    public function setView(View\Renderer\RendererInterface $view = null)
+    public function setView(?View\Renderer\RendererInterface $view = null)
     {
         $this->view = $view;
 
@@ -790,10 +816,9 @@ class Paginator implements Countable, IteratorAggregate
     /**
      * Renders the paginator.
      *
-     * @param  \Laminas\View\Renderer\RendererInterface $view
      * @return string
      */
-    public function render(View\Renderer\RendererInterface $view = null)
+    public function render(?View\Renderer\RendererInterface $view = null)
     {
         if (null !== $view) {
             $this->setView($view);
@@ -829,7 +854,7 @@ class Paginator implements Countable, IteratorAggregate
      */
     protected function cacheEnabled()
     {
-        return ((static::$cache !== null) && $this->cacheEnabled);
+        return (static::$cache !== null) && $this->cacheEnabled;
     }
 
     /**
@@ -892,7 +917,7 @@ class Paginator implements Countable, IteratorAggregate
      * Creates the page collection.
      *
      * @param  string $scrollingStyle Scrolling style
-     * @return \stdClass
+     * @return stdClass
      */
     // @codingStandardsIgnoreStart
     protected function _createPages($scrollingStyle = null)
@@ -901,7 +926,7 @@ class Paginator implements Countable, IteratorAggregate
         $pageCount         = $this->count();
         $currentPageNumber = $this->getCurrentPageNumber();
 
-        $pages = new \stdClass();
+        $pages                   = new stdClass();
         $pages->pageCount        = $pageCount;
         $pages->itemCountPerPage = $this->getItemCountPerPage();
         $pages->first            = 1;
@@ -918,7 +943,7 @@ class Paginator implements Countable, IteratorAggregate
         }
 
         // Pages in range
-        $scrollingStyle = $this->_loadScrollingStyle($scrollingStyle);
+        $scrollingStyle          = $this->_loadScrollingStyle($scrollingStyle);
         $pages->pagesInRange     = $scrollingStyle->getPages($this);
         $pages->firstPageInRange = min($pages->pagesInRange);
         $pages->lastPageInRange  = max($pages->pagesInRange);
@@ -971,8 +996,8 @@ class Paginator implements Countable, IteratorAggregate
 
             default:
                 throw new Exception\InvalidArgumentException(
-                    'Scrolling style must be a class ' .
-                    'name or object implementing Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface'
+                    'Scrolling style must be a class '
+                    . 'name or object implementing Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface'
                 );
         }
     }

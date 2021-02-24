@@ -10,12 +10,17 @@ namespace LaminasTest\Paginator\ScrollingStyle;
 
 use Laminas\Paginator\Adapter\ArrayAdapter;
 use Laminas\Paginator\Paginator;
+use Laminas\Paginator\ScrollingStyle\Sliding;
+use PHPUnit\Framework\TestCase;
+
+use function array_combine;
+use function range;
 
 /**
  * @group      Laminas_Paginator
  * @covers  Laminas\Paginator\ScrollingStyle\Sliding<extended>
  */
-class SlidingTest extends \PHPUnit\Framework\TestCase
+class SlidingTest extends TestCase
 {
     // @codingStandardsIgnoreStart
     /**
@@ -24,9 +29,7 @@ class SlidingTest extends \PHPUnit\Framework\TestCase
     private $_scrollingStyle;
     // @codingStandardsIgnoreEnd
 
-    /**
-     * @var \Laminas\Paginator\Paginator
-     */
+    /** @var Paginator */
     private $paginator;
 
     /**
@@ -35,25 +38,26 @@ class SlidingTest extends \PHPUnit\Framework\TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->_scrollingStyle = new \Laminas\Paginator\ScrollingStyle\Sliding();
-        $this->paginator = new Paginator(new ArrayAdapter(range(1, 101)));
+        $this->_scrollingStyle = new Sliding();
+        $this->paginator       = new Paginator(new ArrayAdapter(range(1, 101)));
         $this->paginator->setItemCountPerPage(10);
         $this->paginator->setPageRange(5);
     }
+
     /**
      * Cleans up the environment after running a test.
      */
     protected function tearDown(): void
     {
         $this->_scrollingStyle = null;
-        $this->paginator = null;
+        $this->paginator       = null;
         parent::tearDown();
     }
 
     public function testGetsPagesInRangeForFirstPage()
     {
         $this->paginator->setCurrentPageNumber(1);
-        $actual = $this->_scrollingStyle->getPages($this->paginator);
+        $actual   = $this->_scrollingStyle->getPages($this->paginator);
         $expected = array_combine(range(1, 5), range(1, 5));
         $this->assertEquals($expected, $actual);
     }
@@ -61,7 +65,7 @@ class SlidingTest extends \PHPUnit\Framework\TestCase
     public function testGetsPagesInRangeForSecondPage()
     {
         $this->paginator->setCurrentPageNumber(2);
-        $actual = $this->_scrollingStyle->getPages($this->paginator);
+        $actual   = $this->_scrollingStyle->getPages($this->paginator);
         $expected = array_combine(range(1, 5), range(1, 5));
         $this->assertEquals($expected, $actual);
     }
@@ -69,7 +73,7 @@ class SlidingTest extends \PHPUnit\Framework\TestCase
     public function testGetsPagesInRangeForFifthPage()
     {
         $this->paginator->setCurrentPageNumber(5);
-        $actual = $this->_scrollingStyle->getPages($this->paginator);
+        $actual   = $this->_scrollingStyle->getPages($this->paginator);
         $expected = array_combine(range(3, 7), range(3, 7));
         $this->assertEquals($expected, $actual);
     }
@@ -77,7 +81,7 @@ class SlidingTest extends \PHPUnit\Framework\TestCase
     public function testGetsPagesInRangeForLastPage()
     {
         $this->paginator->setCurrentPageNumber(11);
-        $actual = $this->_scrollingStyle->getPages($this->paginator);
+        $actual   = $this->_scrollingStyle->getPages($this->paginator);
         $expected = array_combine(range(7, 11), range(7, 11));
         $this->assertEquals($expected, $actual);
     }

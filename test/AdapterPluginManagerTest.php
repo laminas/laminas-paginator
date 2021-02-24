@@ -18,24 +18,23 @@ use Laminas\Db\Sql\Sql;
 use Laminas\Db\TableGateway\TableGateway;
 use Laminas\Paginator\Adapter;
 use Laminas\Paginator\AdapterPluginManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
+use function range;
+
 /**
- * @group      Laminas_Paginator
  * @covers  Laminas\Paginator\AdapterPluginManager<extended>
  */
 class AdapterPluginManagerTest extends TestCase
 {
-    /**
-     * @var AdapterPluginManager
-     */
+    /** @var AdapterPluginManager */
     protected $adapterPluginManager;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-    */
+    /** @var MockObject|Select */
     protected $mockSelect;
 
+    /** @var MockObject|DbAdapter */
     protected $mockAdapter;
 
     protected function setUp(): void
@@ -43,10 +42,10 @@ class AdapterPluginManagerTest extends TestCase
         $this->adapterPluginManager = new AdapterPluginManager(
             $this->getMockBuilder(ContainerInterface::class)->getMock()
         );
-        $this->mockSelect = $this->createMock(Select::class);
+        $this->mockSelect           = $this->createMock(Select::class);
 
         $mockStatement = $this->createMock(DbDriver\StatementInterface::class);
-        $mockResult = $this->createMock(DbDriver\ResultInterface::class);
+        $mockResult    = $this->createMock(DbDriver\ResultInterface::class);
 
         $mockDriver = $this->createMock(DbDriver\DriverInterface::class);
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue($mockStatement));
@@ -64,23 +63,23 @@ class AdapterPluginManagerTest extends TestCase
     {
         $plugin = $this->adapterPluginManager->get('array', [1, 2, 3]);
         $this->assertInstanceOf(Adapter\ArrayAdapter::class, $plugin);
-        $plugin = $this->adapterPluginManager->get('iterator', [ new ArrayIterator(range(1, 101)) ]);
+        $plugin = $this->adapterPluginManager->get('iterator', [new ArrayIterator(range(1, 101))]);
         $this->assertInstanceOf(Adapter\Iterator::class, $plugin);
         $plugin = $this->adapterPluginManager->get('dbselect', [$this->mockSelect, $this->mockAdapter]);
         $this->assertInstanceOf(Adapter\DbSelect::class, $plugin);
-        $plugin = $this->adapterPluginManager->get('null', [ 101 ]);
+        $plugin = $this->adapterPluginManager->get('null', [101]);
         $this->assertInstanceOf(Adapter\NullFill::class, $plugin);
 
         // Test dbtablegateway
         $mockStatement = $this->createMock(DbDriver\StatementInterface::class);
-        $mockDriver = $this->createMock(DbDriver\DriverInterface::class);
+        $mockDriver    = $this->createMock(DbDriver\DriverInterface::class);
         $mockDriver->expects($this->any())
                    ->method('createStatement')
                    ->will($this->returnValue($mockStatement));
         $mockDriver->expects($this->any())
             ->method('formatParameterName')
             ->will($this->returnArgument(0));
-        $mockAdapter = $this->getMockForAbstractClass(
+        $mockAdapter      = $this->getMockForAbstractClass(
             DbAdapter::class,
             [$mockDriver, new Platform\Sql92()]
         );
@@ -88,11 +87,11 @@ class AdapterPluginManagerTest extends TestCase
             TableGateway::class,
             ['foobar', $mockAdapter]
         );
-        $where  = "foo = bar";
-        $order  = "foo";
-        $group  = "foo";
-        $having = "count(foo)>0";
-        $plugin = $this->adapterPluginManager->get(
+        $where            = "foo = bar";
+        $order            = "foo";
+        $group            = "foo";
+        $having           = "count(foo)>0";
+        $plugin           = $this->adapterPluginManager->get(
             'dbtablegateway',
             [$mockTableGateway, $where, $order, $group, $having]
         );
@@ -143,7 +142,7 @@ class AdapterPluginManagerTest extends TestCase
             'dbselect',
             [$mockSelect, $mockSql, null, $mockSelectCount]
         );
-        $count = $plugin->count();
+        $count  = $plugin->count();
         $this->assertEquals(5, $count);
     }
 }

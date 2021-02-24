@@ -15,7 +15,6 @@ interface ScrollingStyleInterface
     /**
      * Returns an array of "local" pages given a page number and range.
      *
-     * @param  Paginator $paginator
      * @param  int $pageRange (Optional) Page range
      * @return array
      */

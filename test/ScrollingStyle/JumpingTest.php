@@ -10,7 +10,11 @@ namespace LaminasTest\Paginator\ScrollingStyle;
 
 use Laminas\Paginator\Adapter\ArrayAdapter;
 use Laminas\Paginator\Paginator;
+use Laminas\Paginator\ScrollingStyle\Jumping;
 use PHPUnit\Framework\TestCase;
+
+use function array_combine;
+use function range;
 
 /**
  * @group      Laminas_Paginator
@@ -18,15 +22,13 @@ use PHPUnit\Framework\TestCase;
  */
 class JumpingTest extends TestCase
 {
-    /**
-     * @var \Laminas\Paginator\ScrollingStyle\Jumping
-     */
+    /** @var Jumping */
     private $scrollingStyle;
-    /**
-     * @var \Laminas\Paginator\Paginator
-     */
+
+    /** @var Paginator */
     private $paginator;
 
+    /** @var array */
     private $expectedRange;
 
     /**
@@ -35,19 +37,20 @@ class JumpingTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->scrollingStyle = new \Laminas\Paginator\ScrollingStyle\Jumping();
-        $this->paginator = new Paginator(new ArrayAdapter(range(1, 101)));
+        $this->scrollingStyle = new Jumping();
+        $this->paginator      = new Paginator(new ArrayAdapter(range(1, 101)));
         $this->paginator->setItemCountPerPage(10);
         $this->paginator->setPageRange(10);
         $this->expectedRange = array_combine(range(1, 10), range(1, 10));
     }
+
     /**
      * Cleans up the environment after running a test.
      */
     protected function tearDown(): void
     {
         $this->scrollingStyle = null;
-        $this->paginator = null;
+        $this->paginator      = null;
         parent::tearDown();
     }
 
@@ -75,7 +78,7 @@ class JumpingTest extends TestCase
     public function testGetsPagesInRangeForLastPage()
     {
         $this->paginator->setCurrentPageNumber(11);
-        $actual = $this->scrollingStyle->getPages($this->paginator);
+        $actual   = $this->scrollingStyle->getPages($this->paginator);
         $expected = [11 => 11];
         $this->assertEquals($expected, $actual);
     }

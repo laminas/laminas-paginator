@@ -10,7 +10,11 @@ namespace LaminasTest\Paginator\ScrollingStyle;
 
 use Laminas\Paginator\Adapter\ArrayAdapter;
 use Laminas\Paginator\Paginator;
+use Laminas\Paginator\ScrollingStyle\All;
 use PHPUnit\Framework\TestCase;
+
+use function array_combine;
+use function range;
 
 /**
  * @group      Laminas_Paginator
@@ -18,15 +22,11 @@ use PHPUnit\Framework\TestCase;
  */
 class AllTest extends TestCase
 {
-    /**
-     * @var \Laminas\Paginator\ScrollingStyle\All
-     */
-    private $scrollingStyle = null;
+    /** @var All */
+    private $scrollingStyle;
 
-    /**
-     * @var \Laminas\Paginator\Paginator
-     */
-    private $paginator = null;
+    /** @var Paginator */
+    private $paginator;
 
     /**
      * Prepares the environment before running a test.
@@ -34,24 +34,25 @@ class AllTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->scrollingStyle = new \Laminas\Paginator\ScrollingStyle\All();
-        $this->paginator = new Paginator(new ArrayAdapter(range(1, 101)));
+        $this->scrollingStyle = new All();
+        $this->paginator      = new Paginator(new ArrayAdapter(range(1, 101)));
         $this->paginator->setItemCountPerPage(10);
     }
+
     /**
      * Cleans up the environment after running a test.
      */
     protected function tearDown(): void
     {
         $this->scrollingStyle = null;
-        $this->paginator = null;
+        $this->paginator      = null;
         parent::tearDown();
     }
 
     public function testGetsPages()
     {
         $expected = array_combine(range(1, 11), range(1, 11));
-        $pages = $this->scrollingStyle->getPages($this->paginator);
+        $pages    = $this->scrollingStyle->getPages($this->paginator);
         $this->assertEquals($expected, $pages);
     }
 

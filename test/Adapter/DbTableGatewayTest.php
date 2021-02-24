@@ -8,10 +8,16 @@
 
 namespace LaminasTest\Paginator\Adapter;
 
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\Driver\DriverInterface;
+use Laminas\Db\Adapter\Driver\ResultInterface;
+use Laminas\Db\Adapter\Driver\StatementInterface;
 use Laminas\Db\Adapter\Platform\Sql92;
+use Laminas\Db\TableGateway\TableGateway;
 use Laminas\Paginator\Adapter\DbSelect;
 use Laminas\Paginator\Adapter\DbTableGateway;
 use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
 
 /**
  * @group Laminas_Paginator
@@ -19,19 +25,19 @@ use PHPUnit\Framework\TestCase;
  */
 class DbTableGatewayTest extends TestCase
 {
-    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $mockStatement;
 
     /** @var DbTableGateway */
     protected $dbTableGateway;
 
-    /** @var \Laminas\Db\TableGateway\TableGateway */
+    /** @var TableGateway */
     protected $mockTableGateway;
 
     public function setup(): void
     {
-        $mockStatement = $this->createMock('Laminas\Db\Adapter\Driver\StatementInterface');
-        $mockDriver = $this->createMock('Laminas\Db\Adapter\Driver\DriverInterface');
+        $mockStatement = $this->createMock(StatementInterface::class);
+        $mockDriver    = $this->createMock(DriverInterface::class);
         $mockDriver->expects($this->any())
                    ->method('createStatement')
                    ->will($this->returnValue($mockStatement));
@@ -39,13 +45,13 @@ class DbTableGatewayTest extends TestCase
             ->method('formatParameterName')
             ->will($this->returnArgument(0));
         $mockAdapter = $this->getMockForAbstractClass(
-            'Laminas\Db\Adapter\Adapter',
+            Adapter::class,
             [$mockDriver, new Sql92()]
         );
 
-        $tableName = 'foobar';
+        $tableName        = 'foobar';
         $mockTableGateway = $this->getMockForAbstractClass(
-            'Laminas\Db\TableGateway\TableGateway',
+            TableGateway::class,
             [$tableName, $mockAdapter]
         );
 
@@ -58,7 +64,7 @@ class DbTableGatewayTest extends TestCase
     {
         $this->dbTableGateway = new DbTableGateway($this->mockTableGateway);
 
-        $mockResult = $this->createMock('Laminas\Db\Adapter\Driver\ResultInterface');
+        $mockResult = $this->createMock(ResultInterface::class);
         $this->mockStatement
              ->expects($this->any())
              ->method('execute')
@@ -72,7 +78,7 @@ class DbTableGatewayTest extends TestCase
     {
         $this->dbTableGateway = new DbTableGateway($this->mockTableGateway);
 
-        $mockResult = $this->createMock('Laminas\Db\Adapter\Driver\ResultInterface');
+        $mockResult = $this->createMock(ResultInterface::class);
         $mockResult->expects($this->any())
                    ->method('current')
                    ->will($this->returnValue([DbSelect::ROW_COUNT_COLUMN_NAME => 10]));
@@ -87,11 +93,11 @@ class DbTableGatewayTest extends TestCase
 
     public function testGetItemsWithWhereAndOrder()
     {
-        $where = "foo = bar";
-        $order = "foo";
+        $where                = "foo = bar";
+        $order                = "foo";
         $this->dbTableGateway = new DbTableGateway($this->mockTableGateway, $where, $order);
 
-        $mockResult = $this->createMock('Laminas\Db\Adapter\Driver\ResultInterface');
+        $mockResult = $this->createMock(ResultInterface::class);
         $this->mockStatement
              ->expects($this->any())
              ->method('execute')
@@ -103,12 +109,12 @@ class DbTableGatewayTest extends TestCase
 
     public function testGetItemsWithWhereAndOrderAndGroup()
     {
-        $where = "foo = bar";
-        $order = "foo";
-        $group = "foo";
+        $where                = "foo = bar";
+        $order                = "foo";
+        $group                = "foo";
         $this->dbTableGateway = new DbTableGateway($this->mockTableGateway, $where, $order, $group);
 
-        $mockResult = $this->createMock('Laminas\Db\Adapter\Driver\ResultInterface');
+        $mockResult = $this->createMock(ResultInterface::class);
         $this->mockStatement
             ->expects($this->once())
             ->method('setSql')
@@ -126,13 +132,13 @@ class DbTableGatewayTest extends TestCase
 
     public function testGetItemsWithWhereAndOrderAndGroupAndHaving()
     {
-        $where  = "foo = bar";
-        $order  = "foo";
-        $group  = "foo";
-        $having = "count(foo)>0";
+        $where                = "foo = bar";
+        $order                = "foo";
+        $group                = "foo";
+        $having               = "count(foo)>0";
         $this->dbTableGateway = new DbTableGateway($this->mockTableGateway, $where, $order, $group, $having);
 
-        $mockResult = $this->createMock('Laminas\Db\Adapter\Driver\ResultInterface');
+        $mockResult = $this->createMock(ResultInterface::class);
         $this->mockStatement
             ->expects($this->once())
             ->method('setSql')

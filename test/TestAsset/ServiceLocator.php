@@ -11,6 +11,7 @@ namespace LaminasTest\Paginator\TestAsset;
 use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 
+// phpcs:ignore
 abstract class ServiceLocator implements ServiceLocatorInterface, ContainerInterface
 {
 }

@@ -15,6 +15,12 @@ use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\FactoryInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 
+use function array_shift;
+use function get_class;
+use function gettype;
+use function is_object;
+use function sprintf;
+
 class IteratorFactory implements FactoryInterface
 {
     /**
@@ -29,7 +35,7 @@ class IteratorFactory implements FactoryInterface
      *
      * @return IteratorAdapter
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         if (null === $options || empty($options)) {
             throw new ServiceNotCreatedException(sprintf(
@@ -44,7 +50,7 @@ class IteratorFactory implements FactoryInterface
             throw new ServiceNotCreatedException(sprintf(
                 '%s requires an Iterator instance; received %s',
                 IteratorAdapter::class,
-                (is_object($iterator) ? get_class($iterator) : gettype($iterator))
+                is_object($iterator) ? get_class($iterator) : gettype($iterator)
             ));
         }
 
@@ -54,7 +60,6 @@ class IteratorFactory implements FactoryInterface
     /**
      * Create and return an IteratorAdapter instance (v2)
      *
-     * @param ServiceLocatorInterface $container
      * @param null|string $name
      * @param string $requestedName
      * @return IteratorAdapter

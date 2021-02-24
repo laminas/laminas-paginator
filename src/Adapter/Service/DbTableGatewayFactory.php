@@ -14,6 +14,8 @@ use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\FactoryInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 
+use function sprintf;
+
 class DbTableGatewayFactory implements FactoryInterface
 {
     /**
@@ -28,7 +30,7 @@ class DbTableGatewayFactory implements FactoryInterface
      *
      * @return DbTableGateway
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         if (null === $options || empty($options)) {
             throw new ServiceNotCreatedException(sprintf(
@@ -39,17 +41,16 @@ class DbTableGatewayFactory implements FactoryInterface
 
         return new $requestedName(
             $options[0],
-            isset($options[1]) ? $options[1] : null,
-            isset($options[2]) ? $options[2] : null,
-            isset($options[3]) ? $options[3] : null,
-            isset($options[4]) ? $options[4] : null
+            $options[1] ?? null,
+            $options[2] ?? null,
+            $options[3] ?? null,
+            $options[4] ?? null
         );
     }
 
     /**
      * Create and return a DbTableGateway instance (v2)
      *
-     * @param ServiceLocatorInterface $container
      * @param null|string $name
      * @param string $requestedName
      * @return DbTableGateway

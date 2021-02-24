@@ -16,13 +16,15 @@ use Laminas\Db\Sql\Select;
 use Laminas\Db\Sql\Sql;
 use Laminas\Paginator\Adapter\Exception\MissingRowCountColumnException;
 
+use function array_key_exists;
+use function iterator_to_array;
+use function strtolower;
+
 class DbSelect implements AdapterInterface
 {
-    const ROW_COUNT_COLUMN_NAME = 'C';
+    public const ROW_COUNT_COLUMN_NAME = 'C';
 
-    /**
-     * @var Sql
-     */
+    /** @var Sql */
     protected $sql;
 
     /**
@@ -39,9 +41,7 @@ class DbSelect implements AdapterInterface
      */
     protected $countSelect;
 
-    /**
-     * @var ResultSet
-     */
+    /** @var ResultSet */
     protected $resultSetPrototype;
 
     /**
@@ -52,22 +52,17 @@ class DbSelect implements AdapterInterface
     protected $rowCount;
 
     /**
-     * Constructor.
-     *
      * @param Select $select The select query
      * @param Adapter|Sql $adapterOrSqlObject DB adapter or Sql object
-     * @param null|ResultSetInterface $resultSetPrototype
-     * @param null|Select $countSelect
-     *
      * @throws Exception\InvalidArgumentException
      */
     public function __construct(
         Select $select,
         $adapterOrSqlObject,
-        ResultSetInterface $resultSetPrototype = null,
-        Select $countSelect = null
+        ?ResultSetInterface $resultSetPrototype = null,
+        ?Select $countSelect = null
     ) {
-        $this->select = $select;
+        $this->select      = $select;
         $this->countSelect = $countSelect;
 
         if ($adapterOrSqlObject instanceof Adapter) {
@@ -81,7 +76,7 @@ class DbSelect implements AdapterInterface
         }
 
         $this->sql                = $adapterOrSqlObject;
-        $this->resultSetPrototype = ($resultSetPrototype) ?: new ResultSet;
+        $this->resultSetPrototype = $resultSetPrototype ?: new ResultSet();
     }
 
     /**
@@ -143,7 +138,7 @@ class DbSelect implements AdapterInterface
         $select->reset(Select::OFFSET);
         $select->reset(Select::ORDER);
 
-        $countSelect = new Select;
+        $countSelect = new Select();
 
         $countSelect->columns([self::ROW_COUNT_COLUMN_NAME => new Expression('COUNT(1)')]);
         $countSelect->from(['original_select' => $select]);
@@ -152,9 +147,13 @@ class DbSelect implements AdapterInterface
     }
 
     /**
-     * @see https://github.com/laminas/laminas-paginator/issues/3 Reference for creating an internal cache ID
-     * @todo The next major version should rework the entire caching of a paginator.
      * @internal
+     *
+     * @see https://github.com/laminas/laminas-paginator/issues/3 Reference for creating an internal cache ID
+     *
+     * @todo The next major version should rework the entire caching of a paginator.
+     *
+     * @return array
      */
     public function getArrayCopy()
     {
