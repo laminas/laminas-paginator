@@ -1,3 +1,4 @@
+<!-- markdownlint-disable-file -->
 **This is only a placeholder.**
 
 The content of this page can be found under:

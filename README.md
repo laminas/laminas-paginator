@@ -1,7 +1,6 @@
 # laminas-paginator
 
-[![Build Status](https://travis-ci.com/laminas/laminas-paginator.svg)](https://travis-ci.com/laminas/laminas-paginator)
-[![Coverage Status](https://coveralls.io/repos/github/laminas/laminas-paginator/badge.svg)](https://coveralls.io/github/laminas/laminas-paginator)
+[![Build Status](https://github.com/laminas/laminas-paginator/workflows/Continuous%20Integration/badge.svg)](https://github.com/laminas/laminas-paginator/actions?query=workflow%3A"Continuous+Integration")
 
 laminas-paginator is a flexible component for paginating collections of data and
 presenting that data to users.
@@ -20,6 +19,6 @@ Browse the documentation online at https://docs.laminas.dev/laminas-paginator/
 
 ## Support
 
-* [Issues](https://github.com/laminas/laminas-paginator/issues/)
-* [Chat](https://laminas.dev/chat/)
-* [Forum](https://discourse.laminas.dev/)
+- [Issues](https://github.com/laminas/laminas-paginator/issues/)
+- [Chat](https://laminas.dev/chat/)
+- [Forum](https://discourse.laminas.dev/)

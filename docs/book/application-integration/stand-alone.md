@@ -31,6 +31,7 @@ $paginator->setItemCountPerPage(4);
 $paginator->setCurrentPageNumber((int) ($_GET['page'] ?? 1));
 ```
 
+<!-- markdownlint-disable-next-line MD033-->
 <details><summary>Example Data</summary>
 
 ```php
@@ -78,6 +79,7 @@ $albums = [
 ];
 ```
 
+<!-- markdownlint-disable-next-line MD033-->
 </details>
 
 ## Output Pure Data
@@ -198,7 +200,7 @@ Output:
         <li class="page-item">
             <a class="page-link" href="index.php?page=1">Previous</a>
         </li>
-        
+
         <!-- Numbered page links -->
         <li class="page-item">
             <a class="page-link" href="index.php?page=1">
@@ -214,7 +216,7 @@ Output:
                 3
             </a>
         </li>
-                
+
         <!-- Next page link -->
         <li class="page-item">
             <a class="page-link" href="index.php?page=3">Next</a>
@@ -223,6 +225,7 @@ Output:
 </nav>
 ```
 
+<!-- markdownlint-disable-next-line MD033-->
 <details><summary>Show full code example</summary>
 
 ```php
@@ -297,4 +300,5 @@ $renderer->plugin('paginationControl')->setDefaultViewPartial('pagination-contro
 echo $paginator->render();
 ```
 
+<!-- markdownlint-disable-next-line MD033-->
 </details>
