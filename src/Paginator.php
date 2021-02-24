@@ -10,7 +10,6 @@ namespace Laminas\Paginator;
 
 use ArrayIterator;
 use Countable;
-use Exception;
 use IteratorAggregate;
 use Laminas\Cache\Storage\IteratorInterface as CacheIterator;
 use Laminas\Cache\Storage\StorageInterface as CacheStorage;
@@ -24,6 +23,7 @@ use Laminas\Stdlib\ArrayUtils;
 use Laminas\View;
 use Laminas\View\Renderer\RendererInterface;
 use stdClass;
+use Throwable;
 use Traversable;
 
 use function ceil;
@@ -340,7 +340,7 @@ class Paginator implements Countable, IteratorAggregate
     {
         try {
             return $this->render();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             trigger_error($e->getMessage(), E_USER_WARNING);
         }
 
@@ -656,7 +656,7 @@ class Paginator implements Countable, IteratorAggregate
     {
         try {
             return $this->getCurrentItems();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             throw new Exception\RuntimeException('Error producing an iterator', null, $e);
         }
     }

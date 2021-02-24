@@ -8,6 +8,7 @@
 
 namespace LaminasTest\Paginator;
 
+use ArrayIterator;
 use ArrayObject;
 use DirectoryIterator;
 use Interop\Container\ContainerInterface;
@@ -345,7 +346,7 @@ class PaginatorTest extends TestCase
     public function testGetsCurrentItems()
     {
         $items = $this->paginator->getCurrentItems();
-        $this->assertInstanceOf('ArrayIterator', $items);
+        $this->assertInstanceOf(ArrayIterator::class, $items);
 
         $count = 0;
 
