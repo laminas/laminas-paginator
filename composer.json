@@ -26,6 +26,7 @@
     },
     "require": {
         "php": "^7.3",
+        "ext-json": "*",
         "laminas/laminas-stdlib": "^3.2.1",
         "laminas/laminas-zendframework-bridge": "^1.0.4"
     },
@@ -44,7 +45,6 @@
         "laminas/laminas-cache": "Laminas\\Cache component to support cache features",
         "laminas/laminas-db": "Laminas\\Db component",
         "laminas/laminas-filter": "Laminas\\Filter component",
-        "laminas/laminas-json": "Laminas\\Json component",
         "laminas/laminas-servicemanager": "Laminas\\ServiceManager component",
         "laminas/laminas-view": "Laminas\\View component"
     },
