@@ -15,7 +15,6 @@ use Laminas\Cache\Storage\IteratorInterface as CacheIterator;
 use Laminas\Cache\Storage\StorageInterface as CacheStorage;
 use Laminas\Db\ResultSet\AbstractResultSet;
 use Laminas\Filter\FilterInterface;
-use Laminas\Json\Json;
 use Laminas\Paginator\Adapter\AdapterInterface;
 use Laminas\Paginator\Adapter\DbSelect;
 use Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface;
@@ -812,12 +811,14 @@ class Paginator implements Countable, IteratorAggregate
      */
     public function toJson()
     {
-        $currentItems = $this->getCurrentItems();
+        $currentItems  = $this->getCurrentItems();
+        $encodeOptions = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP;
 
         if ($currentItems instanceof AbstractResultSet) {
-            return Json::encode($currentItems->toArray());
+            return json_encode($currentItems->toArray(), $encodeOptions);
         }
-        return Json::encode($currentItems);
+
+        return json_encode($currentItems, $encodeOptions);
     }
 
     /**
