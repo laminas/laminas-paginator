@@ -14,6 +14,8 @@ use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\FactoryInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 
+use function sprintf;
+
 class DbSelectFactory implements FactoryInterface
 {
     /**
@@ -28,7 +30,7 @@ class DbSelectFactory implements FactoryInterface
      *
      * @return DbSelect
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         if (null === $options || empty($options)) {
             throw new ServiceNotCreatedException(sprintf(
@@ -40,15 +42,14 @@ class DbSelectFactory implements FactoryInterface
         return new $requestedName(
             $options[0],
             $options[1],
-            isset($options[2]) ? $options[2] : null,
-            isset($options[3]) ? $options[3] : null
+            $options[2] ?? null,
+            $options[3] ?? null
         );
     }
 
     /**
      * Create and return a DbSelect instance (v2)
      *
-     * @param ServiceLocatorInterface $container
      * @param null|string $name
      * @param string $requestedName
      * @return DbSelect

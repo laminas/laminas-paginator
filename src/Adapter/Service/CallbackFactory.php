@@ -14,6 +14,11 @@ use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\FactoryInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 
+use function array_shift;
+use function count;
+use function is_array;
+use function sprintf;
+
 /**
  * Create and return an instance of the Callback adapter.
  */
@@ -31,13 +36,13 @@ class CallbackFactory implements FactoryInterface
      *
      * @return Callback
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         $options = is_array($options) ? $options : [];
         if (count($options) < 2) {
             throw new ServiceNotCreatedException(sprintf(
                 '%s requires that at least two options, an Items and Count callback, be provided; received %d options',
-                __CLASS__,
+                self::class,
                 count($options)
             ));
         }
@@ -49,7 +54,6 @@ class CallbackFactory implements FactoryInterface
     /**
      * Create and return a Callback instance (v2)
      *
-     * @param ServiceLocatorInterface $container
      * @param null|string $name
      * @param string $requestedName
      * @return Callback

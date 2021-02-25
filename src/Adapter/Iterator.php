@@ -11,6 +11,8 @@ namespace Laminas\Paginator\Adapter;
 use Countable;
 use Laminas\Paginator\SerializableLimitIterator;
 
+use function count;
+
 class Iterator implements AdapterInterface
 {
     /**
@@ -18,18 +20,16 @@ class Iterator implements AdapterInterface
      *
      * @var \Iterator
      */
-    protected $iterator = null;
+    protected $iterator;
 
     /**
      * Item count
      *
      * @var int
      */
-    protected $count = null;
+    protected $count;
 
     /**
-     * Constructor.
-     *
      * @param  \Iterator $iterator Iterator to paginate
      * @throws Exception\InvalidArgumentException
      */
@@ -40,7 +40,7 @@ class Iterator implements AdapterInterface
         }
 
         $this->iterator = $iterator;
-        $this->count = count($iterator);
+        $this->count    = count($iterator);
     }
 
     /**
@@ -52,7 +52,7 @@ class Iterator implements AdapterInterface
      */
     public function getItems($offset, $itemCountPerPage)
     {
-        if ($this->count == 0) {
+        if ($this->count === 0) {
             return [];
         }
         return new SerializableLimitIterator($this->iterator, $offset, $itemCountPerPage);

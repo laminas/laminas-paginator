@@ -10,7 +10,12 @@ namespace LaminasTest\Paginator\ScrollingStyle;
 
 use Laminas\Paginator\Adapter\ArrayAdapter;
 use Laminas\Paginator\Paginator;
+use Laminas\Paginator\ScrollingStyle\Elastic;
 use PHPUnit\Framework\TestCase;
+
+use function array_combine;
+use function count;
+use function range;
 
 /**
  * @group      Laminas_Paginator
@@ -18,13 +23,9 @@ use PHPUnit\Framework\TestCase;
  */
 class ElasticTest extends TestCase
 {
-    /**
-     * @var \Laminas\Paginator\ScrollingStyle\Elastic
-     */
+    /** @var Elastic */
     private $scrollingStyle;
-    /**
-     * @var \Laminas\Paginator\Paginator
-     */
+    /** @var Paginator */
     private $paginator;
 
     /**
@@ -33,25 +34,26 @@ class ElasticTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->scrollingStyle = new \Laminas\Paginator\ScrollingStyle\Elastic();
-        $this->paginator = new Paginator(new ArrayAdapter(range(1, 101)));
+        $this->scrollingStyle = new Elastic();
+        $this->paginator      = new Paginator(new ArrayAdapter(range(1, 101)));
         $this->paginator->setItemCountPerPage(5);
         $this->paginator->setPageRange(5);
     }
+
     /**
      * Cleans up the environment after running a test.
      */
     protected function tearDown(): void
     {
         $this->scrollingStyle = null;
-        $this->paginator = null;
+        $this->paginator      = null;
         parent::tearDown();
     }
 
     public function testGetsPagesInRangeForFirstPage()
     {
         $this->paginator->setCurrentPageNumber(1);
-        $actual = $this->scrollingStyle->getPages($this->paginator);
+        $actual   = $this->scrollingStyle->getPages($this->paginator);
         $expected = array_combine(range(1, 5), range(1, 5));
         $this->assertEquals($expected, $actual);
     }
@@ -59,7 +61,7 @@ class ElasticTest extends TestCase
     public function testGetsPagesInRangeForSecondPage()
     {
         $this->paginator->setCurrentPageNumber(2);
-        $actual = $this->scrollingStyle->getPages($this->paginator);
+        $actual   = $this->scrollingStyle->getPages($this->paginator);
         $expected = array_combine(range(1, 6), range(1, 6));
         $this->assertEquals($expected, $actual);
     }
@@ -67,7 +69,7 @@ class ElasticTest extends TestCase
     public function testGetsPagesInRangeForTenthPage()
     {
         $this->paginator->setCurrentPageNumber(10);
-        $actual = $this->scrollingStyle->getPages($this->paginator);
+        $actual   = $this->scrollingStyle->getPages($this->paginator);
         $expected = array_combine(range(6, 14), range(6, 14));
         $this->assertEquals($expected, $actual);
     }
@@ -75,7 +77,7 @@ class ElasticTest extends TestCase
     public function testGetsPagesInRangeForLastPage()
     {
         $this->paginator->setCurrentPageNumber(21);
-        $actual = $this->scrollingStyle->getPages($this->paginator);
+        $actual   = $this->scrollingStyle->getPages($this->paginator);
         $expected = array_combine(range(17, 21), range(17, 21));
         $this->assertEquals($expected, $actual);
     }

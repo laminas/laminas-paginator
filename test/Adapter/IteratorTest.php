@@ -8,9 +8,17 @@
 
 namespace LaminasTest\Paginator\Adapter;
 
+use ArrayIterator;
 use Laminas\Paginator\Adapter;
+use Laminas\Paginator\Adapter\Exception\InvalidArgumentException;
+use Laminas\Paginator\Adapter\Iterator;
 use Laminas\Paginator\Paginator;
+use LimitIterator;
 use PHPUnit\Framework\TestCase;
+
+use function range;
+use function serialize;
+use function unserialize;
 
 /**
  * @group      Laminas_Paginator
@@ -18,9 +26,7 @@ use PHPUnit\Framework\TestCase;
  */
 class IteratorTest extends TestCase
 {
-    /**
-     * @var \Laminas\Paginator\Adapter\Iterator
-     */
+    /** @var Iterator */
     private $adapter;
 
     /**
@@ -29,9 +35,10 @@ class IteratorTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $iterator = new \ArrayIterator(range(1, 101));
+        $iterator      = new ArrayIterator(range(1, 101));
         $this->adapter = new Adapter\Iterator($iterator);
     }
+
     /**
      * Cleans up the environment after running a test.
      */
@@ -72,9 +79,9 @@ class IteratorTest extends TestCase
 
     public function testThrowsExceptionIfNotCountable()
     {
-        $iterator = new \LimitIterator(new \ArrayIterator(range(1, 101)));
+        $iterator = new LimitIterator(new ArrayIterator(range(1, 101)));
 
-        $this->expectException('Laminas\Paginator\Adapter\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Iterator must implement Countable');
         new Adapter\Iterator($iterator);
     }
@@ -84,9 +91,10 @@ class IteratorTest extends TestCase
      */
     public function testDoesNotThrowOutOfBoundsExceptionIfIteratorIsEmpty()
     {
-        $this->paginator = new Paginator(new Adapter\Iterator(new \ArrayIterator([])));
-        $items = $this->paginator->getCurrentItems();
+        $this->paginator = new Paginator(new Adapter\Iterator(new ArrayIterator([])));
+        $items           = $this->paginator->getCurrentItems();
 
+        // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedForeach
         foreach ($items as $item) {
         }
 
@@ -98,9 +106,9 @@ class IteratorTest extends TestCase
      */
     public function testGetItemsSerializable()
     {
-        $items = $this->adapter->getItems(0, 1);
+        $items         = $this->adapter->getItems(0, 1);
         $innerIterator = $items->getInnerIterator();
-        $items = unserialize(serialize($items));
+        $items         = unserialize(serialize($items));
         $this->assertEquals(
             $items->getInnerIterator(),
             $innerIterator,
@@ -113,9 +121,9 @@ class IteratorTest extends TestCase
      */
     public function testEmptySet()
     {
-        $iterator = new \ArrayIterator([]);
+        $iterator      = new ArrayIterator([]);
         $this->adapter = new Adapter\Iterator($iterator);
-        $actual = $this->adapter->getItems(0, 10);
+        $actual        = $this->adapter->getItems(0, 10);
         $this->assertEquals([], $actual);
     }
 }

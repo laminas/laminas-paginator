@@ -19,16 +19,25 @@ class ScrollingStylePluginManagerCompatibilityTest extends TestCase
 {
     use CommonPluginManagerTrait;
 
+    /**
+     * @return ScrollingStylePluginManager
+     */
     protected function getPluginManager()
     {
         return new ScrollingStylePluginManager(new ServiceManager());
     }
 
+    /**
+     * @return string
+     */
     protected function getV2InvalidPluginException()
     {
         return InvalidArgumentException::class;
     }
 
+    /**
+     * @return string
+     */
     protected function getInstanceOf()
     {
         return ScrollingStyleInterface::class;

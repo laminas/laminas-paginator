@@ -8,9 +8,20 @@
 
 namespace LaminasTest\Paginator\Adapter;
 
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\Driver\DriverInterface;
+use Laminas\Db\Adapter\Driver\ResultInterface;
+use Laminas\Db\Adapter\Driver\StatementInterface;
+use Laminas\Db\Adapter\Platform\PlatformInterface;
+use Laminas\Db\Sql\Select;
+use Laminas\Db\Sql\Sql;
 use Laminas\Paginator\Adapter\DbSelect;
 use Laminas\Paginator\Adapter\Exception\MissingRowCountColumnException;
 use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
+
+use function array_keys;
+use function strtolower;
 
 /**
  * @group      Laminas_Paginator
@@ -18,19 +29,19 @@ use PHPUnit\Framework\TestCase;
  */
 class DbSelectTest extends TestCase
 {
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Laminas\Db\Sql\Select */
+    /** @var PHPUnit_Framework_MockObject_MockObject|Select */
     protected $mockSelect;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Laminas\Db\Sql\Select */
+    /** @var PHPUnit_Framework_MockObject_MockObject|Select */
     protected $mockSelectCount;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Laminas\Db\Adapter\Driver\StatementInterface */
+    /** @var PHPUnit_Framework_MockObject_MockObject|StatementInterface */
     protected $mockStatement;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Laminas\Db\Adapter\Driver\ResultInterface */
+    /** @var PHPUnit_Framework_MockObject_MockObject|ResultInterface */
     protected $mockResult;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Laminas\Db\Sql\Sql */
+    /** @var PHPUnit_Framework_MockObject_MockObject|Sql */
     protected $mockSql;
 
     /** @var DbSelect */
@@ -38,25 +49,25 @@ class DbSelectTest extends TestCase
 
     public function setUp(): void
     {
-        $this->mockResult    = $this->createMock('Laminas\Db\Adapter\Driver\ResultInterface');
-        $this->mockStatement = $this->createMock('Laminas\Db\Adapter\Driver\StatementInterface');
+        $this->mockResult    = $this->createMock(ResultInterface::class);
+        $this->mockStatement = $this->createMock(StatementInterface::class);
 
         $this->mockStatement->expects($this->any())->method('execute')->will($this->returnValue($this->mockResult));
 
-        $mockDriver   = $this->createMock('Laminas\Db\Adapter\Driver\DriverInterface');
-        $mockPlatform = $this->createMock('Laminas\Db\Adapter\Platform\PlatformInterface');
+        $mockDriver   = $this->createMock(DriverInterface::class);
+        $mockPlatform = $this->createMock(PlatformInterface::class);
 
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue($this->mockStatement));
         $mockPlatform->expects($this->any())->method('getName')->will($this->returnValue('platform'));
 
-        $this->mockSql = $this->getMockBuilder('Laminas\Db\Sql\Sql')
+        $this->mockSql = $this->getMockBuilder(Sql::class)
             ->setMethods(['prepareStatementForSqlObject', 'execute'])
             ->setConstructorArgs(
                 [
                     $this->getMockForAbstractClass(
-                        'Laminas\Db\Adapter\Adapter',
+                        Adapter::class,
                         [$mockDriver, $mockPlatform]
-                    )
+                    ),
                 ]
             )->getMock();
 
@@ -64,11 +75,11 @@ class DbSelectTest extends TestCase
             ->mockSql
             ->expects($this->any())
             ->method('prepareStatementForSqlObject')
-            ->with($this->isInstanceOf('Laminas\Db\Sql\Select'))
+            ->with($this->isInstanceOf(Select::class))
             ->will($this->returnValue($this->mockStatement));
 
-        $this->mockSelect      = $this->createMock('Laminas\Db\Sql\Select');
-        $this->mockSelectCount = $this->createMock('Laminas\Db\Sql\Select');
+        $this->mockSelect      = $this->createMock(Select::class);
+        $this->mockSelectCount = $this->createMock(Select::class);
         $this->dbSelect        = new DbSelect($this->mockSelect, $this->mockSql);
     }
 

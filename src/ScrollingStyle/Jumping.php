@@ -20,7 +20,6 @@ class Jumping implements ScrollingStyleInterface
     /**
      * Returns an array of "local" pages given a page number and range.
      *
-     * @param  Paginator $paginator
      * @param  int $pageRange Unused
      * @return array
      */
@@ -31,7 +30,7 @@ class Jumping implements ScrollingStyleInterface
 
         $delta = $pageNumber % $pageRange;
 
-        if ($delta == 0) {
+        if ($delta === 0) {
             $delta = $pageRange;
         }
 

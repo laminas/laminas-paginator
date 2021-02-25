@@ -19,8 +19,8 @@ class ScrollingStylePluginManagerFactoryTest extends TestCase
 {
     public function testFactoryReturnsPluginManager()
     {
-        $container = $this->prophesize(ContainerInterface::class)->reveal();
-        $factory = new ScrollingStylePluginManagerFactory();
+        $container = $this->createMock(ContainerInterface::class);
+        $factory   = new ScrollingStylePluginManagerFactory();
 
         $scrollingStyles = $factory($container, ScrollingStylePluginManager::class);
         $this->assertInstanceOf(ScrollingStylePluginManager::class, $scrollingStyles);
@@ -31,10 +31,10 @@ class ScrollingStylePluginManagerFactoryTest extends TestCase
      */
     public function testFactoryConfiguresPluginManagerUnderContainerInterop()
     {
-        $container = $this->prophesize(ContainerInterface::class)->reveal();
-        $scrollingStyle = $this->prophesize(ScrollingStyleInterface::class)->reveal();
+        $container      = $this->createMock(ContainerInterface::class);
+        $scrollingStyle = $this->createMock(ScrollingStyleInterface::class);
 
-        $factory = new ScrollingStylePluginManagerFactory();
+        $factory         = new ScrollingStylePluginManagerFactory();
         $scrollingStyles = $factory($container, ScrollingStylePluginManager::class, [
             'services' => [
                 'test' => $scrollingStyle,
@@ -48,10 +48,8 @@ class ScrollingStylePluginManagerFactoryTest extends TestCase
      */
     public function testFactoryConfiguresPluginManagerUnderServiceManagerV2()
     {
-        $container = $this->prophesize(ServiceLocatorInterface::class);
-        $container->willImplement(ContainerInterface::class);
-
-        $scrollingStyle = $this->prophesize(ScrollingStyleInterface::class)->reveal();
+        $container      = $this->createMock(ServiceLocatorInterface::class);
+        $scrollingStyle = $this->createMock(ScrollingStyleInterface::class);
 
         $factory = new ScrollingStylePluginManagerFactory();
         $factory->setCreationOptions([
@@ -60,7 +58,7 @@ class ScrollingStylePluginManagerFactoryTest extends TestCase
             ],
         ]);
 
-        $scrollingStyles = $factory->createService($container->reveal());
+        $scrollingStyles = $factory->createService($container);
         $this->assertSame($scrollingStyle, $scrollingStyles->get('test'));
     }
 }

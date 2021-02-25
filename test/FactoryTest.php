@@ -8,10 +8,22 @@
 
 namespace LaminasTest\Paginator;
 
+use Laminas\Db\Adapter\Adapter as DbAdapter;
+use Laminas\Db\Adapter\Driver\DriverInterface;
+use Laminas\Db\Adapter\Driver\ResultInterface;
+use Laminas\Db\Adapter\Driver\StatementInterface;
+use Laminas\Db\Adapter\Platform\PlatformInterface;
+use Laminas\Db\Sql\Select;
 use Laminas\Paginator;
 use Laminas\Paginator\Adapter;
+use Laminas\Paginator\Adapter\ArrayAdapter;
+use Laminas\Paginator\Adapter\DbSelect;
+use Laminas\Paginator\Exception\InvalidArgumentException;
 use LaminasTest\Paginator\TestAsset\TestArrayAggregate;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+
+use function count;
 
 /**
  * @group      Laminas_Paginator
@@ -19,79 +31,78 @@ use PHPUnit\Framework\TestCase;
  */
 class FactoryTest extends TestCase
 {
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
+    /** @var MockObject|Select */
     protected $mockSelect;
 
+    /** @var MockObject|DbAdapter */
     protected $mockAdapter;
 
     protected function setUp(): void
     {
-        $this->mockSelect = $this->createMock('Laminas\Db\Sql\Select');
+        $this->mockSelect = $this->createMock(Select::class);
 
-        $mockStatement = $this->createMock('Laminas\Db\Adapter\Driver\StatementInterface');
-        $mockResult = $this->createMock('Laminas\Db\Adapter\Driver\ResultInterface');
+        $mockStatement = $this->createMock(StatementInterface::class);
+        $mockResult    = $this->createMock(ResultInterface::class);
 
-        $mockDriver = $this->createMock('Laminas\Db\Adapter\Driver\DriverInterface');
+        $mockDriver = $this->createMock(DriverInterface::class);
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue($mockStatement));
         $mockStatement->expects($this->any())->method('execute')->will($this->returnValue($mockResult));
-        $mockPlatform = $this->createMock('Laminas\Db\Adapter\Platform\PlatformInterface');
+        $mockPlatform = $this->createMock(PlatformInterface::class);
         $mockPlatform->expects($this->any())->method('getName')->will($this->returnValue('platform'));
 
         $this->mockAdapter = $this->getMockForAbstractClass(
-            'Laminas\Db\Adapter\Adapter',
+            DbAdapter::class,
             [$mockDriver, $mockPlatform]
         );
     }
 
     public function testCanFactoryPaginatorWithStringAdapterObject()
     {
-        $datas = [1, 2, 3];
+        $datas     = [1, 2, 3];
         $paginator = Paginator\Factory::factory($datas, new Adapter\ArrayAdapter($datas));
-        $this->assertInstanceOf('Laminas\Paginator\Adapter\ArrayAdapter', $paginator->getAdapter());
+        $this->assertInstanceOf(ArrayAdapter::class, $paginator->getAdapter());
         $this->assertEquals(count($datas), $paginator->getCurrentItemCount());
     }
 
     public function testCanFactoryPaginatorWithStringAdapterName()
     {
-        $datas = [1, 2, 3];
+        $datas     = [1, 2, 3];
         $paginator = Paginator\Factory::factory($datas, 'array');
-        $this->assertInstanceOf('Laminas\Paginator\Adapter\ArrayAdapter', $paginator->getAdapter());
+        $this->assertInstanceOf(ArrayAdapter::class, $paginator->getAdapter());
         $this->assertEquals(count($datas), $paginator->getCurrentItemCount());
     }
 
     public function testCanFactoryPaginatorWithStringAdapterAggregate()
     {
-        $paginator = Paginator\Factory::factory(null, new TestArrayAggregate);
-        $this->assertInstanceOf('Laminas\Paginator\Adapter\ArrayAdapter', $paginator->getAdapter());
+        $paginator = Paginator\Factory::factory(null, new TestArrayAggregate());
+        $this->assertInstanceOf(ArrayAdapter::class, $paginator->getAdapter());
     }
 
     public function testCanFactoryPaginatorWithDbSelect()
     {
         $paginator = Paginator\Factory::factory([$this->mockSelect, $this->mockAdapter], 'dbselect');
-        $this->assertInstanceOf('Laminas\Paginator\Adapter\DbSelect', $paginator->getAdapter());
+        $this->assertInstanceOf(DbSelect::class, $paginator->getAdapter());
     }
 
     public function testCanFactoryPaginatorWithOneParameterWithArrayAdapter()
     {
-        $datas = [
-            'items' => [1, 2, 3],
+        $datas     = [
+            'items'   => [1, 2, 3],
             'adapter' => 'array',
         ];
         $paginator = Paginator\Factory::factory($datas);
-        $this->assertInstanceOf('Laminas\Paginator\Adapter\ArrayAdapter', $paginator->getAdapter());
+        $this->assertInstanceOf(ArrayAdapter::class, $paginator->getAdapter());
         $this->assertEquals(count($datas['items']), $paginator->getCurrentItemCount());
     }
 
     public function testCanFactoryPaginatorWithOneParameterWithDbAdapter()
     {
-        $datas = [
-            'items' => [$this->mockSelect, $this->mockAdapter],
+        $datas     = [
+            'items'   => [$this->mockSelect, $this->mockAdapter],
             'adapter' => 'dbselect',
         ];
         $paginator = Paginator\Factory::factory($datas);
-        $this->assertInstanceOf('Laminas\Paginator\Adapter\DbSelect', $paginator->getAdapter());
+        $this->assertInstanceOf(DbSelect::class, $paginator->getAdapter());
     }
 
     public function testCanFactoryPaginatorWithOneBadParameter()
@@ -100,7 +111,7 @@ class FactoryTest extends TestCase
             [1, 2, 3],
             'array',
         ];
-        $this->expectException('Laminas\Paginator\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $paginator = Paginator\Factory::factory($datas);
     }
 }

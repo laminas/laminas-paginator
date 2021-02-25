@@ -10,6 +10,9 @@ namespace Laminas\Paginator\ScrollingStyle;
 
 use Laminas\Paginator\Paginator;
 
+use function ceil;
+use function count;
+
 /**
  * A Yahoo! Search-like scrolling style.  The cursor will advance to
  * the middle of the range, then remain there until the user reaches
@@ -23,7 +26,6 @@ class Sliding implements ScrollingStyleInterface
     /**
      * Returns an array of "local" pages given a page number and range.
      *
-     * @param  Paginator $paginator
      * @param  int $pageRange (Optional) Page range
      * @return array
      */

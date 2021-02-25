@@ -8,6 +8,8 @@
 
 namespace Laminas\Paginator\Adapter;
 
+use function array_fill;
+
 class NullFill implements AdapterInterface
 {
     /**
@@ -15,11 +17,9 @@ class NullFill implements AdapterInterface
      *
      * @var int
      */
-    protected $count = null;
+    protected $count;
 
     /**
-     * Constructor.
-     *
      * @param int $count Total item count (Optional)
      */
     public function __construct($count = 0)

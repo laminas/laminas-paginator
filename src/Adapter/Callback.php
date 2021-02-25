@@ -8,6 +8,8 @@
 
 namespace Laminas\Paginator\Adapter;
 
+use function call_user_func;
+
 class Callback implements AdapterInterface
 {
     /**

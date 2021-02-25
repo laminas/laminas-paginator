@@ -11,7 +11,11 @@ namespace Laminas\Paginator;
 use ArrayAccess;
 use Iterator;
 use LimitIterator;
+use OutOfBoundsException;
 use Serializable;
+
+use function serialize;
+use function unserialize;
 
 class SerializableLimitIterator extends LimitIterator implements Serializable, ArrayAccess
 {
@@ -32,16 +36,17 @@ class SerializableLimitIterator extends LimitIterator implements Serializable, A
     /**
      * Construct a Laminas\Paginator\SerializableLimitIterator
      *
+     * @see LimitIterator::__construct
+     *
      * @param Iterator $it Iterator to limit (must be serializable by un-/serialize)
      * @param int $offset Offset to first element
      * @param int $count Maximum number of elements to show or -1 for all
-     * @see LimitIterator::__construct
      */
     public function __construct(Iterator $it, $offset = 0, $count = -1)
     {
         parent::__construct($it, $offset, $count);
         $this->offset = $offset;
-        $this->count = $count;
+        $this->count  = $count;
     }
 
     /**
@@ -109,7 +114,7 @@ class SerializableLimitIterator extends LimitIterator implements Serializable, A
                 $current = $this->current();
                 $this->seek($currentOffset);
                 return null !== $current;
-            } catch (\OutOfBoundsException $e) {
+            } catch (OutOfBoundsException $e) {
                 // reset position in case of exception is assigned null
                 $this->seek($currentOffset);
                 return false;
