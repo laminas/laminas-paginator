@@ -254,7 +254,7 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 
@@ -284,6 +284,10 @@
         <div class="toc">
             <h6 class="toc__headline">On this page</h6>
             <ul class="toc__list">
+                
+                    <li class="toc__entry">
+                        <a href="#using-the-paginator-adapter-plugin-manager" class="toc__link nav-link">Using the Paginator Adapter Plugin Manager</a>
+                    </li>
                 
                     <li class="toc__entry">
                         <a href="#custom-data-source-adapters" class="toc__link nav-link">Custom data source adapters</a>
@@ -339,6 +343,33 @@
     
 
     <h1 id="advanced-usage">Advanced usage</h1>
+<h2 id="using-the-paginator-adapter-plugin-manager">Using the Paginator Adapter Plugin Manager</h2>
+<p>laminas-paginator ships with a plugin manager for adapters, <code>Laminas\Paginator\AdapterPluginManager</code>.
+The plugin manager can be used to retrieve adapters.
+Since most adapters require constructor arguments, they may be passed as the second argument to the <code>get()</code> method in the same order they appear in the constructor.</p>
+<h3 id="examples">Examples</h3>
+<pre class="highlight"><code class="language-php">use Laminas\Paginator\Adapter;
+use Laminas\Paginator\AdapterPluginManager;
+
+$pluginManager = new AdapterPluginManager();
+
+// Get an array adapter for an array of items
+$arrayAdapter = $pluginManager-&gt;get(Adapter\ArrayAdapter::class, [$arrayOfItems]);
+
+// Get a DbSelect adapter based on a Laminas\Db\Sql\Select instance and a DB adapter:
+$dbSelectAdapter = $pluginManager-&gt;get(Adapter\DbSelect::class, [
+    $select,
+    $dbAdapter
+]);
+
+// Get a DbTableGateway adapter based on a Laminas\Db\TableGateway\TableGateway instance:
+$dbTDGAdapter = $pluginManager-&gt;get(Adapter\DbTableGateway::class, [$tableGateway]);
+
+// Get an Iterator adapter based on an iterator:
+$iteratorAdapter = $pluginManager-&gt;get(Adapter\Iterator::class, [$iterator]);</code></pre>
+<blockquote>
+<p><strong>Note</strong>: the laminas-db-based adapters are deprecated since version 2.10.0.</p>
+</blockquote>
 <h2 id="custom-data-source-adapters">Custom data source adapters</h2>
 <p>At some point you may run across a data type that is not covered by the packaged
 adapters. In this case, you will need to write your own.</p>
@@ -359,15 +390,43 @@ your adapter's <code>getItems()</code> method, providing it with an offset and t
 of items to display per page; your job is to return the appropriate slice of
 data. For an array, that would be:</p>
 <pre class="highlight"><code class="language-php">return array_slice($this-&gt;array, $offset, $itemCountPerPage);</code></pre>
-
 <p>Take a look at the packaged adapters for ideas of how you might go about
 implementing your own.</p>
+<h3 id="registering-your-adapter-with-the-plugin-manager">Registering Your Adapter with the Plugin Manager</h3>
+<blockquote>
+<p>Available since version 2.10.0.</p>
+</blockquote>
+<p>If you want to register your adapter with the <code>Laminas\Pagiantor\AdapterPluginManager</code>, you can do so via configuration.
+The "paginators" configuration key can contain <a href="https://docs.laminas.dev/laminas-servicemanager/configuring-the-service-manager/">standard laminas-servicemanager-style configuration</a>.</p>
+<p>One possibility is to add it to the <code>config/autoload/global.php</code> file:</p>
+<pre class="highlight"><code class="language-php">return [
+    // ...
+    'paginators' =&gt; [
+        'factories' =&gt; [
+            YourCustomPaginationAdapter::class =&gt; YourCustomPaginationAdapterFactory::class,
+        ],
+    ],
+];</code></pre>
+<p>This allows you to retrieve the <code>AdapterPluginManager</code> in a factory, and then pull your adapter from it.
+As an example, consider the following factory:</p>
+<pre class="highlight"><code class="language-php">use Laminas\Paginator\AdapterPluginManager;
+use Laminas\Paginator\Paginator;
+use Psr\Container\ContainerInterface;
+
+class SomeServiceFactory
+{
+    public function __invoke(ContainerInterface $container)
+    {
+        $paginators = $container-&gt;get(AdapterPluginManager::class);
+        $paginator  = new Paginator($paginators-&gt;get(YourCustomPaginatorAdapter::class));
+        // ...
+    }
+}</code></pre>
 <h2 id="custom-scrolling-styles">Custom scrolling styles</h2>
 <p>Creating your own scrolling style requires that you implement
 <code>Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface</code>, which defines a single
 method:</p>
 <pre class="highlight"><code class="language-php">getPages(Paginator $paginator, int $pageRange = null) : array</code></pre>
-
 <p>This method should calculate a lower and upper bound for page numbers within the
 range of so-called "local" pages (that is, pages that are nearby the current
 page).</p>
@@ -375,7 +434,6 @@ page).</p>
 <code>Laminas\Paginator\ScrollingStyle\Elastic</code> for an example), your custom scrolling
 style will inevitably end with something similar to the following line of code:</p>
 <pre class="highlight"><code class="language-php">return $paginator-&gt;getPagesInRange($lowerBound, $upperBound);</code></pre>
-
 <p>There's nothing special about this call; it's merely a convenience method to
 check the validity of the lower and upper bound and return an array with the range
 to the paginator.</p>
@@ -388,14 +446,12 @@ use Laminas\ServiceManager\Factory\InvokableFactory;
 $manager = Paginator::getScrollingStyleManager();
 $manager-&gt;setAlias('my-style', ScrollingStyle::class);
 $manager-&gt;setFactory(ScrollingStyle::class, InvokableFactory::class);</code></pre>
-
 <h2 id="caching-features">Caching features</h2>
 <blockquote>
-<h3>Installation Requirements</h3>
+<h3 id="installation-requirements">Installation Requirements</h3>
 <p>The caching features depends on the laminas-cache component, so be sure to have
 it installed before getting started:</p>
 <pre class="highlight"><code class="language-bash">$ composer require laminas/laminas-cache</code></pre>
-
 </blockquote>
 <p><code>Laminas\Paginator\Paginator</code> can be told to cache the data it has already used,
 preventing the adapter from fetching on next request. To tell
@@ -411,7 +467,6 @@ $cache = StorageFactory::adapterFactory('filesystem', [
     'plugins'   =&gt; [ 'serializer' ],
 ]);
 Paginator::setCache($cache);</code></pre>
-
 <p>As long as the <code>Paginator</code> class has been seeded with a cache storage object,
 the data any instance generates will be cached. If you want to disable caching, call
 <code>setCacheEnabled()</code> with a boolean <code>false</code> on a concrete instance:</p>
@@ -423,7 +478,6 @@ Paginator::setCache($cache);
 // ... later on the script:
 $paginator-&gt;setCacheEnabled(false);
 // cache is now disabled for this instance.</code></pre>
-
 <p>When a cache is set, data are automatically stored in it and pulled out from it.
 It then can be useful to empty the cache manually. You can get this done by
 calling <code>clearPageItemCache($pageNumber)</code>. If you don't pass any parameter, the
@@ -445,7 +499,6 @@ $paginator-&gt;clearPageItemCache(3);
 
 // clear all the cache data
 $paginator-&gt;clearPageItemCache();</code></pre>
-
 <p>Changing the item count per page will empty the whole cache as it would have
 become invalid:</p>
 <pre class="highlight"><code class="language-php">use Laminas\Paginator\Paginator;
@@ -458,7 +511,6 @@ $items = $paginator-&gt;getCurrentItems();
 
 // Changing item count flushes the cache:
 $paginator-&gt;setItemCountPerPage(2);</code></pre>
-
 <p>It is also possible to see the data in cache and ask for it directly.
 <code>getPageItemCache()</code> can be used for that:</p>
 <pre class="highlight"><code class="language-php">use Laminas\Paginator\Paginator;
@@ -641,6 +693,7 @@ var_dump($paginator-&gt;getPageItemCache());</code></pre>
         </ul>
     </div>
 
+                    
                 
             </div>
         </div>
@@ -713,7 +766,7 @@ var_dump($paginator-&gt;getPageItemCache());</code></pre>
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/laminas/laminas-paginator/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2020 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2021 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>
