@@ -11,10 +11,22 @@
         <directory name="test"/>
         <ignoreFiles>
             <directory name="vendor"/>
+            <file name="src/Adapter/DbSelect.php"/>
+            <file name="src/Adapter/DbTableGateway.php"/>
+            <file name="src/Adapter/Service/DbSelectFactory.php"/>
+            <file name="src/Adapter/Service/DbTableGatewayFactory.php"/>
+            <file name="test/Adapter/DbSelectTest.php"/>
+            <file name="test/Adapter/DbTableGatewayTest.php"/>
         </ignoreFiles>
     </projectFiles>
 
     <issueHandlers>
+        <DeprecatedClass>
+            <errorLevel type="suppress">
+                <file name="src/AdapterPluginManager.php"/>
+                <file name="test/FactoryTest.php"/>
+            </errorLevel>
+        </DeprecatedClass>
         <InternalMethod>
             <errorLevel type="suppress">
                 <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::method"/>

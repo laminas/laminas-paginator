@@ -10,4 +10,4 @@ The primary design goals of laminas-paginator are as follows:
 - Do not force users to adhere to only one way of displaying data or rendering
   pagination controls.
 - Loosely couple to other Laminas components so that users who wish to
-  use it independently of laminas-view, laminas-Db`, etc. can do so.
+  use it independently of laminas-view, laminas-cache, etc. can do so.

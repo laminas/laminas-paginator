@@ -8,22 +8,18 @@
 
 namespace LaminasTest\Paginator;
 
-use Laminas\Db\Adapter\Adapter as DbAdapter;
-use Laminas\Db\Adapter\Driver\DriverInterface;
-use Laminas\Db\Adapter\Driver\ResultInterface;
-use Laminas\Db\Adapter\Driver\StatementInterface;
-use Laminas\Db\Adapter\Platform\PlatformInterface;
-use Laminas\Db\Sql\Select;
+use ArrayIterator;
 use Laminas\Paginator;
 use Laminas\Paginator\Adapter;
 use Laminas\Paginator\Adapter\ArrayAdapter;
 use Laminas\Paginator\Adapter\DbSelect;
+use Laminas\Paginator\Adapter\Iterator;
 use Laminas\Paginator\Exception\InvalidArgumentException;
 use LaminasTest\Paginator\TestAsset\TestArrayAggregate;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 use function count;
+use function sprintf;
 
 /**
  * @group      Laminas_Paginator
@@ -31,31 +27,6 @@ use function count;
  */
 class FactoryTest extends TestCase
 {
-    /** @var MockObject|Select */
-    protected $mockSelect;
-
-    /** @var MockObject|DbAdapter */
-    protected $mockAdapter;
-
-    protected function setUp(): void
-    {
-        $this->mockSelect = $this->createMock(Select::class);
-
-        $mockStatement = $this->createMock(StatementInterface::class);
-        $mockResult    = $this->createMock(ResultInterface::class);
-
-        $mockDriver = $this->createMock(DriverInterface::class);
-        $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue($mockStatement));
-        $mockStatement->expects($this->any())->method('execute')->will($this->returnValue($mockResult));
-        $mockPlatform = $this->createMock(PlatformInterface::class);
-        $mockPlatform->expects($this->any())->method('getName')->will($this->returnValue('platform'));
-
-        $this->mockAdapter = $this->getMockForAbstractClass(
-            DbAdapter::class,
-            [$mockDriver, $mockPlatform]
-        );
-    }
-
     public function testCanFactoryPaginatorWithStringAdapterObject(): void
     {
         $datas     = [1, 2, 3];
@@ -80,8 +51,14 @@ class FactoryTest extends TestCase
 
     public function testCanFactoryPaginatorWithDbSelect(): void
     {
+        $this->markTestSkipped(sprintf(
+            '%s adapter is deprecated starting with version 2.10.x',
+            DbSelect::class
+        ));
+        /*
         $paginator = Paginator\Factory::factory([$this->mockSelect, $this->mockAdapter], 'dbselect');
         $this->assertInstanceOf(DbSelect::class, $paginator->getAdapter());
+         */
     }
 
     public function testCanFactoryPaginatorWithOneParameterWithArrayAdapter(): void
@@ -95,14 +72,14 @@ class FactoryTest extends TestCase
         $this->assertEquals(count($datas['items']), $paginator->getCurrentItemCount());
     }
 
-    public function testCanFactoryPaginatorWithOneParameterWithDbAdapter(): void
+    public function testCanFactoryPaginatorWithAdapterAcceptingOneParameter(): void
     {
         $datas     = [
-            'items'   => [$this->mockSelect, $this->mockAdapter],
-            'adapter' => 'dbselect',
+            'items'   => [new ArrayIterator([])],
+            'adapter' => 'iterator',
         ];
         $paginator = Paginator\Factory::factory($datas);
-        $this->assertInstanceOf(DbSelect::class, $paginator->getAdapter());
+        $this->assertInstanceOf(Iterator::class, $paginator->getAdapter());
     }
 
     public function testCanFactoryPaginatorWithOneBadParameter(): void

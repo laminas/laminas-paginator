@@ -15,19 +15,10 @@ use Interop\Container\ContainerInterface;
 use Laminas\Cache\Storage\StorageInterface;
 use Laminas\Cache\StorageFactory as CacheFactory;
 use Laminas\Config;
-use Laminas\Db\Adapter as DbAdapter;
-use Laminas\Db\Adapter\Driver\DriverInterface;
-use Laminas\Db\Adapter\Driver\ResultInterface;
-use Laminas\Db\Adapter\Driver\StatementInterface;
-use Laminas\Db\Adapter\Platform\PlatformInterface;
-use Laminas\Db\ResultSet\ResultSet;
-use Laminas\Db\Sql;
-use Laminas\Db\Sql\Select;
 use Laminas\Filter;
 use Laminas\Paginator;
 use Laminas\Paginator\Adapter;
 use Laminas\Paginator\Adapter\ArrayAdapter;
-use Laminas\Paginator\Adapter\DbSelect;
 use Laminas\Paginator\Exception;
 use Laminas\Paginator\Exception\InvalidArgumentException;
 use Laminas\Paginator\SerializableLimitIterator;
@@ -77,20 +68,11 @@ class PaginatorTest extends TestCase
     /** @var string */
     protected $cacheDir;
 
-    /** @var Sql\Select */
-    protected $select;
-
     /** @var array */
     protected $config;
 
-    /** @var DbAdapter\Adapter */
-    protected $adapter;
-
     protected function setUp(): void
     {
-        $this->select = new Sql\Select();
-        $this->select->from('test');
-
         $this->testCollection = range(1, 101);
         $this->paginator      = new Paginator\Paginator(new Paginator\Adapter\ArrayAdapter($this->testCollection));
 
@@ -487,56 +469,20 @@ class PaginatorTest extends TestCase
         $this->assertEquals($page1, $this->paginator->getItemsByPage(1));
     }
 
-    /**
-     * @group 6817
-     * @group 6812
-     */
-    public function testGetsItemsByPageHandleDbSelectAdapter(): void
+    public function testGetsItemsByPageHandle(): void
     {
-        $resultSet = new ResultSet();
-        $result    = $this->createMock(ResultInterface::class);
-        $resultSet->initialize([
+        $iterator = new ArrayIterator([
             new ArrayObject(['foo' => 'bar']),
             new ArrayObject(['foo' => 'bar']),
             new ArrayObject(['foo' => 'bar']),
         ]);
 
-        $result
-            ->expects($this->once())
-            ->method('current')
-            ->will($this->returnValue([DbSelect::ROW_COUNT_COLUMN_NAME => 3]));
-        $result->expects($this->once())->method('current')->will($this->returnValue($resultSet->getDataSource()));
+        $paginator = new Paginator\Paginator(new Paginator\Adapter\Iterator($iterator));
+        $items     = $paginator->getItemsByPage(1);
 
-        $mockStatement = $this->createMock(StatementInterface::class);
-        $mockStatement->expects($this->any())->method('execute')->will($this->returnValue($result));
-        $mockDriver = $this->createMock(DriverInterface::class);
-        $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue($mockStatement));
-        $mockPlatform = $this->createMock(PlatformInterface::class);
-        $mockPlatform->expects($this->any())->method('getName')->will($this->returnValue('platform'));
-        $mockAdapter = $this->getMockForAbstractClass(
-            \Laminas\Db\Adapter\Adapter::class,
-            [$mockDriver, $mockPlatform]
-        );
-        $mockSql     = $this->getMockBuilder(\Laminas\Db\Sql\Sql::class)
-            ->setMethods(['prepareStatementForSqlObject', 'execute'])
-            ->setConstructorArgs([$mockAdapter])
-            ->getMock();
+        $this->assertIsIterable($items);
 
-        $mockSql->expects($this->any())
-            ->method('prepareStatementForSqlObject')
-            ->with($this->isInstanceOf(Select::class))
-            ->will($this->returnValue($mockStatement));
-        $mockSelect = $this->createMock(Select::class);
-
-        $dbSelect = new DbSelect($mockSelect, $mockSql, null, $mockSelect);
-        $this->assertInstanceOf('ArrayIterator', $resultSet->getDataSource());
-
-        $paginator = new Paginator\Paginator($dbSelect);
-        $this->assertInstanceOf('ArrayIterator', $paginator->getItemsByPage(1));
-
-        $paginator = new Paginator\Paginator(new Paginator\Adapter\Iterator($resultSet->getDataSource()));
-
-        foreach ($paginator as $item) {
+        foreach ($items as $item) {
             $this->assertInstanceOf('ArrayObject', $item);
         }
     }
@@ -966,54 +912,24 @@ class PaginatorTest extends TestCase
         $this->assertNotEquals($firstOutputGetCacheInternalId, $secondOutputGetCacheInternalId);
     }
 
-    public function testDbSelectAdapterShouldProduceValidCacheId(): void
+    public function testPaginatorShouldProduceDifferentCacheIdsWithDifferentAdapterInstances(): void
     {
         // Create first interal cache ID
-        $paginator                    = new Paginator\Paginator(
-            new TestAsset\TestDbSelectAdapter(
-                (new Sql\Select('table1'))
-                    ->where('id = 1')
-                    ->where("foo = 'bar'"),
-                new DbAdapter\Adapter(
-                    new DbAdapter\Driver\Pdo\Pdo(
-                        new DbAdapter\Driver\Pdo\Connection([])
-                    )
-                )
-            )
-        );
-        $reflectionGetCacheInternalId = new ReflectionMethod(
-            $paginator,
-            '_getCacheInternalId'
-        );
+        $paginator                    = new Paginator\Paginator(new TestAsset\TestAdapter('foo'));
+        $reflectionGetCacheInternalId = new ReflectionMethod($paginator, '_getCacheInternalId');
         $reflectionGetCacheInternalId->setAccessible(true);
-        $firstCacheId = $reflectionGetCacheInternalId->invoke(
-            $paginator
-        );
+        /** @var string $firstCacheId */
+        $firstCacheId = $reflectionGetCacheInternalId->invoke($paginator);
 
         // Create second internal cache ID
-        $paginator                    = new Paginator\Paginator(
-            new TestAsset\TestDbSelectAdapter(
-                (new Sql\Select('table2'))
-                    ->where('id = 2')
-                    ->where("foo = 'bar'"),
-                new DbAdapter\Adapter(
-                    new DbAdapter\Driver\Pdo\Pdo(
-                        new DbAdapter\Driver\Pdo\Connection([])
-                    )
-                )
-            )
-        );
-        $reflectionGetCacheInternalId = new ReflectionMethod(
-            $paginator,
-            '_getCacheInternalId'
-        );
+        $paginator                    = new Paginator\Paginator(new TestAsset\TestAdapter('bar'));
+        $reflectionGetCacheInternalId = new ReflectionMethod($paginator, '_getCacheInternalId');
         $reflectionGetCacheInternalId->setAccessible(true);
-        $secondCacheIde = $reflectionGetCacheInternalId->invoke(
-            $paginator
-        );
+        /** @var string $secondCacheId */
+        $secondCacheId = $reflectionGetCacheInternalId->invoke($paginator);
 
         // Test
-        $this->assertNotEquals($firstCacheId, $secondCacheIde);
+        $this->assertNotEquals($firstCacheId, $secondCacheId);
     }
 
     public function testAcceptsComplexAdapters(): void

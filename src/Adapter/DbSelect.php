@@ -20,6 +20,9 @@ use function array_key_exists;
 use function iterator_to_array;
 use function strtolower;
 
+/**
+ * @deprecated 2.10.0 Use the adapters in laminas/laminas-paginator-adapter-laminasdb.
+ */
 class DbSelect implements AdapterInterface
 {
     public const ROW_COUNT_COLUMN_NAME = 'C';
