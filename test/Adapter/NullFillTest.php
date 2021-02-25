@@ -42,13 +42,13 @@ class NullFillTest extends TestCase
         parent::tearDown();
     }
 
-    public function testGetsItems()
+    public function testGetsItems(): void
     {
         $actual = $this->adapter->getItems(0, 10);
         $this->assertEquals(array_fill(0, 10, null), $actual);
     }
 
-    public function testReturnsCorrectCount()
+    public function testReturnsCorrectCount(): void
     {
         $this->assertEquals(101, $this->adapter->count());
     }
@@ -56,7 +56,7 @@ class NullFillTest extends TestCase
     /**
      * @group Laminas-3873
      */
-    public function testAdapterReturnsCorrectValues()
+    public function testAdapterReturnsCorrectValues(): void
     {
         $paginator = new Paginator\Paginator(new Adapter\NullFill(2));
         $paginator->setCurrentPageNumber(1);
@@ -80,7 +80,7 @@ class NullFillTest extends TestCase
     /**
      * @group Laminas-4151
      */
-    public function testEmptySet()
+    public function testEmptySet(): void
     {
         $this->adapter = new Adapter\NullFill(0);
         $actual        = $this->adapter->getItems(0, 10);
@@ -90,7 +90,7 @@ class NullFillTest extends TestCase
     /**
      * Verify that the fix for Laminas-4151 doesn't create an OBO error
      */
-    public function testSetOfOne()
+    public function testSetOfOne(): void
     {
         $this->adapter = new Adapter\NullFill(1);
         $actual        = $this->adapter->getItems(0, 10);

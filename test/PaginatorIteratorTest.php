@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 
 class PaginatorIteratorTest extends TestCase
 {
-    public function testIteratorFlattensPaginator()
+    public function testIteratorFlattensPaginator(): void
     {
         $paginator = new Paginator(
             new ArrayAdapter(['foo', 'bar', 'fiz'])
@@ -41,7 +41,7 @@ class PaginatorIteratorTest extends TestCase
         $this->assertFalse($iterator->valid());
     }
 
-    public function testIteratorReturnsInvalidOnEmptyIterator()
+    public function testIteratorReturnsInvalidOnEmptyIterator(): void
     {
         $paginator = new Paginator(
             new ArrayAdapter([])

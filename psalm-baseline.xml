@@ -1,0 +1,926 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.6.1@e93e532e4eaad6d68c4d7b606853800eaceccc72">
+  <file src="src/Adapter/Callback.php">
+    <InvalidFunctionCall occurrences="2">
+      <code>call_user_func($this-&gt;countCallback)</code>
+      <code>call_user_func($this-&gt;itemsCallback, $offset, $itemCountPerPage)</code>
+    </InvalidFunctionCall>
+    <InvalidPropertyAssignmentValue occurrences="2">
+      <code>$countCallback</code>
+      <code>$itemsCallback</code>
+    </InvalidPropertyAssignmentValue>
+    <MixedInferredReturnType occurrences="2">
+      <code>array</code>
+      <code>int</code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement occurrences="2">
+      <code>call_user_func($this-&gt;countCallback)</code>
+      <code>call_user_func($this-&gt;itemsCallback, $offset, $itemCountPerPage)</code>
+    </MixedReturnStatement>
+    <UndefinedDocblockClass occurrences="2">
+      <code>CallbackHandler</code>
+      <code>CallbackHandler</code>
+    </UndefinedDocblockClass>
+  </file>
+  <file src="src/Adapter/DbSelect.php">
+    <DocblockTypeContradiction occurrences="1">
+      <code>$adapterOrSqlObject instanceof Sql</code>
+    </DocblockTypeContradiction>
+    <MixedArgument occurrences="1">
+      <code>$row</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="1">
+      <code>$row</code>
+    </MixedAssignment>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>$rowCount</code>
+    </PropertyNotSetInConstructor>
+    <PropertyTypeCoercion occurrences="1">
+      <code>$resultSetPrototype ?: new ResultSet()</code>
+    </PropertyTypeCoercion>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>$this-&gt;rowCount !== null</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="src/Adapter/DbTableGateway.php">
+    <MixedArgument occurrences="1">
+      <code>$select</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="1">
+      <code>$select</code>
+    </MixedAssignment>
+    <MixedMethodCall occurrences="4">
+      <code>group</code>
+      <code>having</code>
+      <code>order</code>
+      <code>where</code>
+    </MixedMethodCall>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>DbTableGateway</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Adapter/Iterator.php">
+    <ImplementedReturnTypeMismatch occurrences="1">
+      <code>array|SerializableLimitIterator</code>
+    </ImplementedReturnTypeMismatch>
+  </file>
+  <file src="src/Adapter/Service/CallbackFactory.php">
+    <DeprecatedInterface occurrences="1">
+      <code>CallbackFactory</code>
+    </DeprecatedInterface>
+    <MissingParamType occurrences="1">
+      <code>$requestedName</code>
+    </MissingParamType>
+    <MixedArgument occurrences="2">
+      <code>$countCallback</code>
+      <code>$itemsCallback</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="2">
+      <code>$countCallback</code>
+      <code>$itemsCallback</code>
+    </MixedAssignment>
+    <ParamNameMismatch occurrences="1">
+      <code>$container</code>
+    </ParamNameMismatch>
+  </file>
+  <file src="src/Adapter/Service/DbSelectFactory.php">
+    <DeprecatedInterface occurrences="1">
+      <code>DbSelectFactory</code>
+    </DeprecatedInterface>
+    <LessSpecificReturnStatement occurrences="1"/>
+    <MissingParamType occurrences="1">
+      <code>$requestedName</code>
+    </MissingParamType>
+    <MixedMethodCall occurrences="1"/>
+    <MoreSpecificReturnType occurrences="1">
+      <code>DbSelect</code>
+    </MoreSpecificReturnType>
+    <ParamNameMismatch occurrences="1">
+      <code>$container</code>
+    </ParamNameMismatch>
+  </file>
+  <file src="src/Adapter/Service/DbTableGatewayFactory.php">
+    <DeprecatedInterface occurrences="1">
+      <code>DbTableGatewayFactory</code>
+    </DeprecatedInterface>
+    <LessSpecificReturnStatement occurrences="1"/>
+    <MissingParamType occurrences="1">
+      <code>$requestedName</code>
+    </MissingParamType>
+    <MixedMethodCall occurrences="1"/>
+    <MoreSpecificReturnType occurrences="1">
+      <code>DbTableGateway</code>
+    </MoreSpecificReturnType>
+    <ParamNameMismatch occurrences="1">
+      <code>$container</code>
+    </ParamNameMismatch>
+  </file>
+  <file src="src/Adapter/Service/IteratorFactory.php">
+    <DeprecatedInterface occurrences="1">
+      <code>IteratorFactory</code>
+    </DeprecatedInterface>
+    <LessSpecificReturnStatement occurrences="1">
+      <code>new $requestedName($iterator)</code>
+    </LessSpecificReturnStatement>
+    <MissingParamType occurrences="1">
+      <code>$requestedName</code>
+    </MissingParamType>
+    <MixedArgument occurrences="2">
+      <code>IteratorAdapter::class</code>
+      <code>IteratorAdapter::class</code>
+    </MixedArgument>
+    <MixedMethodCall occurrences="1">
+      <code>new $requestedName($iterator)</code>
+    </MixedMethodCall>
+    <MoreSpecificReturnType occurrences="1">
+      <code>IteratorAdapter</code>
+    </MoreSpecificReturnType>
+    <ParamNameMismatch occurrences="1">
+      <code>$container</code>
+    </ParamNameMismatch>
+    <UndefinedClass occurrences="3">
+      <code>IteratorAdapter</code>
+      <code>IteratorAdapter</code>
+      <code>IteratorAdapter</code>
+    </UndefinedClass>
+    <UndefinedDocblockClass occurrences="2">
+      <code>IteratorAdapter</code>
+      <code>IteratorAdapter</code>
+    </UndefinedDocblockClass>
+  </file>
+  <file src="src/AdapterPluginManager.php">
+    <InvalidScalarArgument occurrences="1">
+      <code>$e-&gt;getCode()</code>
+    </InvalidScalarArgument>
+    <MissingReturnType occurrences="1">
+      <code>validatePlugin</code>
+    </MissingReturnType>
+    <NonInvariantDocblockPropertyType occurrences="3">
+      <code>$aliases</code>
+      <code>$factories</code>
+      <code>$instanceOf</code>
+    </NonInvariantDocblockPropertyType>
+  </file>
+  <file src="src/AdapterPluginManagerFactory.php">
+    <DeprecatedInterface occurrences="1">
+      <code>AdapterPluginManagerFactory</code>
+    </DeprecatedInterface>
+    <MissingConstructor occurrences="1">
+      <code>$creationOptions</code>
+    </MissingConstructor>
+    <MissingParamType occurrences="3">
+      <code>$name</code>
+      <code>$name</code>
+      <code>$requestedName</code>
+    </MissingParamType>
+    <ParamNameMismatch occurrences="1">
+      <code>$container</code>
+    </ParamNameMismatch>
+  </file>
+  <file src="src/Factory.php">
+    <DocblockTypeContradiction occurrences="2">
+      <code>is_array($items)</code>
+      <code>static::$adapters === null</code>
+    </DocblockTypeContradiction>
+    <MixedArgument occurrences="4">
+      <code>$adapter</code>
+      <code>$adapter</code>
+      <code>$items</code>
+      <code>$items</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="3">
+      <code>$adapter</code>
+      <code>$adapter</code>
+      <code>$items</code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Paginator.php">
+    <ArgumentTypeCoercion occurrences="2">
+      <code>$pages-&gt;pagesInRange</code>
+      <code>$pages-&gt;pagesInRange</code>
+    </ArgumentTypeCoercion>
+    <DocblockTypeContradiction occurrences="8">
+      <code>$this-&gt;currentItemCount === null</code>
+      <code>$this-&gt;currentItems === null</code>
+      <code>$this-&gt;pageCount === null</code>
+      <code>$this-&gt;pages === null</code>
+      <code>$this-&gt;view === null</code>
+      <code>gettype($scrollingAdapters)</code>
+      <code>is_array($config)</code>
+      <code>static::$scrollingStyles === null</code>
+    </DocblockTypeContradiction>
+    <MissingReturnType occurrences="4">
+      <code>setCache</code>
+      <code>setDefaultItemCountPerPage</code>
+      <code>setDefaultScrollingStyle</code>
+      <code>setGlobalConfig</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="7">
+      <code>$adapters</code>
+      <code>$items</code>
+      <code>$key</code>
+      <code>$key</code>
+      <code>$key</code>
+      <code>$key</code>
+      <code>$scrollingStyle</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="1">
+      <code>$page[$itemNumber - 1]</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="13">
+      <code>$adapters</code>
+      <code>$cacheIterator</code>
+      <code>$cacheIterator</code>
+      <code>$data</code>
+      <code>$data[(int) substr($key, $prefixLength)]</code>
+      <code>$items</code>
+      <code>$key</code>
+      <code>$key</code>
+      <code>$page</code>
+      <code>$scrollingStyle</code>
+      <code>$this-&gt;currentItems</code>
+      <code>$value</code>
+      <code>$value</code>
+    </MixedAssignment>
+    <MixedInferredReturnType occurrences="3">
+      <code>ScrollingStyleInterface</code>
+      <code>Traversable</code>
+      <code>string</code>
+    </MixedInferredReturnType>
+    <MixedMethodCall occurrences="3">
+      <code>new $scrollingAdapters(new ServiceManager())</code>
+      <code>setMode</code>
+      <code>setMode</code>
+    </MixedMethodCall>
+    <MixedReturnStatement occurrences="3">
+      <code>$this-&gt;currentItems</code>
+      <code>$view-&gt;paginationControl($this)</code>
+      <code>static::getScrollingStylePluginManager()-&gt;get($scrollingStyle)</code>
+    </MixedReturnStatement>
+    <NullArgument occurrences="1">
+      <code>null</code>
+    </NullArgument>
+    <PossiblyNullPropertyAssignmentValue occurrences="5">
+      <code>$view</code>
+      <code>null</code>
+      <code>null</code>
+      <code>null</code>
+      <code>null</code>
+    </PossiblyNullPropertyAssignmentValue>
+    <PossiblyNullReference occurrences="1">
+      <code>paginationControl</code>
+    </PossiblyNullReference>
+    <PropertyNotSetInConstructor occurrences="7">
+      <code>$currentItemCount</code>
+      <code>$currentItems</code>
+      <code>$filter</code>
+      <code>$itemCountPerPage</code>
+      <code>$pageCount</code>
+      <code>$pages</code>
+      <code>$view</code>
+    </PropertyNotSetInConstructor>
+    <RedundantCastGivenDocblockType occurrences="7">
+      <code>(bool) $enable</code>
+      <code>(int) $count</code>
+      <code>(int) $itemCountPerPage</code>
+      <code>(int) $itemNumber</code>
+      <code>(int) $pageNumber</code>
+      <code>(int) $pageNumber</code>
+      <code>(int) $pageRange</code>
+    </RedundantCastGivenDocblockType>
+    <RedundantConditionGivenDocblockType occurrences="5">
+      <code>$adapter instanceof AdapterAggregateInterface</code>
+      <code>$filter !== null</code>
+      <code>$this-&gt;getCurrentItems() !== null</code>
+      <code>is_object($scrollingAdapters)</code>
+      <code>static::$cache !== null</code>
+    </RedundantConditionGivenDocblockType>
+    <UndefinedInterfaceMethod occurrences="3">
+      <code>getIterator</code>
+      <code>getIterator</code>
+      <code>paginationControl</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="src/PaginatorIterator.php">
+    <LessSpecificReturnStatement occurrences="1">
+      <code>$this-&gt;paginator-&gt;getCurrentItems()</code>
+    </LessSpecificReturnStatement>
+    <MixedArgument occurrences="1">
+      <code>$innerKey</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="1">
+      <code>$innerKey</code>
+    </MixedAssignment>
+    <MixedOperand occurrences="1">
+      <code>$innerKey</code>
+    </MixedOperand>
+    <MoreSpecificReturnType occurrences="1">
+      <code>Iterator</code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="src/ScrollingStyle/Sliding.php">
+    <InvalidScalarArgument occurrences="2">
+      <code>$lowerBound</code>
+      <code>$upperBound</code>
+    </InvalidScalarArgument>
+  </file>
+  <file src="src/ScrollingStylePluginManager.php">
+    <InvalidScalarArgument occurrences="1">
+      <code>$e-&gt;getCode()</code>
+    </InvalidScalarArgument>
+    <MissingReturnType occurrences="1">
+      <code>validatePlugin</code>
+    </MissingReturnType>
+    <NonInvariantDocblockPropertyType occurrences="3">
+      <code>$aliases</code>
+      <code>$factories</code>
+      <code>$instanceOf</code>
+    </NonInvariantDocblockPropertyType>
+  </file>
+  <file src="src/ScrollingStylePluginManagerFactory.php">
+    <DeprecatedInterface occurrences="1">
+      <code>ScrollingStylePluginManagerFactory</code>
+    </DeprecatedInterface>
+    <MissingConstructor occurrences="1">
+      <code>$creationOptions</code>
+    </MissingConstructor>
+    <MissingParamType occurrences="3">
+      <code>$name</code>
+      <code>$name</code>
+      <code>$requestedName</code>
+    </MissingParamType>
+    <ParamNameMismatch occurrences="1">
+      <code>$container</code>
+    </ParamNameMismatch>
+  </file>
+  <file src="src/SerializableLimitIterator.php">
+    <MixedArgument occurrences="7">
+      <code>$currentOffset</code>
+      <code>$currentOffset</code>
+      <code>$currentOffset</code>
+      <code>$dataArr['count']</code>
+      <code>$dataArr['it']</code>
+      <code>$dataArr['offset']</code>
+      <code>$dataArr['pos'] + $dataArr['offset']</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="5">
+      <code>$dataArr['count']</code>
+      <code>$dataArr['it']</code>
+      <code>$dataArr['offset']</code>
+      <code>$dataArr['offset']</code>
+      <code>$dataArr['pos']</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="5">
+      <code>$current</code>
+      <code>$current</code>
+      <code>$currentOffset</code>
+      <code>$currentOffset</code>
+      <code>$dataArr</code>
+    </MixedAssignment>
+    <MixedOperand occurrences="1">
+      <code>$dataArr['pos']</code>
+    </MixedOperand>
+    <PossiblyUndefinedVariable occurrences="1">
+      <code>$currentOffset</code>
+    </PossiblyUndefinedVariable>
+  </file>
+  <file src="test/Adapter/ArrayTest.php">
+    <MissingReturnType occurrences="4">
+      <code>testEmptySet</code>
+      <code>testGetsItemsAtOffsetTen</code>
+      <code>testGetsItemsAtOffsetZero</code>
+      <code>testReturnsCorrectCount</code>
+    </MissingReturnType>
+    <PossiblyNullPropertyAssignmentValue occurrences="1">
+      <code>null</code>
+    </PossiblyNullPropertyAssignmentValue>
+  </file>
+  <file src="test/Adapter/CallbackTest.php">
+    <MissingClosureParamType occurrences="2">
+      <code>$itemCountPerPage</code>
+      <code>$offset</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="9">
+      <code>function ($offset, $itemCountPerPage) {</code>
+      <code>function () use ($count) {</code>
+      <code>function () use ($data) {</code>
+      <code>function () {</code>
+      <code>function () {</code>
+      <code>function () {</code>
+      <code>function () {</code>
+      <code>function () {</code>
+      <code>function () {</code>
+    </MissingClosureReturnType>
+    <MissingReturnType occurrences="5">
+      <code>testMustDefineTwoCallbacksOnConstructor</code>
+      <code>testMustPassArgumentsToGetItemCallback</code>
+      <code>testMustRunCountCallbackToCount</code>
+      <code>testMustRunItemCallbackToGetItems</code>
+      <code>testShouldAcceptAnyCallableOnConstructor</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="2">
+      <code>$itemCountPerPage</code>
+      <code>$offset</code>
+    </MixedArgument>
+  </file>
+  <file src="test/Adapter/DbSelectTest.php">
+    <DeprecatedMethod occurrences="1">
+      <code>setMethods</code>
+    </DeprecatedMethod>
+    <InternalMethod occurrences="1">
+      <code>getArrayCopy</code>
+    </InternalMethod>
+    <MissingReturnType occurrences="7">
+      <code>testCount</code>
+      <code>testCountQueryWithLowerColumnNameShouldReturnValidResult</code>
+      <code>testCountQueryWithMissingColumnNameShouldRaiseException</code>
+      <code>testCustomCount</code>
+      <code>testGetArrayCopyShouldContainSelectItems</code>
+      <code>testGetItems</code>
+      <code>testReturnValueIsArray</code>
+    </MissingReturnType>
+    <MixedMethodCall occurrences="13">
+      <code>method</code>
+      <code>method</code>
+      <code>method</code>
+      <code>method</code>
+      <code>method</code>
+      <code>method</code>
+      <code>method</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+      <code>with</code>
+      <code>with</code>
+    </MixedMethodCall>
+    <PossiblyInvalidArgument occurrences="10">
+      <code>$this-&gt;mockSelect</code>
+      <code>$this-&gt;mockSelect</code>
+      <code>$this-&gt;mockSelect</code>
+      <code>$this-&gt;mockSelect</code>
+      <code>$this-&gt;mockSelectCount</code>
+      <code>$this-&gt;mockSelectCount</code>
+      <code>$this-&gt;mockSql</code>
+      <code>$this-&gt;mockSql</code>
+      <code>$this-&gt;mockSql</code>
+      <code>$this-&gt;mockSql</code>
+    </PossiblyInvalidArgument>
+    <UndefinedDocblockClass occurrences="12">
+      <code>$this-&gt;mockResult</code>
+      <code>$this-&gt;mockResult</code>
+      <code>$this-&gt;mockResult</code>
+      <code>$this-&gt;mockResult</code>
+      <code>$this-&gt;mockSelect</code>
+      <code>$this-&gt;mockSelect</code>
+      <code>$this-&gt;mockSelect</code>
+      <code>PHPUnit_Framework_MockObject_MockObject|ResultInterface</code>
+      <code>PHPUnit_Framework_MockObject_MockObject|Select</code>
+      <code>PHPUnit_Framework_MockObject_MockObject|Select</code>
+      <code>PHPUnit_Framework_MockObject_MockObject|Sql</code>
+      <code>PHPUnit_Framework_MockObject_MockObject|StatementInterface</code>
+    </UndefinedDocblockClass>
+    <UndefinedInterfaceMethod occurrences="4">
+      <code>expects</code>
+      <code>expects</code>
+      <code>expects</code>
+      <code>expects</code>
+    </UndefinedInterfaceMethod>
+    <UndefinedMethod occurrences="3">
+      <code>expects</code>
+      <code>expects</code>
+      <code>expects</code>
+    </UndefinedMethod>
+  </file>
+  <file src="test/Adapter/DbTableGatewayTest.php">
+    <InvalidPropertyAssignmentValue occurrences="1">
+      <code>$mockStatement</code>
+    </InvalidPropertyAssignmentValue>
+    <MissingReturnType occurrences="5">
+      <code>testCount</code>
+      <code>testGetItems</code>
+      <code>testGetItemsWithWhereAndOrder</code>
+      <code>testGetItemsWithWhereAndOrderAndGroup</code>
+      <code>testGetItemsWithWhereAndOrderAndGroupAndHaving</code>
+    </MissingReturnType>
+    <MixedMethodCall occurrences="14">
+      <code>method</code>
+      <code>method</code>
+      <code>method</code>
+      <code>method</code>
+      <code>method</code>
+      <code>method</code>
+      <code>method</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+      <code>with</code>
+      <code>with</code>
+    </MixedMethodCall>
+    <UndefinedDocblockClass occurrences="8">
+      <code>$this-&gt;mockStatement</code>
+      <code>$this-&gt;mockStatement</code>
+      <code>$this-&gt;mockStatement</code>
+      <code>$this-&gt;mockStatement</code>
+      <code>$this-&gt;mockStatement</code>
+      <code>$this-&gt;mockStatement</code>
+      <code>$this-&gt;mockStatement</code>
+      <code>PHPUnit_Framework_MockObject_MockObject</code>
+    </UndefinedDocblockClass>
+  </file>
+  <file src="test/Adapter/IteratorTest.php">
+    <ArgumentTypeCoercion occurrences="2">
+      <code>'LimitIterator'</code>
+      <code>'LimitIterator'</code>
+    </ArgumentTypeCoercion>
+    <DocblockTypeContradiction occurrences="1">
+      <code>assertEmpty</code>
+    </DocblockTypeContradiction>
+    <MissingReturnType occurrences="7">
+      <code>testDoesNotThrowOutOfBoundsExceptionIfIteratorIsEmpty</code>
+      <code>testEmptySet</code>
+      <code>testGetItemsSerializable</code>
+      <code>testGetsItemsAtOffsetTen</code>
+      <code>testGetsItemsAtOffsetZero</code>
+      <code>testReturnsCorrectCount</code>
+      <code>testThrowsExceptionIfNotCountable</code>
+    </MissingReturnType>
+    <MixedAssignment occurrences="4">
+      <code>$item</code>
+      <code>$item</code>
+      <code>$item</code>
+      <code>$items</code>
+    </MixedAssignment>
+    <MixedMethodCall occurrences="1">
+      <code>getInnerIterator</code>
+    </MixedMethodCall>
+    <PossiblyInvalidMethodCall occurrences="1">
+      <code>getInnerIterator</code>
+    </PossiblyInvalidMethodCall>
+    <PossiblyNullPropertyAssignmentValue occurrences="1">
+      <code>null</code>
+    </PossiblyNullPropertyAssignmentValue>
+    <UndefinedThisPropertyAssignment occurrences="1">
+      <code>$this-&gt;paginator</code>
+    </UndefinedThisPropertyAssignment>
+  </file>
+  <file src="test/Adapter/NullFillTest.php">
+    <MissingReturnType occurrences="5">
+      <code>testAdapterReturnsCorrectValues</code>
+      <code>testEmptySet</code>
+      <code>testGetsItems</code>
+      <code>testReturnsCorrectCount</code>
+      <code>testSetOfOne</code>
+    </MissingReturnType>
+    <PossiblyNullPropertyAssignmentValue occurrences="1">
+      <code>null</code>
+    </PossiblyNullPropertyAssignmentValue>
+  </file>
+  <file src="test/AdapterPluginManagerCompatibilityTest.php">
+    <MixedArgument occurrences="3">
+      <code>$target</code>
+      <code>$target</code>
+      <code>$target</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="3">
+      <code>$alias</code>
+      <code>$aliases</code>
+      <code>$target</code>
+    </MixedAssignment>
+    <MoreSpecificReturnType occurrences="1">
+      <code>iterable&lt;string, array{0: string, 1: string}&gt;</code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="test/AdapterPluginManagerFactoryTest.php">
+    <MissingClosureParamType occurrences="1">
+      <code>$container</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="1">
+      <code>function ($container) use ($paginator) {</code>
+    </MissingClosureReturnType>
+    <MissingReturnType occurrences="5">
+      <code>testConfiguresPaginatorServicesWhenFound</code>
+      <code>testDoesNotConfigureAdditionalPaginatorsWhenConfigServiceDoesNotContainPaginatorsConfig</code>
+      <code>testFactoryConfiguresPluginManagerUnderContainerInterop</code>
+      <code>testFactoryConfiguresPluginManagerUnderServiceManagerV2</code>
+      <code>testFactoryReturnsPluginManager</code>
+    </MissingReturnType>
+  </file>
+  <file src="test/AdapterPluginManagerTest.php">
+    <DeprecatedMethod occurrences="1">
+      <code>setMethods</code>
+    </DeprecatedMethod>
+    <MissingClosureReturnType occurrences="2">
+      <code>function () {</code>
+      <code>function () {</code>
+    </MissingClosureReturnType>
+    <MissingReturnType occurrences="2">
+      <code>testCanRetrieveAdapterPlugin</code>
+      <code>testFactoryCreatedDbSelectCanUseCustomCountSelect</code>
+    </MissingReturnType>
+    <MixedAssignment occurrences="7">
+      <code>$count</code>
+      <code>$plugin</code>
+      <code>$plugin</code>
+      <code>$plugin</code>
+      <code>$plugin</code>
+      <code>$plugin</code>
+      <code>$plugin</code>
+    </MixedAssignment>
+    <MixedMethodCall occurrences="1">
+      <code>count</code>
+    </MixedMethodCall>
+  </file>
+  <file src="test/FactoryTest.php">
+    <MissingReturnType occurrences="7">
+      <code>testCanFactoryPaginatorWithDbSelect</code>
+      <code>testCanFactoryPaginatorWithOneBadParameter</code>
+      <code>testCanFactoryPaginatorWithOneParameterWithArrayAdapter</code>
+      <code>testCanFactoryPaginatorWithOneParameterWithDbAdapter</code>
+      <code>testCanFactoryPaginatorWithStringAdapterAggregate</code>
+      <code>testCanFactoryPaginatorWithStringAdapterName</code>
+      <code>testCanFactoryPaginatorWithStringAdapterObject</code>
+    </MissingReturnType>
+  </file>
+  <file src="test/PaginatorIteratorTest.php">
+    <MissingReturnType occurrences="2">
+      <code>testIteratorFlattensPaginator</code>
+      <code>testIteratorReturnsInvalidOnEmptyIterator</code>
+    </MissingReturnType>
+  </file>
+  <file src="test/PaginatorTest.php">
+    <ArgumentTypeCoercion occurrences="6">
+      <code>'ArrayIterator'</code>
+      <code>'ArrayIterator'</code>
+      <code>'ArrayIterator'</code>
+      <code>'ArrayObject'</code>
+      <code>'ArrayObject'</code>
+      <code>'ArrayObject'</code>
+    </ArgumentTypeCoercion>
+    <DeprecatedMethod occurrences="2">
+      <code>setMethods</code>
+      <code>setMethods</code>
+    </DeprecatedMethod>
+    <InvalidArgument occurrences="5">
+      <code>'not array'</code>
+      <code>ExceptionInterface::class</code>
+      <code>[]</code>
+      <code>\Laminas\Paginator\Exception\ExceptionInterface::class</code>
+      <code>new stdClass()</code>
+    </InvalidArgument>
+    <InvalidMethodCall occurrences="1">
+      <code>key</code>
+    </InvalidMethodCall>
+    <InvalidPropertyFetch occurrences="2">
+      <code>$this-&gt;config-&gt;default</code>
+      <code>$this-&gt;config-&gt;testing</code>
+    </InvalidPropertyFetch>
+    <InvalidScalarArgument occurrences="17">
+      <code>0.5</code>
+      <code>0.5</code>
+      <code>1.99</code>
+      <code>1.99</code>
+      <code>2.3</code>
+      <code>2.3</code>
+      <code>3.3</code>
+      <code>3.3</code>
+      <code>3.3</code>
+      <code>5.1</code>
+      <code>5.1</code>
+      <code>9.06</code>
+      <code>10.06</code>
+      <code>10.5</code>
+      <code>11.5</code>
+      <code>11.7889</code>
+      <code>12.7889</code>
+    </InvalidScalarArgument>
+    <MissingParamType occurrences="1">
+      <code>$path</code>
+    </MissingParamType>
+    <MissingReturnType occurrences="66">
+      <code>_getTmpDir</code>
+      <code>_restorePaginatorDefaults</code>
+      <code>_rmDirRecursive</code>
+      <code>testAcceptAndHandlePaginatorAdapterAggregateDataInFactory</code>
+      <code>testAcceptAndHandlePaginatorAdapterAggregateInConstructor</code>
+      <code>testAcceptsComplexAdapters</code>
+      <code>testAcceptsTraversableInstanceFromAdapter</code>
+      <code>testArrayAccessInClassSerializableLimitIterator</code>
+      <code>testCacheDoesNotDisturbResultsWhenChangingParam</code>
+      <code>testCachedItem</code>
+      <code>testCastsIntegerValuesToInteger</code>
+      <code>testClearPageItemCache</code>
+      <code>testDbSelectAdapterShouldProduceValidCacheId</code>
+      <code>testFilter</code>
+      <code>testGeneratesViewIfNonexistent</code>
+      <code>testGetCacheId</code>
+      <code>testGetCacheIdWithInheritedClass</code>
+      <code>testGetCacheIdWithSameAdapterAndDifferentAttributes</code>
+      <code>testGetSetDefaultItemCountPerPage</code>
+      <code>testGetsAbsoluteItemNumber</code>
+      <code>testGetsAndSetsCurrentPageNumber</code>
+      <code>testGetsAndSetsDefaultScrollingStyle</code>
+      <code>testGetsAndSetsItemCountPerPage</code>
+      <code>testGetsAndSetsItemCounterPerPageOfNegativeOne</code>
+      <code>testGetsAndSetsItemCounterPerPageOfNull</code>
+      <code>testGetsAndSetsItemCounterPerPageOfZero</code>
+      <code>testGetsAndSetsPageRange</code>
+      <code>testGetsAndSetsView</code>
+      <code>testGetsCurrentItemCount</code>
+      <code>testGetsCurrentItems</code>
+      <code>testGetsItem</code>
+      <code>testGetsItemCount</code>
+      <code>testGetsItemsByPage</code>
+      <code>testGetsItemsByPageHandleDbSelectAdapter</code>
+      <code>testGetsIterator</code>
+      <code>testGetsPageCount</code>
+      <code>testGetsPagesForPageOne</code>
+      <code>testGetsPagesForPageTwo</code>
+      <code>testGetsPagesInOutOfBoundsRange</code>
+      <code>testGetsPagesInSubsetRange</code>
+      <code>testGivesCorrectItemCount</code>
+      <code>testHasCorrectCountAfterInit</code>
+      <code>testHasCorrectCountOfAllItemsAfterInit</code>
+      <code>testInvalidDataInConstructor_ThrowsException</code>
+      <code>testItemCountPerPageByDefault</code>
+      <code>testItemCountsForEmptyItemSet</code>
+      <code>testKeepsCurrentPageNumberAfterItemCountPerPageSet</code>
+      <code>testLoadScrollingStyleWithDigitThrowsInvalidArgumentException</code>
+      <code>testLoadScrollingStyleWithObjectThrowsInvalidArgumentException</code>
+      <code>testLoadsFromConfig</code>
+      <code>testNegativeItemNumbers</code>
+      <code>testNormalizesItemNumber</code>
+      <code>testNormalizesItemNumberWhenGivenAFloat</code>
+      <code>testNormalizesPageNumber</code>
+      <code>testNormalizesPageNumberWhenGivenAFloat</code>
+      <code>testRenders</code>
+      <code>testRendersWithPartial</code>
+      <code>testRendersWithoutPartial</code>
+      <code>testRepetitiveCallOfCountResultsOfZero</code>
+      <code>testSetGlobalConfigThrowsInvalidArgumentException</code>
+      <code>testSetScrollingStylePluginManagerWithAdapterThrowsInvalidArgumentException</code>
+      <code>testSetScrollingStylePluginManagerWithStringThrowsInvalidArgumentException</code>
+      <code>testThrowsExceptionWhenCollectionIsEmpty</code>
+      <code>testThrowsExceptionWhenRetrievingNonexistentItemFromLastPage</code>
+      <code>testToJson</code>
+      <code>testWithCacheDisabled</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="4">
+      <code>$path</code>
+      <code>$path</code>
+      <code>$this-&gt;config-&gt;default</code>
+      <code>$this-&gt;config-&gt;testing</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="14">
+      <code>$firstCacheId</code>
+      <code>$firstOutputGetCacheInternalId</code>
+      <code>$firstOutputGetCacheInternalId</code>
+      <code>$item</code>
+      <code>$item</code>
+      <code>$item</code>
+      <code>$outputGetCacheId</code>
+      <code>$outputGetCacheInternalId</code>
+      <code>$outputGetCacheInternalId</code>
+      <code>$page1</code>
+      <code>$pageItems</code>
+      <code>$secondCacheIde</code>
+      <code>$secondOutputGetCacheInternalId</code>
+      <code>$secondOutputGetCacheInternalId</code>
+    </MixedAssignment>
+    <MixedOperand occurrences="3">
+      <code>$outputGetCacheInternalId</code>
+      <code>$outputGetCacheInternalId</code>
+      <code>$path</code>
+    </MixedOperand>
+    <NullArgument occurrences="1">
+      <code>null</code>
+    </NullArgument>
+    <PossiblyInvalidMethodCall occurrences="1">
+      <code>addPath</code>
+    </PossiblyInvalidMethodCall>
+    <PossiblyInvalidPropertyAssignmentValue occurrences="1">
+      <code>Config\Factory::fromFile(__DIR__ . '/_files/config.xml', true)</code>
+    </PossiblyInvalidPropertyAssignmentValue>
+    <PossiblyNullArgument occurrences="1">
+      <code>$resultSet-&gt;getDataSource()</code>
+    </PossiblyNullArgument>
+    <PossiblyNullPropertyAssignmentValue occurrences="2">
+      <code>null</code>
+      <code>null</code>
+    </PossiblyNullPropertyAssignmentValue>
+    <UndefinedInterfaceMethod occurrences="2">
+      <code>$items</code>
+      <code>addPath</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="test/ScrollingStyle/AllTest.php">
+    <MissingReturnType occurrences="6">
+      <code>testGetsNextAndPreviousPageForFirstPage</code>
+      <code>testGetsNextAndPreviousPageForLastPage</code>
+      <code>testGetsNextAndPreviousPageForMiddlePage</code>
+      <code>testGetsNextAndPreviousPageForSecondLastPage</code>
+      <code>testGetsNextAndPreviousPageForSecondPage</code>
+      <code>testGetsPages</code>
+    </MissingReturnType>
+    <PossiblyNullPropertyAssignmentValue occurrences="2">
+      <code>null</code>
+      <code>null</code>
+    </PossiblyNullPropertyAssignmentValue>
+  </file>
+  <file src="test/ScrollingStyle/ElasticTest.php">
+    <MissingReturnType occurrences="12">
+      <code>testGetsNextAndPreviousPageForFirstPage</code>
+      <code>testGetsNextAndPreviousPageForLastPage</code>
+      <code>testGetsNextAndPreviousPageForMiddlePage</code>
+      <code>testGetsNextAndPreviousPageForSecondLastPage</code>
+      <code>testGetsNextAndPreviousPageForSecondPage</code>
+      <code>testGetsPagesInRangeForFirstPage</code>
+      <code>testGetsPagesInRangeForLastPage</code>
+      <code>testGetsPagesInRangeForSecondPage</code>
+      <code>testGetsPagesInRangeForTenthPage</code>
+      <code>testNoPagesBeforeSecondLastPageEqualsPageRangeMinTwo</code>
+      <code>testNoPagesOnLastPageEqualsPageRange</code>
+      <code>testNoPagesOnSecondLastPageEqualsPageRangeMinOne</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="3">
+      <code>$pages-&gt;pagesInRange</code>
+      <code>$pages-&gt;pagesInRange</code>
+      <code>$pages-&gt;pagesInRange</code>
+    </MixedArgument>
+    <PossiblyNullPropertyAssignmentValue occurrences="2">
+      <code>null</code>
+      <code>null</code>
+    </PossiblyNullPropertyAssignmentValue>
+  </file>
+  <file src="test/ScrollingStyle/JumpingTest.php">
+    <MissingReturnType occurrences="9">
+      <code>testGetsNextAndPreviousPageForFirstPage</code>
+      <code>testGetsNextAndPreviousPageForLastPage</code>
+      <code>testGetsNextAndPreviousPageForMiddlePage</code>
+      <code>testGetsNextAndPreviousPageForSecondLastPage</code>
+      <code>testGetsNextAndPreviousPageForSecondPage</code>
+      <code>testGetsPagesInRangeForFirstPage</code>
+      <code>testGetsPagesInRangeForLastPage</code>
+      <code>testGetsPagesInRangeForSecondLastPage</code>
+      <code>testGetsPagesInRangeForSecondPage</code>
+    </MissingReturnType>
+    <PossiblyNullPropertyAssignmentValue occurrences="2">
+      <code>null</code>
+      <code>null</code>
+    </PossiblyNullPropertyAssignmentValue>
+  </file>
+  <file src="test/ScrollingStyle/SlidingTest.php">
+    <MissingReturnType occurrences="10">
+      <code>testAcceptsPageRangeLargerThanPageCount</code>
+      <code>testGetsNextAndPreviousPageForFirstPage</code>
+      <code>testGetsNextAndPreviousPageForLastPage</code>
+      <code>testGetsNextAndPreviousPageForMiddlePage</code>
+      <code>testGetsNextAndPreviousPageForSecondLastPage</code>
+      <code>testGetsNextAndPreviousPageForSecondPage</code>
+      <code>testGetsPagesInRangeForFifthPage</code>
+      <code>testGetsPagesInRangeForFirstPage</code>
+      <code>testGetsPagesInRangeForLastPage</code>
+      <code>testGetsPagesInRangeForSecondPage</code>
+    </MissingReturnType>
+    <PossiblyNullPropertyAssignmentValue occurrences="2">
+      <code>null</code>
+      <code>null</code>
+    </PossiblyNullPropertyAssignmentValue>
+  </file>
+  <file src="test/ScrollingStylePluginManagerFactoryTest.php">
+    <MissingReturnType occurrences="3">
+      <code>testFactoryConfiguresPluginManagerUnderContainerInterop</code>
+      <code>testFactoryConfiguresPluginManagerUnderServiceManagerV2</code>
+      <code>testFactoryReturnsPluginManager</code>
+    </MissingReturnType>
+  </file>
+  <file src="test/TestAsset/TestAdapter.php">
+    <InvalidReturnStatement occurrences="1">
+      <code>new ArrayObject(range(1, 10))</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="1">
+      <code>getItems</code>
+    </InvalidReturnType>
+    <ParamNameMismatch occurrences="1">
+      <code>$pageNumber</code>
+    </ParamNameMismatch>
+  </file>
+  <file src="test/TestAsset/TestDbSelectAdapter.php">
+    <ParamNameMismatch occurrences="1">
+      <code>$pageNumber</code>
+    </ParamNameMismatch>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>TestDbSelectAdapter</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="test/bootstrap.php">
+    <MixedArgument occurrences="1">
+      <code>$phpUnitVersion</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="1">
+      <code>$phpUnitVersion</code>
+    </MixedAssignment>
+  </file>
+</files>

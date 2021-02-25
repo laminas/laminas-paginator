@@ -20,7 +20,7 @@ interface AdapterInterface extends Countable
      *
      * @param  int $offset Page offset
      * @param  int $itemCountPerPage Number of items per page
-     * @return array
+     * @return iterable
      */
     public function getItems($offset, $itemCountPerPage);
 }

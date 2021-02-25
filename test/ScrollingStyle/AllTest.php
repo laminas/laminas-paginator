@@ -49,14 +49,14 @@ class AllTest extends TestCase
         parent::tearDown();
     }
 
-    public function testGetsPages()
+    public function testGetsPages(): void
     {
         $expected = array_combine(range(1, 11), range(1, 11));
         $pages    = $this->scrollingStyle->getPages($this->paginator);
         $this->assertEquals($expected, $pages);
     }
 
-    public function testGetsNextAndPreviousPageForFirstPage()
+    public function testGetsNextAndPreviousPageForFirstPage(): void
     {
         $this->paginator->setCurrentPageNumber(1);
         $pages = $this->paginator->getPages('All');
@@ -64,7 +64,7 @@ class AllTest extends TestCase
         $this->assertEquals(2, $pages->next);
     }
 
-    public function testGetsNextAndPreviousPageForSecondPage()
+    public function testGetsNextAndPreviousPageForSecondPage(): void
     {
         $this->paginator->setCurrentPageNumber(2);
         $pages = $this->paginator->getPages('All');
@@ -72,7 +72,7 @@ class AllTest extends TestCase
         $this->assertEquals(3, $pages->next);
     }
 
-    public function testGetsNextAndPreviousPageForMiddlePage()
+    public function testGetsNextAndPreviousPageForMiddlePage(): void
     {
         $this->paginator->setCurrentPageNumber(6);
         $pages = $this->paginator->getPages('All');
@@ -80,7 +80,7 @@ class AllTest extends TestCase
         $this->assertEquals(7, $pages->next);
     }
 
-    public function testGetsNextAndPreviousPageForSecondLastPage()
+    public function testGetsNextAndPreviousPageForSecondLastPage(): void
     {
         $this->paginator->setCurrentPageNumber(10);
         $pages = $this->paginator->getPages('All');
@@ -88,7 +88,7 @@ class AllTest extends TestCase
         $this->assertEquals(11, $pages->next);
     }
 
-    public function testGetsNextAndPreviousPageForLastPage()
+    public function testGetsNextAndPreviousPageForLastPage(): void
     {
         $this->paginator->setCurrentPageNumber(11);
         $pages = $this->paginator->getPages('All');

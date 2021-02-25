@@ -83,7 +83,7 @@ class DbSelectTest extends TestCase
         $this->dbSelect        = new DbSelect($this->mockSelect, $this->mockSql);
     }
 
-    public function testGetItems()
+    public function testGetItems(): void
     {
         $this->mockSelect->expects($this->once())->method('limit')->with($this->equalTo(10));
         $this->mockSelect->expects($this->once())->method('offset')->with($this->equalTo(2));
@@ -91,7 +91,7 @@ class DbSelectTest extends TestCase
         $this->assertEquals([], $items);
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->mockResult->expects($this->once())->method('current')
             ->will($this->returnValue([DbSelect::ROW_COUNT_COLUMN_NAME => 5]));
@@ -102,7 +102,7 @@ class DbSelectTest extends TestCase
         $this->assertEquals(5, $count);
     }
 
-    public function testCountQueryWithLowerColumnNameShouldReturnValidResult()
+    public function testCountQueryWithLowerColumnNameShouldReturnValidResult(): void
     {
         $this->dbSelect = new DbSelect($this->mockSelect, $this->mockSql);
         $this->mockResult
@@ -114,7 +114,7 @@ class DbSelectTest extends TestCase
         $this->assertEquals(7, $count);
     }
 
-    public function testCountQueryWithMissingColumnNameShouldRaiseException()
+    public function testCountQueryWithMissingColumnNameShouldRaiseException(): void
     {
         $this->dbSelect = new DbSelect($this->mockSelect, $this->mockSql);
         $this->mockResult
@@ -126,7 +126,7 @@ class DbSelectTest extends TestCase
         $this->dbSelect->count();
     }
 
-    public function testCustomCount()
+    public function testCustomCount(): void
     {
         $this->dbSelect = new DbSelect($this->mockSelect, $this->mockSql, null, $this->mockSelectCount);
         $this->mockResult->expects($this->once())->method('current')
@@ -140,12 +140,12 @@ class DbSelectTest extends TestCase
      * @group 6817
      * @group 6812
      */
-    public function testReturnValueIsArray()
+    public function testReturnValueIsArray(): void
     {
         $this->assertIsArray($this->dbSelect->getItems(0, 10));
     }
 
-    public function testGetArrayCopyShouldContainSelectItems()
+    public function testGetArrayCopyShouldContainSelectItems(): void
     {
         $this->dbSelect = new DbSelect(
             $this->mockSelect,

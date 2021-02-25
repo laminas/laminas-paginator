@@ -13,6 +13,7 @@ use Laminas\Paginator\Adapter;
 use Laminas\Paginator\Adapter\Exception\InvalidArgumentException;
 use Laminas\Paginator\Adapter\Iterator;
 use Laminas\Paginator\Paginator;
+use Laminas\Paginator\SerializableLimitIterator;
 use LimitIterator;
 use PHPUnit\Framework\TestCase;
 
@@ -48,7 +49,7 @@ class IteratorTest extends TestCase
         parent::tearDown();
     }
 
-    public function testGetsItemsAtOffsetZero()
+    public function testGetsItemsAtOffsetZero(): void
     {
         $actual = $this->adapter->getItems(0, 10);
         $this->assertInstanceOf('LimitIterator', $actual);
@@ -60,7 +61,7 @@ class IteratorTest extends TestCase
         }
     }
 
-    public function testGetsItemsAtOffsetTen()
+    public function testGetsItemsAtOffsetTen(): void
     {
         $actual = $this->adapter->getItems(10, 10);
         $this->assertInstanceOf('LimitIterator', $actual);
@@ -72,12 +73,12 @@ class IteratorTest extends TestCase
         }
     }
 
-    public function testReturnsCorrectCount()
+    public function testReturnsCorrectCount(): void
     {
         $this->assertEquals(101, $this->adapter->count());
     }
 
-    public function testThrowsExceptionIfNotCountable()
+    public function testThrowsExceptionIfNotCountable(): void
     {
         $iterator = new LimitIterator(new ArrayIterator(range(1, 101)));
 
@@ -89,7 +90,7 @@ class IteratorTest extends TestCase
     /**
      * @group Laminas-4151
      */
-    public function testDoesNotThrowOutOfBoundsExceptionIfIteratorIsEmpty()
+    public function testDoesNotThrowOutOfBoundsExceptionIfIteratorIsEmpty(): void
     {
         $this->paginator = new Paginator(new Adapter\Iterator(new ArrayIterator([])));
         $items           = $this->paginator->getCurrentItems();
@@ -104,8 +105,9 @@ class IteratorTest extends TestCase
     /**
      * @group Laminas-8084
      */
-    public function testGetItemsSerializable()
+    public function testGetItemsSerializable(): void
     {
+        /** @psalm-var SerializableLimitIterator $items */
         $items         = $this->adapter->getItems(0, 1);
         $innerIterator = $items->getInnerIterator();
         $items         = unserialize(serialize($items));
@@ -119,7 +121,7 @@ class IteratorTest extends TestCase
     /**
      * @group Laminas-4151
      */
-    public function testEmptySet()
+    public function testEmptySet(): void
     {
         $iterator      = new ArrayIterator([]);
         $this->adapter = new Adapter\Iterator($iterator);
