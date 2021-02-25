@@ -6,19 +6,13 @@ In order to paginate items into pages, `Laminas\Paginator` must have a generic w
 of accessing that data. For that reason, all data access takes place through
 data source adapters. Several adapters ship with laminas-paginator by default:
 
-Adapter      | Description
------------- | -----------
-ArrayAdapter | Accepts a PHP array.
-DbSelect     | Accepts a `Laminas\Db\Sql\Select` instance, plus either a `Laminas\Db\Adapter\Adapter` or `Laminas\Db\Sql\Sql` instance; paginates rows from a database.
-Iterator     | Accepts any `Iterator` instance.
-NullFill     | Dummy paginator.
-
-> ### Database optimizations
->
-> Instead of selecting every matching row of a given query, the `DbSelect` adapter
-> retrieves only the smallest amount of data necessary for displaying the
-> current page. Because of this, a second query is dynamically generated to
-> determine the total number of matching rows.
+Adapter        | Description
+-------------- | -----------
+ArrayAdapter   | Accepts a PHP array.
+DbSelect       | Accepts a `Laminas\Db\Sql\Select` instance, plus either a `Laminas\Db\Adapter\Adapter` or `Laminas\Db\Sql\Sql` instance; paginates rows from a database.
+DbTableGateway | Accepts a `Laminas\Db\TableGateway\AbstractTableGateway` instance, and optionally additional arguments representing the WHERE, ORDER BY, GROUP BY, and/or HAVING clauases.
+Iterator       | Accepts any `Iterator` instance.
+NullFill       | Dummy paginator.
 
 To create a paginator instance, you must supply an adapter to the constructor:
 
@@ -83,6 +77,9 @@ return $vm;
 
 ## The DbSelect adapter
 
+> **Deprecated** since version 2.10.0.
+> Please use the [laminas/laminas-paginator-adapter-laminasdb](https://docs.laminas.dev/laminas-paginator-adapter-laminasdb) package if you wish to use the laminas-db-based pagination adapters.
+
 > ### Installation Requirements
 >
 > The DbSelect adapter depends on the laminas-db component, so be sure to have it
@@ -91,6 +88,13 @@ return $vm;
 > ```bash
 > $ composer require laminas/laminas-db
 > ```
+
+> ### Database optimizations
+>
+> Instead of selecting every matching row of a given query, the `DbSelect` adapter
+> retrieves only the smallest amount of data necessary for displaying the
+> current page. Because of this, a second query is dynamically generated to
+> determine the total number of matching rows.
 
 Most adapters receive their datasets directly. However, the `DbSelect` adapter
 requires a more detailed explanation regarding the retrieval and count of the

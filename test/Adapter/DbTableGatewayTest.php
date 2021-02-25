@@ -19,8 +19,9 @@ use Laminas\Paginator\Adapter\DbTableGateway;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 
+use function sprintf;
+
 /**
- * @group Laminas_Paginator
  * @covers  Laminas\Paginator\Adapter\DbTableGateway<extended>
  */
 class DbTableGatewayTest extends TestCase
@@ -36,6 +37,11 @@ class DbTableGatewayTest extends TestCase
 
     public function setup(): void
     {
+        $this->markTestSkipped(sprintf(
+            'Tests for %s adapter are skipped because it is deprecated.',
+            DbTableGateway::class
+        ));
+
         $mockStatement = $this->createMock(StatementInterface::class);
         $mockDriver    = $this->createMock(DriverInterface::class);
         $mockDriver->expects($this->any())

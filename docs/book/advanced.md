@@ -30,6 +30,8 @@ $dbTDGAdapter = $pluginManager->get(Adapter\DbTableGateway::class, [$tableGatewa
 $iteratorAdapter = $pluginManager->get(Adapter\Iterator::class, [$iterator]);
 ```
 
+> **Note**: the laminas-db-based adapters are deprecated since version 2.10.0.
+
 ## Custom data source adapters
 
 At some point you may run across a data type that is not covered by the packaged

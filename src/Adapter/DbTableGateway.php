@@ -13,6 +13,9 @@ use Laminas\Db\Sql\Having;
 use Laminas\Db\Sql\Where;
 use Laminas\Db\TableGateway\AbstractTableGateway;
 
+/**
+ * @deprecated 2.10.0 Use the adapters in laminas/laminas-paginator-adapter-laminasdb.
+ */
 class DbTableGateway extends DbSelect
 {
     /**

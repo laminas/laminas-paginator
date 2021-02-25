@@ -34,7 +34,6 @@
         "laminas/laminas-cache": "^2.9.0",
         "laminas/laminas-coding-standard": "~2.1.4",
         "laminas/laminas-config": "^2.6.0",
-        "laminas/laminas-db": "^2.12",
         "laminas/laminas-filter": "^2.9.4",
         "laminas/laminas-servicemanager": "^3.4.1",
         "laminas/laminas-view": "^2.11.4",
@@ -44,8 +43,8 @@
     },
     "suggest": {
         "laminas/laminas-cache": "Laminas\\Cache component to support cache features",
-        "laminas/laminas-db": "Laminas\\Db component",
         "laminas/laminas-filter": "Laminas\\Filter component",
+        "laminas/laminas-paginator-adapter-laminasdb": "Provides pagination adapters for Select statements and TableGateway instances",
         "laminas/laminas-servicemanager": "Laminas\\ServiceManager component",
         "laminas/laminas-view": "Laminas\\View component"
     },

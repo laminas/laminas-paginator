@@ -21,10 +21,10 @@ use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 
 use function array_keys;
+use function sprintf;
 use function strtolower;
 
 /**
- * @group      Laminas_Paginator
  * @covers  Laminas\Paginator\Adapter\DbSelect<extended>
  */
 class DbSelectTest extends TestCase
@@ -49,6 +49,11 @@ class DbSelectTest extends TestCase
 
     public function setUp(): void
     {
+        $this->markTestSkipped(sprintf(
+            'Tests for %s adapter are skipped because it is deprecated.',
+            DbSelect::class
+        ));
+
         $this->mockResult    = $this->createMock(ResultInterface::class);
         $this->mockStatement = $this->createMock(StatementInterface::class);
 

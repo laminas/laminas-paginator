@@ -844,7 +844,9 @@ class Paginator implements Countable, IteratorAggregate
         $currentItems  = $this->getCurrentItems();
         $encodeOptions = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP;
 
+        /** @psalm-suppress UndefinedClass */
         if ($currentItems instanceof AbstractResultSet) {
+            /** @psalm-suppress UndefinedInterfaceMethod */
             return json_encode($currentItems->toArray(), $encodeOptions);
         }
 
