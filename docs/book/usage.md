@@ -77,8 +77,9 @@ return $vm;
 
 ## The DbSelect adapter
 
-> **Deprecated** since version 2.10.0.
-> Please use the [laminas/laminas-paginator-adapter-laminasdb](https://docs.laminas.dev/laminas-paginator-adapter-laminasdb) package if you wish to use the laminas-db-based pagination adapters.
+> ### Deprecated
+>
+> The adapter is deprecated since version 2.10.0. Please use the [laminas/laminas-paginator-adapter-laminasdb](https://docs.laminas.dev/laminas-paginator-adapter-laminasdb) package if you wish to use the laminas-db-based pagination adapters.
 
 > ### Installation Requirements
 >
