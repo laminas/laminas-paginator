@@ -49,6 +49,7 @@ class Iterator implements AdapterInterface
      * @param  int $offset Page offset
      * @param  int $itemCountPerPage Number of items per page
      * @return array|SerializableLimitIterator
+     * @psalm-return iterable<array-key, mixed>
      */
     public function getItems($offset, $itemCountPerPage)
     {

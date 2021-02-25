@@ -108,7 +108,7 @@ class PaginatorTest extends TestCase
     }
 
     // @codingStandardsIgnoreStart
-    protected function _getTmpDir()
+    protected function _getTmpDir(): string
     {
         // @codingStandardsIgnoreEnd
         $tmpDir = rtrim(sys_get_temp_dir(), '/\\') . DIRECTORY_SEPARATOR . 'laminas_paginator';
@@ -121,7 +121,7 @@ class PaginatorTest extends TestCase
     }
 
     // @codingStandardsIgnoreStart
-    protected function _rmDirRecursive($path)
+    protected function _rmDirRecursive(string $path): void
     {
         // @codingStandardsIgnoreEnd
         $dir = new DirectoryIterator($path);
@@ -140,7 +140,7 @@ class PaginatorTest extends TestCase
     }
 
     // @codingStandardsIgnoreStart
-    protected function _restorePaginatorDefaults()
+    protected function _restorePaginatorDefaults(): void
     {
         // @codingStandardsIgnoreEnd
         $this->paginator->setItemCountPerPage(10);
@@ -160,7 +160,7 @@ class PaginatorTest extends TestCase
         $this->paginator->setCacheEnabled(true);
     }
 
-    public function testGetsAndSetsDefaultScrollingStyle()
+    public function testGetsAndSetsDefaultScrollingStyle(): void
     {
         $this->assertEquals(Paginator\Paginator::getDefaultScrollingStyle(), 'Sliding');
         Paginator\Paginator::setDefaultScrollingStyle('Scrolling');
@@ -168,19 +168,19 @@ class PaginatorTest extends TestCase
         Paginator\Paginator::setDefaultScrollingStyle('Sliding');
     }
 
-    public function testHasCorrectCountAfterInit()
+    public function testHasCorrectCountAfterInit(): void
     {
         $paginator = new Paginator\Paginator(new Adapter\ArrayAdapter(range(1, 101)));
         $this->assertEquals(11, $paginator->count());
     }
 
-    public function testHasCorrectCountOfAllItemsAfterInit()
+    public function testHasCorrectCountOfAllItemsAfterInit(): void
     {
         $paginator = new Paginator\Paginator(new Adapter\ArrayAdapter(range(1, 101)));
         $this->assertEquals(101, $paginator->getTotalItemCount());
     }
 
-    public function testRepetitiveCallOfCountResultsOfZero()
+    public function testRepetitiveCallOfCountResultsOfZero(): void
     {
         $count = 0;
 
@@ -197,7 +197,7 @@ class PaginatorTest extends TestCase
         $this->assertEquals($count, $paginator->count());
     }
 
-    public function testLoadsFromConfig()
+    public function testLoadsFromConfig(): void
     {
         Paginator\Paginator::setGlobalConfig($this->config->testing);
         $this->assertEquals('Scrolling', Paginator\Paginator::getDefaultScrollingStyle());
@@ -210,7 +210,7 @@ class PaginatorTest extends TestCase
         $this->assertEquals(7, $paginator->getPageRange());
     }
 
-    public function testGetsPagesForPageOne()
+    public function testGetsPagesForPageOne(): void
     {
         $expected                   = new stdClass();
         $expected->pageCount        = 11;
@@ -232,7 +232,7 @@ class PaginatorTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testGetsPagesForPageTwo()
+    public function testGetsPagesForPageTwo(): void
     {
         $expected                   = new stdClass();
         $expected->pageCount        = 11;
@@ -256,14 +256,14 @@ class PaginatorTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testRendersWithoutPartial()
+    public function testRendersWithoutPartial(): void
     {
         $this->paginator->setView(new View\Renderer\PhpRenderer());
         $string = @$this->paginator->__toString();
         $this->assertEquals('', $string);
     }
 
-    public function testRendersWithPartial()
+    public function testRendersWithPartial(): void
     {
         $view = new View\Renderer\PhpRenderer();
         $view->resolver()->addPath(__DIR__ . '/_files/scripts');
@@ -276,12 +276,12 @@ class PaginatorTest extends TestCase
         $this->assertEquals('partial rendered successfully', $string);
     }
 
-    public function testGetsPageCount()
+    public function testGetsPageCount(): void
     {
         $this->assertEquals(11, $this->paginator->count());
     }
 
-    public function testGetsAndSetsItemCountPerPage()
+    public function testGetsAndSetsItemCountPerPage(): void
     {
         Paginator\Paginator::setGlobalConfig(new Config\Config([]));
         $this->paginator = new Paginator\Paginator(new Adapter\ArrayAdapter(range(1, 101)));
@@ -295,8 +295,10 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-5376
+     *
+     * @return void
      */
-    public function testGetsAndSetsItemCounterPerPageOfNegativeOne()
+    public function testGetsAndSetsItemCounterPerPageOfNegativeOne(): void
     {
         Paginator\Paginator::setGlobalConfig(new Config\Config([]));
         $this->paginator = new Paginator\Paginator(new Paginator\Adapter\ArrayAdapter(range(1, 101)));
@@ -307,8 +309,10 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-5376
+     *
+     * @return void
      */
-    public function testGetsAndSetsItemCounterPerPageOfZero()
+    public function testGetsAndSetsItemCounterPerPageOfZero(): void
     {
         Paginator\Paginator::setGlobalConfig(new Config\Config([]));
         $this->paginator = new Paginator\Paginator(new Paginator\Adapter\ArrayAdapter(range(1, 101)));
@@ -319,8 +323,10 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-5376
+     *
+     * @return void
      */
-    public function testGetsAndSetsItemCounterPerPageOfNull()
+    public function testGetsAndSetsItemCounterPerPageOfNull(): void
     {
         Paginator\Paginator::setGlobalConfig(new Config\Config([]));
         $this->paginator = new Paginator\Paginator(new Paginator\Adapter\ArrayAdapter(range(1, 101)));
@@ -329,7 +335,7 @@ class PaginatorTest extends TestCase
         $this->paginator->setItemCountPerPage(10);
     }
 
-    public function testGetsCurrentItemCount()
+    public function testGetsCurrentItemCount(): void
     {
         $this->paginator->setItemCountPerPage(10);
         $this->paginator->setPageRange(10);
@@ -343,7 +349,7 @@ class PaginatorTest extends TestCase
         $this->paginator->setCurrentPageNumber(1);
     }
 
-    public function testGetsCurrentItems()
+    public function testGetsCurrentItems(): void
     {
         $items = $this->paginator->getCurrentItems();
         $this->assertInstanceOf(ArrayIterator::class, $items);
@@ -357,7 +363,7 @@ class PaginatorTest extends TestCase
         $this->assertEquals(10, $count);
     }
 
-    public function testGetsIterator()
+    public function testGetsIterator(): void
     {
         $items = $this->paginator->getIterator();
         $this->assertInstanceOf('ArrayIterator', $items);
@@ -371,7 +377,7 @@ class PaginatorTest extends TestCase
         $this->assertEquals(10, $count);
     }
 
-    public function testGetsAndSetsCurrentPageNumber()
+    public function testGetsAndSetsCurrentPageNumber(): void
     {
         $this->assertEquals(1, $this->paginator->getCurrentPageNumber());
         $this->paginator->setCurrentPageNumber(-1);
@@ -384,21 +390,21 @@ class PaginatorTest extends TestCase
         $this->assertEquals(1, $this->paginator->getCurrentPageNumber());
     }
 
-    public function testGetsAbsoluteItemNumber()
+    public function testGetsAbsoluteItemNumber(): void
     {
         $this->assertEquals(1, $this->paginator->getAbsoluteItemNumber(1));
         $this->assertEquals(11, $this->paginator->getAbsoluteItemNumber(1, 2));
         $this->assertEquals(24, $this->paginator->getAbsoluteItemNumber(4, 3));
     }
 
-    public function testGetsItem()
+    public function testGetsItem(): void
     {
         $this->assertEquals(1, $this->paginator->getItem(1));
         $this->assertEquals(11, $this->paginator->getItem(1, 2));
         $this->assertEquals(24, $this->paginator->getItem(4, 3));
     }
 
-    public function testThrowsExceptionWhenCollectionIsEmpty()
+    public function testThrowsExceptionWhenCollectionIsEmpty(): void
     {
         $paginator = new Paginator\Paginator(new Adapter\ArrayAdapter([]));
 
@@ -407,14 +413,14 @@ class PaginatorTest extends TestCase
         $paginator->getItem(1);
     }
 
-    public function testThrowsExceptionWhenRetrievingNonexistentItemFromLastPage()
+    public function testThrowsExceptionWhenRetrievingNonexistentItemFromLastPage(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Page 11 does not contain item number 10');
         $this->paginator->getItem(10, 11);
     }
 
-    public function testNormalizesPageNumber()
+    public function testNormalizesPageNumber(): void
     {
         $this->assertEquals(1, $this->paginator->normalizePageNumber(0));
         $this->assertEquals(1, $this->paginator->normalizePageNumber(1));
@@ -425,7 +431,7 @@ class PaginatorTest extends TestCase
         $this->assertEquals(11, $this->paginator->normalizePageNumber(12));
     }
 
-    public function testNormalizesItemNumber()
+    public function testNormalizesItemNumber(): void
     {
         $this->assertEquals(1, $this->paginator->normalizeItemNumber(0));
         $this->assertEquals(1, $this->paginator->normalizeItemNumber(1));
@@ -438,8 +444,10 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-8656
+     *
+     * @return void
      */
-    public function testNormalizesPageNumberWhenGivenAFloat()
+    public function testNormalizesPageNumberWhenGivenAFloat(): void
     {
         $this->assertEquals(1, $this->paginator->normalizePageNumber(0.5));
         $this->assertEquals(1, $this->paginator->normalizePageNumber(1.99));
@@ -452,8 +460,10 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-8656
+     *
+     * @return void
      */
-    public function testNormalizesItemNumberWhenGivenAFloat()
+    public function testNormalizesItemNumberWhenGivenAFloat(): void
     {
         $this->assertEquals(1, $this->paginator->normalizeItemNumber(0.5));
         $this->assertEquals(1, $this->paginator->normalizeItemNumber(1.99));
@@ -464,19 +474,19 @@ class PaginatorTest extends TestCase
         $this->assertEquals(10, $this->paginator->normalizeItemNumber(11.7889));
     }
 
-    public function testGetsPagesInSubsetRange()
+    public function testGetsPagesInSubsetRange(): void
     {
         $actual = $this->paginator->getPagesInRange(3, 8);
         $this->assertEquals(array_combine(range(3, 8), range(3, 8)), $actual);
     }
 
-    public function testGetsPagesInOutOfBoundsRange()
+    public function testGetsPagesInOutOfBoundsRange(): void
     {
         $actual = $this->paginator->getPagesInRange(-1, 12);
         $this->assertEquals(array_combine(range(1, 11), range(1, 11)), $actual);
     }
 
-    public function testGetsItemsByPage()
+    public function testGetsItemsByPage(): void
     {
         $expected = new ArrayIterator(range(1, 10));
 
@@ -489,8 +499,10 @@ class PaginatorTest extends TestCase
     /**
      * @group 6817
      * @group 6812
+     *
+     * @return void
      */
-    public function testGetsItemsByPageHandleDbSelectAdapter()
+    public function testGetsItemsByPageHandleDbSelectAdapter(): void
     {
         $resultSet = new ResultSet();
         $result    = $this->createMock(ResultInterface::class);
@@ -540,7 +552,7 @@ class PaginatorTest extends TestCase
         }
     }
 
-    public function testGetsItemCount()
+    public function testGetsItemCount(): void
     {
         $this->assertEquals(101, $this->paginator->getItemCount(range(1, 101)));
 
@@ -548,25 +560,25 @@ class PaginatorTest extends TestCase
         $this->assertEquals(101, $this->paginator->getItemCount($limitIterator));
     }
 
-    public function testGeneratesViewIfNonexistent()
+    public function testGeneratesViewIfNonexistent(): void
     {
         $this->assertInstanceOf(RendererInterface::class, $this->paginator->getView());
     }
 
-    public function testGetsAndSetsView()
+    public function testGetsAndSetsView(): void
     {
         $this->paginator->setView(new View\Renderer\PhpRenderer());
         $this->assertInstanceOf(RendererInterface::class, $this->paginator->getView());
     }
 
-    public function testRenders()
+    public function testRenders(): void
     {
         $this->expectException(ExceptionInterface::class);
         $this->expectExceptionMessage('view partial');
         $this->paginator->render(new View\Renderer\PhpRenderer());
     }
 
-    public function testGetsAndSetsPageRange()
+    public function testGetsAndSetsPageRange(): void
     {
         $this->assertEquals(10, $this->paginator->getPageRange());
         $this->paginator->setPageRange(15);
@@ -575,8 +587,10 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-3720
+     *
+     * @return void
      */
-    public function testGivesCorrectItemCount()
+    public function testGivesCorrectItemCount(): void
     {
         $paginator = new Paginator\Paginator(new Adapter\ArrayAdapter(range(1, 101)));
         $paginator->setCurrentPageNumber(5)
@@ -588,8 +602,10 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-3737
+     *
+     * @return void
      */
-    public function testKeepsCurrentPageNumberAfterItemCountPerPageSet()
+    public function testKeepsCurrentPageNumberAfterItemCountPerPageSet(): void
     {
         $paginator = new Paginator\Paginator(new Adapter\ArrayAdapter(['item1', 'item2']));
         $paginator->setCurrentPageNumber(2)
@@ -602,8 +618,10 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-4193
+     *
+     * @return void
      */
-    public function testCastsIntegerValuesToInteger()
+    public function testCastsIntegerValuesToInteger(): void
     {
         // Current page number
         $this->paginator->setCurrentPageNumber(3.3);
@@ -620,14 +638,16 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-4207
+     *
+     * @return void
      */
-    public function testAcceptsTraversableInstanceFromAdapter()
+    public function testAcceptsTraversableInstanceFromAdapter(): void
     {
         $paginator = new Paginator\Paginator(new TestAsset\TestAdapter());
         $this->assertInstanceOf('ArrayObject', $paginator->getCurrentItems());
     }
 
-    public function testCachedItem()
+    public function testCachedItem(): void
     {
         $this->paginator->setCurrentPageNumber(1)->getCurrentItems();
         $this->paginator->setCurrentPageNumber(2)->getCurrentItems();
@@ -645,7 +665,7 @@ class PaginatorTest extends TestCase
         $this->assertEquals($expected, $pageItems);
     }
 
-    public function testClearPageItemCache()
+    public function testClearPageItemCache(): void
     {
         $this->paginator->setCurrentPageNumber(1)->getCurrentItems();
         $this->paginator->setCurrentPageNumber(2)->getCurrentItems();
@@ -672,7 +692,7 @@ class PaginatorTest extends TestCase
         $this->assertEquals(42, $this->cache->getItem('not_paginator_item'));
     }
 
-    public function testWithCacheDisabled()
+    public function testWithCacheDisabled(): void
     {
         $this->paginator->setCacheEnabled(false);
         $this->paginator->setCurrentPageNumber(1)->getCurrentItems();
@@ -687,7 +707,7 @@ class PaginatorTest extends TestCase
         $this->assertEquals($expected, $pageItems);
     }
 
-    public function testCacheDoesNotDisturbResultsWhenChangingParam()
+    public function testCacheDoesNotDisturbResultsWhenChangingParam(): void
     {
         $this->paginator->setCurrentPageNumber(1)->getCurrentItems();
         $pageItems = $this->paginator->setItemCountPerPage(5)->getCurrentItems();
@@ -717,7 +737,7 @@ class PaginatorTest extends TestCase
         $this->assertEquals($expected[2], $pageItems[2]);
     }
 
-    public function testToJson()
+    public function testToJson(): void
     {
         $this->paginator->setCurrentPageNumber(1);
 
@@ -728,7 +748,7 @@ class PaginatorTest extends TestCase
         $this->assertStringContainsString($expected, $json);
     }
 
-    public function testFilter()
+    public function testFilter(): void
     {
         $filter    = new Filter\Callback([$this, 'filterCallback']);
         $paginator = new Paginator\Paginator(new Adapter\ArrayAdapter(range(1, 101)));
@@ -755,8 +775,10 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-5785
+     *
+     * @return void
      */
-    public function testGetSetDefaultItemCountPerPage()
+    public function testGetSetDefaultItemCountPerPage(): void
     {
         Paginator\Paginator::setGlobalConfig(new Config\Config([]));
 
@@ -774,8 +796,10 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-7207
+     *
+     * @return void
      */
-    public function testItemCountPerPageByDefault()
+    public function testItemCountPerPageByDefault(): void
     {
         $paginator = new Paginator\Paginator(new Adapter\ArrayAdapter(range(1, 20)));
         $this->assertEquals(2, $paginator->count());
@@ -783,8 +807,10 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-5427
+     *
+     * @return void
      */
-    public function testNegativeItemNumbers()
+    public function testNegativeItemNumbers(): void
     {
         $this->assertEquals(10, $this->paginator->getItem(-1, 1));
         $this->assertEquals(9, $this->paginator->getItem(-2, 1));
@@ -793,8 +819,10 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-7602
+     *
+     * @return void
      */
-    public function testAcceptAndHandlePaginatorAdapterAggregateDataInFactory()
+    public function testAcceptAndHandlePaginatorAdapterAggregateDataInFactory(): void
     {
         $p = new Paginator\Paginator(new TestArrayAggregate());
 
@@ -805,8 +833,10 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-7602
+     *
+     * @return void
      */
-    public function testAcceptAndHandlePaginatorAdapterAggregateInConstructor()
+    public function testAcceptAndHandlePaginatorAdapterAggregateInConstructor(): void
     {
         $p = new Paginator\Paginator(new TestArrayAggregate());
 
@@ -817,9 +847,10 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-7602
+     *
+     * @return void
      */
-    // @codingStandardsIgnoreStart
-    public function testInvalidDataInConstructor_ThrowsException()
+    public function testInvalidDataInConstructorThrowsException(): void
     {
         // @codingStandardsIgnoreEnd
         $this->expectException(\Laminas\Paginator\Exception\ExceptionInterface::class);
@@ -829,14 +860,17 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-9396
+     *
+     * @return void
      */
-    public function testArrayAccessInClassSerializableLimitIterator()
+    public function testArrayAccessInClassSerializableLimitIterator(): void
     {
         $iterator  = new ArrayIterator(['laminas9396', 'foo', null]);
         $paginator = new Paginator\Paginator(new Adapter\Iterator($iterator));
 
         $this->assertEquals('laminas9396', $paginator->getItem(1));
 
+        /** @psalm-var \Laminas\Paginator\SerializableLimitIterator $items */
         $items = $paginator->getAdapter()
                            ->getItems(0, 10);
 
@@ -847,7 +881,7 @@ class PaginatorTest extends TestCase
         $this->assertFalse(isset($items[3]));
     }
 
-    public function testSetGlobalConfigThrowsInvalidArgumentException()
+    public function testSetGlobalConfigThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('setGlobalConfig expects an array or Traversable');
@@ -855,7 +889,7 @@ class PaginatorTest extends TestCase
         $this->paginator->setGlobalConfig('not array');
     }
 
-    public function testSetScrollingStylePluginManagerWithStringThrowsInvalidArgumentException()
+    public function testSetScrollingStylePluginManagerWithStringThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
@@ -865,7 +899,7 @@ class PaginatorTest extends TestCase
         $this->paginator->setScrollingStylePluginManager('invalid adapter');
     }
 
-    public function testSetScrollingStylePluginManagerWithAdapterThrowsInvalidArgumentException()
+    public function testSetScrollingStylePluginManagerWithAdapterThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
@@ -877,7 +911,7 @@ class PaginatorTest extends TestCase
         );
     }
 
-    public function testLoadScrollingStyleWithDigitThrowsInvalidArgumentException()
+    public function testLoadScrollingStyleWithDigitThrowsInvalidArgumentException(): void
     {
         $adapter    = new TestAsset\TestAdapter();
         $paginator  = new Paginator\Paginator($adapter);
@@ -893,7 +927,7 @@ class PaginatorTest extends TestCase
         $reflection->invoke($paginator, 12345);
     }
 
-    public function testLoadScrollingStyleWithObjectThrowsInvalidArgumentException()
+    public function testLoadScrollingStyleWithObjectThrowsInvalidArgumentException(): void
     {
         $adapter    = new TestAsset\TestAdapter();
         $paginator  = new Paginator\Paginator($adapter);
@@ -908,7 +942,7 @@ class PaginatorTest extends TestCase
         $reflection->invoke($paginator, new stdClass());
     }
 
-    public function testGetCacheId()
+    public function testGetCacheId(): void
     {
         $adapter              = new TestAsset\TestAdapter();
         $paginator            = new Paginator\Paginator($adapter);
@@ -931,7 +965,7 @@ class PaginatorTest extends TestCase
         $this->assertEquals($outputGetCacheId, 'Laminas_Paginator_1_' . $outputGetCacheInternalId);
     }
 
-    public function testGetCacheIdWithSameAdapterAndDifferentAttributes()
+    public function testGetCacheIdWithSameAdapterAndDifferentAttributes(): void
     {
         $adapter   = new TestAsset\TestAdapter([1, 2, 3, 4]);
         $paginator = new Paginator\Paginator($adapter);
@@ -948,7 +982,7 @@ class PaginatorTest extends TestCase
         $this->assertNotEquals($firstOutputGetCacheInternalId, $secondOutputGetCacheInternalId);
     }
 
-    public function testGetCacheIdWithInheritedClass()
+    public function testGetCacheIdWithInheritedClass(): void
     {
         $adapter   = new TestAsset\TestAdapter([1, 2, 3, 4]);
         $paginator = new Paginator\Paginator($adapter);
@@ -965,7 +999,7 @@ class PaginatorTest extends TestCase
         $this->assertNotEquals($firstOutputGetCacheInternalId, $secondOutputGetCacheInternalId);
     }
 
-    public function testDbSelectAdapterShouldProduceValidCacheId()
+    public function testDbSelectAdapterShouldProduceValidCacheId(): void
     {
         // Create first interal cache ID
         $paginator                    = new Paginator\Paginator(
@@ -1015,7 +1049,7 @@ class PaginatorTest extends TestCase
         $this->assertNotEquals($firstCacheId, $secondCacheIde);
     }
 
-    public function testAcceptsComplexAdapters()
+    public function testAcceptsComplexAdapters(): void
     {
         $paginator = new Paginator\Paginator(
             new TestAsset\TestAdapter(function () {
@@ -1028,8 +1062,10 @@ class PaginatorTest extends TestCase
     /**
      * @group 6808
      * @group 6809
+     *
+     * @return void
      */
-    public function testItemCountsForEmptyItemSet()
+    public function testItemCountsForEmptyItemSet(): void
     {
         $paginator = new Paginator\Paginator(new Adapter\ArrayAdapter([]));
         $paginator->setCurrentPageNumber(1);

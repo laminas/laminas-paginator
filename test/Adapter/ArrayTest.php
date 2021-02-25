@@ -40,29 +40,31 @@ class ArrayTest extends TestCase
         parent::tearDown();
     }
 
-    public function testGetsItemsAtOffsetZero()
+    public function testGetsItemsAtOffsetZero(): void
     {
         $expected = range(1, 10);
         $actual   = $this->adapter->getItems(0, 10);
         $this->assertEquals($expected, $actual);
     }
 
-    public function testGetsItemsAtOffsetTen()
+    public function testGetsItemsAtOffsetTen(): void
     {
         $expected = range(11, 20);
         $actual   = $this->adapter->getItems(10, 10);
         $this->assertEquals($expected, $actual);
     }
 
-    public function testReturnsCorrectCount()
+    public function testReturnsCorrectCount(): void
     {
         $this->assertEquals(101, $this->adapter->count());
     }
 
     /**
      * @group Laminas-4151
+     *
+     * @return void
      */
-    public function testEmptySet()
+    public function testEmptySet(): void
     {
         $this->adapter = new Adapter\ArrayAdapter([]);
         $actual        = $this->adapter->getItems(0, 10);

@@ -59,7 +59,7 @@ class AdapterPluginManagerTest extends TestCase
         );
     }
 
-    public function testCanRetrieveAdapterPlugin()
+    public function testCanRetrieveAdapterPlugin(): void
     {
         $plugin = $this->adapterPluginManager->get('array', [1, 2, 3]);
         $this->assertInstanceOf(Adapter\ArrayAdapter::class, $plugin);
@@ -98,10 +98,15 @@ class AdapterPluginManagerTest extends TestCase
         $this->assertInstanceOf(Adapter\DbTableGateway::class, $plugin);
 
         // Test Callback
-        $itemsCallback = function () {
+        $itemsCallback = /**
+         * @return array
+         *
+         * @psalm-return array<empty, empty>
+         */
+        function (): array {
             return [];
         };
-        $countCallback = function () {
+        $countCallback = function (): int {
             return 0;
         };
 
@@ -109,7 +114,7 @@ class AdapterPluginManagerTest extends TestCase
         $this->assertInstanceOf(Adapter\Callback::class, $plugin);
     }
 
-    public function testFactoryCreatedDbSelectCanUseCustomCountSelect()
+    public function testFactoryCreatedDbSelectCanUseCustomCountSelect(): void
     {
         $mockSelect      = $this->createMock(Select::class);
         $mockSelectCount = $this->createMock(Select::class);

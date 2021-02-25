@@ -50,7 +50,7 @@ class ElasticTest extends TestCase
         parent::tearDown();
     }
 
-    public function testGetsPagesInRangeForFirstPage()
+    public function testGetsPagesInRangeForFirstPage(): void
     {
         $this->paginator->setCurrentPageNumber(1);
         $actual   = $this->scrollingStyle->getPages($this->paginator);
@@ -58,7 +58,7 @@ class ElasticTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testGetsPagesInRangeForSecondPage()
+    public function testGetsPagesInRangeForSecondPage(): void
     {
         $this->paginator->setCurrentPageNumber(2);
         $actual   = $this->scrollingStyle->getPages($this->paginator);
@@ -66,7 +66,7 @@ class ElasticTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testGetsPagesInRangeForTenthPage()
+    public function testGetsPagesInRangeForTenthPage(): void
     {
         $this->paginator->setCurrentPageNumber(10);
         $actual   = $this->scrollingStyle->getPages($this->paginator);
@@ -74,7 +74,7 @@ class ElasticTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testGetsPagesInRangeForLastPage()
+    public function testGetsPagesInRangeForLastPage(): void
     {
         $this->paginator->setCurrentPageNumber(21);
         $actual   = $this->scrollingStyle->getPages($this->paginator);
@@ -82,7 +82,7 @@ class ElasticTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testGetsNextAndPreviousPageForFirstPage()
+    public function testGetsNextAndPreviousPageForFirstPage(): void
     {
         $this->paginator->setCurrentPageNumber(1);
         $pages = $this->paginator->getPages('Elastic');
@@ -90,7 +90,7 @@ class ElasticTest extends TestCase
         $this->assertEquals(2, $pages->next);
     }
 
-    public function testGetsNextAndPreviousPageForSecondPage()
+    public function testGetsNextAndPreviousPageForSecondPage(): void
     {
         $this->paginator->setCurrentPageNumber(2);
         $pages = $this->paginator->getPages('Elastic');
@@ -98,7 +98,7 @@ class ElasticTest extends TestCase
         $this->assertEquals(3, $pages->next);
     }
 
-    public function testGetsNextAndPreviousPageForMiddlePage()
+    public function testGetsNextAndPreviousPageForMiddlePage(): void
     {
         $this->paginator->setCurrentPageNumber(10);
         $pages = $this->paginator->getPages('Elastic');
@@ -106,7 +106,7 @@ class ElasticTest extends TestCase
         $this->assertEquals(11, $pages->next);
     }
 
-    public function testGetsNextAndPreviousPageForSecondLastPage()
+    public function testGetsNextAndPreviousPageForSecondLastPage(): void
     {
         $this->paginator->setCurrentPageNumber(20);
         $pages = $this->paginator->getPages('Elastic');
@@ -114,14 +114,14 @@ class ElasticTest extends TestCase
         $this->assertEquals(21, $pages->next);
     }
 
-    public function testGetsNextAndPreviousPageForLastPage()
+    public function testGetsNextAndPreviousPageForLastPage(): void
     {
         $this->paginator->setCurrentPageNumber(21);
         $pages = $this->paginator->getPages('Elastic');
         $this->assertEquals(20, $pages->previous);
     }
 
-    public function testNoPagesOnLastPageEqualsPageRange()
+    public function testNoPagesOnLastPageEqualsPageRange(): void
     {
         $this->paginator->setPageRange(3);
         $this->paginator->setCurrentPageNumber(21);
@@ -129,7 +129,7 @@ class ElasticTest extends TestCase
         $this->assertEquals(3, count($pages->pagesInRange));
     }
 
-    public function testNoPagesOnSecondLastPageEqualsPageRangeMinOne()
+    public function testNoPagesOnSecondLastPageEqualsPageRangeMinOne(): void
     {
         $this->paginator->setPageRange(3);
         $this->paginator->setCurrentPageNumber(20);
@@ -137,7 +137,7 @@ class ElasticTest extends TestCase
         $this->assertEquals(4, count($pages->pagesInRange));
     }
 
-    public function testNoPagesBeforeSecondLastPageEqualsPageRangeMinTwo()
+    public function testNoPagesBeforeSecondLastPageEqualsPageRangeMinTwo(): void
     {
         $this->paginator->setPageRange(3);
         $this->paginator->setCurrentPageNumber(19);

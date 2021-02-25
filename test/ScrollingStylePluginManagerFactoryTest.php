@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 
 class ScrollingStylePluginManagerFactoryTest extends TestCase
 {
-    public function testFactoryReturnsPluginManager()
+    public function testFactoryReturnsPluginManager(): void
     {
         $container = $this->createMock(ContainerInterface::class);
         $factory   = new ScrollingStylePluginManagerFactory();
@@ -28,8 +28,10 @@ class ScrollingStylePluginManagerFactoryTest extends TestCase
 
     /**
      * @depends testFactoryReturnsPluginManager
+     *
+     * @return void
      */
-    public function testFactoryConfiguresPluginManagerUnderContainerInterop()
+    public function testFactoryConfiguresPluginManagerUnderContainerInterop(): void
     {
         $container      = $this->createMock(ContainerInterface::class);
         $scrollingStyle = $this->createMock(ScrollingStyleInterface::class);
@@ -45,8 +47,10 @@ class ScrollingStylePluginManagerFactoryTest extends TestCase
 
     /**
      * @depends testFactoryReturnsPluginManager
+     *
+     * @return void
      */
-    public function testFactoryConfiguresPluginManagerUnderServiceManagerV2()
+    public function testFactoryConfiguresPluginManagerUnderServiceManagerV2(): void
     {
         $container      = $this->createMock(ServiceLocatorInterface::class);
         $scrollingStyle = $this->createMock(ScrollingStyleInterface::class);

@@ -56,7 +56,7 @@ class FactoryTest extends TestCase
         );
     }
 
-    public function testCanFactoryPaginatorWithStringAdapterObject()
+    public function testCanFactoryPaginatorWithStringAdapterObject(): void
     {
         $datas     = [1, 2, 3];
         $paginator = Paginator\Factory::factory($datas, new Adapter\ArrayAdapter($datas));
@@ -64,7 +64,7 @@ class FactoryTest extends TestCase
         $this->assertEquals(count($datas), $paginator->getCurrentItemCount());
     }
 
-    public function testCanFactoryPaginatorWithStringAdapterName()
+    public function testCanFactoryPaginatorWithStringAdapterName(): void
     {
         $datas     = [1, 2, 3];
         $paginator = Paginator\Factory::factory($datas, 'array');
@@ -72,19 +72,19 @@ class FactoryTest extends TestCase
         $this->assertEquals(count($datas), $paginator->getCurrentItemCount());
     }
 
-    public function testCanFactoryPaginatorWithStringAdapterAggregate()
+    public function testCanFactoryPaginatorWithStringAdapterAggregate(): void
     {
         $paginator = Paginator\Factory::factory(null, new TestArrayAggregate());
         $this->assertInstanceOf(ArrayAdapter::class, $paginator->getAdapter());
     }
 
-    public function testCanFactoryPaginatorWithDbSelect()
+    public function testCanFactoryPaginatorWithDbSelect(): void
     {
         $paginator = Paginator\Factory::factory([$this->mockSelect, $this->mockAdapter], 'dbselect');
         $this->assertInstanceOf(DbSelect::class, $paginator->getAdapter());
     }
 
-    public function testCanFactoryPaginatorWithOneParameterWithArrayAdapter()
+    public function testCanFactoryPaginatorWithOneParameterWithArrayAdapter(): void
     {
         $datas     = [
             'items'   => [1, 2, 3],
@@ -95,7 +95,7 @@ class FactoryTest extends TestCase
         $this->assertEquals(count($datas['items']), $paginator->getCurrentItemCount());
     }
 
-    public function testCanFactoryPaginatorWithOneParameterWithDbAdapter()
+    public function testCanFactoryPaginatorWithOneParameterWithDbAdapter(): void
     {
         $datas     = [
             'items'   => [$this->mockSelect, $this->mockAdapter],
@@ -105,7 +105,7 @@ class FactoryTest extends TestCase
         $this->assertInstanceOf(DbSelect::class, $paginator->getAdapter());
     }
 
-    public function testCanFactoryPaginatorWithOneBadParameter()
+    public function testCanFactoryPaginatorWithOneBadParameter(): void
     {
         $datas = [
             [1, 2, 3],

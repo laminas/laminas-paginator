@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 
 class AdapterPluginManagerFactoryTest extends TestCase
 {
-    public function testFactoryReturnsPluginManager()
+    public function testFactoryReturnsPluginManager(): void
     {
         $container = $this->createMock(ContainerInterface::class);
         $container
@@ -37,8 +37,10 @@ class AdapterPluginManagerFactoryTest extends TestCase
 
     /**
      * @depends testFactoryReturnsPluginManager
+     *
+     * @return void
      */
-    public function testFactoryConfiguresPluginManagerUnderContainerInterop()
+    public function testFactoryConfiguresPluginManagerUnderContainerInterop(): void
     {
         $container = $this->createMock(ContainerInterface::class);
         $container
@@ -63,8 +65,10 @@ class AdapterPluginManagerFactoryTest extends TestCase
 
     /**
      * @depends testFactoryReturnsPluginManager
+     *
+     * @return void
      */
-    public function testFactoryConfiguresPluginManagerUnderServiceManagerV2()
+    public function testFactoryConfiguresPluginManagerUnderServiceManagerV2(): void
     {
         $container = $this->createMock(ServiceLocatorInterface::class);
         $container
@@ -89,7 +93,7 @@ class AdapterPluginManagerFactoryTest extends TestCase
         $this->assertSame($adapter, $adapters->get('test'));
     }
 
-    public function testDoesNotConfigureAdditionalPaginatorsWhenConfigServiceDoesNotContainPaginatorsConfig()
+    public function testDoesNotConfigureAdditionalPaginatorsWhenConfigServiceDoesNotContainPaginatorsConfig(): void
     {
         $container = $this->createMock(ContainerInterface::class);
 
@@ -112,18 +116,22 @@ class AdapterPluginManagerFactoryTest extends TestCase
         $this->assertFalse($adapters->has('foo'));
     }
 
-    public function testConfiguresPaginatorServicesWhenFound()
+    public function testConfiguresPaginatorServicesWhenFound(): void
     {
         $paginator = $this->createMock(AdapterInterface::class);
+
+        /** @psalm-var callable(ContainerInterface):\PHPUnit\Framework\MockObject\MockObject&AdapterInterface $factory */
+        $factory   = function (ContainerInterface $container) use ($paginator): AdapterInterface {
+            return $paginator;
+        };
+
         $config    = [
             'paginators' => [
                 'aliases'   => [
                     'test' => 'test-too',
                 ],
                 'factories' => [
-                    'test-too' => function ($container) use ($paginator) {
-                        return $paginator;
-                    },
+                    'test-too' => $factory,
                 ],
             ],
         ];

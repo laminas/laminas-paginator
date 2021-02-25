@@ -100,7 +100,10 @@ class ScrollingStylePluginManager extends AbstractPluginManager
      * Validate a plugin (v2)
      *
      * @param mixed $plugin
+     *
      * @throws Exception\InvalidArgumentException
+     *
+     * @return void
      */
     public function validatePlugin($plugin)
     {
