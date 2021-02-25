@@ -40,7 +40,6 @@ class TestAdapter implements AdapterInterface
      * @param int $pageNumber
      * @param int $itemCountPerPage
      * @return iterable
-     *
      * @psalm-return ArrayObject<int, int>
      */
     public function getItems($pageNumber, $itemCountPerPage)

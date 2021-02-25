@@ -124,9 +124,7 @@ class AdapterPluginManager extends AbstractPluginManager
      * Validate that a plugin is an adapter (v2)
      *
      * @param mixed $plugin
-     *
      * @throws Exception\RuntimeException
-     *
      * @return void
      */
     public function validatePlugin($plugin)

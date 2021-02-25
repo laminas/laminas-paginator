@@ -21,9 +21,8 @@ class CallbackTest extends TestCase
     public function testMustDefineTwoCallbacksOnConstructor(): void
     {
         $itemsCallback = /**
-         * @return array
-         *
-         * @psalm-return array<empty, empty>
+        $itemsCallback =  * @return array
+        $itemsCallback =  * @psalm-return array<empty, empty>
          */
         function (): array {
             return [];
@@ -40,9 +39,8 @@ class CallbackTest extends TestCase
     public function testShouldAcceptAnyCallableOnConstructor(): void
     {
         $itemsCallback = /**
-         * @return int[]
-         *
-         * @psalm-return non-empty-list<int>
+        $itemsCallback =  * @return int[]
+        $itemsCallback =  * @psalm-return non-empty-list<int>
          */
         function (): array {
             return range(1, 10);
@@ -58,9 +56,8 @@ class CallbackTest extends TestCase
     {
         $data          = range(1, 10);
         $itemsCallback = /**
-         * @return int[]
-         *
-         * @psalm-return non-empty-list<int>
+        $itemsCallback =  * @return int[]
+        $itemsCallback =  * @psalm-return non-empty-list<int>
          */
         function () use ($data): array {
             return $data;
@@ -76,9 +73,8 @@ class CallbackTest extends TestCase
     {
         $data          = [0, 1, 2, 3];
         $itemsCallback = /**
-         * @return (float|int|string)[]
-         *
-         * @psalm-return non-empty-list<float|int|string>
+        $itemsCallback =  * @return (float|int|string)[]
+        $itemsCallback =  * @psalm-return non-empty-list<float|int|string>
          */
         function ($offset, $itemCountPerPage): array {
             return range($offset, $itemCountPerPage);

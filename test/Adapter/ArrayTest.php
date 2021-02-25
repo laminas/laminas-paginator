@@ -61,8 +61,6 @@ class ArrayTest extends TestCase
 
     /**
      * @group Laminas-4151
-     *
-     * @return void
      */
     public function testEmptySet(): void
     {

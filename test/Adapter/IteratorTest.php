@@ -13,6 +13,7 @@ use Laminas\Paginator\Adapter;
 use Laminas\Paginator\Adapter\Exception\InvalidArgumentException;
 use Laminas\Paginator\Adapter\Iterator;
 use Laminas\Paginator\Paginator;
+use Laminas\Paginator\SerializableLimitIterator;
 use LimitIterator;
 use PHPUnit\Framework\TestCase;
 
@@ -88,8 +89,6 @@ class IteratorTest extends TestCase
 
     /**
      * @group Laminas-4151
-     *
-     * @return void
      */
     public function testDoesNotThrowOutOfBoundsExceptionIfIteratorIsEmpty(): void
     {
@@ -105,12 +104,10 @@ class IteratorTest extends TestCase
 
     /**
      * @group Laminas-8084
-     *
-     * @return void
      */
     public function testGetItemsSerializable(): void
     {
-        /** @psalm-var \Laminas\Paginator\SerializableLimitIterator $items */
+        /** @psalm-var SerializableLimitIterator $items */
         $items         = $this->adapter->getItems(0, 1);
         $innerIterator = $items->getInnerIterator();
         $items         = unserialize(serialize($items));
@@ -123,8 +120,6 @@ class IteratorTest extends TestCase
 
     /**
      * @group Laminas-4151
-     *
-     * @return void
      */
     public function testEmptySet(): void
     {

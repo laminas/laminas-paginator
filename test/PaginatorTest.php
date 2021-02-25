@@ -30,6 +30,7 @@ use Laminas\Paginator\Adapter\ArrayAdapter;
 use Laminas\Paginator\Adapter\DbSelect;
 use Laminas\Paginator\Exception;
 use Laminas\Paginator\Exception\InvalidArgumentException;
+use Laminas\Paginator\SerializableLimitIterator;
 use Laminas\View;
 use Laminas\View\Exception\ExceptionInterface;
 use Laminas\View\Helper;
@@ -295,8 +296,6 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-5376
-     *
-     * @return void
      */
     public function testGetsAndSetsItemCounterPerPageOfNegativeOne(): void
     {
@@ -309,8 +308,6 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-5376
-     *
-     * @return void
      */
     public function testGetsAndSetsItemCounterPerPageOfZero(): void
     {
@@ -323,8 +320,6 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-5376
-     *
-     * @return void
      */
     public function testGetsAndSetsItemCounterPerPageOfNull(): void
     {
@@ -444,8 +439,6 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-8656
-     *
-     * @return void
      */
     public function testNormalizesPageNumberWhenGivenAFloat(): void
     {
@@ -460,8 +453,6 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-8656
-     *
-     * @return void
      */
     public function testNormalizesItemNumberWhenGivenAFloat(): void
     {
@@ -499,8 +490,6 @@ class PaginatorTest extends TestCase
     /**
      * @group 6817
      * @group 6812
-     *
-     * @return void
      */
     public function testGetsItemsByPageHandleDbSelectAdapter(): void
     {
@@ -587,8 +576,6 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-3720
-     *
-     * @return void
      */
     public function testGivesCorrectItemCount(): void
     {
@@ -602,8 +589,6 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-3737
-     *
-     * @return void
      */
     public function testKeepsCurrentPageNumberAfterItemCountPerPageSet(): void
     {
@@ -618,8 +603,6 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-4193
-     *
-     * @return void
      */
     public function testCastsIntegerValuesToInteger(): void
     {
@@ -638,8 +621,6 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-4207
-     *
-     * @return void
      */
     public function testAcceptsTraversableInstanceFromAdapter(): void
     {
@@ -775,8 +756,6 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-5785
-     *
-     * @return void
      */
     public function testGetSetDefaultItemCountPerPage(): void
     {
@@ -796,8 +775,6 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-7207
-     *
-     * @return void
      */
     public function testItemCountPerPageByDefault(): void
     {
@@ -807,8 +784,6 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-5427
-     *
-     * @return void
      */
     public function testNegativeItemNumbers(): void
     {
@@ -819,8 +794,6 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-7602
-     *
-     * @return void
      */
     public function testAcceptAndHandlePaginatorAdapterAggregateDataInFactory(): void
     {
@@ -833,8 +806,6 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-7602
-     *
-     * @return void
      */
     public function testAcceptAndHandlePaginatorAdapterAggregateInConstructor(): void
     {
@@ -847,8 +818,6 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-7602
-     *
-     * @return void
      */
     public function testInvalidDataInConstructorThrowsException(): void
     {
@@ -860,8 +829,6 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-9396
-     *
-     * @return void
      */
     public function testArrayAccessInClassSerializableLimitIterator(): void
     {
@@ -870,7 +837,7 @@ class PaginatorTest extends TestCase
 
         $this->assertEquals('laminas9396', $paginator->getItem(1));
 
-        /** @psalm-var \Laminas\Paginator\SerializableLimitIterator $items */
+        /** @psalm-var SerializableLimitIterator $items */
         $items = $paginator->getAdapter()
                            ->getItems(0, 10);
 
@@ -1062,8 +1029,6 @@ class PaginatorTest extends TestCase
     /**
      * @group 6808
      * @group 6809
-     *
-     * @return void
      */
     public function testItemCountsForEmptyItemSet(): void
     {

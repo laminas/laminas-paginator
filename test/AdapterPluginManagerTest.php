@@ -99,9 +99,8 @@ class AdapterPluginManagerTest extends TestCase
 
         // Test Callback
         $itemsCallback = /**
-         * @return array
-         *
-         * @psalm-return array<empty, empty>
+        $itemsCallback =  * @return array
+        $itemsCallback =  * @psalm-return array<empty, empty>
          */
         function (): array {
             return [];

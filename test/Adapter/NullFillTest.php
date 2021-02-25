@@ -55,8 +55,6 @@ class NullFillTest extends TestCase
 
     /**
      * @group Laminas-3873
-     *
-     * @return void
      */
     public function testAdapterReturnsCorrectValues(): void
     {
@@ -81,8 +79,6 @@ class NullFillTest extends TestCase
 
     /**
      * @group Laminas-4151
-     *
-     * @return void
      */
     public function testEmptySet(): void
     {
@@ -93,8 +89,6 @@ class NullFillTest extends TestCase
 
     /**
      * Verify that the fix for Laminas-4151 doesn't create an OBO error
-     *
-     * @return void
      */
     public function testSetOfOne(): void
     {

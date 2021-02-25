@@ -139,8 +139,6 @@ class DbSelectTest extends TestCase
     /**
      * @group 6817
      * @group 6812
-     *
-     * @return void
      */
     public function testReturnValueIsArray(): void
     {

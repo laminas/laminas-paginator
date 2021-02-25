@@ -183,9 +183,7 @@ class Paginator implements Countable, IteratorAggregate
      * Set a global config
      *
      * @param array|Traversable $config
-     *
      * @throws Exception\InvalidArgumentException
-     *
      * @return void
      */
     public static function setGlobalConfig($config)
@@ -237,7 +235,6 @@ class Paginator implements Countable, IteratorAggregate
      * Set the default item count per page
      *
      * @param int $count
-     *
      * @return void
      */
     public static function setDefaultItemCountPerPage($count)
@@ -259,7 +256,6 @@ class Paginator implements Countable, IteratorAggregate
      * Sets the default scrolling style.
      *
      * @param string $scrollingStyle
-     *
      * @return void
      */
     public static function setDefaultScrollingStyle($scrollingStyle = 'Sliding')

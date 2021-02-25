@@ -28,8 +28,6 @@ class ScrollingStylePluginManagerFactoryTest extends TestCase
 
     /**
      * @depends testFactoryReturnsPluginManager
-     *
-     * @return void
      */
     public function testFactoryConfiguresPluginManagerUnderContainerInterop(): void
     {
@@ -47,8 +45,6 @@ class ScrollingStylePluginManagerFactoryTest extends TestCase
 
     /**
      * @depends testFactoryReturnsPluginManager
-     *
-     * @return void
      */
     public function testFactoryConfiguresPluginManagerUnderServiceManagerV2(): void
     {

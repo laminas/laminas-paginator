@@ -13,6 +13,7 @@ use Laminas\Paginator\Adapter\AdapterInterface;
 use Laminas\Paginator\AdapterPluginManager;
 use Laminas\Paginator\AdapterPluginManagerFactory;
 use Laminas\ServiceManager\ServiceLocatorInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class AdapterPluginManagerFactoryTest extends TestCase
@@ -37,8 +38,6 @@ class AdapterPluginManagerFactoryTest extends TestCase
 
     /**
      * @depends testFactoryReturnsPluginManager
-     *
-     * @return void
      */
     public function testFactoryConfiguresPluginManagerUnderContainerInterop(): void
     {
@@ -65,8 +64,6 @@ class AdapterPluginManagerFactoryTest extends TestCase
 
     /**
      * @depends testFactoryReturnsPluginManager
-     *
-     * @return void
      */
     public function testFactoryConfiguresPluginManagerUnderServiceManagerV2(): void
     {
@@ -120,12 +117,12 @@ class AdapterPluginManagerFactoryTest extends TestCase
     {
         $paginator = $this->createMock(AdapterInterface::class);
 
-        /** @psalm-var callable(ContainerInterface):\PHPUnit\Framework\MockObject\MockObject&AdapterInterface $factory */
-        $factory   = function (ContainerInterface $container) use ($paginator): AdapterInterface {
+        /** @psalm-var callable(ContainerInterface ): MockObject&AdapterInterface $factory */
+        $factory = function (ContainerInterface $container) use ($paginator): AdapterInterface {
             return $paginator;
         };
 
-        $config    = [
+        $config = [
             'paginators' => [
                 'aliases'   => [
                     'test' => 'test-too',
