@@ -1,34 +1,20 @@
 {
     "name": "laminas/laminas-paginator",
     "description": "Paginate collections of data from arbitrary sources",
-    "license": "BSD-3-Clause",
     "keywords": [
         "laminas",
         "paginator"
     ],
     "homepage": "https://laminas.dev",
-    "support": {
-        "docs": "https://docs.laminas.dev/laminas-paginator/",
-        "issues": "https://github.com/laminas/laminas-paginator/issues",
-        "source": "https://github.com/laminas/laminas-paginator",
-        "rss": "https://github.com/laminas/laminas-paginator/releases.atom",
-        "chat": "https://laminas.dev/chat",
-        "forum": "https://discourse.laminas.dev"
-    },
-    "config": {
-        "sort-packages": true
-    },
-    "extra": {
-        "laminas": {
-            "component": "Laminas\\Paginator",
-            "config-provider": "Laminas\\Paginator\\ConfigProvider"
-        }
-    },
+    "license": "BSD-3-Clause",
     "require": {
         "php": "^7.3 || ~8.0.0",
         "ext-json": "*",
         "laminas/laminas-stdlib": "^3.2.1",
         "laminas/laminas-zendframework-bridge": "^1.0.4"
+    },
+    "replace": {
+        "zendframework/zend-paginator": "^2.8.2"
     },
     "require-dev": {
         "laminas/laminas-cache": "^2.9.0",
@@ -47,6 +33,15 @@
         "laminas/laminas-paginator-adapter-laminasdb": "Provides pagination adapters for Select statements and TableGateway instances",
         "laminas/laminas-servicemanager": "Laminas\\ServiceManager component",
         "laminas/laminas-view": "Laminas\\View component"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laminas": {
+            "component": "Laminas\\Paginator",
+            "config-provider": "Laminas\\Paginator\\ConfigProvider"
+        }
     },
     "autoload": {
         "psr-4": {
@@ -69,7 +64,12 @@
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
     },
-    "replace": {
-        "zendframework/zend-paginator": "^2.8.2"
+    "support": {
+        "issues": "https://github.com/laminas/laminas-paginator/issues",
+        "forum": "https://discourse.laminas.dev",
+        "chat": "https://laminas.dev/chat",
+        "source": "https://github.com/laminas/laminas-paginator",
+        "docs": "https://docs.laminas.dev/laminas-paginator/",
+        "rss": "https://github.com/laminas/laminas-paginator/releases.atom"
     }
 }
