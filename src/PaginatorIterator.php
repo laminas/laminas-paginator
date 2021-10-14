@@ -11,7 +11,9 @@ namespace Laminas\Paginator;
 use Iterator;
 use OuterIterator;
 
+use function assert;
 use function count;
+use function is_int;
 
 /**
  * Class allowing for the continuous iteration of a Laminas\Paginator\Paginator instance.
@@ -86,9 +88,10 @@ class PaginatorIterator implements OuterIterator
     public function key()
     {
         $innerKey  = $this->getInnerIterator()->key();
+        assert(is_int($innerKey));
         $innerKey += 1; //Laminas\Paginator\Paginator normalizes 0 to 1
 
-        $page = $this->paginator->getCurrentPageNumber();
+        $this->paginator->getCurrentPageNumber();
         return ($this->paginator->getAbsoluteItemNumber(
             $innerKey,
             $this->paginator->getCurrentPageNumber()

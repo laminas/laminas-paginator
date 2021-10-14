@@ -329,29 +329,19 @@ class PaginatorTest extends TestCase
     public function testGetsCurrentItems(): void
     {
         $items = $this->paginator->getCurrentItems();
-        $this->assertInstanceOf(ArrayIterator::class, $items);
 
-        $count = 0;
-
-        foreach ($items as $item) {
-            $count++;
-        }
-
-        $this->assertEquals(10, $count);
+        self::assertInstanceOf(ArrayIterator::class, $items);
+        self::assertCount(10, $items);
+        self::assertContainsOnly('integer', $items);
     }
 
     public function testGetsIterator(): void
     {
         $items = $this->paginator->getIterator();
-        $this->assertInstanceOf('ArrayIterator', $items);
 
-        $count = 0;
-
-        foreach ($items as $item) {
-            $count++;
-        }
-
-        $this->assertEquals(10, $count);
+        self::assertInstanceOf(ArrayIterator::class, $items);
+        self::assertCount(10, $items);
+        self::assertContainsOnly('integer', $items);
     }
 
     public function testGetsAndSetsCurrentPageNumber(): void
@@ -647,7 +637,7 @@ class PaginatorTest extends TestCase
         $this->assertEquals($expected, $pageItems);
 
         // change the inside Paginator scale
-        $pageItems = $this->paginator->setItemCountPerPage(8)->setCurrentPageNumber(3)->getCurrentItems();
+        $this->paginator->setItemCountPerPage(8)->setCurrentPageNumber(3)->getCurrentItems();
 
         $pageItems = $this->paginator->getPageItemCache();
         $expected  = new ArrayIterator(range(17, 24)); /*array(3 => */ /*) */

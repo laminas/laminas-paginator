@@ -89,6 +89,6 @@ class FactoryTest extends TestCase
             'array',
         ];
         $this->expectException(InvalidArgumentException::class);
-        $paginator = Paginator\Factory::factory($datas);
+        Paginator\Factory::factory($datas);
     }
 }
