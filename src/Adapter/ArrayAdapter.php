@@ -8,6 +8,8 @@
 
 namespace Laminas\Paginator\Adapter;
 
+use ReturnTypeWillChange;
+
 use function array_slice;
 use function count;
 
@@ -53,6 +55,7 @@ class ArrayAdapter implements AdapterInterface
      *
      * @return int
      */
+    #[ReturnTypeWillChange]
     public function count()
     {
         return $this->count;

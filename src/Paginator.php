@@ -22,6 +22,7 @@ use Laminas\ServiceManager\ServiceManager;
 use Laminas\Stdlib\ArrayUtils;
 use Laminas\View;
 use Laminas\View\Renderer\RendererInterface;
+use ReturnTypeWillChange;
 use stdClass;
 use Throwable;
 use Traversable;
@@ -369,6 +370,7 @@ class Paginator implements Countable, IteratorAggregate
      *
      * @return int
      */
+    #[ReturnTypeWillChange]
     public function count()
     {
         if ($this->pageCount === null) {
@@ -657,6 +659,7 @@ class Paginator implements Countable, IteratorAggregate
      * @throws Exception\RuntimeException
      * @return Traversable
      */
+    #[ReturnTypeWillChange]
     public function getIterator()
     {
         try {
