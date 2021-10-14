@@ -17,6 +17,7 @@ use Laminas\Paginator\SerializableLimitIterator;
 use LimitIterator;
 use PHPUnit\Framework\TestCase;
 
+use function iterator_to_array;
 use function range;
 use function serialize;
 use function unserialize;
@@ -92,14 +93,11 @@ class IteratorTest extends TestCase
      */
     public function testDoesNotThrowOutOfBoundsExceptionIfIteratorIsEmpty(): void
     {
-        $this->paginator = new Paginator(new Adapter\Iterator(new ArrayIterator([])));
-        $items           = $this->paginator->getCurrentItems();
+        $paginator = new Paginator(new Adapter\Iterator(new ArrayIterator([])));
+        $items     = $paginator->getCurrentItems();
 
-        // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedForeach
-        foreach ($items as $item) {
-        }
-
-        $this->assertEmpty($items);
+        $items = iterator_to_array($items);
+        static::assertEmpty($items);
     }
 
     /**

@@ -82,15 +82,15 @@ class ScrollingStylePluginManager extends AbstractPluginManager
     /**
      * Validate a plugin (v3)
      *
-     * @param mixed $plugin
+     * @param mixed $instance
      * @throws InvalidServiceException
      */
-    public function validate($plugin)
+    public function validate($instance)
     {
-        if (! $plugin instanceof $this->instanceOf) {
+        if (! $instance instanceof $this->instanceOf) {
             throw new InvalidServiceException(sprintf(
                 'Plugin of type %s is invalid; must implement %s',
-                is_object($plugin) ? get_class($plugin) : gettype($plugin),
+                is_object($instance) ? get_class($instance) : gettype($instance),
                 Adapter\AdapterInterface::class
             ));
         }
