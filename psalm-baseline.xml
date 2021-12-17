@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.10.0@916b098b008f6de4543892b1e0651c1c3b92cbfa">
+<files psalm-version="v4.15.0@a1b5e489e6fcebe40cb804793d964e99fc347820">
   <file src="src/Adapter/Callback.php">
     <InvalidFunctionCall occurrences="2">
       <code>call_user_func($this-&gt;countCallback)</code>
@@ -84,11 +84,20 @@
     <InvalidScalarArgument occurrences="1">
       <code>$e-&gt;getCode()</code>
     </InvalidScalarArgument>
+    <MixedArrayOffset occurrences="1"/>
     <NonInvariantDocblockPropertyType occurrences="3">
       <code>$aliases</code>
       <code>$factories</code>
       <code>$instanceOf</code>
     </NonInvariantDocblockPropertyType>
+    <UndefinedClass occurrences="6">
+      <code>ArrayAdapter</code>
+      <code>Callback</code>
+      <code>DbSelect</code>
+      <code>DbTableGateway</code>
+      <code>Iterator</code>
+      <code>NullFill</code>
+    </UndefinedClass>
   </file>
   <file src="src/AdapterPluginManagerFactory.php">
     <DeprecatedInterface occurrences="1">
@@ -102,9 +111,20 @@
       <code>$name</code>
       <code>$requestedName</code>
     </MissingParamType>
+    <MixedArgumentTypeCoercion occurrences="2">
+      <code>$config</code>
+      <code>$options ?: []</code>
+    </MixedArgumentTypeCoercion>
     <ParamNameMismatch occurrences="1">
       <code>$container</code>
     </ParamNameMismatch>
+  </file>
+  <file src="src/ConfigProvider.php">
+    <MixedArrayOffset occurrences="1"/>
+    <UndefinedClass occurrences="2">
+      <code>\Zend\Paginator\AdapterPluginManager</code>
+      <code>\Zend\Paginator\ScrollingStylePluginManager</code>
+    </UndefinedClass>
   </file>
   <file src="src/Factory.php">
     <DocblockTypeContradiction occurrences="2">
@@ -211,8 +231,7 @@
       <code>(int) $pageNumber</code>
       <code>(int) $pageRange</code>
     </RedundantCastGivenDocblockType>
-    <RedundantConditionGivenDocblockType occurrences="5">
-      <code>$adapter instanceof AdapterAggregateInterface</code>
+    <RedundantConditionGivenDocblockType occurrences="4">
       <code>$filter !== null</code>
       <code>$this-&gt;getCurrentItems() !== null</code>
       <code>is_object($scrollingAdapters)</code>
@@ -242,11 +261,18 @@
     <InvalidScalarArgument occurrences="1">
       <code>$e-&gt;getCode()</code>
     </InvalidScalarArgument>
+    <MixedArrayOffset occurrences="1"/>
     <NonInvariantDocblockPropertyType occurrences="3">
       <code>$aliases</code>
       <code>$factories</code>
       <code>$instanceOf</code>
     </NonInvariantDocblockPropertyType>
+    <UndefinedClass occurrences="4">
+      <code>All</code>
+      <code>Elastic</code>
+      <code>Jumping</code>
+      <code>Sliding</code>
+    </UndefinedClass>
   </file>
   <file src="src/ScrollingStylePluginManagerFactory.php">
     <DeprecatedInterface occurrences="1">
@@ -260,40 +286,39 @@
       <code>$name</code>
       <code>$requestedName</code>
     </MissingParamType>
+    <MixedArgumentTypeCoercion occurrences="1">
+      <code>$options ?: []</code>
+    </MixedArgumentTypeCoercion>
     <ParamNameMismatch occurrences="1">
       <code>$container</code>
     </ParamNameMismatch>
   </file>
   <file src="src/SerializableLimitIterator.php">
-    <MixedArgument occurrences="7">
+    <MixedArgument occurrences="8">
       <code>$currentOffset</code>
       <code>$currentOffset</code>
       <code>$currentOffset</code>
-      <code>$dataArr['count']</code>
-      <code>$dataArr['it']</code>
-      <code>$dataArr['offset']</code>
-      <code>$dataArr['pos'] + $dataArr['offset']</code>
+      <code>$data['count']</code>
+      <code>$data['it']</code>
+      <code>$data['offset']</code>
+      <code>$data['pos'] + $data['offset']</code>
+      <code>unserialize($data)</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="5">
-      <code>$dataArr['count']</code>
-      <code>$dataArr['it']</code>
-      <code>$dataArr['offset']</code>
-      <code>$dataArr['offset']</code>
-      <code>$dataArr['pos']</code>
-    </MixedArrayAccess>
-    <MixedAssignment occurrences="5">
+    <MixedAssignment occurrences="4">
       <code>$current</code>
       <code>$current</code>
       <code>$currentOffset</code>
       <code>$currentOffset</code>
-      <code>$dataArr</code>
     </MixedAssignment>
     <MixedOperand occurrences="1">
-      <code>$dataArr['pos']</code>
+      <code>$data['pos']</code>
     </MixedOperand>
     <PossiblyUndefinedVariable occurrences="1">
       <code>$currentOffset</code>
     </PossiblyUndefinedVariable>
+    <UndefinedThisPropertyFetch occurrences="1">
+      <code>$this-&gt;__serialize</code>
+    </UndefinedThisPropertyFetch>
   </file>
   <file src="test/Adapter/ArrayTest.php">
     <PossiblyNullPropertyAssignmentValue occurrences="1">
@@ -358,9 +383,6 @@
       <code>'ArrayObject'</code>
       <code>'ArrayObject'</code>
     </ArgumentTypeCoercion>
-    <DeprecatedClass occurrences="1">
-      <code>CacheFactory::adapterFactory('memory', ['memory_limit' =&gt; 0])</code>
-    </DeprecatedClass>
     <DeprecatedMethod occurrences="1">
       <code>setMethods</code>
     </DeprecatedMethod>

@@ -34,12 +34,12 @@
         "laminas/laminas-cache-storage-adapter-memory": "^2.0.0",
         "laminas/laminas-coding-standard": "^2.3.0",
         "laminas/laminas-config": "^3.7.0",
-        "laminas/laminas-filter": "^2.11.1",
-        "laminas/laminas-servicemanager": "^3.7.0",
-        "laminas/laminas-view": "^2.14.1",
+        "laminas/laminas-filter": "^2.13.0",
+        "laminas/laminas-servicemanager": "^3.10.0",
+        "laminas/laminas-view": "^2.14.2",
         "phpunit/phpunit": "^9.5.10",
-        "psalm/plugin-phpunit": "^0.15.1",
-        "vimeo/psalm": "^4.10.0"
+        "psalm/plugin-phpunit": "^0.16.1",
+        "vimeo/psalm": "^4.15.0"
     },
     "suggest": {
         "laminas/laminas-cache": "Laminas\\Cache component to support cache features",
