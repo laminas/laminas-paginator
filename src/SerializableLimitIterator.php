@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Paginator;
 
 use ArrayAccess;
 use Iterator;
 use LimitIterator;
 use OutOfBoundsException;
+use ReturnTypeWillChange;
 use Serializable;
 
 use function serialize;
@@ -51,7 +54,7 @@ class SerializableLimitIterator extends LimitIterator implements Serializable, A
         return serialize($this->__serialize);
     }
 
-    public function __serialize()
+    public function __serialize(): array
     {
         return [
             'it'     => $this->getInnerIterator(),
@@ -70,7 +73,7 @@ class SerializableLimitIterator extends LimitIterator implements Serializable, A
         $this->__unserialize(unserialize($data));
     }
 
-    public function __unserialize($data)
+    public function __unserialize(array $data)
     {
         $this->__construct($data['it'], $data['offset'], $data['count']);
         $this->seek($data['pos'] + $data['offset']);
@@ -82,7 +85,7 @@ class SerializableLimitIterator extends LimitIterator implements Serializable, A
      * @param int $offset
      * @return mixed
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         $currentOffset = $this->key() ?? 0;
@@ -99,7 +102,7 @@ class SerializableLimitIterator extends LimitIterator implements Serializable, A
      * @param int $offset
      * @param mixed $value
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
     }
@@ -110,7 +113,7 @@ class SerializableLimitIterator extends LimitIterator implements Serializable, A
      * @param int $offset
      * @return bool
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         if ($offset > 0 && $offset < $this->count) {
@@ -135,7 +138,7 @@ class SerializableLimitIterator extends LimitIterator implements Serializable, A
      *
      * @param int $offset
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
     }

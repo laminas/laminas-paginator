@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Paginator\Adapter;
 
 use Countable;
 use Laminas\Paginator\SerializableLimitIterator;
+use ReturnTypeWillChange;
 
 use function count;
 
@@ -58,7 +61,7 @@ class Iterator implements AdapterInterface
      *
      * @return int
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function count()
     {
         return $this->count;

@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Paginator;
 
 use Iterator;
 use OuterIterator;
+use ReturnTypeWillChange;
 
 use function assert;
 use function count;
@@ -41,7 +44,7 @@ class PaginatorIterator implements OuterIterator
      *
      * @return mixed Can return any type.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function current()
     {
         return $this->getInnerIterator()->current();
@@ -54,7 +57,7 @@ class PaginatorIterator implements OuterIterator
      *
      * @return void Any returned value is ignored.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function next()
     {
         $innerIterator = $this->getInnerIterator();
@@ -81,7 +84,7 @@ class PaginatorIterator implements OuterIterator
      *
      * @return mixed scalar on success, or null on failure.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function key()
     {
         $innerKey = $this->getInnerIterator()->key();
@@ -103,7 +106,7 @@ class PaginatorIterator implements OuterIterator
      * @return boolean The return value will be casted to boolean and then evaluated.
      * Returns true on success or false on failure.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function valid()
     {
         if (count($this->paginator) < 1) {
@@ -119,7 +122,7 @@ class PaginatorIterator implements OuterIterator
      *
      * @return void Any returned value is ignored.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function rewind()
     {
         $this->paginator->setCurrentPageNumber(1);
@@ -133,7 +136,7 @@ class PaginatorIterator implements OuterIterator
      *
      * @return Iterator The inner iterator for the current entry.
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function getInnerIterator()
     {
         return $this->paginator->getCurrentItems();

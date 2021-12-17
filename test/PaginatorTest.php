@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Paginator;
 
 use ArrayIterator;
 use ArrayObject;
 use DirectoryIterator;
 use Interop\Container\ContainerInterface;
-use Laminas\Cache\Storage\StorageInterface;
 use Laminas\Cache\Storage\Adapter\Memory as MemoryCache;
+use Laminas\Cache\Storage\StorageInterface;
 use Laminas\Config;
 use Laminas\Filter;
 use Laminas\Paginator;
