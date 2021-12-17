@@ -23,6 +23,7 @@ class TestAdapter implements AdapterInterface
     /**
      * {@inheritDoc}
      */
+    #[\ReturnTypeWillChange]
     public function count()
     {
         return 10;

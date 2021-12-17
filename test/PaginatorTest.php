@@ -7,7 +7,7 @@ use ArrayObject;
 use DirectoryIterator;
 use Interop\Container\ContainerInterface;
 use Laminas\Cache\Storage\StorageInterface;
-use Laminas\Cache\StorageFactory as CacheFactory;
+use Laminas\Cache\Storage\Adapter\Memory as MemoryCache;
 use Laminas\Config;
 use Laminas\Filter;
 use Laminas\Paginator;
@@ -72,7 +72,7 @@ class PaginatorTest extends TestCase
 
         $this->config = Config\Factory::fromFile(__DIR__ . '/_files/config.xml', true);
 
-        $this->cache = CacheFactory::adapterFactory('memory', ['memory_limit' => 0]);
+        $this->cache = new MemoryCache();
         Paginator\Paginator::setCache($this->cache);
 
         $this->_restorePaginatorDefaults();

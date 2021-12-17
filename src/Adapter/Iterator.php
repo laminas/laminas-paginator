@@ -58,6 +58,7 @@ class Iterator implements AdapterInterface
      *
      * @return int
      */
+    #[\ReturnTypeWillChange]
     public function count()
     {
         return $this->count;

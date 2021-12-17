@@ -25,14 +25,15 @@
         }
     },
     "require": {
-        "php": "^7.3 || ~8.0.0 || ~8.1.0",
+        "php": "^7.4 || ~8.0.0 || ~8.1.0",
         "ext-json": "*",
-        "laminas/laminas-stdlib": "^3.6.0"
+        "laminas/laminas-stdlib": "^3.6.2"
     },
     "require-dev": {
-        "laminas/laminas-cache": "^2.13.0",
-        "laminas/laminas-coding-standard": "~2.1.4",
-        "laminas/laminas-config": "^2.6.0",
+        "laminas/laminas-cache": "^3.1.2",
+        "laminas/laminas-cache-storage-adapter-memory": "^2.0.0",
+        "laminas/laminas-coding-standard": "^2.3.0",
+        "laminas/laminas-config": "^3.7.0",
         "laminas/laminas-filter": "^2.11.1",
         "laminas/laminas-servicemanager": "^3.7.0",
         "laminas/laminas-view": "^2.14.1",

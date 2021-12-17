@@ -53,6 +53,7 @@ class Callback implements AdapterInterface
      *
      * @return int
      */
+    #[\ReturnTypeWillChange]
     public function count()
     {
         return call_user_func($this->countCallback);
