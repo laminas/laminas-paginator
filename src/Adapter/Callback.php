@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Paginator\Adapter;
+
+use ReturnTypeWillChange;
 
 use function call_user_func;
 
@@ -53,6 +57,7 @@ class Callback implements AdapterInterface
      *
      * @return int
      */
+    #[ReturnTypeWillChange]
     public function count()
     {
         return call_user_func($this->countCallback);

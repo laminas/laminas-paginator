@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Paginator\Adapter;
+
+use ReturnTypeWillChange;
 
 use function array_fill;
 
@@ -46,6 +50,7 @@ class NullFill implements AdapterInterface
      *
      * @return int
      */
+    #[ReturnTypeWillChange]
     public function count()
     {
         return $this->count;

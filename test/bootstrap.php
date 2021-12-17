@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * Set error reporting to the level to which Laminas code must comply.
  */

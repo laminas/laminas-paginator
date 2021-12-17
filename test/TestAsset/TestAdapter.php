@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Paginator\TestAsset;
 
 use ArrayObject;
 use Laminas\Paginator\Adapter\AdapterInterface;
+use ReturnTypeWillChange;
 
 use function range;
 
@@ -23,6 +26,7 @@ class TestAdapter implements AdapterInterface
     /**
      * {@inheritDoc}
      */
+    #[ReturnTypeWillChange]
     public function count()
     {
         return 10;
