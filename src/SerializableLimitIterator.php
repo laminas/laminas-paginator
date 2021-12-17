@@ -18,17 +18,13 @@ class SerializableLimitIterator extends LimitIterator implements Serializable, A
 {
     /**
      * Offset to first element
-     *
-     * @var int
      */
-    private $offset;
+    private int $offset;
 
     /**
      * Maximum number of elements to show or -1 for all
-     *
-     * @var int
      */
-    private $count;
+    private int $count;
 
     /**
      * Construct a Laminas\Paginator\SerializableLimitIterator
