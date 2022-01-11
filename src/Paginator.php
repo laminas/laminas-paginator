@@ -661,7 +661,7 @@ class Paginator implements Countable, IteratorAggregate
         try {
             return $this->getCurrentItems();
         } catch (Throwable $e) {
-            throw new Exception\RuntimeException('Error producing an iterator', null, $e);
+            throw new Exception\RuntimeException('Error producing an iterator', (int) $e->getCode(), $e);
         }
     }
 
