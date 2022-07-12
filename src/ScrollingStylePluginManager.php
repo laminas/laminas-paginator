@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Laminas\Paginator;
 
+use Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface;
 use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\Exception\InvalidServiceException;
 use Laminas\ServiceManager\Factory\InvokableFactory;
@@ -21,8 +22,10 @@ use function sprintf;
  * Plugin manager implementation for scrolling style adapters
  *
  * Enforces that adapters retrieved are instances of
- * ScrollingStyle\ScrollingStyleInterface. Additionally, it registers a number
+ * ScrollingStyleInterface. Additionally, it registers a number
  * of default adapters available.
+ *
+ * @extends AbstractPluginManager<ScrollingStyleInterface>
  */
 class ScrollingStylePluginManager extends AbstractPluginManager
 {
@@ -73,13 +76,14 @@ class ScrollingStylePluginManager extends AbstractPluginManager
     ];
 
     /** @var string */
-    protected $instanceOf = ScrollingStyle\ScrollingStyleInterface::class;
+    protected $instanceOf = ScrollingStyleInterface::class;
 
     /**
      * Validate a plugin (v3)
      *
      * @param mixed $instance
      * @throws InvalidServiceException
+     * @psalm-assert ScrollingStyleInterface $instance
      */
     public function validate($instance)
     {
@@ -87,7 +91,7 @@ class ScrollingStylePluginManager extends AbstractPluginManager
             throw new InvalidServiceException(sprintf(
                 'Plugin of type %s is invalid; must implement %s',
                 is_object($instance) ? get_class($instance) : gettype($instance),
-                Adapter\AdapterInterface::class
+                ScrollingStyleInterface::class
             ));
         }
     }
@@ -98,6 +102,7 @@ class ScrollingStylePluginManager extends AbstractPluginManager
      * @param mixed $plugin
      * @throws Exception\InvalidArgumentException
      * @return void
+     * @psalm-assert ScrollingStyleInterface $instance
      */
     public function validatePlugin($plugin)
     {

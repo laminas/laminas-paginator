@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Laminas\Paginator;
 
+use Laminas\Paginator\Adapter\AdapterInterface;
 use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\Exception\InvalidServiceException;
 use Laminas\ServiceManager\Factory\InvokableFactory;
@@ -23,8 +24,10 @@ use function sprintf;
  * Plugin manager implementation for paginator adapters.
  *
  * Enforces that adapters retrieved are instances of
- * Adapter\AdapterInterface. Additionally, it registers a number of default
+ * AdapterInterface. Additionally, it registers a number of default
  * adapters available.
+ *
+ * @extends AbstractPluginManager<AdapterInterface>
  */
 class AdapterPluginManager extends AbstractPluginManager
 {
@@ -97,13 +100,14 @@ class AdapterPluginManager extends AbstractPluginManager
     ];
 
     /** @var string */
-    protected $instanceOf = Adapter\AdapterInterface::class;
+    protected $instanceOf = AdapterInterface::class;
 
     /**
      * Validate that a plugin is an adapter (v3)
      *
      * @param mixed $instance
      * @throws InvalidServiceException
+     * @psalm-assert AdapterInterface $instance
      */
     public function validate($instance)
     {
@@ -111,7 +115,7 @@ class AdapterPluginManager extends AbstractPluginManager
             throw new InvalidServiceException(sprintf(
                 'Plugin of type %s is invalid; must implement %s',
                 is_object($instance) ? get_class($instance) : gettype($instance),
-                Adapter\AdapterInterface::class
+                AdapterInterface::class
             ));
         }
     }
@@ -122,6 +126,7 @@ class AdapterPluginManager extends AbstractPluginManager
      * @param mixed $plugin
      * @throws Exception\RuntimeException
      * @return void
+     * @psalm-assert AdapterInterface $instance
      */
     public function validatePlugin($plugin)
     {
