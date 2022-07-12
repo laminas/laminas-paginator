@@ -1,7 +1,6 @@
 /.github/ export-ignore
 /docs/ export-ignore
 /test/ export-ignore
-
 /.gitignore export-ignore
 /.laminas-ci.json export-ignore
 /.gitattributes export-ignore
