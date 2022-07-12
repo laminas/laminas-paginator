@@ -19,6 +19,9 @@
         "sort-packages": true,
         "platform": {
             "php": "7.4.99"
+        },
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
         }
     },
     "extra": {
@@ -30,7 +33,7 @@
     "require": {
         "php": "^7.4 || ~8.0.0 || ~8.1.0",
         "ext-json": "*",
-        "laminas/laminas-stdlib": "^3.6.2"
+        "laminas/laminas-stdlib": "^3.10.1"
     },
     "require-dev": {
         "laminas/laminas-cache": "^3.1.2",
@@ -38,11 +41,11 @@
         "laminas/laminas-coding-standard": "^2.3.0",
         "laminas/laminas-config": "^3.7.0",
         "laminas/laminas-filter": "^2.13.0",
-        "laminas/laminas-servicemanager": "^3.10.0",
+        "laminas/laminas-servicemanager": "^3.14.0",
         "laminas/laminas-view": "^2.15.0",
-        "phpunit/phpunit": "^9.5.10",
+        "phpunit/phpunit": "^9.5.21",
         "psalm/plugin-phpunit": "^0.16.1",
-        "vimeo/psalm": "^4.15.0"
+        "vimeo/psalm": "^4.24.0"
     },
     "suggest": {
         "laminas/laminas-cache": "Laminas\\Cache component to support cache features",
