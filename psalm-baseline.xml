@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="v4.15.0@a1b5e489e6fcebe40cb804793d964e99fc347820">
+<files psalm-version="4.24.0@06dd975cb55d36af80f242561738f16c5f58264f">
   <file src="src/Adapter/Callback.php">
     <InvalidFunctionCall occurrences="2">
       <code>call_user_func($this-&gt;countCallback)</code>
@@ -81,9 +81,6 @@
     </UndefinedDocblockClass>
   </file>
   <file src="src/AdapterPluginManager.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$e-&gt;getCode()</code>
-    </InvalidScalarArgument>
     <MixedArrayOffset occurrences="1"/>
     <NonInvariantDocblockPropertyType occurrences="3">
       <code>$aliases</code>
@@ -200,9 +197,6 @@
       <code>$view-&gt;paginationControl($this)</code>
       <code>static::getScrollingStylePluginManager()-&gt;get($scrollingStyle)</code>
     </MixedReturnStatement>
-    <NullArgument occurrences="1">
-      <code>null</code>
-    </NullArgument>
     <PossiblyNullPropertyAssignmentValue occurrences="5">
       <code>$view</code>
       <code>null</code>
@@ -258,9 +252,6 @@
     </InvalidScalarArgument>
   </file>
   <file src="src/ScrollingStylePluginManager.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$e-&gt;getCode()</code>
-    </InvalidScalarArgument>
     <MixedArrayOffset occurrences="1"/>
     <NonInvariantDocblockPropertyType occurrences="3">
       <code>$aliases</code>
@@ -386,12 +377,10 @@
     <DeprecatedMethod occurrences="1">
       <code>setMethods</code>
     </DeprecatedMethod>
-    <InvalidArgument occurrences="5">
+    <InvalidArgument occurrences="3">
       <code>'not array'</code>
-      <code>ExceptionInterface::class</code>
       <code>[]</code>
       <code>\Laminas\Paginator\Exception\ExceptionInterface::class</code>
-      <code>new stdClass()</code>
     </InvalidArgument>
     <InvalidPropertyFetch occurrences="2">
       <code>$this-&gt;config-&gt;default</code>
@@ -487,13 +476,5 @@
     <ParamNameMismatch occurrences="1">
       <code>$pageNumber</code>
     </ParamNameMismatch>
-  </file>
-  <file src="test/bootstrap.php">
-    <MixedArgument occurrences="1">
-      <code>$phpUnitVersion</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="1">
-      <code>$phpUnitVersion</code>
-    </MixedAssignment>
   </file>
 </files>
