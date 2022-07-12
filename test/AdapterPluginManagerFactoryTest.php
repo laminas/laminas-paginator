@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace LaminasTest\Paginator;
 
-use Interop\Container\ContainerInterface;
 use Laminas\Paginator\Adapter\AdapterInterface;
 use Laminas\Paginator\AdapterPluginManager;
 use Laminas\Paginator\AdapterPluginManagerFactory;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
 
 class AdapterPluginManagerFactoryTest extends TestCase
 {

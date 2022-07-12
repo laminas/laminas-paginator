@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Laminas\Paginator\Adapter\Service;
 
-use Interop\Container\ContainerInterface;
 use Iterator;
 use Laminas\Paginator\Iterator as IteratorAdapter;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\FactoryInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
+use Psr\Container\ContainerInterface;
 
 use function array_shift;
 use function get_class;

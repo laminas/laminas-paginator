@@ -7,7 +7,6 @@ namespace LaminasTest\Paginator;
 use ArrayIterator;
 use ArrayObject;
 use DirectoryIterator;
-use Interop\Container\ContainerInterface;
 use Laminas\Cache\Storage\Adapter\Memory as MemoryCache;
 use Laminas\Cache\Storage\StorageInterface;
 use Laminas\Config;
@@ -26,6 +25,7 @@ use LaminasTest\Paginator\TestAsset\ScrollingStylePluginManager;
 use LaminasTest\Paginator\TestAsset\TestArrayAggregate;
 use LimitIterator;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
 use ReflectionMethod;
 use stdClass;
 
@@ -805,6 +805,7 @@ class PaginatorTest extends TestCase
             'Pagination scrolling-style manager must extend ScrollingStylePluginManager; received "stdClass"'
         );
 
+        /** @psalm-suppress InvalidArgument */
         $this->paginator->setScrollingStylePluginManager(
             new stdClass()
         );

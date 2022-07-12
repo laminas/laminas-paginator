@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace LaminasTest\Paginator;
 
 use ArrayIterator;
-use Interop\Container\ContainerInterface;
 use Laminas\Paginator\Adapter;
 use Laminas\Paginator\AdapterPluginManager;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
 
 use function range;
 
