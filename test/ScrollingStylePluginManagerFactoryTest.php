@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace LaminasTest\Paginator;
 
-use Interop\Container\ContainerInterface;
 use Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface;
 use Laminas\Paginator\ScrollingStylePluginManager;
 use Laminas\Paginator\ScrollingStylePluginManagerFactory;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
 
 class ScrollingStylePluginManagerFactoryTest extends TestCase
 {
