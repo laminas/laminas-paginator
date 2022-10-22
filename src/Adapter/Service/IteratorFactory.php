@@ -12,7 +12,6 @@ use Laminas\ServiceManager\ServiceLocatorInterface;
 use Psr\Container\ContainerInterface;
 
 use function array_shift;
-use function get_class;
 use function gettype;
 use function is_object;
 use function sprintf;
@@ -46,7 +45,7 @@ class IteratorFactory implements FactoryInterface
             throw new ServiceNotCreatedException(sprintf(
                 '%s requires an Iterator instance; received %s',
                 IteratorAdapter::class,
-                is_object($iterator) ? get_class($iterator) : gettype($iterator)
+                is_object($iterator) ? $iterator::class : gettype($iterator)
             ));
         }
 

@@ -13,7 +13,6 @@ use Zend\Paginator\ScrollingStyle\Elastic;
 use Zend\Paginator\ScrollingStyle\Jumping;
 use Zend\Paginator\ScrollingStyle\Sliding;
 
-use function get_class;
 use function gettype;
 use function is_object;
 use function sprintf;
@@ -90,7 +89,7 @@ class ScrollingStylePluginManager extends AbstractPluginManager
         if (! $instance instanceof $this->instanceOf) {
             throw new InvalidServiceException(sprintf(
                 'Plugin of type %s is invalid; must implement %s',
-                is_object($instance) ? get_class($instance) : gettype($instance),
+                is_object($instance) ? $instance::class : gettype($instance),
                 ScrollingStyleInterface::class
             ));
         }
