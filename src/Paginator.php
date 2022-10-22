@@ -26,7 +26,6 @@ use Traversable;
 use function ceil;
 use function class_exists;
 use function count;
-use function get_class;
 use function gettype;
 use function is_array;
 use function is_object;
@@ -278,7 +277,7 @@ class Paginator implements Countable, IteratorAggregate
         if (! $scrollingAdapters instanceof ScrollingStylePluginManager) {
             throw new Exception\InvalidArgumentException(sprintf(
                 'Pagination scrolling-style manager must extend ScrollingStylePluginManager; received "%s"',
-                is_object($scrollingAdapters) ? get_class($scrollingAdapters) : gettype($scrollingAdapters)
+                is_object($scrollingAdapters) ? $scrollingAdapters::class : gettype($scrollingAdapters)
             ));
         }
         static::$scrollingStyles = $scrollingAdapters;
@@ -901,7 +900,7 @@ class Paginator implements Countable, IteratorAggregate
 
         // @codingStandardsIgnoreEnd
         return md5(
-            get_class($adapter)
+            $adapter::class
             . json_encode($adapterToSerialize)
             . $this->getItemCountPerPage()
         );
