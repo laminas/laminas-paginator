@@ -10,6 +10,7 @@ use Laminas\Paginator\ScrollingStyle\All;
 use PHPUnit\Framework\TestCase;
 
 use function array_combine;
+use function assert;
 use function range;
 
 /**
@@ -18,11 +19,9 @@ use function range;
  */
 class AllTest extends TestCase
 {
-    /** @var All */
-    private $scrollingStyle;
+    private ?All $scrollingStyle;
 
-    /** @var Paginator */
-    private $paginator;
+    private ?Paginator $paginator;
 
     /**
      * Prepares the environment before running a test.
@@ -48,12 +47,18 @@ class AllTest extends TestCase
     public function testGetsPages(): void
     {
         $expected = array_combine(range(1, 11), range(1, 11));
-        $pages    = $this->scrollingStyle->getPages($this->paginator);
+
+        assert($this->scrollingStyle instanceof All);
+        assert($this->paginator instanceof Paginator);
+
+        $pages = $this->scrollingStyle->getPages($this->paginator);
         $this->assertEquals($expected, $pages);
     }
 
     public function testGetsNextAndPreviousPageForFirstPage(): void
     {
+        assert($this->paginator instanceof Paginator);
+
         $this->paginator->setCurrentPageNumber(1);
         $pages = $this->paginator->getPages('All');
 
@@ -62,6 +67,8 @@ class AllTest extends TestCase
 
     public function testGetsNextAndPreviousPageForSecondPage(): void
     {
+        assert($this->paginator instanceof Paginator);
+
         $this->paginator->setCurrentPageNumber(2);
         $pages = $this->paginator->getPages('All');
         $this->assertEquals(1, $pages->previous);
@@ -70,6 +77,8 @@ class AllTest extends TestCase
 
     public function testGetsNextAndPreviousPageForMiddlePage(): void
     {
+        assert($this->paginator instanceof Paginator);
+
         $this->paginator->setCurrentPageNumber(6);
         $pages = $this->paginator->getPages('All');
         $this->assertEquals(5, $pages->previous);
@@ -78,6 +87,8 @@ class AllTest extends TestCase
 
     public function testGetsNextAndPreviousPageForSecondLastPage(): void
     {
+        assert($this->paginator instanceof Paginator);
+
         $this->paginator->setCurrentPageNumber(10);
         $pages = $this->paginator->getPages('All');
         $this->assertEquals(9, $pages->previous);
@@ -86,6 +97,8 @@ class AllTest extends TestCase
 
     public function testGetsNextAndPreviousPageForLastPage(): void
     {
+        assert($this->paginator instanceof Paginator);
+
         $this->paginator->setCurrentPageNumber(11);
         $pages = $this->paginator->getPages('All');
         $this->assertEquals(10, $pages->previous);

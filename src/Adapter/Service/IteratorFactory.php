@@ -70,7 +70,6 @@ class IteratorFactory implements FactoryInterface
     /**
      * Options to use with factory (v2)
      *
-     * @param array $creationOptions
      * @return void
      */
     public function setCreationOptions(array $creationOptions)

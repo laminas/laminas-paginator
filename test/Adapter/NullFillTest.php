@@ -6,10 +6,10 @@ namespace LaminasTest\Paginator\Adapter;
 
 use Laminas\Paginator;
 use Laminas\Paginator\Adapter;
-use Laminas\Paginator\Adapter\NullFill;
 use PHPUnit\Framework\TestCase;
 
 use function array_fill;
+use function assert;
 
 /**
  * @group      Laminas_Paginator
@@ -17,8 +17,7 @@ use function array_fill;
  */
 class NullFillTest extends TestCase
 {
-    /** @var NullFill */
-    private $adapter;
+    private ?Adapter\NullFill $adapter;
 
     /**
      * Prepares the environment before running a test.
@@ -40,12 +39,16 @@ class NullFillTest extends TestCase
 
     public function testGetsItems(): void
     {
+        assert($this->adapter instanceof Adapter\NullFill);
+
         $actual = $this->adapter->getItems(0, 10);
         $this->assertEquals(array_fill(0, 10, null), $actual);
     }
 
     public function testReturnsCorrectCount(): void
     {
+        assert($this->adapter instanceof Adapter\NullFill);
+
         $this->assertEquals(101, $this->adapter->count());
     }
 

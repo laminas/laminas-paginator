@@ -114,9 +114,7 @@ class AdapterPluginManagerFactoryTest extends TestCase
         $paginator = $this->createMock(AdapterInterface::class);
 
         /** @psalm-var callable(): MockObject&AdapterInterface $factory */
-        $factory = function () use ($paginator): AdapterInterface {
-            return $paginator;
-        };
+        $factory = static fn(): AdapterInterface => $paginator;
 
         $config = [
             'paginators' => [

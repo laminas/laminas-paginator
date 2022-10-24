@@ -12,13 +12,6 @@ use function count;
 class ArrayAdapter implements AdapterInterface
 {
     /**
-     * ArrayAdapter
-     *
-     * @var array
-     */
-    protected $array;
-
-    /**
      * Item count
      *
      * @var int
@@ -28,9 +21,8 @@ class ArrayAdapter implements AdapterInterface
     /**
      * @param array $array ArrayAdapter to paginate
      */
-    public function __construct(array $array = [])
+    public function __construct(protected array $array = [])
     {
-        $this->array = $array;
         $this->count = count($array);
     }
 

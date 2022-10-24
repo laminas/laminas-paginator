@@ -122,12 +122,11 @@ class AdapterPluginManager extends AbstractPluginManager
     /**
      * Validate that a plugin is an adapter (v2)
      *
-     * @param mixed $plugin
      * @throws Exception\RuntimeException
      * @return void
      * @psalm-assert AdapterInterface $instance
      */
-    public function validatePlugin($plugin)
+    public function validatePlugin(mixed $plugin)
     {
         try {
             $this->validate($plugin);

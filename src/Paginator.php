@@ -18,8 +18,10 @@ use Laminas\ServiceManager\ServiceManager;
 use Laminas\Stdlib\ArrayUtils;
 use Laminas\View;
 use Laminas\View\Renderer\RendererInterface;
-use ReturnTypeWillChange; // phpcs:ignore
+use ReturnTypeWillChange;
+// phpcs:ignore
 use stdClass;
+use Stringable;
 use Throwable;
 use Traversable;
 
@@ -28,6 +30,7 @@ use function class_exists;
 use function count;
 use function gettype;
 use function is_array;
+use function is_countable;
 use function is_object;
 use function is_string;
 use function iterator_count;
@@ -36,8 +39,8 @@ use function max;
 use function md5;
 use function min;
 use function sprintf;
+use function str_starts_with;
 use function strlen;
-use function strpos;
 use function strtolower;
 use function substr;
 use function trigger_error;
@@ -48,7 +51,7 @@ use const JSON_HEX_APOS;
 use const JSON_HEX_QUOT;
 use const JSON_HEX_TAG;
 
-class Paginator implements Countable, IteratorAggregate
+class Paginator implements Countable, IteratorAggregate, Stringable
 {
     /**
      * The cache tag prefix used to namespace Paginator results in the cache
@@ -334,10 +337,8 @@ class Paginator implements Countable, IteratorAggregate
 
     /**
      * Serializes the object as a string.  Proxies to {@link render()}.
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         try {
             return $this->render();
@@ -402,7 +403,7 @@ class Paginator implements Countable, IteratorAggregate
             $cacheIterator = static::$cache->getIterator();
             $cacheIterator->setMode(CacheIterator::CURRENT_AS_KEY);
             foreach ($cacheIterator as $key) {
-                if (0 === strpos($key, self::CACHE_TAG_PREFIX)) {
+                if (str_starts_with($key, self::CACHE_TAG_PREFIX)) {
                     static::$cache->removeItem($this->_getCacheId((int) substr($key, $prefixLength)));
                 }
             }
@@ -596,11 +597,11 @@ class Paginator implements Countable, IteratorAggregate
      * @param  mixed $items Items
      * @return int
      */
-    public function getItemCount($items)
+    public function getItemCount(mixed $items)
     {
         $itemCount = 0;
 
-        if (is_array($items) || $items instanceof Countable) {
+        if (is_countable($items)) {
             $itemCount = count($items);
         } elseif ($items instanceof Traversable) { // $items is something like LimitIterator
             $itemCount = iterator_count($items);
@@ -736,7 +737,7 @@ class Paginator implements Countable, IteratorAggregate
             $cacheIterator = static::$cache->getIterator();
             $cacheIterator->setMode(CacheIterator::CURRENT_AS_VALUE);
             foreach ($cacheIterator as $key => $value) {
-                if (0 === strpos($key, self::CACHE_TAG_PREFIX)) {
+                if (str_starts_with($key, self::CACHE_TAG_PREFIX)) {
                     $data[(int) substr($key, $prefixLength)] = $value;
                 }
             }

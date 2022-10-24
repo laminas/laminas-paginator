@@ -10,6 +10,7 @@ use Laminas\Paginator\ScrollingStyle\Elastic;
 use PHPUnit\Framework\TestCase;
 
 use function array_combine;
+use function assert;
 use function count;
 use function range;
 
@@ -19,10 +20,8 @@ use function range;
  */
 class ElasticTest extends TestCase
 {
-    /** @var Elastic */
-    private $scrollingStyle;
-    /** @var Paginator */
-    private $paginator;
+    private ?Elastic $scrollingStyle;
+    private ?Paginator $paginator;
 
     /**
      * Prepares the environment before running a test.
@@ -48,6 +47,9 @@ class ElasticTest extends TestCase
 
     public function testGetsPagesInRangeForFirstPage(): void
     {
+        assert($this->paginator instanceof Paginator);
+        assert($this->scrollingStyle instanceof Elastic);
+
         $this->paginator->setCurrentPageNumber(1);
         $actual   = $this->scrollingStyle->getPages($this->paginator);
         $expected = array_combine(range(1, 5), range(1, 5));
@@ -56,6 +58,9 @@ class ElasticTest extends TestCase
 
     public function testGetsPagesInRangeForSecondPage(): void
     {
+        assert($this->paginator instanceof Paginator);
+        assert($this->scrollingStyle instanceof Elastic);
+
         $this->paginator->setCurrentPageNumber(2);
         $actual   = $this->scrollingStyle->getPages($this->paginator);
         $expected = array_combine(range(1, 6), range(1, 6));
@@ -64,6 +69,9 @@ class ElasticTest extends TestCase
 
     public function testGetsPagesInRangeForTenthPage(): void
     {
+        assert($this->paginator instanceof Paginator);
+        assert($this->scrollingStyle instanceof Elastic);
+
         $this->paginator->setCurrentPageNumber(10);
         $actual   = $this->scrollingStyle->getPages($this->paginator);
         $expected = array_combine(range(6, 14), range(6, 14));
@@ -72,6 +80,9 @@ class ElasticTest extends TestCase
 
     public function testGetsPagesInRangeForLastPage(): void
     {
+        assert($this->paginator instanceof Paginator);
+        assert($this->scrollingStyle instanceof Elastic);
+
         $this->paginator->setCurrentPageNumber(21);
         $actual   = $this->scrollingStyle->getPages($this->paginator);
         $expected = array_combine(range(17, 21), range(17, 21));
@@ -80,6 +91,8 @@ class ElasticTest extends TestCase
 
     public function testGetsNextAndPreviousPageForFirstPage(): void
     {
+        assert($this->paginator instanceof Paginator);
+
         $this->paginator->setCurrentPageNumber(1);
         $pages = $this->paginator->getPages('Elastic');
 
@@ -88,6 +101,8 @@ class ElasticTest extends TestCase
 
     public function testGetsNextAndPreviousPageForSecondPage(): void
     {
+        assert($this->paginator instanceof Paginator);
+
         $this->paginator->setCurrentPageNumber(2);
         $pages = $this->paginator->getPages('Elastic');
         $this->assertEquals(1, $pages->previous);
@@ -96,6 +111,8 @@ class ElasticTest extends TestCase
 
     public function testGetsNextAndPreviousPageForMiddlePage(): void
     {
+        assert($this->paginator instanceof Paginator);
+
         $this->paginator->setCurrentPageNumber(10);
         $pages = $this->paginator->getPages('Elastic');
         $this->assertEquals(9, $pages->previous);
@@ -104,6 +121,8 @@ class ElasticTest extends TestCase
 
     public function testGetsNextAndPreviousPageForSecondLastPage(): void
     {
+        assert($this->paginator instanceof Paginator);
+
         $this->paginator->setCurrentPageNumber(20);
         $pages = $this->paginator->getPages('Elastic');
         $this->assertEquals(19, $pages->previous);
@@ -112,6 +131,8 @@ class ElasticTest extends TestCase
 
     public function testGetsNextAndPreviousPageForLastPage(): void
     {
+        assert($this->paginator instanceof Paginator);
+
         $this->paginator->setCurrentPageNumber(21);
         $pages = $this->paginator->getPages('Elastic');
         $this->assertEquals(20, $pages->previous);
@@ -119,6 +140,8 @@ class ElasticTest extends TestCase
 
     public function testNoPagesOnLastPageEqualsPageRange(): void
     {
+        assert($this->paginator instanceof Paginator);
+
         $this->paginator->setPageRange(3);
         $this->paginator->setCurrentPageNumber(21);
         $pages = $this->paginator->getPages('Elastic');
@@ -127,6 +150,8 @@ class ElasticTest extends TestCase
 
     public function testNoPagesOnSecondLastPageEqualsPageRangeMinOne(): void
     {
+        assert($this->paginator instanceof Paginator);
+
         $this->paginator->setPageRange(3);
         $this->paginator->setCurrentPageNumber(20);
         $pages = $this->paginator->getPages('Elastic');
@@ -135,6 +160,8 @@ class ElasticTest extends TestCase
 
     public function testNoPagesBeforeSecondLastPageEqualsPageRangeMinTwo(): void
     {
+        assert($this->paginator instanceof Paginator);
+
         $this->paginator->setPageRange(3);
         $this->paginator->setCurrentPageNumber(19);
         $pages = $this->paginator->getPages('Elastic');

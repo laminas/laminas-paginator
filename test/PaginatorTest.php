@@ -922,9 +922,7 @@ class PaginatorTest extends TestCase
     public function testAcceptsComplexAdapters(): void
     {
         $paginator = new Paginator\Paginator(
-            new TestAsset\TestAdapter(function () {
-                return 'test';
-            })
+            new TestAsset\TestAdapter(static fn(): string => 'test')
         );
         $this->assertInstanceOf('ArrayObject', $paginator->getCurrentItems());
     }

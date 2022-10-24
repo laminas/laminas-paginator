@@ -98,12 +98,11 @@ class ScrollingStylePluginManager extends AbstractPluginManager
     /**
      * Validate a plugin (v2)
      *
-     * @param mixed $plugin
      * @throws Exception\InvalidArgumentException
      * @return void
      * @psalm-assert ScrollingStyleInterface $instance
      */
-    public function validatePlugin($plugin)
+    public function validatePlugin(mixed $plugin)
     {
         try {
             $this->validate($plugin);
