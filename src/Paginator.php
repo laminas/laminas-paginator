@@ -19,7 +19,6 @@ use Laminas\Stdlib\ArrayUtils;
 use Laminas\View;
 use Laminas\View\Renderer\RendererInterface;
 use ReturnTypeWillChange;
-// phpcs:ignore
 use stdClass;
 use Stringable;
 use Throwable;
