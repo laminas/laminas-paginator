@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace LaminasTest\Paginator\Adapter;
 
 use Laminas\Paginator\Adapter;
+use Laminas\Paginator\Adapter\ArrayAdapter;
 use PHPUnit\Framework\TestCase;
 
+use function assert;
 use function range;
 
 /**
@@ -15,8 +17,7 @@ use function range;
  */
 class ArrayTest extends TestCase
 {
-    /** @var Adapter\ArrayAdapter */
-    private $adapter;
+    private ?ArrayAdapter $adapter;
 
     /**
      * Prepares the environment before running a test.
@@ -39,19 +40,27 @@ class ArrayTest extends TestCase
     public function testGetsItemsAtOffsetZero(): void
     {
         $expected = range(1, 10);
-        $actual   = $this->adapter->getItems(0, 10);
+
+        assert($this->adapter instanceof ArrayAdapter);
+
+        $actual = $this->adapter->getItems(0, 10);
         $this->assertEquals($expected, $actual);
     }
 
     public function testGetsItemsAtOffsetTen(): void
     {
         $expected = range(11, 20);
-        $actual   = $this->adapter->getItems(10, 10);
+
+        assert($this->adapter instanceof ArrayAdapter);
+
+        $actual = $this->adapter->getItems(10, 10);
         $this->assertEquals($expected, $actual);
     }
 
     public function testReturnsCorrectCount(): void
     {
+        assert($this->adapter instanceof ArrayAdapter);
+
         $this->assertEquals(101, $this->adapter->count());
     }
 

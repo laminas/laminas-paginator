@@ -11,18 +11,10 @@ use function array_fill;
 class NullFill implements AdapterInterface
 {
     /**
-     * Item count
-     *
-     * @var int
-     */
-    protected $count;
-
-    /**
      * @param int $count Total item count (Optional)
      */
-    public function __construct($count = 0)
+    public function __construct(protected $count = 0)
     {
-        $this->count = $count;
     }
 
     /**

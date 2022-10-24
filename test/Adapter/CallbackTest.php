@@ -19,13 +19,9 @@ class CallbackTest extends TestCase
         $itemsCallback = /**
         $itemsCallback =  * @return array
         $itemsCallback =  * @psalm-return array<empty, empty>
-         */
-        function (): array {
-            return [];
-        };
-        $countCallback = function (): int {
-            return 0;
-        };
+                          */
+        static fn(): array => [];
+        $countCallback = static fn(): int => 0;
         $adapter       = new Callback($itemsCallback, $countCallback);
 
         $this->assertSame([], $adapter->getItems(1, 1));
@@ -37,10 +33,8 @@ class CallbackTest extends TestCase
         $itemsCallback = /**
         $itemsCallback =  * @return int[]
         $itemsCallback =  * @psalm-return non-empty-list<int>
-         */
-        function (): array {
-            return range(1, 10);
-        };
+                          */
+        static fn(): array => range(1, 10);
         $countCallback = 'rand';
         $adapter       = new Callback($itemsCallback, $countCallback);
 
@@ -54,11 +48,9 @@ class CallbackTest extends TestCase
         $itemsCallback = /**
         $itemsCallback =  * @return int[]
         $itemsCallback =  * @psalm-return non-empty-list<int>
-         */
-        function () use ($data): array {
-            return $data;
-        };
-        $countCallback = function (): void {
+                          */
+        static fn(): array => $data;
+        $countCallback = static function (): void {
         };
         $adapter       = new Callback($itemsCallback, $countCallback);
 
@@ -71,11 +63,9 @@ class CallbackTest extends TestCase
         $itemsCallback = /**
         $itemsCallback =  * @return (float|int|string)[]
         $itemsCallback =  * @psalm-return non-empty-list<float|int|string>
-         */
-        function ($offset, $itemCountPerPage): array {
-            return range($offset, $itemCountPerPage);
-        };
-        $countCallback = function (): void {
+                          */
+        static fn($offset, $itemCountPerPage): array => range($offset, $itemCountPerPage);
+        $countCallback = static function (): void {
         };
         $adapter       = new Callback($itemsCallback, $countCallback);
 
@@ -85,11 +75,9 @@ class CallbackTest extends TestCase
     public function testMustRunCountCallbackToCount(): void
     {
         $count         = 1988;
-        $itemsCallback = function (): void {
+        $itemsCallback = static function (): void {
         };
-        $countCallback = function () use ($count): int {
-            return $count;
-        };
+        $countCallback = static fn(): int => $count;
         $adapter       = new Callback($itemsCallback, $countCallback);
 
         $this->assertSame($count, $adapter->count());

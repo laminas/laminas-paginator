@@ -12,15 +12,8 @@ use function range;
 
 class TestAdapter implements AdapterInterface
 {
-    /** @var mixed */
-    public $property;
-
-    /**
-     * @param mixed $property
-     */
-    public function __construct($property = null)
+    public function __construct(public mixed $property = null)
     {
-        $this->property = $property;
     }
 
     /**

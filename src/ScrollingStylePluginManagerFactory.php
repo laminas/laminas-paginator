@@ -40,7 +40,6 @@ class ScrollingStylePluginManagerFactory implements FactoryInterface
     /**
      * laminas-servicemanager v2 support for invocation options.
      *
-     * @param array $options
      * @return void
      */
     public function setCreationOptions(array $options)

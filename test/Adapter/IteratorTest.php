@@ -7,12 +7,12 @@ namespace LaminasTest\Paginator\Adapter;
 use ArrayIterator;
 use Laminas\Paginator\Adapter;
 use Laminas\Paginator\Adapter\Exception\InvalidArgumentException;
-use Laminas\Paginator\Adapter\Iterator;
 use Laminas\Paginator\Paginator;
 use Laminas\Paginator\SerializableLimitIterator;
 use LimitIterator;
 use PHPUnit\Framework\TestCase;
 
+use function assert;
 use function iterator_to_array;
 use function range;
 use function serialize;
@@ -24,8 +24,7 @@ use function unserialize;
  */
 class IteratorTest extends TestCase
 {
-    /** @var Iterator */
-    private $adapter;
+    private ?Adapter\Iterator $adapter;
 
     /**
      * Prepares the environment before running a test.
@@ -48,6 +47,8 @@ class IteratorTest extends TestCase
 
     public function testGetsItemsAtOffsetZero(): void
     {
+        assert($this->adapter instanceof Adapter\Iterator);
+
         $actual = $this->adapter->getItems(0, 10);
         $this->assertInstanceOf('LimitIterator', $actual);
 
@@ -60,6 +61,8 @@ class IteratorTest extends TestCase
 
     public function testGetsItemsAtOffsetTen(): void
     {
+        assert($this->adapter instanceof Adapter\Iterator);
+
         $actual = $this->adapter->getItems(10, 10);
         $this->assertInstanceOf('LimitIterator', $actual);
 
@@ -72,6 +75,8 @@ class IteratorTest extends TestCase
 
     public function testReturnsCorrectCount(): void
     {
+        assert($this->adapter instanceof Adapter\Iterator);
+
         $this->assertEquals(101, $this->adapter->count());
     }
 
@@ -101,6 +106,8 @@ class IteratorTest extends TestCase
      */
     public function testGetItemsSerializable(): void
     {
+        assert($this->adapter instanceof Adapter\Iterator);
+
         /** @psalm-var SerializableLimitIterator $items */
         $items         = $this->adapter->getItems(0, 1);
         $innerIterator = $items->getInnerIterator();

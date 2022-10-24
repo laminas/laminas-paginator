@@ -52,11 +52,9 @@ abstract class Factory
     /**
      * Get adapter from manager if necessary, and return paginator
      *
-     * @param mixed $items
-     * @param mixed $adapter
      * @return Paginator
      */
-    protected static function getAdapterFromManager($items, $adapter)
+    protected static function getAdapterFromManager(mixed $items, mixed $adapter)
     {
         if ($adapter instanceof AdapterInterface || $adapter instanceof AdapterAggregateInterface) {
             return new Paginator($adapter);
@@ -68,11 +66,9 @@ abstract class Factory
     /**
      * Create paginator with items and adapter
      *
-     * @param mixed $items
-     * @param mixed $adapter
      * @return Paginator
      */
-    public static function factory($items, $adapter = null)
+    public static function factory(mixed $items, mixed $adapter = null)
     {
         if (null === $adapter) {
             return static::createAdapterFromItems($items);

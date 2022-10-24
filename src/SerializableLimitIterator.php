@@ -96,10 +96,9 @@ class SerializableLimitIterator extends LimitIterator implements Serializable, A
      * Required by the ArrayAccess implementation
      *
      * @param int $offset
-     * @param mixed $value
      */
     #[ReturnTypeWillChange]
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, mixed $value)
     {
     }
 
@@ -119,7 +118,7 @@ class SerializableLimitIterator extends LimitIterator implements Serializable, A
                 $current = $this->current();
                 $this->seek($currentOffset);
                 return null !== $current;
-            } catch (OutOfBoundsException $e) {
+            } catch (OutOfBoundsException) {
                 // reset position in case of exception is assigned null
                 $this->seek($currentOffset);
                 return false;

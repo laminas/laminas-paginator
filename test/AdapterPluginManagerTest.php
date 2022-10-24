@@ -42,12 +42,8 @@ class AdapterPluginManagerTest extends TestCase
         yield 'iterator-adapter' => ['iterator', [new ArrayIterator(range(1, 101))], Adapter\Iterator::class];
         yield 'null-adapter'     => ['null', [101], Adapter\NullFill::class];
 
-        $itemsCallback = function (): array {
-            return [];
-        };
-        $countCallback = function (): int {
-            return 0;
-        };
+        $itemsCallback = static fn(): array => [];
+        $countCallback = static fn(): int => 0;
         yield 'callback-adapter' => ['callback', [$itemsCallback, $countCallback], Adapter\Callback::class];
     }
 

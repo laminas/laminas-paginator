@@ -19,22 +19,18 @@ use function is_int;
 class PaginatorIterator implements OuterIterator
 {
     /**
-     * Internal Paginator for iteration
-     *
-     * @var Paginator $paginator
-     */
-    protected $paginator;
-
-    /**
      * Value for valid method
      *
      * @var bool $valid
      */
     protected $valid = true;
 
-    public function __construct(Paginator $paginator)
-    {
-        $this->paginator = $paginator;
+    public function __construct(
+        /**
+         * Internal Paginator for iteration
+         */
+        protected Paginator $paginator
+    ) {
     }
 
     /**

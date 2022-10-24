@@ -10,6 +10,7 @@ use Laminas\Paginator\ScrollingStyle\Jumping;
 use PHPUnit\Framework\TestCase;
 
 use function array_combine;
+use function assert;
 use function range;
 
 /**
@@ -18,14 +19,11 @@ use function range;
  */
 class JumpingTest extends TestCase
 {
-    /** @var Jumping */
-    private $scrollingStyle;
+    private ?Jumping $scrollingStyle;
 
-    /** @var Paginator */
-    private $paginator;
+    private ?Paginator $paginator;
 
-    /** @var array */
-    private $expectedRange;
+    private array $expectedRange;
 
     /**
      * Prepares the environment before running a test.
@@ -52,6 +50,9 @@ class JumpingTest extends TestCase
 
     public function testGetsPagesInRangeForFirstPage(): void
     {
+        assert($this->paginator instanceof Paginator);
+        assert($this->scrollingStyle instanceof Jumping);
+
         $this->paginator->setCurrentPageNumber(1);
         $actual = $this->scrollingStyle->getPages($this->paginator);
         $this->assertEquals($this->expectedRange, $actual);
@@ -59,6 +60,9 @@ class JumpingTest extends TestCase
 
     public function testGetsPagesInRangeForSecondPage(): void
     {
+        assert($this->paginator instanceof Paginator);
+        assert($this->scrollingStyle instanceof Jumping);
+
         $this->paginator->setCurrentPageNumber(2);
         $actual = $this->scrollingStyle->getPages($this->paginator);
         $this->assertEquals($this->expectedRange, $actual);
@@ -66,6 +70,9 @@ class JumpingTest extends TestCase
 
     public function testGetsPagesInRangeForSecondLastPage(): void
     {
+        assert($this->paginator instanceof Paginator);
+        assert($this->scrollingStyle instanceof Jumping);
+
         $this->paginator->setCurrentPageNumber(10);
         $actual = $this->scrollingStyle->getPages($this->paginator);
         $this->assertEquals($this->expectedRange, $actual);
@@ -73,6 +80,9 @@ class JumpingTest extends TestCase
 
     public function testGetsPagesInRangeForLastPage(): void
     {
+        assert($this->paginator instanceof Paginator);
+        assert($this->scrollingStyle instanceof Jumping);
+
         $this->paginator->setCurrentPageNumber(11);
         $actual   = $this->scrollingStyle->getPages($this->paginator);
         $expected = [11 => 11];
@@ -81,6 +91,8 @@ class JumpingTest extends TestCase
 
     public function testGetsNextAndPreviousPageForFirstPage(): void
     {
+        assert($this->paginator instanceof Paginator);
+
         $this->paginator->setCurrentPageNumber(1);
         $pages = $this->paginator->getPages('Jumping');
 
@@ -89,6 +101,8 @@ class JumpingTest extends TestCase
 
     public function testGetsNextAndPreviousPageForSecondPage(): void
     {
+        assert($this->paginator instanceof Paginator);
+
         $this->paginator->setCurrentPageNumber(2);
         $pages = $this->paginator->getPages('Jumping');
         $this->assertEquals(1, $pages->previous);
@@ -97,6 +111,8 @@ class JumpingTest extends TestCase
 
     public function testGetsNextAndPreviousPageForMiddlePage(): void
     {
+        assert($this->paginator instanceof Paginator);
+
         $this->paginator->setCurrentPageNumber(6);
         $pages = $this->paginator->getPages('Jumping');
         $this->assertEquals(5, $pages->previous);
@@ -105,6 +121,8 @@ class JumpingTest extends TestCase
 
     public function testGetsNextAndPreviousPageForSecondLastPage(): void
     {
+        assert($this->paginator instanceof Paginator);
+
         $this->paginator->setCurrentPageNumber(10);
         $pages = $this->paginator->getPages('Jumping');
         $this->assertEquals(9, $pages->previous);
@@ -113,6 +131,8 @@ class JumpingTest extends TestCase
 
     public function testGetsNextAndPreviousPageForLastPage(): void
     {
+        assert($this->paginator instanceof Paginator);
+
         $this->paginator->setCurrentPageNumber(11);
         $pages = $this->paginator->getPages('Jumping');
         $this->assertEquals(10, $pages->previous);
