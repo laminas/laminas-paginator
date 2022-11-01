@@ -37,7 +37,7 @@
     },
     "require-dev": {
         "laminas/laminas-cache": "^3.6.0",
-        "laminas/laminas-cache-storage-adapter-memory": "^2.1.0",
+        "laminas/laminas-cache-storage-adapter-memory": "^2.2.0",
         "laminas/laminas-coding-standard": "^2.4.0",
         "laminas/laminas-config": "^3.8.0",
         "laminas/laminas-filter": "^2.23.0",
