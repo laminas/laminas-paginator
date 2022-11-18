@@ -919,6 +919,23 @@ class PaginatorTest extends TestCase
         $this->assertNotEquals($firstCacheId, $secondCacheId);
     }
 
+    public function testPaginatorShouldProduceDifferentCacheIdsDependingOnGetArrayCopy(): void
+    {
+        $paginator                    = new Paginator\Paginator(new TestAsset\TestAdapter('foo'));
+        $reflectionGetCacheInternalId = new ReflectionMethod($paginator, '_getCacheInternalId');
+        $reflectionGetCacheInternalId->setAccessible(true);
+        /** @var string $firstCacheId */
+        $firstCacheId = $reflectionGetCacheInternalId->invoke($paginator);
+
+        $paginator                    = new Paginator\Paginator(new TestAsset\TestArrayCopyAdapter('foo'));
+        $reflectionGetCacheInternalId = new ReflectionMethod($paginator, '_getCacheInternalId');
+        $reflectionGetCacheInternalId->setAccessible(true);
+        /** @var string $secondCacheId */
+        $secondCacheId = $reflectionGetCacheInternalId->invoke($paginator);
+
+        $this->assertNotEquals($firstCacheId, $secondCacheId);
+    }
+
     public function testAcceptsComplexAdapters(): void
     {
         $paginator = new Paginator\Paginator(

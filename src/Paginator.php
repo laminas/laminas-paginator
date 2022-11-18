@@ -12,7 +12,6 @@ use Laminas\Cache\Storage\StorageInterface as CacheStorage;
 use Laminas\Db\ResultSet\AbstractResultSet;
 use Laminas\Filter\FilterInterface;
 use Laminas\Paginator\Adapter\AdapterInterface;
-use Laminas\Paginator\Adapter\DbSelect;
 use Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface;
 use Laminas\ServiceManager\ServiceManager;
 use Laminas\Stdlib\ArrayUtils;
@@ -894,7 +893,7 @@ class Paginator implements Countable, IteratorAggregate, Stringable
     protected function _getCacheInternalId()
     {
         $adapter            = $this->getAdapter();
-        $adapterToSerialize = $adapter instanceof DbSelect
+        $adapterToSerialize = method_exists($adapter, 'getArrayCopy')
             ? $adapter->getArrayCopy()
             : $adapter;
 
