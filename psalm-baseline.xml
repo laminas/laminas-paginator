@@ -58,14 +58,6 @@
       <code>$factories</code>
       <code>$instanceOf</code>
     </NonInvariantDocblockPropertyType>
-    <UndefinedClass occurrences="6">
-      <code>ArrayAdapter</code>
-      <code>Callback</code>
-      <code>DbSelect</code>
-      <code>DbTableGateway</code>
-      <code>Iterator</code>
-      <code>NullFill</code>
-    </UndefinedClass>
   </file>
   <file src="src/AdapterPluginManagerFactory.php">
     <DeprecatedInterface occurrences="1">
@@ -95,9 +87,8 @@
     </UndefinedClass>
   </file>
   <file src="src/Factory.php">
-    <DocblockTypeContradiction occurrences="2">
+    <DocblockTypeContradiction occurrences="1">
       <code>is_array($items)</code>
-      <code>static::$adapters === null</code>
     </DocblockTypeContradiction>
     <MixedArgument occurrences="4">
       <code>$adapter</code>
@@ -167,6 +158,9 @@
     <PossiblyInvalidArrayOffset occurrences="1">
       <code>$page[$itemNumber - 1]</code>
     </PossiblyInvalidArrayOffset>
+    <PossiblyInvalidPropertyAssignmentValue occurrences="1">
+      <code>$adapter</code>
+    </PossiblyInvalidPropertyAssignmentValue>
     <PossiblyNullReference occurrences="1">
       <code>paginationControl</code>
     </PossiblyNullReference>
