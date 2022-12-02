@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Laminas\Paginator;
 
+use ArrayAccess;
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
@@ -23,6 +24,7 @@ use Stringable;
 use Throwable;
 use Traversable;
 
+use function assert;
 use function ceil;
 use function class_exists;
 use function count;
@@ -573,6 +575,8 @@ class Paginator implements Countable, IteratorAggregate, Stringable
                 "Page {$pageNumber} does not contain item number {$itemNumber}"
             );
         }
+
+        assert(is_array($page) || $page instanceof ArrayAccess);
 
         return $page[$itemNumber - 1];
     }
