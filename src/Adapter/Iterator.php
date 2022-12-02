@@ -50,7 +50,7 @@ class Iterator implements AdapterInterface
      *
      * @param  int $offset Page offset
      * @param  int $itemCountPerPage Number of items per page
-     * @return iterable<TKey, TValue>|array<never, never>
+     * @return iterable<TKey, TValue>
      */
     public function getItems($offset, $itemCountPerPage)
     {
