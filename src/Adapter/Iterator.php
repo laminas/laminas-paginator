@@ -11,7 +11,7 @@ use ReturnTypeWillChange;
 use function count;
 
 /**
- * @template TKey of array-key
+ * @template TKey of int
  * @template TValue
  * @implements AdapterInterface<TKey, TValue>
  */

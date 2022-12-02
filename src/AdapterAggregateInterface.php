@@ -9,7 +9,7 @@ use Laminas\Paginator\Adapter\AdapterInterface;
 /**
  * Interface that aggregates a Laminas\Paginator\Adapter\Abstract just like IteratorAggregate does for Iterators.
  *
- * @template TKey of array-key
+ * @template TKey of int
  * @template TValue
  */
 interface AdapterAggregateInterface

@@ -20,7 +20,7 @@ use function strtolower;
 /**
  * @deprecated 2.10.0 Use the adapters in laminas/laminas-paginator-adapter-laminasdb.
  *
- * @template-covariant TKey of array-key
+ * @template-covariant TKey of int
  * @template-covariant TValue
  * @implements AdapterInterface<TKey, TValue>
  */

@@ -9,7 +9,7 @@ use Countable;
 /**
  * Interface for pagination adapters.
  *
- * @template-covariant TKey of array-key
+ * @template-covariant TKey of int
  * @template-covariant TValue
  */
 interface AdapterInterface extends Countable

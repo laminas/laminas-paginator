@@ -52,7 +52,7 @@ use const JSON_HEX_QUOT;
 use const JSON_HEX_TAG;
 
 /**
- * @template TKey of array-key
+ * @template TKey of int
  * @template TValue
  * @implements IteratorAggregate<TKey, TValue>
  * @psalm-type PagesType = object{

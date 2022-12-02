@@ -17,7 +17,7 @@ use function serialize;
 use function unserialize;
 
 /**
- * @template TKey of array-key
+ * @template TKey of int
  * @template TValue
  * @template-extends LimitIterator<TKey, TValue, Iterator<TKey, TValue>>
  * @implements ArrayAccess<TKey, TValue>

@@ -12,7 +12,7 @@ use Laminas\Db\TableGateway\AbstractTableGateway;
 /**
  * @deprecated 2.10.0 Use the adapters in laminas/laminas-paginator-adapter-laminasdb.
  *
- * @template-covariant TKey of array-key
+ * @template-covariant TKey of int
  * @template-covariant TValue
  * @extends DbSelect<TKey, TValue>
  */

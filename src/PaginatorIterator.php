@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Laminas\Paginator;
 
-use Iterator;
 use OuterIterator;
 use ReturnTypeWillChange;
 
@@ -16,7 +15,7 @@ use function is_int;
  * Class allowing for the continuous iteration of a Laminas\Paginator\Paginator instance.
  * Useful for representing remote paginated data sources as a single Iterator
  *
- * @template TKey of array-key
+ * @template TKey of int
  * @template TValue
  * @implements OuterIterator<TKey, TValue>
  */

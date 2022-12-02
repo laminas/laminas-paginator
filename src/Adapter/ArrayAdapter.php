@@ -10,7 +10,7 @@ use function array_slice;
 use function count;
 
 /**
- * @template-covariant TKey of array-key
+ * @template-covariant TKey of int
  * @template-covariant TValue
  * @implements AdapterInterface<TKey, TValue>
  */

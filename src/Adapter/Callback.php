@@ -9,7 +9,7 @@ use ReturnTypeWillChange;
 use function call_user_func;
 
 /**
- * @template-covariant TKey of array-key
+ * @template-covariant TKey of int
  * @template-covariant TValue
  * @implements AdapterInterface<TKey, TValue>
  */
@@ -32,7 +32,7 @@ class Callback implements AdapterInterface
     /**
      * Constructs instance.
      *
-     * @param callable(int, int): iterable<array-key, TValue> $itemsCallback Callback to be executed to retrieve
+     * @param callable(int, int): iterable<TKey, TValue> $itemsCallback Callback to be executed to retrieve
      *                                                            the items for a page.
      * @param callable(): int $countCallback Callback to be executed to retrieve the total number of items.
      */
