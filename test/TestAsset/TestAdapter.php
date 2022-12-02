@@ -6,33 +6,26 @@ namespace LaminasTest\Paginator\TestAsset;
 
 use ArrayObject;
 use Laminas\Paginator\Adapter\AdapterInterface;
-use ReturnTypeWillChange;
 
 use function range;
 
+/**
+ * @template-covariant TKey
+ * @template-covariant TValue
+ * @implements AdapterInterface<int, int>
+ */
 class TestAdapter implements AdapterInterface
 {
     public function __construct(public mixed $property = null)
     {
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    #[ReturnTypeWillChange]
-    public function count()
+    public function count(): int
     {
         return 10;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @param int $pageNumber
-     * @param int $itemCountPerPage
-     * @return iterable
-     * @psalm-return ArrayObject<int, int>
-     */
+    /** @inheritDoc */
     public function getItems($pageNumber, $itemCountPerPage)
     {
         return new ArrayObject(range(1, 10));

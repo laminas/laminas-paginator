@@ -23,7 +23,7 @@ class Sliding implements ScrollingStyleInterface
      * Returns an array of "local" pages given a page number and range.
      *
      * @param  int $pageRange (Optional) Page range
-     * @return array
+     * @return array<int, int>
      */
     public function getPages(Paginator $paginator, $pageRange = null)
     {
@@ -38,7 +38,7 @@ class Sliding implements ScrollingStyleInterface
             $pageRange = $pageCount;
         }
 
-        $delta = ceil($pageRange / 2);
+        $delta = (int) ceil($pageRange / 2);
 
         if ($pageNumber - $delta > $pageCount - $pageRange) {
             $lowerBound = $pageCount - $pageRange + 1;

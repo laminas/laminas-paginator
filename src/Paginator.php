@@ -49,6 +49,27 @@ use const JSON_HEX_APOS;
 use const JSON_HEX_QUOT;
 use const JSON_HEX_TAG;
 
+/**
+ * @template TKey of array-key
+ * @template TValue
+ * @implements IteratorAggregate<TKey, TValue>
+ * @psalm-type PagesType = object{
+ *     pageCount: int,
+ *     itemCountPerPage: int,
+ *     first: int,
+ *     current: int,
+ *     last: int,
+ *     previous?: int,
+ *     next?: int,
+ *     pagesInRange: array<int, int>,
+ *     firstPageInRange: int,
+ *     lastPageInRange: int,
+ *     currentItemCount: int,
+ *     totalItemCount: int,
+ *     firstItemNumber: int,
+ *     lastItemNumber: int,
+ * }
+ */
 class Paginator implements Countable, IteratorAggregate, Stringable
 {
     /**
@@ -59,7 +80,7 @@ class Paginator implements Countable, IteratorAggregate, Stringable
     /**
      * Adapter plugin manager
      *
-     * @var AdapterPluginManager
+     * @var AdapterPluginManager|null
      */
     protected static $adapters;
 
@@ -108,21 +129,21 @@ class Paginator implements Countable, IteratorAggregate, Stringable
     /**
      * Adapter
      *
-     * @var AdapterInterface
+     * @var AdapterInterface<TKey, TValue>
      */
     protected $adapter;
 
     /**
      * Number of items in the current page
      *
-     * @var int
+     * @var int|null
      */
     protected $currentItemCount;
 
     /**
      * Current page items
      *
-     * @var Traversable
+     * @var iterable<TKey, TValue>|null
      */
     protected $currentItems;
 
@@ -136,7 +157,7 @@ class Paginator implements Countable, IteratorAggregate, Stringable
     /**
      * Result filter
      *
-     * @var FilterInterface
+     * @var FilterInterface|null
      */
     protected $filter;
 
@@ -165,14 +186,14 @@ class Paginator implements Countable, IteratorAggregate, Stringable
     /**
      * Pages
      *
-     * @var stdClass
+     * @var PagesType|null
      */
     protected $pages;
 
     /**
      * View instance used for self rendering
      *
-     * @var RendererInterface
+     * @var RendererInterface|null
      */
     protected $view;
 
@@ -300,7 +321,7 @@ class Paginator implements Countable, IteratorAggregate, Stringable
     }
 
     /**
-     * @param AdapterInterface|AdapterAggregateInterface $adapter
+     * @param AdapterInterface<TKey, TValue>|AdapterAggregateInterface<TKey, TValue> $adapter
      * @throws Exception\InvalidArgumentException
      */
     public function __construct($adapter)
@@ -459,7 +480,7 @@ class Paginator implements Countable, IteratorAggregate, Stringable
     /**
      * Returns the items for the current page.
      *
-     * @return Traversable
+     * @return iterable<TKey, TValue>
      */
     public function getCurrentItems()
     {
@@ -498,7 +519,7 @@ class Paginator implements Countable, IteratorAggregate, Stringable
     /**
      * Get the filter
      *
-     * @return FilterInterface
+     * @return FilterInterface|null
      */
     public function getFilter()
     {
@@ -524,7 +545,7 @@ class Paginator implements Countable, IteratorAggregate, Stringable
      * @param  int $itemNumber Item number (1 to itemCountPerPage)
      * @param  int $pageNumber
      * @throws Exception\InvalidArgumentException
-     * @return mixed
+     * @return TValue
      */
     public function getItem($itemNumber, $pageNumber = null)
     {
@@ -612,13 +633,14 @@ class Paginator implements Countable, IteratorAggregate, Stringable
      * Returns the items for a given page.
      *
      * @param int $pageNumber
-     * @return mixed
+     * @return iterable<TKey, TValue>
      */
     public function getItemsByPage($pageNumber)
     {
         $pageNumber = $this->normalizePageNumber($pageNumber);
 
         if ($this->cacheEnabled()) {
+            /** @psalm-var iterable<TKey, TValue> $data Forced because cache will always return mixed */
             $data = static::$cache->getItem($this->_getCacheId($pageNumber));
             if ($data) {
                 return $data;
@@ -632,6 +654,7 @@ class Paginator implements Countable, IteratorAggregate, Stringable
         $filter = $this->getFilter();
 
         if ($filter !== null) {
+            /** @psalm-var iterable<TKey, TValue> $items Forced because the filter cannot be annotated */
             $items = $filter->filter($items);
         }
 
@@ -651,7 +674,7 @@ class Paginator implements Countable, IteratorAggregate, Stringable
      * Returns a foreach-compatible iterator.
      *
      * @throws Exception\RuntimeException
-     * @return Traversable
+     * @return Traversable<TKey, TValue>
      */
     #[ReturnTypeWillChange]
     public function getIterator()
@@ -690,7 +713,7 @@ class Paginator implements Countable, IteratorAggregate, Stringable
      * Returns the page collection.
      *
      * @param  string $scrollingStyle Scrolling style
-     * @return stdClass
+     * @return PagesType
      */
     public function getPages($scrollingStyle = null)
     {
@@ -706,7 +729,7 @@ class Paginator implements Countable, IteratorAggregate, Stringable
      *
      * @param  int $lowerBound Lower bound of the range
      * @param  int $upperBound Upper bound of the range
-     * @return array
+     * @return array<int, int>
      */
     public function getPagesInRange($lowerBound, $upperBound)
     {
@@ -843,7 +866,6 @@ class Paginator implements Countable, IteratorAggregate, Stringable
 
         /** @psalm-suppress UndefinedClass */
         if ($currentItems instanceof AbstractResultSet) {
-            /** @psalm-suppress UndefinedInterfaceMethod */
             return json_encode($currentItems->toArray(), $encodeOptions);
         }
 
@@ -921,7 +943,7 @@ class Paginator implements Countable, IteratorAggregate, Stringable
      * Creates the page collection.
      *
      * @param  string $scrollingStyle Scrolling style
-     * @return stdClass
+     * @return PagesType
      */
     // @codingStandardsIgnoreStart
     protected function _createPages($scrollingStyle = null)
@@ -953,16 +975,14 @@ class Paginator implements Countable, IteratorAggregate, Stringable
         $pages->lastPageInRange  = max($pages->pagesInRange);
 
         // Item numbers
-        if ($this->getCurrentItems() !== null) {
-            $pages->currentItemCount = $this->getCurrentItemCount();
-            $pages->totalItemCount   = $this->getTotalItemCount();
-            $pages->firstItemNumber  = $pages->totalItemCount
-                ? (($currentPageNumber - 1) * $pages->itemCountPerPage) + 1
-                : 0;
-            $pages->lastItemNumber   = $pages->totalItemCount
-                ? $pages->firstItemNumber + $pages->currentItemCount - 1
-                : 0;
-        }
+        $pages->currentItemCount = $this->getCurrentItemCount();
+        $pages->totalItemCount   = $this->getTotalItemCount();
+        $pages->firstItemNumber  = $pages->totalItemCount
+            ? (($currentPageNumber - 1) * $pages->itemCountPerPage) + 1
+            : 0;
+        $pages->lastItemNumber   = $pages->totalItemCount
+            ? $pages->firstItemNumber + $pages->currentItemCount - 1
+            : 0;
 
         return $pages;
     }

@@ -8,6 +8,9 @@ use Countable;
 
 /**
  * Interface for pagination adapters.
+ *
+ * @template-covariant TKey of array-key
+ * @template-covariant TValue
  */
 interface AdapterInterface extends Countable
 {
@@ -16,7 +19,7 @@ interface AdapterInterface extends Countable
      *
      * @param  int $offset Page offset
      * @param  int $itemCountPerPage Number of items per page
-     * @return iterable
+     * @return iterable<TKey, TValue>
      */
     public function getItems($offset, $itemCountPerPage);
 }

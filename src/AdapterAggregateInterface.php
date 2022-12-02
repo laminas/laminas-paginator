@@ -8,13 +8,16 @@ use Laminas\Paginator\Adapter\AdapterInterface;
 
 /**
  * Interface that aggregates a Laminas\Paginator\Adapter\Abstract just like IteratorAggregate does for Iterators.
+ *
+ * @template TKey of array-key
+ * @template TValue
  */
 interface AdapterAggregateInterface
 {
     /**
      * Return a fully configured Paginator Adapter from this method.
      *
-     * @return AdapterInterface
+     * @return AdapterInterface<TKey, TValue>
      */
     public function getPaginatorAdapter();
 }

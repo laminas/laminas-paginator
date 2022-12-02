@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace LaminasTest\Paginator;
 
+use ArrayAccess;
 use ArrayIterator;
 use ArrayObject;
 use DirectoryIterator;
@@ -28,10 +29,13 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use ReflectionMethod;
 use stdClass;
+use Traversable;
 
 use function array_combine;
+use function assert;
 use function count;
 use function in_array;
+use function is_array;
 use function is_dir;
 use function mkdir;
 use function range;
@@ -50,19 +54,15 @@ class PaginatorTest extends TestCase
 {
     /**
      * Paginator instance
-     *
-     * @var Paginator\Paginator
      */
-    protected $paginator;
+    private Paginator\Paginator $paginator;
 
-    /** @var array */
-    protected $testCollection;
+    /** @var list<int> */
+    private array $testCollection;
 
-    /** @var StorageInterface */
-    protected $cache;
+    private StorageInterface $cache;
 
-    /** @var string */
-    protected $cacheDir;
+    private string|null $cacheDir;
 
     /** @var array */
     protected $config;
@@ -78,12 +78,6 @@ class PaginatorTest extends TestCase
         Paginator\Paginator::setCache($this->cache);
 
         $this->_restorePaginatorDefaults();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->testCollection = null;
-        $this->paginator      = null;
     }
 
     // @codingStandardsIgnoreStart
@@ -326,7 +320,6 @@ class PaginatorTest extends TestCase
     {
         $items = $this->paginator->getCurrentItems();
 
-        self::assertInstanceOf(ArrayIterator::class, $items);
         self::assertCount(10, $items);
         self::assertContainsOnly('integer', $items);
     }
@@ -407,6 +400,7 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-8656
+     * @psalm-suppress InvalidArgument
      */
     public function testNormalizesPageNumberWhenGivenAFloat(): void
     {
@@ -421,6 +415,7 @@ class PaginatorTest extends TestCase
 
     /**
      * @group Laminas-8656
+     * @psalm-suppress InvalidArgument
      */
     public function testNormalizesItemNumberWhenGivenAFloat(): void
     {
@@ -466,10 +461,10 @@ class PaginatorTest extends TestCase
         $paginator = new Paginator\Paginator(new Paginator\Adapter\Iterator($iterator));
         $items     = $paginator->getItemsByPage(1);
 
-        $this->assertIsIterable($items);
+        self::assertInstanceOf(Traversable::class, $items);
 
         foreach ($items as $item) {
-            $this->assertInstanceOf('ArrayObject', $item);
+            $this->assertInstanceOf(ArrayObject::class, $item);
         }
     }
 
@@ -529,6 +524,7 @@ class PaginatorTest extends TestCase
                   ->setItemCountPerPage(1);
 
         $items = $paginator->getCurrentItems();
+        assert(is_array($items) || $items instanceof ArrayAccess);
 
         $this->assertEquals('item2', $items[0]);
     }
@@ -539,14 +535,17 @@ class PaginatorTest extends TestCase
     public function testCastsIntegerValuesToInteger(): void
     {
         // Current page number
+        /** @psalm-suppress InvalidArgument */
         $this->paginator->setCurrentPageNumber(3.3);
         $this->assertEquals(3, $this->paginator->getCurrentPageNumber());
 
         // Item count per page
+        /** @psalm-suppress InvalidArgument */
         $this->paginator->setItemCountPerPage(3.3);
         $this->assertEquals(3, $this->paginator->getItemCountPerPage());
 
         // Page range
+        /** @psalm-suppress InvalidArgument */
         $this->paginator->setPageRange(3.3);
         $this->assertEquals(3, $this->paginator->getPageRange());
     }
@@ -753,8 +752,7 @@ class PaginatorTest extends TestCase
      */
     public function testInvalidDataInConstructorThrowsException(): void
     {
-        // @codingStandardsIgnoreEnd
-        $this->expectException(\Laminas\Paginator\Exception\ExceptionInterface::class);
+        $this->expectException(Exception\ExceptionInterface::class);
 
         new Paginator\Paginator([]);
     }

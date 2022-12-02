@@ -15,6 +15,10 @@ use function is_int;
 /**
  * Class allowing for the continuous iteration of a Laminas\Paginator\Paginator instance.
  * Useful for representing remote paginated data sources as a single Iterator
+ *
+ * @template TKey of array-key
+ * @template TValue
+ * @implements OuterIterator<TKey, TValue>
  */
 class PaginatorIterator implements OuterIterator
 {
@@ -25,10 +29,10 @@ class PaginatorIterator implements OuterIterator
      */
     protected $valid = true;
 
+    /**
+     * @param Paginator<TKey, TValue> $paginator Internal Paginator for iteration
+     */
     public function __construct(
-        /**
-         * Internal Paginator for iteration
-         */
         protected Paginator $paginator
     ) {
     }
@@ -38,7 +42,7 @@ class PaginatorIterator implements OuterIterator
      *
      * @link http://php.net/manual/en/iterator.current.php
      *
-     * @return mixed Can return any type.
+     * @return TValue Can return any type.
      */
     #[ReturnTypeWillChange]
     public function current()
@@ -78,7 +82,7 @@ class PaginatorIterator implements OuterIterator
      *
      * @link http://php.net/manual/en/iterator.key.php
      *
-     * @return mixed scalar on success, or null on failure.
+     * @return TKey|null scalar on success, or null on failure.
      */
     #[ReturnTypeWillChange]
     public function key()
@@ -130,7 +134,7 @@ class PaginatorIterator implements OuterIterator
      *
      * @link http://php.net/manual/en/outeriterator.getinneriterator.php
      *
-     * @return Iterator The inner iterator for the current entry.
+     * @return Iterator<TKey, TValue> The inner iterator for the current entry.
      */
     #[ReturnTypeWillChange]
     public function getInnerIterator()

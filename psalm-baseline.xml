@@ -1,33 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.30.0@d0bc6e25d89f649e4f36a534f330f8bb4643dd69">
-  <file src="src/Adapter/Callback.php">
-    <InvalidFunctionCall occurrences="2">
-      <code>call_user_func($this-&gt;countCallback)</code>
-      <code>call_user_func($this-&gt;itemsCallback, $offset, $itemCountPerPage)</code>
-    </InvalidFunctionCall>
-    <InvalidPropertyAssignmentValue occurrences="2">
-      <code>$countCallback</code>
-      <code>$itemsCallback</code>
-    </InvalidPropertyAssignmentValue>
-    <MixedInferredReturnType occurrences="2">
-      <code>array</code>
-      <code>int</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="2">
-      <code>call_user_func($this-&gt;countCallback)</code>
-      <code>call_user_func($this-&gt;itemsCallback, $offset, $itemCountPerPage)</code>
-    </MixedReturnStatement>
-    <UndefinedDocblockClass occurrences="2">
-      <code>CallbackHandler</code>
-      <code>CallbackHandler</code>
-    </UndefinedDocblockClass>
-  </file>
-  <file src="src/Adapter/Iterator.php">
-    <MixedReturnTypeCoercion occurrences="2">
-      <code>iterable&lt;array-key, mixed&gt;</code>
-      <code>new SerializableLimitIterator($this-&gt;iterator, $offset, $itemCountPerPage)</code>
-    </MixedReturnTypeCoercion>
-  </file>
+<files psalm-version="5.0.0@4e177bf0c9f03c17d2fbfd83b7cc9c47605274d8">
   <file src="src/Adapter/Service/CallbackFactory.php">
     <DeprecatedInterface occurrences="1">
       <code>CallbackFactory</code>
@@ -81,7 +53,6 @@
     </UndefinedDocblockClass>
   </file>
   <file src="src/AdapterPluginManager.php">
-    <MixedArrayOffset occurrences="1"/>
     <NonInvariantDocblockPropertyType occurrences="3">
       <code>$aliases</code>
       <code>$factories</code>
@@ -145,47 +116,34 @@
       <code>$pages-&gt;pagesInRange</code>
       <code>$pages-&gt;pagesInRange</code>
     </ArgumentTypeCoercion>
-    <DocblockTypeContradiction occurrences="8">
-      <code>$this-&gt;currentItemCount === null</code>
-      <code>$this-&gt;currentItems === null</code>
+    <DocblockTypeContradiction occurrences="4">
       <code>$this-&gt;pageCount === null</code>
-      <code>$this-&gt;pages === null</code>
-      <code>$this-&gt;view === null</code>
       <code>gettype($scrollingAdapters)</code>
       <code>is_array($config)</code>
       <code>static::$scrollingStyles === null</code>
     </DocblockTypeContradiction>
-    <MixedArgument occurrences="7">
+    <MixedArgument occurrences="6">
       <code>$adapters</code>
-      <code>$items</code>
       <code>$key</code>
       <code>$key</code>
       <code>$key</code>
       <code>$key</code>
       <code>$scrollingStyle</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="1">
-      <code>$page[$itemNumber - 1]</code>
-    </MixedArrayAccess>
-    <MixedAssignment occurrences="14">
+    <MixedAssignment occurrences="10">
       <code>$adapterToSerialize</code>
       <code>$adapters</code>
       <code>$cacheIterator</code>
       <code>$cacheIterator</code>
-      <code>$data</code>
       <code>$data[(int) substr($key, $prefixLength)]</code>
-      <code>$items</code>
       <code>$key</code>
       <code>$key</code>
-      <code>$page</code>
       <code>$scrollingStyle</code>
-      <code>$this-&gt;currentItems</code>
       <code>$value</code>
       <code>$value</code>
     </MixedAssignment>
     <MixedInferredReturnType occurrences="3">
       <code>ScrollingStyleInterface</code>
-      <code>Traversable</code>
       <code>string</code>
     </MixedInferredReturnType>
     <MixedMethodCall occurrences="3">
@@ -194,28 +152,15 @@
       <code>setMode</code>
     </MixedMethodCall>
     <MixedReturnStatement occurrences="3">
-      <code>$this-&gt;currentItems</code>
       <code>$view-&gt;paginationControl($this)</code>
       <code>static::getScrollingStylePluginManager()-&gt;get($scrollingStyle)</code>
     </MixedReturnStatement>
-    <PossiblyNullPropertyAssignmentValue occurrences="5">
-      <code>$view</code>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-    </PossiblyNullPropertyAssignmentValue>
     <PossiblyNullReference occurrences="1">
       <code>paginationControl</code>
     </PossiblyNullReference>
-    <PropertyNotSetInConstructor occurrences="7">
-      <code>$currentItemCount</code>
-      <code>$currentItems</code>
-      <code>$filter</code>
+    <PropertyNotSetInConstructor occurrences="2">
       <code>$itemCountPerPage</code>
       <code>$pageCount</code>
-      <code>$pages</code>
-      <code>$view</code>
     </PropertyNotSetInConstructor>
     <RedundantCastGivenDocblockType occurrences="7">
       <code>(bool) $enable</code>
@@ -226,9 +171,7 @@
       <code>(int) $pageNumber</code>
       <code>(int) $pageRange</code>
     </RedundantCastGivenDocblockType>
-    <RedundantConditionGivenDocblockType occurrences="4">
-      <code>$filter !== null</code>
-      <code>$this-&gt;getCurrentItems() !== null</code>
+    <RedundantConditionGivenDocblockType occurrences="2">
       <code>is_object($scrollingAdapters)</code>
       <code>static::$cache !== null</code>
     </RedundantConditionGivenDocblockType>
@@ -237,34 +180,6 @@
       <code>getIterator</code>
       <code>paginationControl</code>
     </UndefinedInterfaceMethod>
-  </file>
-  <file src="src/PaginatorIterator.php">
-    <LessSpecificReturnStatement occurrences="1">
-      <code>$this-&gt;paginator-&gt;getCurrentItems()</code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType occurrences="1">
-      <code>Iterator</code>
-    </MoreSpecificReturnType>
-  </file>
-  <file src="src/ScrollingStyle/Sliding.php">
-    <InvalidScalarArgument occurrences="2">
-      <code>$lowerBound</code>
-      <code>$upperBound</code>
-    </InvalidScalarArgument>
-  </file>
-  <file src="src/ScrollingStylePluginManager.php">
-    <MixedArrayOffset occurrences="1"/>
-    <NonInvariantDocblockPropertyType occurrences="3">
-      <code>$aliases</code>
-      <code>$factories</code>
-      <code>$instanceOf</code>
-    </NonInvariantDocblockPropertyType>
-    <UndefinedClass occurrences="4">
-      <code>All</code>
-      <code>Elastic</code>
-      <code>Jumping</code>
-      <code>Sliding</code>
-    </UndefinedClass>
   </file>
   <file src="src/ScrollingStylePluginManagerFactory.php">
     <DeprecatedInterface occurrences="1">
@@ -286,41 +201,19 @@
     </ParamNameMismatch>
   </file>
   <file src="src/SerializableLimitIterator.php">
-    <MixedArgument occurrences="8">
-      <code>$currentOffset</code>
-      <code>$currentOffset</code>
-      <code>$currentOffset</code>
+    <MixedArgument occurrences="5">
       <code>$data['count']</code>
       <code>$data['it']</code>
       <code>$data['offset']</code>
       <code>$data['pos'] + $data['offset']</code>
       <code>unserialize($data)</code>
     </MixedArgument>
-    <MixedAssignment occurrences="4">
-      <code>$current</code>
-      <code>$current</code>
-      <code>$currentOffset</code>
-      <code>$currentOffset</code>
-    </MixedAssignment>
     <MixedOperand occurrences="1">
       <code>$data['pos']</code>
     </MixedOperand>
-    <PossiblyUndefinedVariable occurrences="1">
-      <code>$currentOffset</code>
-    </PossiblyUndefinedVariable>
     <UndefinedThisPropertyFetch occurrences="1">
       <code>$this-&gt;__serialize</code>
     </UndefinedThisPropertyFetch>
-  </file>
-  <file src="test/Adapter/CallbackTest.php">
-    <MissingClosureParamType occurrences="2">
-      <code>$itemCountPerPage</code>
-      <code>$offset</code>
-    </MissingClosureParamType>
-    <MixedArgument occurrences="2">
-      <code>$itemCountPerPage</code>
-      <code>$offset</code>
-    </MixedArgument>
   </file>
   <file src="test/Adapter/IteratorTest.php">
     <ArgumentTypeCoercion occurrences="2">
@@ -357,7 +250,7 @@
     </MixedAssignment>
   </file>
   <file src="test/PaginatorTest.php">
-    <ArgumentTypeCoercion occurrences="3">
+    <ArgumentTypeCoercion occurrences="2">
       <code>'ArrayObject'</code>
       <code>'ArrayObject'</code>
       <code>'ArrayObject'</code>
@@ -365,47 +258,24 @@
     <DeprecatedMethod occurrences="1">
       <code>setMethods</code>
     </DeprecatedMethod>
-    <InvalidArgument occurrences="3">
+    <InvalidArgument occurrences="2">
       <code>'not array'</code>
       <code>[]</code>
-      <code>\Laminas\Paginator\Exception\ExceptionInterface::class</code>
     </InvalidArgument>
     <InvalidPropertyFetch occurrences="2">
       <code>$this-&gt;config-&gt;default</code>
       <code>$this-&gt;config-&gt;testing</code>
     </InvalidPropertyFetch>
-    <InvalidScalarArgument occurrences="17">
-      <code>0.5</code>
-      <code>0.5</code>
-      <code>1.99</code>
-      <code>1.99</code>
-      <code>2.3</code>
-      <code>2.3</code>
-      <code>3.3</code>
-      <code>3.3</code>
-      <code>3.3</code>
-      <code>5.1</code>
-      <code>5.1</code>
-      <code>9.06</code>
-      <code>10.06</code>
-      <code>10.5</code>
-      <code>11.5</code>
-      <code>11.7889</code>
-      <code>12.7889</code>
-    </InvalidScalarArgument>
     <MixedArgument occurrences="2">
       <code>$this-&gt;config-&gt;default</code>
       <code>$this-&gt;config-&gt;testing</code>
     </MixedArgument>
-    <MixedAssignment occurrences="10">
+    <MixedAssignment occurrences="7">
       <code>$firstOutputGetCacheInternalId</code>
       <code>$firstOutputGetCacheInternalId</code>
-      <code>$item</code>
       <code>$outputGetCacheId</code>
       <code>$outputGetCacheInternalId</code>
       <code>$outputGetCacheInternalId</code>
-      <code>$page1</code>
-      <code>$pageItems</code>
       <code>$secondOutputGetCacheInternalId</code>
       <code>$secondOutputGetCacheInternalId</code>
     </MixedAssignment>
@@ -422,21 +292,9 @@
     <PossiblyInvalidPropertyAssignmentValue occurrences="1">
       <code>Config\Factory::fromFile(__DIR__ . '/_files/config.xml', true)</code>
     </PossiblyInvalidPropertyAssignmentValue>
-    <PossiblyNullPropertyAssignmentValue occurrences="2">
-      <code>null</code>
-      <code>null</code>
-    </PossiblyNullPropertyAssignmentValue>
-    <UndefinedInterfaceMethod occurrences="2">
-      <code>$items</code>
+    <UndefinedInterfaceMethod occurrences="1">
       <code>addPath</code>
     </UndefinedInterfaceMethod>
-  </file>
-  <file src="test/ScrollingStyle/ElasticTest.php">
-    <MixedArgument occurrences="3">
-      <code>$pages-&gt;pagesInRange</code>
-      <code>$pages-&gt;pagesInRange</code>
-      <code>$pages-&gt;pagesInRange</code>
-    </MixedArgument>
   </file>
   <file src="test/TestAsset/TestAdapter.php">
     <ParamNameMismatch occurrences="1">
