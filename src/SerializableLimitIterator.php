@@ -17,10 +17,9 @@ use function serialize;
 use function unserialize;
 
 /**
- * @template TKey
+ * @template TKey of array-key
  * @template TValue
- * @template TIterator as Iterator<TKey, TValue>
- * @template-extends LimitIterator<TKey, TValue, TIterator>
+ * @template-extends LimitIterator<TKey, TValue, Iterator<TKey, TValue>>
  * @implements ArrayAccess<TKey, TValue>
  */
 class SerializableLimitIterator extends LimitIterator implements Serializable, ArrayAccess
@@ -40,12 +39,7 @@ class SerializableLimitIterator extends LimitIterator implements Serializable, A
      *
      * @see LimitIterator::__construct
      *
-     * @template NewTKey
-     * @template NewTValue
-     * @template NewTIterator of Iterator<NewTKey, NewTValue>
-     * @psalm-this-out self<NewTKey, NewTValue, NewTIterator>
-     *
-     * @param NewTIterator $it Iterator to limit (must be serializable by un-/serialize)
+     * @param Iterator<TKey, TValue> $it Iterator to limit (must be serializable by un-/serialize)
      * @param int $offset Offset to first element
      * @param int $count Maximum number of elements to show or -1 for all
      */
