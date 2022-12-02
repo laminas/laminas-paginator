@@ -135,7 +135,7 @@ class PaginatorIterator implements OuterIterator
      *
      * @link http://php.net/manual/en/outeriterator.getinneriterator.php
      *
-     * @return Iterator<TKey, TValue> The inner iterator for the current entry.
+     * @return iterable<TKey, TValue> The inner iterator for the current entry.
      */
     #[ReturnTypeWillChange]
     public function getInnerIterator()
