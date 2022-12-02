@@ -122,6 +122,12 @@
       <code>is_array($config)</code>
       <code>static::$scrollingStyles === null</code>
     </DocblockTypeContradiction>
+    <InvalidReturnStatement occurrences="1">
+      <code>$this-&gt;getCurrentItems()</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="1">
+      <code>Traversable&lt;TKey, TValue&gt;</code>
+    </InvalidReturnType>
     <MixedArgument occurrences="6">
       <code>$adapters</code>
       <code>$key</code>
@@ -144,6 +150,7 @@
     </MixedAssignment>
     <MixedInferredReturnType occurrences="3">
       <code>ScrollingStyleInterface</code>
+      <code>TValue</code>
       <code>string</code>
     </MixedInferredReturnType>
     <MixedMethodCall occurrences="3">
@@ -151,10 +158,15 @@
       <code>setMode</code>
       <code>setMode</code>
     </MixedMethodCall>
-    <MixedReturnStatement occurrences="3">
+    <MixedReturnStatement occurrences="4">
+      <code>$page[$itemNumber - 1]</code>
       <code>$view-&gt;paginationControl($this)</code>
       <code>static::getScrollingStylePluginManager()-&gt;get($scrollingStyle)</code>
+      <code>static::getScrollingStylePluginManager()-&gt;get($scrollingStyle)</code>
     </MixedReturnStatement>
+    <PossiblyInvalidArrayOffset occurrences="1">
+      <code>$page[$itemNumber - 1]</code>
+    </PossiblyInvalidArrayOffset>
     <PossiblyNullReference occurrences="1">
       <code>paginationControl</code>
     </PossiblyNullReference>
@@ -175,11 +187,35 @@
       <code>is_object($scrollingAdapters)</code>
       <code>static::$cache !== null</code>
     </RedundantConditionGivenDocblockType>
+    <TypeDoesNotContainType occurrences="1">
+      <code>$currentItems instanceof AbstractResultSet</code>
+    </TypeDoesNotContainType>
     <UndefinedInterfaceMethod occurrences="3">
       <code>getIterator</code>
       <code>getIterator</code>
       <code>paginationControl</code>
     </UndefinedInterfaceMethod>
+  </file>
+  <file src="src/PaginatorIterator.php">
+    <ImplementedReturnTypeMismatch occurrences="1">
+      <code>iterable&lt;TKey, TValue&gt;</code>
+    </ImplementedReturnTypeMismatch>
+    <InvalidMethodCall occurrences="4">
+      <code>current</code>
+      <code>key</code>
+      <code>next</code>
+      <code>valid</code>
+    </InvalidMethodCall>
+    <InvalidReturnStatement occurrences="1"/>
+    <InvalidReturnType occurrences="1">
+      <code>TKey|null</code>
+    </InvalidReturnType>
+    <MixedInferredReturnType occurrences="1">
+      <code>TValue</code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement occurrences="1">
+      <code>$this-&gt;getInnerIterator()-&gt;current()</code>
+    </MixedReturnStatement>
   </file>
   <file src="src/ScrollingStylePluginManagerFactory.php">
     <DeprecatedInterface occurrences="1">
@@ -251,7 +287,6 @@
   </file>
   <file src="test/PaginatorTest.php">
     <ArgumentTypeCoercion occurrences="2">
-      <code>'ArrayObject'</code>
       <code>'ArrayObject'</code>
       <code>'ArrayObject'</code>
     </ArgumentTypeCoercion>
