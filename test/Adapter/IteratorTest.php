@@ -11,6 +11,7 @@ use Laminas\Paginator\Paginator;
 use Laminas\Paginator\SerializableLimitIterator;
 use LimitIterator;
 use PHPUnit\Framework\TestCase;
+use Traversable;
 
 use function assert;
 use function iterator_to_array;
@@ -97,8 +98,9 @@ class IteratorTest extends TestCase
         $paginator = new Paginator(new Adapter\Iterator(new ArrayIterator([])));
         $items     = $paginator->getCurrentItems();
 
+        self::assertInstanceOf(Traversable::class, $items);
         $items = iterator_to_array($items);
-        static::assertEmpty($items);
+        self::assertSame([], $items);
     }
 
     /**

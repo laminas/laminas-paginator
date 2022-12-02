@@ -10,12 +10,17 @@ use ReturnTypeWillChange;
 
 use function count;
 
+/**
+ * @template TKey of int
+ * @template TValue
+ * @implements AdapterInterface<TKey, TValue>
+ */
 class Iterator implements AdapterInterface
 {
     /**
      * Iterator which implements Countable
      *
-     * @var \Iterator
+     * @var \Iterator<TKey, TValue>&Countable
      */
     protected $iterator;
 
@@ -27,7 +32,7 @@ class Iterator implements AdapterInterface
     protected $count;
 
     /**
-     * @param  \Iterator $iterator Iterator to paginate
+     * @param  \Iterator<TKey, TValue> $iterator Iterator to paginate
      * @throws Exception\InvalidArgumentException
      */
     public function __construct(\Iterator $iterator)
@@ -45,14 +50,14 @@ class Iterator implements AdapterInterface
      *
      * @param  int $offset Page offset
      * @param  int $itemCountPerPage Number of items per page
-     * @return array|SerializableLimitIterator
-     * @psalm-return iterable<array-key, mixed>
+     * @return iterable<TKey, TValue>
      */
     public function getItems($offset, $itemCountPerPage)
     {
         if ($this->count === 0) {
             return [];
         }
+
         return new SerializableLimitIterator($this->iterator, $offset, $itemCountPerPage);
     }
 

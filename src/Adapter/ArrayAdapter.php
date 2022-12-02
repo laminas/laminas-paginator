@@ -9,6 +9,11 @@ use ReturnTypeWillChange;
 use function array_slice;
 use function count;
 
+/**
+ * @template-covariant TKey of int
+ * @template-covariant TValue
+ * @implements AdapterInterface<TKey, TValue>
+ */
 class ArrayAdapter implements AdapterInterface
 {
     /**
@@ -19,7 +24,7 @@ class ArrayAdapter implements AdapterInterface
     protected $count;
 
     /**
-     * @param array $array ArrayAdapter to paginate
+     * @param array<TKey, TValue> $array ArrayAdapter to paginate
      */
     public function __construct(protected array $array = [])
     {
@@ -31,7 +36,7 @@ class ArrayAdapter implements AdapterInterface
      *
      * @param  int $offset Page offset
      * @param  int $itemCountPerPage Number of items per page
-     * @return array
+     * @return array<TKey, TValue>
      */
     public function getItems($offset, $itemCountPerPage)
     {

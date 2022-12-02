@@ -8,12 +8,6 @@ use Laminas\Paginator\Adapter\AdapterInterface;
 use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\Exception\InvalidServiceException;
 use Laminas\ServiceManager\Factory\InvokableFactory;
-use Zend\Paginator\Adapter\ArrayAdapter;
-use Zend\Paginator\Adapter\Callback;
-use Zend\Paginator\Adapter\DbSelect;
-use Zend\Paginator\Adapter\DbTableGateway;
-use Zend\Paginator\Adapter\Iterator;
-use Zend\Paginator\Adapter\NullFill;
 
 use function gettype;
 use function is_object;
@@ -26,7 +20,7 @@ use function sprintf;
  * AdapterInterface. Additionally, it registers a number of default
  * adapters available.
  *
- * @extends AbstractPluginManager<AdapterInterface>
+ * @extends AbstractPluginManager<AdapterInterface|AdapterAggregateInterface>
  */
 class AdapterPluginManager extends AbstractPluginManager
 {
@@ -59,15 +53,15 @@ class AdapterPluginManager extends AbstractPluginManager
         'laminaspaginatoradapternull' => Adapter\NullFill::class,
 
         // Legacy Zend Framework aliases
-        Callback::class            => Adapter\Callback::class,
-        DbSelect::class            => Adapter\DbSelect::class,
-        DbTableGateway::class      => Adapter\DbTableGateway::class,
-        NullFill::class            => Adapter\NullFill::class,
-        Iterator::class            => Adapter\Iterator::class,
-        ArrayAdapter::class        => Adapter\ArrayAdapter::class,
-        'zendpaginatoradapternull' => Adapter\NullFill::class,
+        'Zend\Paginator\Adapter\Callback'       => Adapter\Callback::class,
+        'Zend\Paginator\Adapter\DbSelect'       => Adapter\DbSelect::class,
+        'Zend\Paginator\Adapter\DbTableGateway' => Adapter\DbTableGateway::class,
+        'Zend\Paginator\Adapter\NullFill'       => Adapter\NullFill::class,
+        'Zend\Paginator\Adapter\Iterator'       => Adapter\Iterator::class,
+        'Zend\Paginator\Adapter\ArrayAdapter'   => Adapter\ArrayAdapter::class,
 
         // v2 normalized FQCNs
+        'zendpaginatoradapternull'           => Adapter\NullFill::class,
         'zendpaginatoradaptercallback'       => Adapter\Callback::class,
         'zendpaginatoradapterdbselect'       => Adapter\DbSelect::class,
         'zendpaginatoradapterdbtablegateway' => Adapter\DbTableGateway::class,

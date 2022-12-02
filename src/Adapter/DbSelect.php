@@ -19,6 +19,10 @@ use function strtolower;
 
 /**
  * @deprecated 2.10.0 Use the adapters in laminas/laminas-paginator-adapter-laminasdb.
+ *
+ * @template-covariant TKey of int
+ * @template-covariant TValue
+ * @implements AdapterInterface<TKey, TValue>
  */
 class DbSelect implements AdapterInterface
 {
@@ -68,9 +72,7 @@ class DbSelect implements AdapterInterface
     /**
      * Returns an array of items for a page.
      *
-     * @param  int $offset           Page offset
-     * @param  int $itemCountPerPage Number of items per page
-     * @return array
+     * @inheritDoc
      */
     public function getItems($offset, $itemCountPerPage)
     {

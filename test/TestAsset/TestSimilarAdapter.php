@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace LaminasTest\Paginator\TestAsset;
 
-use Laminas\Paginator\Adapter\AdapterInterface;
-
-class TestSimilarAdapter extends TestAdapter implements AdapterInterface
+/**
+ * @template-covariant TKey
+ * @template-covariant TValue
+ * @extends TestAdapter<TKey, TValue>
+ */
+class TestSimilarAdapter extends TestAdapter
 {
     /**
      * @return string

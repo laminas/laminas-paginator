@@ -6,12 +6,9 @@ namespace Laminas\Paginator;
 
 use Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface;
 use Laminas\ServiceManager\AbstractPluginManager;
+use Laminas\ServiceManager\ConfigInterface;
 use Laminas\ServiceManager\Exception\InvalidServiceException;
 use Laminas\ServiceManager\Factory\InvokableFactory;
-use Zend\Paginator\ScrollingStyle\All;
-use Zend\Paginator\ScrollingStyle\Elastic;
-use Zend\Paginator\ScrollingStyle\Jumping;
-use Zend\Paginator\ScrollingStyle\Sliding;
 
 use function gettype;
 use function is_object;
@@ -25,13 +22,14 @@ use function sprintf;
  * of default adapters available.
  *
  * @extends AbstractPluginManager<ScrollingStyleInterface>
+ * @psalm-import-type FactoriesConfigurationType from ConfigInterface
  */
 class ScrollingStylePluginManager extends AbstractPluginManager
 {
     /**
      * Default set of adapters
      *
-     * @var array
+     * @var array<array-key, string>
      */
     protected $aliases = [
         'all'     => ScrollingStyle\All::class,
@@ -44,10 +42,10 @@ class ScrollingStylePluginManager extends AbstractPluginManager
         'Sliding' => ScrollingStyle\Sliding::class,
 
         // Legacy Zend Framework aliases
-        All::class     => ScrollingStyle\All::class,
-        Elastic::class => ScrollingStyle\Elastic::class,
-        Jumping::class => ScrollingStyle\Jumping::class,
-        Sliding::class => ScrollingStyle\Sliding::class,
+        'Zend\Paginator\ScrollingStyle\All'     => ScrollingStyle\All::class,
+        'Zend\Paginator\ScrollingStyle\Elastic' => ScrollingStyle\Elastic::class,
+        'Zend\Paginator\ScrollingStyle\Jumping' => ScrollingStyle\Jumping::class,
+        'Zend\Paginator\ScrollingStyle\Sliding' => ScrollingStyle\Sliding::class,
 
         // v2 normalized FQCNs
         'zendpaginatorscrollingstyleall'     => ScrollingStyle\All::class,
@@ -59,7 +57,7 @@ class ScrollingStylePluginManager extends AbstractPluginManager
     /**
      * Default set of adapter factories
      *
-     * @var array
+     * @var FactoriesConfigurationType
      */
     protected $factories = [
         ScrollingStyle\All::class     => InvokableFactory::class,
@@ -74,7 +72,7 @@ class ScrollingStylePluginManager extends AbstractPluginManager
         'laminaspaginatorscrollingstylesliding' => InvokableFactory::class,
     ];
 
-    /** @var string */
+    /** @inheritDoc */
     protected $instanceOf = ScrollingStyleInterface::class;
 
     /**

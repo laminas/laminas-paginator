@@ -8,27 +8,33 @@ use ReturnTypeWillChange;
 
 use function call_user_func;
 
+/**
+ * @template-covariant TKey of int
+ * @template-covariant TValue
+ * @implements AdapterInterface<TKey, TValue>
+ */
 class Callback implements AdapterInterface
 {
     /**
      * Callback to be executed to retrieve the items for a page.
      *
-     * @var CallbackHandler
+     * @var callable(int, int): iterable<TKey, TValue>
      */
     protected $itemsCallback;
 
     /**
      * Callback to be executed to retrieve the total number of items.
      *
-     * @var CallbackHandler
+     * @var callable(): int
      */
     protected $countCallback;
 
     /**
      * Constructs instance.
      *
-     * @param callable $itemsCallback Callback to be executed to retrieve the items for a page.
-     * @param callable $countCallback Callback to be executed to retrieve the total number of items.
+     * @param callable(int, int): iterable<TKey, TValue> $itemsCallback Callback to be executed to retrieve
+     *                                                            the items for a page.
+     * @param callable(): int $countCallback Callback to be executed to retrieve the total number of items.
      */
     public function __construct(callable $itemsCallback, callable $countCallback)
     {
@@ -41,9 +47,7 @@ class Callback implements AdapterInterface
      *
      * Executes the {$itemsCallback}.
      *
-     * @param  int $offset Page offset
-     * @param  int $itemCountPerPage Number of items per page
-     * @return array
+     * @inheritDoc
      */
     public function getItems($offset, $itemCountPerPage)
     {

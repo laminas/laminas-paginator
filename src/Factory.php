@@ -14,7 +14,7 @@ abstract class Factory
     /**
      * Adapter plugin manager
      *
-     * @var AdapterPluginManager
+     * @var AdapterPluginManager|null
      */
     protected static $adapters;
 
