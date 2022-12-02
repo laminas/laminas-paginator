@@ -90,6 +90,7 @@ class PaginatorIterator implements OuterIterator
         $innerKey = $this->getInnerIterator()->key();
         assert(is_int($innerKey));
         ++$innerKey; //Laminas\Paginator\Paginator normalizes 0 to 1
+        assert(is_int($innerKey));
 
         $this->paginator->getCurrentPageNumber();
         return ($this->paginator->getAbsoluteItemNumber(
