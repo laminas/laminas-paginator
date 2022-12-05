@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.0.0@4e177bf0c9f03c17d2fbfd83b7cc9c47605274d8">
+<files psalm-version="5.1.0@4defa177c89397c5e14737a80fe4896584130674">
   <file src="src/Adapter/Service/CallbackFactory.php">
     <DeprecatedInterface occurrences="1">
       <code>CallbackFactory</code>
@@ -66,15 +66,6 @@
     <MissingConstructor occurrences="1">
       <code>$creationOptions</code>
     </MissingConstructor>
-    <MissingParamType occurrences="3">
-      <code>$name</code>
-      <code>$name</code>
-      <code>$requestedName</code>
-    </MissingParamType>
-    <MixedArgumentTypeCoercion occurrences="2">
-      <code>$config</code>
-      <code>$options ?: []</code>
-    </MixedArgumentTypeCoercion>
     <ParamNameMismatch occurrences="1">
       <code>$container</code>
     </ParamNameMismatch>
@@ -215,17 +206,6 @@
     <DeprecatedInterface occurrences="1">
       <code>ScrollingStylePluginManagerFactory</code>
     </DeprecatedInterface>
-    <MissingConstructor occurrences="1">
-      <code>$creationOptions</code>
-    </MissingConstructor>
-    <MissingParamType occurrences="3">
-      <code>$name</code>
-      <code>$name</code>
-      <code>$requestedName</code>
-    </MissingParamType>
-    <MixedArgumentTypeCoercion occurrences="1">
-      <code>$options ?: []</code>
-    </MixedArgumentTypeCoercion>
     <ParamNameMismatch occurrences="1">
       <code>$container</code>
     </ParamNameMismatch>
