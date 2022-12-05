@@ -2,37 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://docs.laminas.dev/laminas-paginator/</loc>
-         <lastmod>2022-12-02</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-paginator/advanced/</loc>
-         <lastmod>2022-12-02</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-paginator/configuration/</loc>
-         <lastmod>2022-12-02</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-paginator/installation/</loc>
-         <lastmod>2022-12-02</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-paginator/intro/</loc>
-         <lastmod>2022-12-02</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-paginator/usage/</loc>
-         <lastmod>2022-12-02</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-paginator/application-integration/stand-alone/</loc>
-         <lastmod>2022-12-02</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
