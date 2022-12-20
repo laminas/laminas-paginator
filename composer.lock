@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5a3685569cc14fed3660a02fe238e8ce",
+    "content-hash": "03a668b1c084dc1a870a14843a7c57b9",
     "packages": [
         {
             "name": "laminas/laminas-stdlib",
@@ -1291,16 +1291,16 @@
         },
         {
             "name": "laminas/laminas-filter",
-            "version": "2.29.0",
+            "version": "2.30.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-filter.git",
-                "reference": "166e28123d19ebab7edddb9671a8376143c543c7"
+                "reference": "97e3ce0fa868567aa433ed34d6f57ee703d70d3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-filter/zipball/166e28123d19ebab7edddb9671a8376143c543c7",
-                "reference": "166e28123d19ebab7edddb9671a8376143c543c7",
+                "url": "https://api.github.com/repos/laminas/laminas-filter/zipball/97e3ce0fa868567aa433ed34d6f57ee703d70d3e",
+                "reference": "97e3ce0fa868567aa433ed34d6f57ee703d70d3e",
                 "shasum": ""
             },
             "require": {
@@ -1318,10 +1318,10 @@
                 "laminas/laminas-crypt": "^3.9",
                 "laminas/laminas-uri": "^2.10",
                 "pear/archive_tar": "^1.4.14",
-                "phpunit/phpunit": "^9.5.26",
-                "psalm/plugin-phpunit": "^0.18.3",
+                "phpunit/phpunit": "^9.5.27",
+                "psalm/plugin-phpunit": "^0.18.4",
                 "psr/http-factory": "^1.0.1",
-                "vimeo/psalm": "^5.0"
+                "vimeo/psalm": "^5.3"
             },
             "suggest": {
                 "laminas/laminas-crypt": "Laminas\\Crypt component, for encryption filters",
@@ -1365,7 +1365,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-12-05T13:53:32+00:00"
+            "time": "2022-12-19T17:34:24+00:00"
         },
         {
             "name": "laminas/laminas-json",
@@ -4881,16 +4881,16 @@
         },
         {
             "name": "vimeo/psalm",
-            "version": "5.3.0",
+            "version": "5.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vimeo/psalm.git",
-                "reference": "b6faa3e96b8eb50ec71384c53799b8a107236bb6"
+                "reference": "62db5d4f6a7ae0a20f7cc5a4952d730272fc0863"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vimeo/psalm/zipball/b6faa3e96b8eb50ec71384c53799b8a107236bb6",
-                "reference": "b6faa3e96b8eb50ec71384c53799b8a107236bb6",
+                "url": "https://api.github.com/repos/vimeo/psalm/zipball/62db5d4f6a7ae0a20f7cc5a4952d730272fc0863",
+                "reference": "62db5d4f6a7ae0a20f7cc5a4952d730272fc0863",
                 "shasum": ""
             },
             "require": {
@@ -4980,9 +4980,9 @@
             ],
             "support": {
                 "issues": "https://github.com/vimeo/psalm/issues",
-                "source": "https://github.com/vimeo/psalm/tree/5.3.0"
+                "source": "https://github.com/vimeo/psalm/tree/5.4.0"
             },
-            "time": "2022-12-18T18:15:37+00:00"
+            "time": "2022-12-19T21:31:12+00:00"
         },
         {
             "name": "webimpress/coding-standard",
