@@ -82,6 +82,7 @@ class SerializableLimitIterator extends LimitIterator implements Serializable, A
         $this->offset = (int) $data['offset'];
         $this->count  = (int) $data['count'];
         parent::__construct($data['it'], $this->offset, $this->count);
+        $this->seek($data['pos'] + $data['offset']);
     }
 
     /**
