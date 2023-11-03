@@ -230,6 +230,9 @@
     <UndefinedThisPropertyFetch occurrences="1">
       <code>$this-&gt;__serialize</code>
     </UndefinedThisPropertyFetch>
+    <DirectConstructorCall>
+        <code>$this->__construct($data['it'], $data['offset'], $data['count'])</code>
+    </DirectConstructorCall>
   </file>
   <file src="test/Adapter/IteratorTest.php">
     <ArgumentTypeCoercion occurrences="2">
@@ -259,6 +262,9 @@
     <MoreSpecificReturnType occurrences="1">
       <code>iterable&lt;string, array{0: string, 1: string}&gt;</code>
     </MoreSpecificReturnType>
+    <MixedReturnTypeCoercion>
+        <code>iterable&lt;string, array{0: string, 1: string}&gt;</code>
+    </MixedReturnTypeCoercion>
   </file>
   <file src="test/AdapterPluginManagerTest.php">
     <MixedAssignment occurrences="1">
