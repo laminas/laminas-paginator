@@ -220,9 +220,11 @@
     </ParamNameMismatch>
   </file>
   <file src="src/ScrollingStylePluginManager.php">
-      <NonInvariantDocblockPropertyType occurrences="1">
-          <code>$factories</code>
-      </NonInvariantDocblockPropertyType>
+    <NonInvariantDocblockPropertyType occurrences="4">
+      <code>$aliases</code>
+      <code>$factories</code>
+      <code>$instanceOf</code>
+    </NonInvariantDocblockPropertyType>
   </file>
   <file src="src/SerializableLimitIterator.php">
     <MixedArgument occurrences="5">
