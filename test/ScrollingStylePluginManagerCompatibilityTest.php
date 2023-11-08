@@ -18,7 +18,7 @@ class ScrollingStylePluginManagerCompatibilityTest extends TestCase
     /**
      * @return ScrollingStylePluginManager
      */
-    protected function getPluginManager()
+    protected static function getPluginManager()
     {
         return new ScrollingStylePluginManager(new ServiceManager());
     }

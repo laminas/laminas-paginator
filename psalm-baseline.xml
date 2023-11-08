@@ -63,6 +63,9 @@
     <DeprecatedInterface occurrences="1">
       <code>AdapterPluginManagerFactory</code>
     </DeprecatedInterface>
+    <DeprecatedClass occurrences="1">
+        <code>new Config($config)</code>
+    </DeprecatedClass>
     <MissingConstructor occurrences="1">
       <code>$creationOptions</code>
     </MissingConstructor>
@@ -216,6 +219,13 @@
       <code>$container</code>
     </ParamNameMismatch>
   </file>
+  <file src="src/ScrollingStylePluginManager.php">
+    <NonInvariantDocblockPropertyType occurrences="4">
+      <code>$aliases</code>
+      <code>$factories</code>
+      <code>$instanceOf</code>
+    </NonInvariantDocblockPropertyType>
+  </file>
   <file src="src/SerializableLimitIterator.php">
     <MixedArgument occurrences="5">
       <code>$data['count']</code>
@@ -230,6 +240,13 @@
     <UndefinedThisPropertyFetch occurrences="1">
       <code>$this-&gt;__serialize</code>
     </UndefinedThisPropertyFetch>
+    <DirectConstructorCall>
+        <code>$this->__construct($data['it'], $data['offset'], $data['count'])</code>
+    </DirectConstructorCall>
+    <MethodSignatureMustProvideReturnType occurrences="2">
+        <code>serialize</code>
+        <code>unserialize</code>
+    </MethodSignatureMustProvideReturnType>
   </file>
   <file src="test/Adapter/IteratorTest.php">
     <ArgumentTypeCoercion occurrences="2">
@@ -259,6 +276,12 @@
     <MoreSpecificReturnType occurrences="1">
       <code>iterable&lt;string, array{0: string, 1: string}&gt;</code>
     </MoreSpecificReturnType>
+    <MixedReturnTypeCoercion>
+        <code>iterable&lt;string, array{0: string, 1: string}&gt;</code>
+    </MixedReturnTypeCoercion>
+    <UnusedMethodCall occurrences="1">
+        <code>setAccessible</code>
+    </UnusedMethodCall>
   </file>
   <file src="test/AdapterPluginManagerTest.php">
     <MixedAssignment occurrences="1">
@@ -310,6 +333,9 @@
     <UndefinedInterfaceMethod occurrences="1">
       <code>addPath</code>
     </UndefinedInterfaceMethod>
+    <UnusedMethodCall occurrences="13">
+        <code>setAccessible</code>
+    </UnusedMethodCall>
   </file>
   <file src="test/TestAsset/TestAdapter.php">
     <ParamNameMismatch occurrences="1">
