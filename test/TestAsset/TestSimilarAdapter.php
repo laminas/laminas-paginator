@@ -11,11 +11,4 @@ namespace LaminasTest\Paginator\TestAsset;
  */
 class TestSimilarAdapter extends TestAdapter
 {
-    /**
-     * @return string
-     */
-    public function differentFunction()
-    {
-        return "test";
-    }
 }

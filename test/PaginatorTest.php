@@ -7,7 +7,6 @@ namespace LaminasTest\Paginator;
 use ArrayAccess;
 use ArrayIterator;
 use ArrayObject;
-use DirectoryIterator;
 use Laminas\Cache\Storage\Adapter\Memory as MemoryCache;
 use Laminas\Cache\Storage\StorageInterface;
 use Laminas\Config;
@@ -34,17 +33,8 @@ use Traversable;
 use function array_combine;
 use function assert;
 use function count;
-use function in_array;
 use function is_array;
-use function is_dir;
-use function mkdir;
 use function range;
-use function rmdir;
-use function rtrim;
-use function sys_get_temp_dir;
-use function unlink;
-
-use const DIRECTORY_SEPARATOR;
 
 /**
  * @group      Laminas_Paginator
@@ -62,8 +52,6 @@ class PaginatorTest extends TestCase
 
     private StorageInterface $cache;
 
-    private string|null $cacheDir;
-
     /** @var array */
     protected $config;
 
@@ -78,38 +66,6 @@ class PaginatorTest extends TestCase
         Paginator\Paginator::setCache($this->cache);
 
         $this->_restorePaginatorDefaults();
-    }
-
-    // @codingStandardsIgnoreStart
-    protected function _getTmpDir(): string
-    {
-        // @codingStandardsIgnoreEnd
-        $tmpDir = rtrim(sys_get_temp_dir(), '/\\') . DIRECTORY_SEPARATOR . 'laminas_paginator';
-        if (! is_dir($tmpDir)) {
-            mkdir($tmpDir);
-        }
-        $this->cacheDir = $tmpDir;
-
-        return $tmpDir;
-    }
-
-    // @codingStandardsIgnoreStart
-    protected function _rmDirRecursive(string $path): void
-    {
-        // @codingStandardsIgnoreEnd
-        $dir = new DirectoryIterator($path);
-        foreach ($dir as $file) {
-            if (! $file->isDir()) {
-                unlink($file->getPathname());
-            } elseif (! in_array($file->getFilename(), ['.', '..'])) {
-                $this->_rmDirRecursive($file->getPathname());
-            }
-        }
-        unset($file, $dir); // required on windows to remove file handle
-        if (! rmdir($path)) {
-            throw new Exception\RuntimeException('Unable to remove temporary directory ' . $path
-                                . '; perhaps it has a nested structure?');
-        }
     }
 
     // @codingStandardsIgnoreStart
