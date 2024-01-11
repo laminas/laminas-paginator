@@ -13,7 +13,7 @@ use Psr\Container\ContainerInterface;
 use function range;
 
 /**
- * @covers  Laminas\Paginator\AdapterPluginManager<extended>
+ * @covers \Laminas\Paginator\AdapterPluginManager
  */
 class AdapterPluginManagerTest extends TestCase
 {
@@ -36,7 +36,7 @@ class AdapterPluginManagerTest extends TestCase
      *   2: class-string
      * }>
      */
-    public function pluginProvider(): iterable
+    public static function pluginProvider(): iterable
     {
         yield 'array-adapter'    => ['array', [1, 2, 3], Adapter\ArrayAdapter::class];
         yield 'iterator-adapter' => ['iterator', [new ArrayIterator(range(1, 101))], Adapter\Iterator::class];

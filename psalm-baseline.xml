@@ -1,130 +1,165 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.3.0@b6faa3e96b8eb50ec71384c53799b8a107236bb6">
+<files psalm-version="5.19.0@06b71be009a6bd6d81b9811855d6629b9fe90e1b">
+  <file src="src/Adapter/Exception/MissingRowCountColumnException.php">
+    <PossiblyUnusedMethod>
+      <code>forColumn</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Adapter/Exception/RuntimeException.php">
+    <UnusedClass>
+      <code>RuntimeException</code>
+    </UnusedClass>
+  </file>
+  <file src="src/Adapter/Exception/UnexpectedValueException.php">
+    <UnusedClass>
+      <code>UnexpectedValueException</code>
+    </UnusedClass>
+  </file>
   <file src="src/Adapter/Service/CallbackFactory.php">
-    <DeprecatedInterface occurrences="1">
+    <DeprecatedInterface>
       <code>CallbackFactory</code>
     </DeprecatedInterface>
-    <MissingParamType occurrences="1">
+    <MissingParamType>
       <code>$requestedName</code>
     </MissingParamType>
-    <MixedArgument occurrences="2">
+    <MixedArgument>
       <code>$countCallback</code>
       <code>$itemsCallback</code>
     </MixedArgument>
-    <MixedAssignment occurrences="2">
+    <MixedAssignment>
       <code>$countCallback</code>
       <code>$itemsCallback</code>
     </MixedAssignment>
-    <ParamNameMismatch occurrences="1">
+    <ParamNameMismatch>
       <code>$container</code>
     </ParamNameMismatch>
+    <PossiblyUnusedMethod>
+      <code>setCreationOptions</code>
+    </PossiblyUnusedMethod>
   </file>
   <file src="src/Adapter/Service/IteratorFactory.php">
-    <DeprecatedInterface occurrences="1">
+    <DeprecatedInterface>
       <code>IteratorFactory</code>
     </DeprecatedInterface>
-    <LessSpecificReturnStatement occurrences="1">
+    <LessSpecificReturnStatement>
       <code>new $requestedName($iterator)</code>
     </LessSpecificReturnStatement>
-    <MissingParamType occurrences="1">
+    <MissingParamType>
       <code>$requestedName</code>
     </MissingParamType>
-    <MixedArgument occurrences="2">
+    <MixedArgument>
       <code>IteratorAdapter::class</code>
       <code>IteratorAdapter::class</code>
     </MixedArgument>
-    <MixedMethodCall occurrences="1">
+    <MixedMethodCall>
       <code>new $requestedName($iterator)</code>
     </MixedMethodCall>
-    <MoreSpecificReturnType occurrences="1">
+    <MoreSpecificReturnType>
       <code>IteratorAdapter</code>
     </MoreSpecificReturnType>
-    <ParamNameMismatch occurrences="1">
+    <ParamNameMismatch>
       <code>$container</code>
     </ParamNameMismatch>
-    <UndefinedClass occurrences="3">
+    <PossiblyUnusedMethod>
+      <code>setCreationOptions</code>
+    </PossiblyUnusedMethod>
+    <UndefinedClass>
       <code>IteratorAdapter</code>
       <code>IteratorAdapter</code>
       <code>IteratorAdapter</code>
     </UndefinedClass>
-    <UndefinedDocblockClass occurrences="2">
+    <UndefinedDocblockClass>
       <code>IteratorAdapter</code>
       <code>IteratorAdapter</code>
     </UndefinedDocblockClass>
   </file>
   <file src="src/AdapterPluginManager.php">
-    <NonInvariantDocblockPropertyType occurrences="3">
+    <NonInvariantDocblockPropertyType>
       <code>$aliases</code>
       <code>$factories</code>
       <code>$instanceOf</code>
     </NonInvariantDocblockPropertyType>
+    <PossiblyUnusedMethod>
+      <code>validatePlugin</code>
+    </PossiblyUnusedMethod>
   </file>
   <file src="src/AdapterPluginManagerFactory.php">
-    <DeprecatedInterface occurrences="1">
+    <DeprecatedClass>
+      <code>new Config($config)</code>
+    </DeprecatedClass>
+    <DeprecatedInterface>
       <code>AdapterPluginManagerFactory</code>
     </DeprecatedInterface>
-    <DeprecatedClass occurrences="1">
-        <code>new Config($config)</code>
-    </DeprecatedClass>
-    <MissingConstructor occurrences="1">
+    <MissingConstructor>
       <code>$creationOptions</code>
     </MissingConstructor>
-    <MoreSpecificImplementedParamType occurrences="1">
+    <MoreSpecificImplementedParamType>
       <code>$options</code>
     </MoreSpecificImplementedParamType>
-    <ParamNameMismatch occurrences="1">
+    <ParamNameMismatch>
       <code>$container</code>
     </ParamNameMismatch>
   </file>
   <file src="src/ConfigProvider.php">
-    <MixedArrayOffset occurrences="1"/>
-    <UndefinedClass occurrences="2">
+    <MixedArrayOffset>
+      <code><![CDATA[[
+                \Zend\Paginator\AdapterPluginManager::class        => AdapterPluginManager::class,
+                \Zend\Paginator\ScrollingStylePluginManager::class => ScrollingStylePluginManager::class,
+            ]]]></code>
+    </MixedArrayOffset>
+    <UndefinedClass>
       <code>\Zend\Paginator\AdapterPluginManager</code>
       <code>\Zend\Paginator\ScrollingStylePluginManager</code>
     </UndefinedClass>
   </file>
   <file src="src/Factory.php">
-    <DocblockTypeContradiction occurrences="1">
+    <DocblockTypeContradiction>
       <code>is_array($items)</code>
     </DocblockTypeContradiction>
-    <MixedArgument occurrences="4">
+    <MixedArgument>
       <code>$adapter</code>
       <code>$adapter</code>
       <code>$items</code>
       <code>$items</code>
     </MixedArgument>
-    <MixedAssignment occurrences="3">
+    <MixedAssignment>
       <code>$adapter</code>
       <code>$adapter</code>
       <code>$items</code>
     </MixedAssignment>
+    <PossiblyUnusedMethod>
+      <code>setAdapterPluginManager</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Module.php">
+    <UnusedClass>
+      <code>Module</code>
+    </UnusedClass>
   </file>
   <file src="src/Paginator.php">
-    <ArgumentTypeCoercion occurrences="2">
-      <code>$pages-&gt;pagesInRange</code>
-      <code>$pages-&gt;pagesInRange</code>
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$pages->pagesInRange]]></code>
+      <code><![CDATA[$pages->pagesInRange]]></code>
     </ArgumentTypeCoercion>
-    <DocblockTypeContradiction occurrences="4">
-      <code>$this-&gt;pageCount === null</code>
+    <DocblockTypeContradiction>
+      <code><![CDATA[$this->pageCount === null]]></code>
       <code>gettype($scrollingAdapters)</code>
       <code>is_array($config)</code>
       <code>static::$scrollingStyles === null</code>
     </DocblockTypeContradiction>
-    <InvalidReturnStatement occurrences="1">
-      <code>$this-&gt;getCurrentItems()</code>
+    <InvalidReturnStatement>
+      <code><![CDATA[$this->getCurrentItems()]]></code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>Traversable&lt;TKey, TValue&gt;</code>
+    <InvalidReturnType>
+      <code><![CDATA[Traversable<TKey, TValue>]]></code>
     </InvalidReturnType>
-    <MixedArgument occurrences="6">
+    <MixedArgument>
       <code>$adapters</code>
-      <code>$key</code>
-      <code>$key</code>
       <code>$key</code>
       <code>$key</code>
       <code>$scrollingStyle</code>
     </MixedArgument>
-    <MixedAssignment occurrences="10">
+    <MixedAssignment>
       <code>$adapterToSerialize</code>
       <code>$adapters</code>
       <code>$cacheIterator</code>
@@ -136,36 +171,39 @@
       <code>$value</code>
       <code>$value</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="3">
+    <MixedInferredReturnType>
       <code>ScrollingStyleInterface</code>
       <code>TValue</code>
       <code>string</code>
     </MixedInferredReturnType>
-    <MixedMethodCall occurrences="3">
+    <MixedMethodCall>
       <code>new $scrollingAdapters(new ServiceManager())</code>
       <code>setMode</code>
       <code>setMode</code>
     </MixedMethodCall>
-    <MixedReturnStatement occurrences="4">
+    <MixedReturnStatement>
       <code>$page[$itemNumber - 1]</code>
-      <code>$view-&gt;paginationControl($this)</code>
-      <code>static::getScrollingStylePluginManager()-&gt;get($scrollingStyle)</code>
-      <code>static::getScrollingStylePluginManager()-&gt;get($scrollingStyle)</code>
+      <code><![CDATA[$view->paginationControl($this)]]></code>
+      <code><![CDATA[static::getScrollingStylePluginManager()->get($scrollingStyle)]]></code>
+      <code><![CDATA[static::getScrollingStylePluginManager()->get($scrollingStyle)]]></code>
     </MixedReturnStatement>
-    <PossiblyInvalidArrayOffset occurrences="1">
+    <PossiblyInvalidArrayOffset>
       <code>$page[$itemNumber - 1]</code>
     </PossiblyInvalidArrayOffset>
-    <PossiblyInvalidPropertyAssignmentValue occurrences="1">
+    <PossiblyInvalidPropertyAssignmentValue>
       <code>$adapter</code>
     </PossiblyInvalidPropertyAssignmentValue>
-    <PossiblyNullReference occurrences="1">
+    <PossiblyNullReference>
       <code>paginationControl</code>
     </PossiblyNullReference>
-    <PropertyNotSetInConstructor occurrences="2">
+    <PossiblyUnusedProperty>
+      <code>$adapters</code>
+    </PossiblyUnusedProperty>
+    <PropertyNotSetInConstructor>
       <code>$itemCountPerPage</code>
       <code>$pageCount</code>
     </PropertyNotSetInConstructor>
-    <RedundantCastGivenDocblockType occurrences="7">
+    <RedundantCastGivenDocblockType>
       <code>(bool) $enable</code>
       <code>(int) $count</code>
       <code>(int) $itemCountPerPage</code>
@@ -174,141 +212,137 @@
       <code>(int) $pageNumber</code>
       <code>(int) $pageRange</code>
     </RedundantCastGivenDocblockType>
-    <RedundantConditionGivenDocblockType occurrences="2">
+    <RedundantConditionGivenDocblockType>
       <code>is_object($scrollingAdapters)</code>
       <code>static::$cache !== null</code>
     </RedundantConditionGivenDocblockType>
-    <TypeDoesNotContainType occurrences="1">
+    <TypeDoesNotContainType>
       <code>$currentItems instanceof AbstractResultSet</code>
     </TypeDoesNotContainType>
-    <UndefinedInterfaceMethod occurrences="3">
+    <UndefinedInterfaceMethod>
       <code>getIterator</code>
       <code>getIterator</code>
       <code>paginationControl</code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="src/PaginatorIterator.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>iterable&lt;TKey, TValue&gt;</code>
+    <ImplementedReturnTypeMismatch>
+      <code><![CDATA[iterable<TKey, TValue>]]></code>
     </ImplementedReturnTypeMismatch>
-    <InvalidMethodCall occurrences="4">
+    <InvalidMethodCall>
       <code>current</code>
       <code>key</code>
       <code>next</code>
       <code>valid</code>
     </InvalidMethodCall>
-    <InvalidReturnStatement occurrences="1"/>
-    <InvalidReturnType occurrences="1">
+    <InvalidReturnStatement>
+      <code><![CDATA[($this->paginator->getAbsoluteItemNumber(
+            $innerKey,
+            $this->paginator->getCurrentPageNumber()
+        )) - 1]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
       <code>TKey|null</code>
     </InvalidReturnType>
-    <MixedInferredReturnType occurrences="1">
+    <MixedInferredReturnType>
       <code>TValue</code>
     </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="1">
-      <code>$this-&gt;getInnerIterator()-&gt;current()</code>
+    <MixedReturnStatement>
+      <code><![CDATA[$this->getInnerIterator()->current()]]></code>
     </MixedReturnStatement>
   </file>
+  <file src="src/ScrollingStylePluginManager.php">
+    <NonInvariantDocblockPropertyType>
+      <code>$factories</code>
+      <code>$factories</code>
+    </NonInvariantDocblockPropertyType>
+    <PossiblyUnusedMethod>
+      <code>validatePlugin</code>
+    </PossiblyUnusedMethod>
+  </file>
   <file src="src/ScrollingStylePluginManagerFactory.php">
-    <DeprecatedInterface occurrences="1">
+    <DeprecatedInterface>
       <code>ScrollingStylePluginManagerFactory</code>
     </DeprecatedInterface>
-    <MoreSpecificImplementedParamType occurrences="1">
+    <MoreSpecificImplementedParamType>
       <code>$options</code>
     </MoreSpecificImplementedParamType>
-    <ParamNameMismatch occurrences="1">
+    <ParamNameMismatch>
       <code>$container</code>
     </ParamNameMismatch>
   </file>
-  <file src="src/ScrollingStylePluginManager.php">
-    <NonInvariantDocblockPropertyType occurrences="4">
-      <code>$aliases</code>
-      <code>$factories</code>
-      <code>$instanceOf</code>
-    </NonInvariantDocblockPropertyType>
-  </file>
   <file src="src/SerializableLimitIterator.php">
-    <MixedArgument occurrences="5">
-      <code>$data['count']</code>
-      <code>$data['it']</code>
-      <code>$data['offset']</code>
-      <code>$data['pos'] + $data['offset']</code>
+    <DirectConstructorCall>
+      <code><![CDATA[$this->__construct($data['it'], $data['offset'], $data['count'])]]></code>
+    </DirectConstructorCall>
+    <MethodSignatureMustProvideReturnType>
+      <code>serialize</code>
+      <code>unserialize</code>
+    </MethodSignatureMustProvideReturnType>
+    <MixedArgument>
+      <code><![CDATA[$data['count']]]></code>
+      <code><![CDATA[$data['it']]]></code>
+      <code><![CDATA[$data['offset']]]></code>
+      <code><![CDATA[$data['pos'] + $data['offset']]]></code>
       <code>unserialize($data)</code>
     </MixedArgument>
-    <MixedOperand occurrences="1">
-      <code>$data['pos']</code>
+    <MixedOperand>
+      <code><![CDATA[$data['pos']]]></code>
     </MixedOperand>
-    <UndefinedThisPropertyFetch occurrences="1">
-      <code>$this-&gt;__serialize</code>
+    <UndefinedThisPropertyFetch>
+      <code><![CDATA[$this->__serialize]]></code>
     </UndefinedThisPropertyFetch>
-    <DirectConstructorCall>
-        <code>$this->__construct($data['it'], $data['offset'], $data['count'])</code>
-    </DirectConstructorCall>
-    <MethodSignatureMustProvideReturnType occurrences="2">
-        <code>serialize</code>
-        <code>unserialize</code>
-    </MethodSignatureMustProvideReturnType>
   </file>
   <file src="test/Adapter/IteratorTest.php">
-    <ArgumentTypeCoercion occurrences="2">
-      <code>'LimitIterator'</code>
-      <code>'LimitIterator'</code>
+    <ArgumentTypeCoercion>
+      <code><![CDATA['LimitIterator']]></code>
+      <code><![CDATA['LimitIterator']]></code>
     </ArgumentTypeCoercion>
-    <MixedAssignment occurrences="3">
+    <MixedAssignment>
       <code>$item</code>
       <code>$item</code>
       <code>$items</code>
     </MixedAssignment>
-    <MixedMethodCall occurrences="1">
+    <MixedMethodCall>
       <code>getInnerIterator</code>
     </MixedMethodCall>
   </file>
   <file src="test/AdapterPluginManagerCompatibilityTest.php">
-    <MixedArgument occurrences="3">
-      <code>$target</code>
-      <code>$target</code>
+    <MixedArgument>
       <code>$target</code>
     </MixedArgument>
-    <MixedAssignment occurrences="3">
+    <MixedAssignment>
       <code>$alias</code>
       <code>$aliases</code>
       <code>$target</code>
     </MixedAssignment>
-    <MoreSpecificReturnType occurrences="1">
-      <code>iterable&lt;string, array{0: string, 1: string}&gt;</code>
-    </MoreSpecificReturnType>
     <MixedReturnTypeCoercion>
-        <code>iterable&lt;string, array{0: string, 1: string}&gt;</code>
+      <code><![CDATA[iterable<string, array{0: string, 1: string}>]]></code>
     </MixedReturnTypeCoercion>
-    <UnusedMethodCall occurrences="1">
-        <code>setAccessible</code>
-    </UnusedMethodCall>
   </file>
   <file src="test/AdapterPluginManagerTest.php">
-    <MixedAssignment occurrences="1">
+    <MixedAssignment>
       <code>$plugin</code>
     </MixedAssignment>
   </file>
   <file src="test/PaginatorTest.php">
-    <ArgumentTypeCoercion occurrences="2">
-      <code>'ArrayObject'</code>
-      <code>'ArrayObject'</code>
+    <ArgumentTypeCoercion>
+      <code><![CDATA['ArrayObject']]></code>
+      <code><![CDATA['ArrayObject']]></code>
     </ArgumentTypeCoercion>
-    <DeprecatedMethod occurrences="1">
-      <code>setMethods</code>
-    </DeprecatedMethod>
-    <InvalidArgument occurrences="2">
-      <code>'not array'</code>
+    <InvalidArgument>
+      <code><![CDATA['not array']]></code>
       <code>[]</code>
     </InvalidArgument>
-    <InvalidPropertyFetch occurrences="2">
-      <code>$this-&gt;config-&gt;default</code>
-      <code>$this-&gt;config-&gt;testing</code>
+    <InvalidPropertyFetch>
+      <code><![CDATA[$this->config->default]]></code>
+      <code><![CDATA[$this->config->testing]]></code>
     </InvalidPropertyFetch>
-    <MixedArgument occurrences="2">
-      <code>$this-&gt;config-&gt;default</code>
-      <code>$this-&gt;config-&gt;testing</code>
+    <MixedArgument>
+      <code><![CDATA[$this->config->default]]></code>
+      <code><![CDATA[$this->config->testing]]></code>
     </MixedArgument>
-    <MixedAssignment occurrences="7">
+    <MixedAssignment>
       <code>$firstOutputGetCacheInternalId</code>
       <code>$firstOutputGetCacheInternalId</code>
       <code>$outputGetCacheId</code>
@@ -317,29 +351,34 @@
       <code>$secondOutputGetCacheInternalId</code>
       <code>$secondOutputGetCacheInternalId</code>
     </MixedAssignment>
-    <MixedOperand occurrences="2">
+    <MixedOperand>
       <code>$outputGetCacheInternalId</code>
       <code>$outputGetCacheInternalId</code>
     </MixedOperand>
-    <NullArgument occurrences="1">
+    <NullArgument>
       <code>null</code>
     </NullArgument>
-    <PossiblyInvalidMethodCall occurrences="1">
+    <PossiblyInvalidMethodCall>
       <code>addPath</code>
     </PossiblyInvalidMethodCall>
-    <PossiblyInvalidPropertyAssignmentValue occurrences="1">
-      <code>Config\Factory::fromFile(__DIR__ . '/_files/config.xml', true)</code>
+    <PossiblyInvalidPropertyAssignmentValue>
+      <code><![CDATA[Config\Factory::fromFile(__DIR__ . '/_files/config.xml', true)]]></code>
     </PossiblyInvalidPropertyAssignmentValue>
-    <UndefinedInterfaceMethod occurrences="1">
+    <UndefinedInterfaceMethod>
       <code>addPath</code>
     </UndefinedInterfaceMethod>
-    <UnusedMethodCall occurrences="13">
-        <code>setAccessible</code>
-    </UnusedMethodCall>
   </file>
   <file src="test/TestAsset/TestAdapter.php">
-    <ParamNameMismatch occurrences="1">
+    <ParamNameMismatch>
       <code>$pageNumber</code>
     </ParamNameMismatch>
+    <PossiblyUnusedProperty>
+      <code>$property</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="test/TestAsset/TestArrayCopyAdapter.php">
+    <PossiblyUnusedMethod>
+      <code>getArrayCopy</code>
+    </PossiblyUnusedMethod>
   </file>
 </files>

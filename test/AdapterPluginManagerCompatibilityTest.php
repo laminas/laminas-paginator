@@ -47,12 +47,11 @@ class AdapterPluginManagerCompatibilityTest extends TestCase
      * @return iterable
      * @psalm-return iterable<string, array{0: string, 1: string}>
      */
-    public function aliasProvider()
+    public static function aliasProvider()
     {
-        $pluginManager = $this->getPluginManager();
+        $pluginManager = self::getPluginManager();
         $r             = new ReflectionProperty($pluginManager, 'aliases');
-        $r->setAccessible(true);
-        $aliases = $r->getValue($pluginManager);
+        $aliases       = $r->getValue($pluginManager);
 
         foreach ($aliases as $alias => $target) {
             // Skipping as these have required arguments

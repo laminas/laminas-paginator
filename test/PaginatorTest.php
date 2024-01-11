@@ -7,7 +7,6 @@ namespace LaminasTest\Paginator;
 use ArrayAccess;
 use ArrayIterator;
 use ArrayObject;
-use DirectoryIterator;
 use Laminas\Cache\Storage\Adapter\Memory as MemoryCache;
 use Laminas\Cache\Storage\StorageInterface;
 use Laminas\Config;
@@ -34,17 +33,8 @@ use Traversable;
 use function array_combine;
 use function assert;
 use function count;
-use function in_array;
 use function is_array;
-use function is_dir;
-use function mkdir;
 use function range;
-use function rmdir;
-use function rtrim;
-use function sys_get_temp_dir;
-use function unlink;
-
-use const DIRECTORY_SEPARATOR;
 
 /**
  * @group      Laminas_Paginator
@@ -62,8 +52,6 @@ class PaginatorTest extends TestCase
 
     private StorageInterface $cache;
 
-    private string|null $cacheDir;
-
     /** @var array */
     protected $config;
 
@@ -78,38 +66,6 @@ class PaginatorTest extends TestCase
         Paginator\Paginator::setCache($this->cache);
 
         $this->_restorePaginatorDefaults();
-    }
-
-    // @codingStandardsIgnoreStart
-    protected function _getTmpDir(): string
-    {
-        // @codingStandardsIgnoreEnd
-        $tmpDir = rtrim(sys_get_temp_dir(), '/\\') . DIRECTORY_SEPARATOR . 'laminas_paginator';
-        if (! is_dir($tmpDir)) {
-            mkdir($tmpDir);
-        }
-        $this->cacheDir = $tmpDir;
-
-        return $tmpDir;
-    }
-
-    // @codingStandardsIgnoreStart
-    protected function _rmDirRecursive(string $path): void
-    {
-        // @codingStandardsIgnoreEnd
-        $dir = new DirectoryIterator($path);
-        foreach ($dir as $file) {
-            if (! $file->isDir()) {
-                unlink($file->getPathname());
-            } elseif (! in_array($file->getFilename(), ['.', '..'])) {
-                $this->_rmDirRecursive($file->getPathname());
-            }
-        }
-        unset($file, $dir); // required on windows to remove file handle
-        if (! rmdir($path)) {
-            throw new Exception\RuntimeException('Unable to remove temporary directory ' . $path
-                                . '; perhaps it has a nested structure?');
-        }
     }
 
     // @codingStandardsIgnoreStart
@@ -157,15 +113,7 @@ class PaginatorTest extends TestCase
     {
         $count = 0;
 
-        $paginator = $this->getMockBuilder(Paginator\Paginator::class)
-            ->setConstructorArgs([new Adapter\ArrayAdapter([])])
-            ->setMethods(['_calculatePageCount'])
-            ->getMock();
-
-        $paginator->expects($this->once())
-            ->method('_calculatePageCount')
-            ->willReturn($count);
-
+        $paginator = new Paginator\Paginator(new Adapter\ArrayAdapter([]));
         $this->assertEquals($count, $paginator->count());
         $this->assertEquals($count, $paginator->count());
     }
@@ -814,7 +762,6 @@ class PaginatorTest extends TestCase
         $adapter    = new TestAsset\TestAdapter();
         $paginator  = new Paginator\Paginator($adapter);
         $reflection = new ReflectionMethod($paginator, '_loadScrollingStyle');
-        $reflection->setAccessible(true);
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
@@ -830,7 +777,6 @@ class PaginatorTest extends TestCase
         $adapter    = new TestAsset\TestAdapter();
         $paginator  = new Paginator\Paginator($adapter);
         $reflection = new ReflectionMethod($paginator, '_loadScrollingStyle');
-        $reflection->setAccessible(true);
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
@@ -845,12 +791,10 @@ class PaginatorTest extends TestCase
         $adapter              = new TestAsset\TestAdapter();
         $paginator            = new Paginator\Paginator($adapter);
         $reflectionGetCacheId = new ReflectionMethod($paginator, '_getCacheId');
-        $reflectionGetCacheId->setAccessible(true);
-        $outputGetCacheId = $reflectionGetCacheId->invoke($paginator, null);
+        $outputGetCacheId     = $reflectionGetCacheId->invoke($paginator, null);
 
         $reflectionGetCacheInternalId = new ReflectionMethod($paginator, '_getCacheInternalId');
-        $reflectionGetCacheInternalId->setAccessible(true);
-        $outputGetCacheInternalId = $reflectionGetCacheInternalId->invoke($paginator);
+        $outputGetCacheInternalId     = $reflectionGetCacheInternalId->invoke($paginator);
 
         $this->assertEquals($outputGetCacheId, 'Laminas_Paginator_1_' . $outputGetCacheInternalId);
 
@@ -858,8 +802,7 @@ class PaginatorTest extends TestCase
         $adapter                      = new TestAsset\TestAdapter();
         $paginator                    = new Paginator\Paginator($adapter);
         $reflectionGetCacheInternalId = new ReflectionMethod($paginator, '_getCacheInternalId');
-        $reflectionGetCacheInternalId->setAccessible(true);
-        $outputGetCacheInternalId = $reflectionGetCacheInternalId->invoke($paginator);
+        $outputGetCacheInternalId     = $reflectionGetCacheInternalId->invoke($paginator);
         $this->assertEquals($outputGetCacheId, 'Laminas_Paginator_1_' . $outputGetCacheInternalId);
     }
 
@@ -868,14 +811,12 @@ class PaginatorTest extends TestCase
         $adapter   = new TestAsset\TestAdapter([1, 2, 3, 4]);
         $paginator = new Paginator\Paginator($adapter);
 
-        $reflectionGetCacheInternalId = new ReflectionMethod($paginator, '_getCacheInternalId');
-        $reflectionGetCacheInternalId->setAccessible(true);
+        $reflectionGetCacheInternalId  = new ReflectionMethod($paginator, '_getCacheInternalId');
         $firstOutputGetCacheInternalId = $reflectionGetCacheInternalId->invoke($paginator);
 
-        $adapter                      = new TestAsset\TestAdapter([1, 2, 3, 4, 5, 6]);
-        $paginator                    = new Paginator\Paginator($adapter);
-        $reflectionGetCacheInternalId = new ReflectionMethod($paginator, '_getCacheInternalId');
-        $reflectionGetCacheInternalId->setAccessible(true);
+        $adapter                        = new TestAsset\TestAdapter([1, 2, 3, 4, 5, 6]);
+        $paginator                      = new Paginator\Paginator($adapter);
+        $reflectionGetCacheInternalId   = new ReflectionMethod($paginator, '_getCacheInternalId');
         $secondOutputGetCacheInternalId = $reflectionGetCacheInternalId->invoke($paginator);
         $this->assertNotEquals($firstOutputGetCacheInternalId, $secondOutputGetCacheInternalId);
     }
@@ -885,14 +826,12 @@ class PaginatorTest extends TestCase
         $adapter   = new TestAsset\TestAdapter([1, 2, 3, 4]);
         $paginator = new Paginator\Paginator($adapter);
 
-        $reflectionGetCacheInternalId = new ReflectionMethod($paginator, '_getCacheInternalId');
-        $reflectionGetCacheInternalId->setAccessible(true);
+        $reflectionGetCacheInternalId  = new ReflectionMethod($paginator, '_getCacheInternalId');
         $firstOutputGetCacheInternalId = $reflectionGetCacheInternalId->invoke($paginator);
 
-        $adapter                      = new TestAsset\TestSimilarAdapter([1, 2, 3, 4]);
-        $paginator                    = new Paginator\Paginator($adapter);
-        $reflectionGetCacheInternalId = new ReflectionMethod($paginator, '_getCacheInternalId');
-        $reflectionGetCacheInternalId->setAccessible(true);
+        $adapter                        = new TestAsset\TestSimilarAdapter([1, 2, 3, 4]);
+        $paginator                      = new Paginator\Paginator($adapter);
+        $reflectionGetCacheInternalId   = new ReflectionMethod($paginator, '_getCacheInternalId');
         $secondOutputGetCacheInternalId = $reflectionGetCacheInternalId->invoke($paginator);
         $this->assertNotEquals($firstOutputGetCacheInternalId, $secondOutputGetCacheInternalId);
     }
@@ -902,14 +841,12 @@ class PaginatorTest extends TestCase
         // Create first interal cache ID
         $paginator                    = new Paginator\Paginator(new TestAsset\TestAdapter('foo'));
         $reflectionGetCacheInternalId = new ReflectionMethod($paginator, '_getCacheInternalId');
-        $reflectionGetCacheInternalId->setAccessible(true);
         /** @var string $firstCacheId */
         $firstCacheId = $reflectionGetCacheInternalId->invoke($paginator);
 
         // Create second internal cache ID
         $paginator                    = new Paginator\Paginator(new TestAsset\TestAdapter('bar'));
         $reflectionGetCacheInternalId = new ReflectionMethod($paginator, '_getCacheInternalId');
-        $reflectionGetCacheInternalId->setAccessible(true);
         /** @var string $secondCacheId */
         $secondCacheId = $reflectionGetCacheInternalId->invoke($paginator);
 
@@ -921,13 +858,11 @@ class PaginatorTest extends TestCase
     {
         $paginator                    = new Paginator\Paginator(new TestAsset\TestAdapter('foo'));
         $reflectionGetCacheInternalId = new ReflectionMethod($paginator, '_getCacheInternalId');
-        $reflectionGetCacheInternalId->setAccessible(true);
         /** @var string $firstCacheId */
         $firstCacheId = $reflectionGetCacheInternalId->invoke($paginator);
 
         $paginator                    = new Paginator\Paginator(new TestAsset\TestArrayCopyAdapter('foo'));
         $reflectionGetCacheInternalId = new ReflectionMethod($paginator, '_getCacheInternalId');
-        $reflectionGetCacheInternalId->setAccessible(true);
         /** @var string $secondCacheId */
         $secondCacheId = $reflectionGetCacheInternalId->invoke($paginator);
 
