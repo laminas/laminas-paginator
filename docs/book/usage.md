@@ -35,7 +35,7 @@ $paginator->setCurrentPageNumber($page);
 ```
 
 The simplest way to keep track of this value is through a URL parameter. The
-following is an example [laminas-router](https://laminas.github.com/laminas-router)
+following is an example [laminas-router](https://docs.laminas.dev/laminas-router/)
 route configuration:
 
 ```php
