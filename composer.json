@@ -43,7 +43,7 @@
         "laminas/laminas-filter": "^2.30",
         "laminas/laminas-servicemanager": "^3.22",
         "laminas/laminas-view": "^2.25",
-        "phpunit/phpunit": "^9.5.27",
+        "phpunit/phpunit": "^10.0.0",
         "psalm/plugin-phpunit": "^0.18.4",
         "vimeo/psalm": "^5.4"
     },
