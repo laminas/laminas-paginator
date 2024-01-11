@@ -17,11 +17,6 @@
             <directory>./test/</directory>
         </testsuite>
     </testsuites>
-    <groups>
-        <exclude>
-            <group>disable</group>
-        </exclude>
-    </groups>
     <source>
         <include>
             <directory suffix=".php">./src</directory>
