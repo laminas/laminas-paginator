@@ -157,15 +157,7 @@ class PaginatorTest extends TestCase
     {
         $count = 0;
 
-        $paginator = $this->getMockBuilder(Paginator\Paginator::class)
-            ->setConstructorArgs([new Adapter\ArrayAdapter([])])
-            ->setMethods(['_calculatePageCount'])
-            ->getMock();
-
-        $paginator->expects($this->once())
-            ->method('_calculatePageCount')
-            ->willReturn($count);
-
+        $paginator = new Paginator\Paginator(new Adapter\ArrayAdapter([]));
         $this->assertEquals($count, $paginator->count());
         $this->assertEquals($count, $paginator->count());
     }
