@@ -65,7 +65,7 @@ class AdapterPluginManagerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $container, $name = null, $requestedName = null)
     {
-        return $this($container, $requestedName ?: AdapterPluginManager::class, $this->creationOptions);
+        return $this($container, $requestedName ?? AdapterPluginManager::class, $this->creationOptions);
     }
 
     /**
