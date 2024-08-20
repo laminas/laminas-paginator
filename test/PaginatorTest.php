@@ -34,6 +34,7 @@ use function array_combine;
 use function assert;
 use function count;
 use function is_array;
+use function is_int;
 use function range;
 
 /**
@@ -610,27 +611,24 @@ class PaginatorTest extends TestCase
 
     public function testFilter(): void
     {
-        $filter    = new Filter\Callback([$this, 'filterCallback']);
+        $callback = function (array $value): array {
+            $data = [];
+
+            foreach ($value as $number) {
+                assert(is_int($number));
+                $data[] = $number * 10;
+            }
+
+            return $data;
+        };
+
+        $filter    = new Filter\Callback($callback);
         $paginator = new Paginator\Paginator(new Adapter\ArrayAdapter(range(1, 101)));
         $paginator->setFilter($filter);
 
         $page = $paginator->getCurrentItems();
 
         $this->assertEquals(new ArrayIterator(range(10, 100, 10)), $page);
-    }
-
-    /**
-     * @param int[] $value
-     */
-    public function filterCallback($value): array
-    {
-        $data = [];
-
-        foreach ($value as $number) {
-            $data[] = $number * 10;
-        }
-
-        return $data;
     }
 
     /**

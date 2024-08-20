@@ -36,16 +36,16 @@
         "laminas/laminas-stdlib": "^3.10.1"
     },
     "require-dev": {
-        "laminas/laminas-cache": "^3.12",
+        "laminas/laminas-cache": "^3.12.2",
         "laminas/laminas-cache-storage-adapter-memory": "^2.3.0",
         "laminas/laminas-coding-standard": "^2.5.0",
         "laminas/laminas-config": "^3.9.0",
-        "laminas/laminas-filter": "^2.34",
+        "laminas/laminas-filter": "^2.37",
         "laminas/laminas-servicemanager": "^3.22.1",
-        "laminas/laminas-view": "^2.33",
-        "phpunit/phpunit": "^10.5.5",
+        "laminas/laminas-view": "^2.35",
+        "phpunit/phpunit": "^10.5.30",
         "psalm/plugin-phpunit": "^0.19.0",
-        "vimeo/psalm": "^5.19"
+        "vimeo/psalm": "^5.25"
     },
     "suggest": {
         "laminas/laminas-cache": "Laminas\\Cache component to support cache features",

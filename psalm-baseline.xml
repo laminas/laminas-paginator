@@ -1,103 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.19.0@06b71be009a6bd6d81b9811855d6629b9fe90e1b">
+<files psalm-version="5.25.0@01a8eb06b9e9cc6cfb6a320bf9fb14331919d505">
   <file src="src/Adapter/Exception/MissingRowCountColumnException.php">
     <PossiblyUnusedMethod>
-      <code>forColumn</code>
+      <code><![CDATA[forColumn]]></code>
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Adapter/Exception/RuntimeException.php">
     <UnusedClass>
-      <code>RuntimeException</code>
+      <code><![CDATA[RuntimeException]]></code>
     </UnusedClass>
   </file>
   <file src="src/Adapter/Exception/UnexpectedValueException.php">
     <UnusedClass>
-      <code>UnexpectedValueException</code>
+      <code><![CDATA[UnexpectedValueException]]></code>
     </UnusedClass>
   </file>
   <file src="src/Adapter/Service/CallbackFactory.php">
     <DeprecatedInterface>
-      <code>CallbackFactory</code>
+      <code><![CDATA[CallbackFactory]]></code>
     </DeprecatedInterface>
     <MissingParamType>
-      <code>$requestedName</code>
+      <code><![CDATA[$requestedName]]></code>
     </MissingParamType>
     <MixedArgument>
-      <code>$countCallback</code>
-      <code>$itemsCallback</code>
+      <code><![CDATA[$countCallback]]></code>
+      <code><![CDATA[$itemsCallback]]></code>
     </MixedArgument>
     <MixedAssignment>
-      <code>$countCallback</code>
-      <code>$itemsCallback</code>
+      <code><![CDATA[$countCallback]]></code>
+      <code><![CDATA[$itemsCallback]]></code>
     </MixedAssignment>
     <ParamNameMismatch>
-      <code>$container</code>
+      <code><![CDATA[$container]]></code>
     </ParamNameMismatch>
     <PossiblyUnusedMethod>
-      <code>setCreationOptions</code>
+      <code><![CDATA[setCreationOptions]]></code>
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Adapter/Service/IteratorFactory.php">
     <DeprecatedInterface>
-      <code>IteratorFactory</code>
+      <code><![CDATA[IteratorFactory]]></code>
     </DeprecatedInterface>
     <LessSpecificReturnStatement>
-      <code>new $requestedName($iterator)</code>
+      <code><![CDATA[new $requestedName($iterator)]]></code>
     </LessSpecificReturnStatement>
     <MissingParamType>
-      <code>$requestedName</code>
+      <code><![CDATA[$requestedName]]></code>
     </MissingParamType>
     <MixedArgument>
-      <code>IteratorAdapter::class</code>
-      <code>IteratorAdapter::class</code>
+      <code><![CDATA[IteratorAdapter::class]]></code>
+      <code><![CDATA[IteratorAdapter::class]]></code>
     </MixedArgument>
     <MixedMethodCall>
-      <code>new $requestedName($iterator)</code>
+      <code><![CDATA[new $requestedName($iterator)]]></code>
     </MixedMethodCall>
     <MoreSpecificReturnType>
-      <code>IteratorAdapter</code>
+      <code><![CDATA[IteratorAdapter]]></code>
     </MoreSpecificReturnType>
     <ParamNameMismatch>
-      <code>$container</code>
+      <code><![CDATA[$container]]></code>
     </ParamNameMismatch>
     <PossiblyUnusedMethod>
-      <code>setCreationOptions</code>
+      <code><![CDATA[setCreationOptions]]></code>
     </PossiblyUnusedMethod>
     <UndefinedClass>
-      <code>IteratorAdapter</code>
-      <code>IteratorAdapter</code>
-      <code>IteratorAdapter</code>
+      <code><![CDATA[IteratorAdapter]]></code>
+      <code><![CDATA[IteratorAdapter]]></code>
+      <code><![CDATA[IteratorAdapter]]></code>
     </UndefinedClass>
     <UndefinedDocblockClass>
-      <code>IteratorAdapter</code>
-      <code>IteratorAdapter</code>
+      <code><![CDATA[IteratorAdapter]]></code>
+      <code><![CDATA[IteratorAdapter]]></code>
     </UndefinedDocblockClass>
   </file>
   <file src="src/AdapterPluginManager.php">
     <NonInvariantDocblockPropertyType>
-      <code>$aliases</code>
-      <code>$factories</code>
-      <code>$instanceOf</code>
+      <code><![CDATA[$aliases]]></code>
+      <code><![CDATA[$factories]]></code>
+      <code><![CDATA[$instanceOf]]></code>
     </NonInvariantDocblockPropertyType>
     <PossiblyUnusedMethod>
-      <code>validatePlugin</code>
+      <code><![CDATA[validatePlugin]]></code>
     </PossiblyUnusedMethod>
   </file>
   <file src="src/AdapterPluginManagerFactory.php">
     <DeprecatedClass>
-      <code>new Config($config)</code>
+      <code><![CDATA[new Config($config)]]></code>
     </DeprecatedClass>
     <DeprecatedInterface>
-      <code>AdapterPluginManagerFactory</code>
+      <code><![CDATA[AdapterPluginManagerFactory]]></code>
     </DeprecatedInterface>
     <MissingConstructor>
-      <code>$creationOptions</code>
+      <code><![CDATA[$creationOptions]]></code>
     </MissingConstructor>
     <MoreSpecificImplementedParamType>
-      <code>$options</code>
+      <code><![CDATA[$options]]></code>
     </MoreSpecificImplementedParamType>
     <ParamNameMismatch>
-      <code>$container</code>
+      <code><![CDATA[$container]]></code>
     </ParamNameMismatch>
   </file>
   <file src="src/ConfigProvider.php">
@@ -108,32 +108,32 @@
             ]]]></code>
     </MixedArrayOffset>
     <UndefinedClass>
-      <code>\Zend\Paginator\AdapterPluginManager</code>
-      <code>\Zend\Paginator\ScrollingStylePluginManager</code>
+      <code><![CDATA[\Zend\Paginator\AdapterPluginManager]]></code>
+      <code><![CDATA[\Zend\Paginator\ScrollingStylePluginManager]]></code>
     </UndefinedClass>
   </file>
   <file src="src/Factory.php">
     <DocblockTypeContradiction>
-      <code>is_array($items)</code>
+      <code><![CDATA[is_array($items)]]></code>
     </DocblockTypeContradiction>
     <MixedArgument>
-      <code>$adapter</code>
-      <code>$adapter</code>
-      <code>$items</code>
-      <code>$items</code>
+      <code><![CDATA[$adapter]]></code>
+      <code><![CDATA[$adapter]]></code>
+      <code><![CDATA[$items]]></code>
+      <code><![CDATA[$items]]></code>
     </MixedArgument>
     <MixedAssignment>
-      <code>$adapter</code>
-      <code>$adapter</code>
-      <code>$items</code>
+      <code><![CDATA[$adapter]]></code>
+      <code><![CDATA[$adapter]]></code>
+      <code><![CDATA[$items]]></code>
     </MixedAssignment>
     <PossiblyUnusedMethod>
-      <code>setAdapterPluginManager</code>
+      <code><![CDATA[setAdapterPluginManager]]></code>
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Module.php">
     <UnusedClass>
-      <code>Module</code>
+      <code><![CDATA[Module]]></code>
     </UnusedClass>
   </file>
   <file src="src/Paginator.php">
@@ -143,9 +143,9 @@
     </ArgumentTypeCoercion>
     <DocblockTypeContradiction>
       <code><![CDATA[$this->pageCount === null]]></code>
-      <code>gettype($scrollingAdapters)</code>
-      <code>is_array($config)</code>
-      <code>static::$scrollingStyles === null</code>
+      <code><![CDATA[gettype($scrollingAdapters)]]></code>
+      <code><![CDATA[is_array($config)]]></code>
+      <code><![CDATA[static::$scrollingStyles === null]]></code>
     </DocblockTypeContradiction>
     <InvalidReturnStatement>
       <code><![CDATA[$this->getCurrentItems()]]></code>
@@ -154,75 +154,75 @@
       <code><![CDATA[Traversable<TKey, TValue>]]></code>
     </InvalidReturnType>
     <MixedArgument>
-      <code>$adapters</code>
-      <code>$key</code>
-      <code>$key</code>
-      <code>$scrollingStyle</code>
+      <code><![CDATA[$adapters]]></code>
+      <code><![CDATA[$key]]></code>
+      <code><![CDATA[$key]]></code>
+      <code><![CDATA[$scrollingStyle]]></code>
     </MixedArgument>
     <MixedAssignment>
-      <code>$adapterToSerialize</code>
-      <code>$adapters</code>
-      <code>$cacheIterator</code>
-      <code>$cacheIterator</code>
-      <code>$data[(int) substr($key, $prefixLength)]</code>
-      <code>$key</code>
-      <code>$key</code>
-      <code>$scrollingStyle</code>
-      <code>$value</code>
-      <code>$value</code>
+      <code><![CDATA[$adapterToSerialize]]></code>
+      <code><![CDATA[$adapters]]></code>
+      <code><![CDATA[$cacheIterator]]></code>
+      <code><![CDATA[$cacheIterator]]></code>
+      <code><![CDATA[$data[(int) substr($key, $prefixLength)]]]></code>
+      <code><![CDATA[$key]]></code>
+      <code><![CDATA[$key]]></code>
+      <code><![CDATA[$scrollingStyle]]></code>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
     </MixedAssignment>
     <MixedInferredReturnType>
-      <code>ScrollingStyleInterface</code>
-      <code>TValue</code>
-      <code>string</code>
+      <code><![CDATA[ScrollingStyleInterface]]></code>
+      <code><![CDATA[TValue]]></code>
+      <code><![CDATA[string]]></code>
     </MixedInferredReturnType>
     <MixedMethodCall>
-      <code>new $scrollingAdapters(new ServiceManager())</code>
-      <code>setMode</code>
-      <code>setMode</code>
+      <code><![CDATA[new $scrollingAdapters(new ServiceManager())]]></code>
+      <code><![CDATA[setMode]]></code>
+      <code><![CDATA[setMode]]></code>
     </MixedMethodCall>
     <MixedReturnStatement>
-      <code>$page[$itemNumber - 1]</code>
+      <code><![CDATA[$page[$itemNumber - 1]]]></code>
       <code><![CDATA[$view->paginationControl($this)]]></code>
       <code><![CDATA[static::getScrollingStylePluginManager()->get($scrollingStyle)]]></code>
       <code><![CDATA[static::getScrollingStylePluginManager()->get($scrollingStyle)]]></code>
     </MixedReturnStatement>
     <PossiblyInvalidArrayOffset>
-      <code>$page[$itemNumber - 1]</code>
+      <code><![CDATA[$page[$itemNumber - 1]]]></code>
     </PossiblyInvalidArrayOffset>
     <PossiblyInvalidPropertyAssignmentValue>
-      <code>$adapter</code>
+      <code><![CDATA[$adapter]]></code>
     </PossiblyInvalidPropertyAssignmentValue>
     <PossiblyNullReference>
-      <code>paginationControl</code>
+      <code><![CDATA[paginationControl]]></code>
     </PossiblyNullReference>
     <PossiblyUnusedProperty>
-      <code>$adapters</code>
+      <code><![CDATA[$adapters]]></code>
     </PossiblyUnusedProperty>
     <PropertyNotSetInConstructor>
-      <code>$itemCountPerPage</code>
-      <code>$pageCount</code>
+      <code><![CDATA[$itemCountPerPage]]></code>
+      <code><![CDATA[$pageCount]]></code>
     </PropertyNotSetInConstructor>
     <RedundantCastGivenDocblockType>
-      <code>(bool) $enable</code>
-      <code>(int) $count</code>
-      <code>(int) $itemCountPerPage</code>
-      <code>(int) $itemNumber</code>
-      <code>(int) $pageNumber</code>
-      <code>(int) $pageNumber</code>
-      <code>(int) $pageRange</code>
+      <code><![CDATA[(bool) $enable]]></code>
+      <code><![CDATA[(int) $count]]></code>
+      <code><![CDATA[(int) $itemCountPerPage]]></code>
+      <code><![CDATA[(int) $itemNumber]]></code>
+      <code><![CDATA[(int) $pageNumber]]></code>
+      <code><![CDATA[(int) $pageNumber]]></code>
+      <code><![CDATA[(int) $pageRange]]></code>
     </RedundantCastGivenDocblockType>
     <RedundantConditionGivenDocblockType>
-      <code>is_object($scrollingAdapters)</code>
-      <code>static::$cache !== null</code>
+      <code><![CDATA[is_object($scrollingAdapters)]]></code>
+      <code><![CDATA[static::$cache !== null]]></code>
     </RedundantConditionGivenDocblockType>
     <TypeDoesNotContainType>
-      <code>$currentItems instanceof AbstractResultSet</code>
+      <code><![CDATA[$currentItems instanceof AbstractResultSet]]></code>
     </TypeDoesNotContainType>
     <UndefinedInterfaceMethod>
-      <code>getIterator</code>
-      <code>getIterator</code>
-      <code>paginationControl</code>
+      <code><![CDATA[getIterator]]></code>
+      <code><![CDATA[getIterator]]></code>
+      <code><![CDATA[paginationControl]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="src/PaginatorIterator.php">
@@ -230,10 +230,10 @@
       <code><![CDATA[iterable<TKey, TValue>]]></code>
     </ImplementedReturnTypeMismatch>
     <InvalidMethodCall>
-      <code>current</code>
-      <code>key</code>
-      <code>next</code>
-      <code>valid</code>
+      <code><![CDATA[current]]></code>
+      <code><![CDATA[key]]></code>
+      <code><![CDATA[next]]></code>
+      <code><![CDATA[valid]]></code>
     </InvalidMethodCall>
     <InvalidReturnStatement>
       <code><![CDATA[($this->paginator->getAbsoluteItemNumber(
@@ -242,10 +242,10 @@
         )) - 1]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>TKey|null</code>
+      <code><![CDATA[TKey|null]]></code>
     </InvalidReturnType>
     <MixedInferredReturnType>
-      <code>TValue</code>
+      <code><![CDATA[TValue]]></code>
     </MixedInferredReturnType>
     <MixedReturnStatement>
       <code><![CDATA[$this->getInnerIterator()->current()]]></code>
@@ -253,22 +253,22 @@
   </file>
   <file src="src/ScrollingStylePluginManager.php">
     <NonInvariantDocblockPropertyType>
-      <code>$factories</code>
-      <code>$factories</code>
+      <code><![CDATA[$factories]]></code>
+      <code><![CDATA[$factories]]></code>
     </NonInvariantDocblockPropertyType>
     <PossiblyUnusedMethod>
-      <code>validatePlugin</code>
+      <code><![CDATA[validatePlugin]]></code>
     </PossiblyUnusedMethod>
   </file>
   <file src="src/ScrollingStylePluginManagerFactory.php">
     <DeprecatedInterface>
-      <code>ScrollingStylePluginManagerFactory</code>
+      <code><![CDATA[ScrollingStylePluginManagerFactory]]></code>
     </DeprecatedInterface>
     <MoreSpecificImplementedParamType>
-      <code>$options</code>
+      <code><![CDATA[$options]]></code>
     </MoreSpecificImplementedParamType>
     <ParamNameMismatch>
-      <code>$container</code>
+      <code><![CDATA[$container]]></code>
     </ParamNameMismatch>
   </file>
   <file src="src/SerializableLimitIterator.php">
@@ -276,15 +276,15 @@
       <code><![CDATA[$this->__construct($data['it'], $data['offset'], $data['count'])]]></code>
     </DirectConstructorCall>
     <MethodSignatureMustProvideReturnType>
-      <code>serialize</code>
-      <code>unserialize</code>
+      <code><![CDATA[serialize]]></code>
+      <code><![CDATA[unserialize]]></code>
     </MethodSignatureMustProvideReturnType>
     <MixedArgument>
       <code><![CDATA[$data['count']]]></code>
       <code><![CDATA[$data['it']]]></code>
       <code><![CDATA[$data['offset']]]></code>
       <code><![CDATA[$data['pos'] + $data['offset']]]></code>
-      <code>unserialize($data)</code>
+      <code><![CDATA[unserialize($data)]]></code>
     </MixedArgument>
     <MixedOperand>
       <code><![CDATA[$data['pos']]]></code>
@@ -299,30 +299,22 @@
       <code><![CDATA['LimitIterator']]></code>
     </ArgumentTypeCoercion>
     <MixedAssignment>
-      <code>$item</code>
-      <code>$item</code>
-      <code>$items</code>
+      <code><![CDATA[$item]]></code>
+      <code><![CDATA[$item]]></code>
+      <code><![CDATA[$items]]></code>
     </MixedAssignment>
     <MixedMethodCall>
-      <code>getInnerIterator</code>
+      <code><![CDATA[getInnerIterator]]></code>
     </MixedMethodCall>
   </file>
   <file src="test/AdapterPluginManagerCompatibilityTest.php">
-    <MixedArgument>
-      <code>$target</code>
-    </MixedArgument>
     <MixedAssignment>
-      <code>$alias</code>
-      <code>$aliases</code>
-      <code>$target</code>
+      <code><![CDATA[$aliases]]></code>
     </MixedAssignment>
-    <MixedReturnTypeCoercion>
-      <code><![CDATA[iterable<string, array{0: string, 1: string}>]]></code>
-    </MixedReturnTypeCoercion>
   </file>
   <file src="test/AdapterPluginManagerTest.php">
     <MixedAssignment>
-      <code>$plugin</code>
+      <code><![CDATA[$plugin]]></code>
     </MixedAssignment>
   </file>
   <file src="test/PaginatorTest.php">
@@ -332,7 +324,7 @@
     </ArgumentTypeCoercion>
     <InvalidArgument>
       <code><![CDATA['not array']]></code>
-      <code>[]</code>
+      <code><![CDATA[[]]]></code>
     </InvalidArgument>
     <InvalidPropertyFetch>
       <code><![CDATA[$this->config->default]]></code>
@@ -343,42 +335,42 @@
       <code><![CDATA[$this->config->testing]]></code>
     </MixedArgument>
     <MixedAssignment>
-      <code>$firstOutputGetCacheInternalId</code>
-      <code>$firstOutputGetCacheInternalId</code>
-      <code>$outputGetCacheId</code>
-      <code>$outputGetCacheInternalId</code>
-      <code>$outputGetCacheInternalId</code>
-      <code>$secondOutputGetCacheInternalId</code>
-      <code>$secondOutputGetCacheInternalId</code>
+      <code><![CDATA[$firstOutputGetCacheInternalId]]></code>
+      <code><![CDATA[$firstOutputGetCacheInternalId]]></code>
+      <code><![CDATA[$outputGetCacheId]]></code>
+      <code><![CDATA[$outputGetCacheInternalId]]></code>
+      <code><![CDATA[$outputGetCacheInternalId]]></code>
+      <code><![CDATA[$secondOutputGetCacheInternalId]]></code>
+      <code><![CDATA[$secondOutputGetCacheInternalId]]></code>
     </MixedAssignment>
     <MixedOperand>
-      <code>$outputGetCacheInternalId</code>
-      <code>$outputGetCacheInternalId</code>
+      <code><![CDATA[$outputGetCacheInternalId]]></code>
+      <code><![CDATA[$outputGetCacheInternalId]]></code>
     </MixedOperand>
     <NullArgument>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
     </NullArgument>
     <PossiblyInvalidMethodCall>
-      <code>addPath</code>
+      <code><![CDATA[addPath]]></code>
     </PossiblyInvalidMethodCall>
     <PossiblyInvalidPropertyAssignmentValue>
       <code><![CDATA[Config\Factory::fromFile(__DIR__ . '/_files/config.xml', true)]]></code>
     </PossiblyInvalidPropertyAssignmentValue>
     <UndefinedInterfaceMethod>
-      <code>addPath</code>
+      <code><![CDATA[addPath]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="test/TestAsset/TestAdapter.php">
     <ParamNameMismatch>
-      <code>$pageNumber</code>
+      <code><![CDATA[$pageNumber]]></code>
     </ParamNameMismatch>
     <PossiblyUnusedProperty>
-      <code>$property</code>
+      <code><![CDATA[$property]]></code>
     </PossiblyUnusedProperty>
   </file>
   <file src="test/TestAsset/TestArrayCopyAdapter.php">
     <PossiblyUnusedMethod>
-      <code>getArrayCopy</code>
+      <code><![CDATA[getArrayCopy]]></code>
     </PossiblyUnusedMethod>
   </file>
 </files>

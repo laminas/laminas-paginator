@@ -341,7 +341,7 @@ class Paginator implements Countable, IteratorAggregate, Stringable
 
         $config = static::$config;
 
-        if (! empty($config)) {
+        if (is_array($config) && $config !== []) {
             $setupMethods = ['ItemCountPerPage', 'PageRange'];
 
             foreach ($setupMethods as $setupMethod) {
