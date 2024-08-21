@@ -6,9 +6,8 @@ nav:
         - Introduction: v2/intro.md
         - Installation: v2/installation.md
         - Usage: v2/usage.md
-        - Reference:
-            - Configuration: v2/configuration.md
-            - "Advanced Usage": v2/advanced.md
+        - Configuration: v2/configuration.md
+        - "Advanced Usage": v2/advanced.md
         - 'Application Integration':
             - 'Stand-Alone': v2/application-integration/stand-alone.md
 site_name: laminas-paginator
