@@ -36,12 +36,12 @@
         "laminas/laminas-stdlib": "^3.10.1"
     },
     "require-dev": {
-        "laminas/laminas-cache": "^3.12.2",
-        "laminas/laminas-cache-storage-adapter-memory": "^2.3.0",
-        "laminas/laminas-coding-standard": "^2.5.0",
+        "laminas/laminas-cache": "^4.0.0",
+        "laminas/laminas-cache-storage-adapter-memory": "^3.0.0",
+        "laminas/laminas-coding-standard": "^3.0.0",
         "laminas/laminas-config": "^3.9.0",
         "laminas/laminas-filter": "^2.37",
-        "laminas/laminas-servicemanager": "^3.22.1",
+        "laminas/laminas-servicemanager": "^4.0.0",
         "laminas/laminas-view": "^2.35",
         "phpunit/phpunit": "^10.5.30",
         "psalm/plugin-phpunit": "^0.19.0",
