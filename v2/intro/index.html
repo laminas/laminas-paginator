@@ -15,10 +15,10 @@
     <meta name="docsearch:language" content="en">
     <meta name="docsearch:component" content="laminas-paginator">
 
-    <link rel="canonical" href="https://docs.laminas.dev/laminas-paginator/">
+    <link rel="canonical" href="https://docs.laminas.dev/laminas-paginator/v2/intro/">
     <link rel="shortcut icon" href="https://docs.laminas.dev/img/trademark-laminas-foundation-rgb.svg">
 
-    <title>laminas-paginator - Laminas Docs</title>
+    <title>Introduction - laminas-paginator - Laminas Docs</title>
 
     <link rel="stylesheet" href="https://docs.laminas.dev/css/styles.css">
     
@@ -113,7 +113,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href=".">laminas-paginator</a>
+            <a href="../..">laminas-paginator</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -125,32 +125,32 @@
                 
                     
                         
-    <li class="subnavigation__list-item ">
-        <a href="v2/intro/" class="subnavigation__link">Introduction</a>
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Introduction</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="v2/installation/" class="subnavigation__link">Installation</a>
+        <a href="../installation/" class="subnavigation__link">Installation</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="v2/usage/" class="subnavigation__link">Usage</a>
+        <a href="../usage/" class="subnavigation__link">Usage</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="v2/configuration/" class="subnavigation__link">Configuration</a>
+        <a href="../configuration/" class="subnavigation__link">Configuration</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="v2/advanced/" class="subnavigation__link">Advanced Usage</a>
+        <a href="../advanced/" class="subnavigation__link">Advanced Usage</a>
     </li>
 
                     
@@ -161,7 +161,7 @@
             
                 
     <li class="subnavigation__list-item ">
-        <a href="v2/application-integration/stand-alone/" class="subnavigation__link">Stand-Alone</a>
+        <a href="../application-integration/stand-alone/" class="subnavigation__link">Stand-Alone</a>
     </li>
 
             
@@ -231,6 +231,13 @@
             <div class="col-md-9 col-sm-12 content" role="main">
                 
                 
+                    
+    
+
+    
+    
+
+                
 
                 
                     <nav aria-label="breadcrumb">
@@ -240,7 +247,16 @@
             <li class="breadcrumb-item"><a href="https://docs.laminas.dev/components/">Components</a></li>
 
             
-                <li class="breadcrumb-item">laminas-paginator</li>
+                <li class="breadcrumb-item"><a href="../..">laminas-paginator</a></li>
+
+                
+                    
+                        
+                        
+                    
+                
+
+                <li class="breadcrumb-item active" aria-current="page">Introduction</li>
             
         
     </ol>
@@ -250,21 +266,21 @@
 
 
 
-    <h1>laminas-paginator</h1>
-<p>Paginate collections of data from arbitrary sources</p>
 
+    
+    
 
-    <h2>Installation</h2>
-    <h3>Using Composer</h3>
-    <pre><code class="language-bash">$ composer require laminas/laminas-paginator</code></pre>
-
-
-<h2>Support</h2>
+    <h1 id="introduction">Introduction</h1>
+<p>laminas-paginator is a flexible component for paginating collections of data and
+presenting that data to users.</p>
+<p>The primary design goals of laminas-paginator are as follows:</p>
 <ul>
-    <li>Issues: <a href="https://github.com/laminas/laminas-paginator/issues">github.com/laminas/laminas-paginator/issues</a></li>
-    <li>Source: <a href="https://github.com/laminas/laminas-paginator">github.com/laminas/laminas-paginator</a></li>
-    <li>Chat: <a href="https://laminas.dev/chat">laminas.dev/chat</a></li>
-    <li>Forum: <a href="https://discourse.laminas.dev/">discourse.laminas.dev</a></li>
+<li>Paginate arbitrary data, not just relational databases.</li>
+<li>Fetch only the results that need to be displayed.</li>
+<li>Do not force users to adhere to only one way of displaying data or rendering
+  pagination controls.</li>
+<li>Loosely couple to other Laminas components so that users who wish to
+  use it independently of laminas-view, laminas-cache, etc. can do so.</li>
 </ul>
 
 
@@ -276,14 +292,20 @@
         
         <li class="page-nav__item">
             
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../..">
+                    <small class="page-nav__label">Previous</small>
+                    <i class="fa fa-chevron-left"></i>
+                    Home
+                </a>
+            
         </li>
 
         
         <li class="page-nav__item">
             
-                <a rel="next" class="page-nav__link page-nav__link--next" href="v2/intro/">
+                <a rel="next" class="page-nav__link page-nav__link--next" href="../installation/">
                     <small class="page-nav__label">Next</small>
-                    Introduction
+                    Installation
                     <i class="fa fa-chevron-right"></i>
                 </a>
             
@@ -316,7 +338,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href=".">laminas-paginator</a>
+            <a href="../..">laminas-paginator</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -328,32 +350,32 @@
                 
                     
                         
-    <li class="subnavigation__list-item ">
-        <a href="v2/intro/" class="subnavigation__link">Introduction</a>
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Introduction</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="v2/installation/" class="subnavigation__link">Installation</a>
+        <a href="../installation/" class="subnavigation__link">Installation</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="v2/usage/" class="subnavigation__link">Usage</a>
+        <a href="../usage/" class="subnavigation__link">Usage</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="v2/configuration/" class="subnavigation__link">Configuration</a>
+        <a href="../configuration/" class="subnavigation__link">Configuration</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="v2/advanced/" class="subnavigation__link">Advanced Usage</a>
+        <a href="../advanced/" class="subnavigation__link">Advanced Usage</a>
     </li>
 
                     
@@ -364,7 +386,7 @@
             
                 
     <li class="subnavigation__list-item ">
-        <a href="v2/application-integration/stand-alone/" class="subnavigation__link">Stand-Alone</a>
+        <a href="../application-integration/stand-alone/" class="subnavigation__link">Stand-Alone</a>
     </li>
 
             
@@ -460,13 +482,13 @@
 </footer>
 
     <script>
-        let base_url = '.',
+        let base_url = '../..',
             project  = "components",
             siteName = 'laminas-paginator';
     </script>
     <script src="https://docs.laminas.dev/js/scripts.js"></script>
     
-        <script src="search/main.js"></script>
+        <script src="../../search/main.js"></script>
     
 
     
@@ -495,8 +517,3 @@
 
 
 </html>
-
-<!--
-MkDocs version : 1.6.1
-Build Date UTC : 2024-10-16 13:12:21.209675+00:00
--->

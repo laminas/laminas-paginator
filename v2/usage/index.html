@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Paginate collections of data from arbitrary sources"> 
+
+    
+    
+        
+    
+    <meta name="docsearch:version" content="2.0.0,latest">
+    <meta name="docsearch:language" content="en">
+    <meta name="docsearch:component" content="laminas-paginator">
+
+    <link rel="canonical" href="https://docs.laminas.dev/laminas-paginator/v2/usage/">
+    <link rel="shortcut icon" href="https://docs.laminas.dev/img/trademark-laminas-foundation-rgb.svg">
+
+    <title>Usage - laminas-paginator - Laminas Docs</title>
+
+    <link rel="stylesheet" href="https://docs.laminas.dev/css/styles.css">
+    
+</head>
+<body id="page-top" class="components" data-spy="scroll" data-target=".toc" data-offset="20">
+
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        
+        <a class="logo-link navbar-brand" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
+            <img src="https://docs.laminas.dev/img/laminas-foundation-white.svg" height="28" alt="Laminas">
+        </a>
+        <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
+            Documentation
+        </a>
+
+        
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <div class="dropdown sub-project-selector">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a href="https://docs.mezzio.dev/" class="dropdown-item">
+                                <div class="row align-items-center">
+                                    <div class="col-md-4 col-sm-12">
+                                        <img src="https://docs.laminas.dev/img/laminas-mezzio-rgb.svg">
+                                    </div>
+                                    <div class="col-md-8 col-sm-12">
+                                        <strong>Mezzio</strong><br>
+                                        PSR-15 Middleware in Minutes
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="https://docs.laminas.dev/components/" class="dropdown-item">
+                                <div class="row align-items-center">
+                                    <div class="col-md-4 col-sm-12">
+                                        <img src="https://docs.laminas.dev/img/laminas-components-rgb.svg">
+                                    </div>
+                                    <div class="col-md-8 col-sm-12">
+                                        <strong>Components</strong><br>
+                                        Components for Enterprise Applications
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="https://docs.laminas.dev/mvc" class="dropdown-item">
+                                <div class="row align-items-center">
+                                    <div class="col-md-4 col-sm-12">
+                                        <img src="https://docs.laminas.dev/img/laminas-mvc-rgb.svg">
+                                    </div>
+                                    <div class="col-md-8 col-sm-12">
+                                        <strong>MVC</strong><br>
+                                        MVC for Enterprise Applications
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item dropdown-item--secondardy" href="https://docs.laminas.dev/migration/">
+                                <div class="row align-items-center">
+                                    <div class="col-md-8 offset-md-4 col-sm-12">
+                                        Migration to Laminas
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item dropdown-item--secondardy" href="https://docs.laminas.dev/tutorials/">
+                                <div class="row align-items-center">
+                                    <div class="col-md-8 offset-md-4 col-sm-12">
+                                        Tutorials
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
+                </li>
+            </ul>
+
+            
+            
+                <div class="d-block d-sm-none">
+                    
+    <div class="subnavigation hidden-print">
+        <h4 class="subnavigation__title">
+            <a href="../..">laminas-paginator</a>
+        </h4>
+
+        <h5 class="subnavigation__subtitle">Table of Contents</h5>
+
+        <ul class="subnavigation__list">
+            
+
+                
+                
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../intro/" class="subnavigation__link">Introduction</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../installation/" class="subnavigation__link">Installation</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Usage</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../configuration/" class="subnavigation__link">Configuration</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../advanced/" class="subnavigation__link">Advanced Usage</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Application Integration</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../application-integration/stand-alone/" class="subnavigation__link">Stand-Alone</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                
+            
+        </ul>
+    </div>
+
+                </div>
+            
+
+            
+            <div class="d-block d-sm-none">
+                <div class="component-selector">
+    
+    <h5 class="component-selector__subtitle">Find documentation…</h5>
+    <select class="form-control component-selector__control">
+        <option value="/">Overview</option>
+        <optgroup label="Components"></optgroup>
+    </select>
+</div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <header class="header">
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="col-8">
+                <h1 class="header__title">
+                    Components
+
+                    
+                        <small class="header__subtitle">laminas-paginator</small>
+                    
+                </h1>
+            </div>
+
+            
+            <div class="col-4 text-right">
+                
+                    
+
+                    <a href="#" class="header__link header__link--search" data-toggle="modal" data-target="#mkdocs_search_modal" title="Open search">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                    <a href="https://github.com/laminas/laminas-paginator" class="header__link header__link--github" title="Go to repository of laminas-paginator">
+                        <i class="fab fa-github"></i> GitHub
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+</header>
+
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9 col-sm-12 content" role="main">
+                
+                
+                    
+    
+
+    
+    
+        <div class="toc">
+            <h6 class="toc__headline">On this page</h6>
+            <ul class="toc__list">
+                
+                    <li class="toc__entry">
+                        <a href="#paginating-data-collections" class="toc__link nav-link">Paginating data collections</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#the-dbselect-adapter" class="toc__link nav-link">The DbSelect adapter</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#rendering-pages-with-view-scripts" class="toc__link nav-link">Rendering pages with view scripts</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
+                
+
+                
+                    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        
+            <li class="breadcrumb-item"><a href="https://docs.laminas.dev/">Overview</a></li>
+            <li class="breadcrumb-item"><a href="https://docs.laminas.dev/components/">Components</a></li>
+
+            
+                <li class="breadcrumb-item"><a href="../..">laminas-paginator</a></li>
+
+                
+                    
+                        
+                        
+                    
+                
+
+                <li class="breadcrumb-item active" aria-current="page">Usage</li>
+            
+        
+    </ol>
+</nav>
+
+
+
+
+
+
+    
+    
+
+    <h1 id="usage">Usage</h1>
+<h2 id="paginating-data-collections">Paginating data collections</h2>
+<p>In order to paginate items into pages, <code>Laminas\Paginator</code> must have a generic way
+of accessing that data. For that reason, all data access takes place through
+data source adapters. Several adapters ship with laminas-paginator by default:</p>
+<div class="table-responsive"><table>
+<thead>
+<tr>
+<th>Adapter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ArrayAdapter</td>
+<td>Accepts a PHP array.</td>
+</tr>
+<tr>
+<td>DbSelect</td>
+<td>Accepts a <code>Laminas\Db\Sql\Select</code> instance, plus either a <code>Laminas\Db\Adapter\Adapter</code> or <code>Laminas\Db\Sql\Sql</code> instance; paginates rows from a database.</td>
+</tr>
+<tr>
+<td>DbTableGateway</td>
+<td>Accepts a <code>Laminas\Db\TableGateway\AbstractTableGateway</code> instance, and optionally additional arguments representing the WHERE, ORDER BY, GROUP BY, and/or HAVING clauases.</td>
+</tr>
+<tr>
+<td>Iterator</td>
+<td>Accepts any <code>Iterator</code> instance.</td>
+</tr>
+<tr>
+<td>NullFill</td>
+<td>Dummy paginator.</td>
+</tr>
+</tbody>
+</table></div>
+<p>To create a paginator instance, you must supply an adapter to the constructor:</p>
+<pre class="highlight"><code class="language-php">use Laminas\Paginator\Adapter;
+use Laminas\Paginator\Paginator;
+
+$paginator = new Paginator(new Adapter\ArrayAdapter($array));</code></pre>
+<p>In the case of the <code>NullFill</code> adapter, in lieu of a data collection you must
+supply an item count to its constructor.</p>
+<p>Although the instance is technically usable in this state, in your controller
+action you'll need to tell the paginator what page number the user requested.
+This allows advancing through the paginated data.</p>
+<pre class="highlight"><code class="language-php">$paginator-&gt;setCurrentPageNumber($page);</code></pre>
+<p>The simplest way to keep track of this value is through a URL parameter. The
+following is an example <a href="https://docs.laminas.dev/laminas-router/">laminas-router</a>
+route configuration:</p>
+<pre class="highlight"><code class="language-php">return [
+    'routes' =&gt; [
+        'paginator' =&gt; [
+            'type' =&gt; 'segment',
+            'options' =&gt; [
+                'route' =&gt; '/list/[page/:page]',
+                'defaults' =&gt; [
+                    'page' =&gt; 1,
+                ],
+            ],
+        ],
+    ],
+];</code></pre>
+<p>With the above route (and using <a href="https://docs.laminas.dev/laminas-mvc/">laminas-mvc</a>
+controllers), you might set the current page number in your controller action
+like so:</p>
+<pre class="highlight"><code class="language-php">$paginator-&gt;setCurrentPageNumber($this-&gt;params()-&gt;fromRoute('page'));</code></pre>
+<p>There are other options available; see the <a href="../configuration/">Configuration chapter</a>
+for more on them.</p>
+<p>Finally, you'll need to assign the paginator instance to your view. If you're
+using laminas-mvc and laminas-view, you can assign the paginator object to your view
+model:</p>
+<pre class="highlight"><code class="language-php">$vm = new ViewModel();
+$vm-&gt;setVariable('paginator', $paginator);
+return $vm;</code></pre>
+<h2 id="the-dbselect-adapter">The DbSelect adapter</h2>
+<blockquote>
+<h3 id="deprecated">Deprecated</h3>
+<p>The adapter is deprecated since version 2.10.0. Please use the <a href="https://docs.laminas.dev/laminas-paginator-adapter-laminasdb">laminas/laminas-paginator-adapter-laminasdb</a> package if you wish to use the laminas-db-based pagination adapters.</p>
+<h3 id="installation-requirements">Installation Requirements</h3>
+<p>The DbSelect adapter depends on the laminas-db component, so be sure to have it
+installed before getting started:</p>
+<pre class="highlight"><code class="language-bash">$ composer require laminas/laminas-db</code></pre>
+<h3 id="database-optimizations">Database optimizations</h3>
+<p>Instead of selecting every matching row of a given query, the <code>DbSelect</code> adapter
+retrieves only the smallest amount of data necessary for displaying the
+current page. Because of this, a second query is dynamically generated to
+determine the total number of matching rows.</p>
+</blockquote>
+<p>Most adapters receive their datasets directly. However, the <code>DbSelect</code> adapter
+requires a more detailed explanation regarding the retrieval and count of the
+data from the database.</p>
+<p>You do not have to retrieve data from the database prior to using the <code>DbSelect</code>
+adapter; the adapter will do the retrieval for you, as well as provide a count
+of total pages. If additional work has to be done on the database results which
+cannot be expressed via the provided <code>Laminas\Db\Sql\Select</code>, object you must
+extend the adapter and override the <code>getItems()</code> method.</p>
+<p>Additionally this adapter does <strong>not</strong> fetch all records from the database in
+order to count them.  Instead, the adapter manipulates the original query to
+produce a corresponding <code>COUNT</code> query, and uses the new query to get the number
+of rows.  While this approach requires an extra round-trip to the database,
+doing so is stillmany times faster than fetching an entire result set and using
+<code>count()</code>, especially with large collections of data.</p>
+<p>The database adapter will try and build the most efficient query that will
+execute on pretty much any modern database. However, depending on your database
+or even your own schema setup, there might be more efficient ways to get a
+rowcount.</p>
+<p>There are two approaches for doing this. The first is to extend the <code>DbSelect</code>
+adapter and override the <code>count()</code> method:</p>
+<pre class="highlight"><code class="language-php">class MyDbSelect extends DbSelect
+{
+    public function count()
+    {
+        if ($this-&gt;rowCount) {
+            return $this-&gt;rowCount;
+        }
+
+        $select = new Select();
+        $select
+          -&gt;from('item_counts')
+          -&gt;columns(['c'=&gt;'post_count']);
+
+        $statement = $this-&gt;sql-&gt;prepareStatementForSqlObject($select);
+        $result    = $statement-&gt;execute();
+        $row       = $result-&gt;current();
+        $this-&gt;rowCount = $row['c'];
+
+        return $this-&gt;rowCount;
+    }
+}
+
+$adapter = new MyDbSelect($query, $adapter);</code></pre>
+<p>Alternately, you can pass an additional <code>Laminas\Db\Sql\Select</code> object as the
+fourth constructor argument to the <code>DbSelect</code> adapter to implement a custom
+count query.</p>
+<p>For example, if you keep track of the count of blog posts in a separate table,
+you could achieve a faster count query with the following setup:</p>
+<pre class="highlight"><code class="language-php">use Laminas\Db\Sql\Select;
+use Laminas\Paginator\Adapter\DbSelect;
+use Laminas\Paginator\Paginator;
+
+$countQuery = new Select();
+$countQuery
+    -&gt;from('item_counts')
+    -&gt;columns([ DbSelect::ROW_COUNT_COLUMN_NAME =&gt; 'post_count' ]);
+
+$adapter = new DbSelect($query, $dbAdapter, null, $countQuery);
+$paginator = new Paginator($adapter);</code></pre>
+<p>Alternatively, the same can be achieved using the provided factory:</p>
+<pre class="highlight"><code class="language-php">use Laminas\Paginator\Adapter\DbSelect;
+use Laminas\Paginator\Factory as PaginatorFactory;
+
+$countQuery = new Select();
+$countQuery
+    -&gt;from('item_counts')
+    -&gt;columns([ DbSelect::ROW_COUNT_COLUMN_NAME =&gt; 'post_count' ]);
+
+$paginator = PaginatorFactory::factory(
+    [
+        $query,
+        $dbAdapter,
+        null,
+        $countQuery,
+    ],
+    DbSelect::class
+);</code></pre>
+<p>This approach will probably not give you a huge performance gain on small
+collections and/or simple select queries. However, with complex queries and
+large collections, a similar approach could give you a significant performance
+boost.</p>
+<p>The <code>DbSelect</code> adapter also supports returning of fetched records using the
+<a href="http://docs.laminas.dev/laminas-db/result-set/">ResultSet subcomponent of laminas-db</a>.
+You can override the concrete <code>ResultSet</code> implementation by passing an object
+implementing <code>Laminas\Db\ResultSet\ResultSetInterface</code> as the third constructor
+argument to the <code>DbSelect</code> adapter:</p>
+<pre class="highlight"><code class="language-php">use Laminas\Db\ResultSet\HydratingResultSet;
+use Laminas\Paginator\Adapter\DbSelect;
+use Laminas\Paginator\Paginator;
+
+// $objectPrototype is an instance of our custom entity
+// $hydrator is a custom hydrator for our entity
+// (implementing Laminas\Hydrator\HydratorInterface)
+$resultSet = new HydratingResultSet($hydrator, $objectPrototype);
+
+$adapter = new DbSelect($query, $dbAdapter, $resultSet)
+$paginator = new Laminas\Paginator\Paginator($adapter);</code></pre>
+<p>Now when we iterate over <code>$paginator</code> we will get instances of our custom entity
+instead of associative arrays.</p>
+<h2 id="rendering-pages-with-view-scripts">Rendering pages with view scripts</h2>
+<blockquote>
+<h3 id="installation-requirements_1">Installation Requirements</h3>
+<p>The rendering with view scripts depends on the laminas-view component, so be sure
+to have it installed before getting started:</p>
+<pre class="highlight"><code class="language-bash">$ composer require laminas/laminas-view</code></pre>
+</blockquote>
+<p>The view script is used to render the page items (if you're using
+laminas-paginator to do so) and display the pagination control.</p>
+<p>Because <code>Laminas\Paginator\Paginator</code> implements the SPL interface
+<a href="http://php.net/IteratorAggregate">IteratorAggregate</a>, you can loop over an
+instance using <code>foreach</code>:</p>
+<pre class="highlight"><code class="language-php">&lt;html&gt;
+&lt;body&gt;
+&lt;h1&gt;Example&lt;/h1&gt;
+&lt;?php if (count($this-&gt;paginator)): ?&gt;
+&lt;ul&gt;
+&lt;?php foreach ($this-&gt;paginator as $item): ?&gt;
+  &lt;li&gt;&lt;?= $item; ?&gt;&lt;/li&gt;
+&lt;?php endforeach; ?&gt;
+&lt;/ul&gt;
+&lt;?php endif; ?&gt;
+
+&lt;?= $this-&gt;paginationControl(
+    $this-&gt;paginator,
+    'Sliding',
+    'my_pagination_control',
+    ['route' =&gt; 'application/paginator']
+) ?&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>Notice the view helper call near the end. <code>PaginationControl</code> accepts up to four
+parameters: the paginator instance, a scrolling style, a view script name, and
+an array of additional parameters.</p>
+<p>The second and third parameters are very important. Whereas the view script name
+is used to determine how the pagination control should <strong>look</strong>, the scrolling
+style is used to control how it should <strong>behave</strong>. Say the view script is in the
+style of a search pagination control, like the one below:</p>
+<p><img alt="Pagination controls" src="../images/usage-rendering-control.png" class="img-responsive"/></p>
+<p>What happens when the user clicks the "next" link a few times? Well, any number of things could
+happen:</p>
+<ul>
+<li>The current page number could stay in the middle as you click through (as it
+  does on Yahoo!)</li>
+<li>It could advance to the end of the page range and then appear again on the
+  left when the user clicks "next" one more time.</li>
+<li>The page numbers might even expand and contract as the user advances (or
+  "scrolls") through them (as they do on Google).</li>
+</ul>
+<p>There are four scrolling styles packaged with Laminas:</p>
+<div class="table-responsive"><table>
+<thead>
+<tr>
+<th>Scrolling style</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>All</td>
+<td>Returns every page. This is useful for dropdown menu pagination controls with relatively few pages. In these cases, you want all pages available to the user at once.</td>
+</tr>
+<tr>
+<td>Elastic</td>
+<td>A Google-like scrolling style that expands and contracts as a user scrolls through the pages.</td>
+</tr>
+<tr>
+<td>Jumping</td>
+<td>As users scroll through, the page number advances to the end of a given range, then starts again at the beginning of the new range.</td>
+</tr>
+<tr>
+<td>Sliding</td>
+<td>A Yahoo!-like scrolling style that positions the current page number in the center of the page range, or as close as possible. This is the default style.</td>
+</tr>
+</tbody>
+</table></div>
+<p>The fourth and final parameter is reserved for an optional associative array of
+variables that you want available in your view (available via <code>$this</code>). For
+instance, these values could include extra URL parameters for pagination links.</p>
+<p>By setting the default view script name, default scrolling style, and view
+instance, you can eliminate the calls to <code>PaginationControl</code> completely:</p>
+<pre class="highlight"><code class="language-php">use Laminas\Paginator\Paginator;
+use Laminas\View\Helper\PaginationControl;
+
+Paginator::setDefaultScrollingStyle('Sliding');
+PaginationControl::setDefaultViewPartial('my_pagination_control');</code></pre>
+<p>When all of these values are set, you can render the pagination control inside
+your view script by echoing the paginator instance:</p>
+<pre class="highlight"><code class="language-php">&lt;?= $this-&gt;paginator ?&gt;</code></pre>
+<blockquote>
+<h3 id="using-other-template-engines">Using other template engines</h3>
+<p>Of course, it's possible to use laminas-paginator with other template engines.
+For example, with Smarty you might do the following:</p>
+<pre class="highlight"><code class="language-php">$smarty-assign('pages', $paginator-&gt;getPages());</code></pre>
+<p>You could then access paginator values from a template like so:</p>
+<pre class="highlight"><code class="language-php">{$pages.pageCount}</code></pre>
+</blockquote>
+<h3 id="example-pagination-controls">Example pagination controls</h3>
+<p>The following example pagination controls will help you get started with
+laminas-view:</p>
+<p>Search pagination:</p>
+<pre class="highlight"><code class="language-php">&lt;!--
+See http://developer.yahoo.com/ypatterns/pattern.php?pattern=searchpagination
+--&gt;
+
+&lt;?php if ($this-&gt;pageCount): ?&gt;
+&lt;div class="paginationControl"&gt;
+&lt;!-- Previous page link --&gt;
+&lt;?php if (isset($this-&gt;previous)): ?&gt;
+  &lt;a href="&lt;?= $this-&gt;url($this-&gt;route, ['page' =&gt; $this-&gt;previous]); ?&gt;"&gt;
+    &amp;lt; Previous
+  &lt;/a&gt; |
+&lt;?php else: ?&gt;
+  &lt;span class="disabled"&gt;&amp;lt; Previous&lt;/span&gt; |
+&lt;?php endif; ?&gt;
+
+&lt;!-- Numbered page links --&gt;
+&lt;?php foreach ($this-&gt;pagesInRange as $page): ?&gt;
+  &lt;?php if ($page != $this-&gt;current): ?&gt;
+    &lt;a href="&lt;?= $this-&gt;url($this-&gt;route, ['page' =&gt; $page]); ?&gt;"&gt;
+        &lt;?= $page; ?&gt;
+    &lt;/a&gt; |
+  &lt;?php else: ?&gt;
+    &lt;?= $page; ?&gt; |
+  &lt;?php endif; ?&gt;
+&lt;?php endforeach; ?&gt;
+
+&lt;!-- Next page link --&gt;
+&lt;?php if (isset($this-&gt;next)): ?&gt;
+  &lt;a href="&lt;?= $this-&gt;url($this-&gt;route, ['page' =&gt; $this-&gt;next]); ?&gt;"&gt;
+    Next &amp;gt;
+  &lt;/a&gt;
+&lt;?php else: ?&gt;
+  &lt;span class="disabled"&gt;Next &amp;gt;&lt;/span&gt;
+&lt;?php endif; ?&gt;
+&lt;/div&gt;
+&lt;?php endif; ?&gt;</code></pre>
+<p>Item pagination:</p>
+<pre class="highlight"><code class="language-php">&lt;!--
+See http://developer.yahoo.com/ypatterns/pattern.php?pattern=itempagination
+--&gt;
+
+&lt;?php if ($this-&gt;pageCount): ?&gt;
+&lt;div class="paginationControl"&gt;
+&lt;?= $this-&gt;firstItemNumber; ?&gt; - &lt;?= $this-&gt;lastItemNumber; ?&gt;
+of &lt;?= $this-&gt;totalItemCount; ?&gt;
+
+&lt;!-- First page link --&gt;
+&lt;?php if (isset($this-&gt;previous)): ?&gt;
+  &lt;a href="&lt;?= $this-&gt;url($this-&gt;route, ['page' =&gt; $this-&gt;first]); ?&gt;"&gt;
+    First
+  &lt;/a&gt; |
+&lt;?php else: ?&gt;
+  &lt;span class="disabled"&gt;First&lt;/span&gt; |
+&lt;?php endif; ?&gt;
+
+&lt;!-- Previous page link --&gt;
+&lt;?php if (isset($this-&gt;previous)): ?&gt;
+  &lt;a href="&lt;?= $this-&gt;url($this-&gt;route, ['page' =&gt; $this-&gt;previous]); ?&gt;"&gt;
+    &amp;lt; Previous
+  &lt;/a&gt; |
+&lt;?php else: ?&gt;
+  &lt;span class="disabled"&gt;&amp;lt; Previous&lt;/span&gt; |
+&lt;?php endif; ?&gt;
+
+&lt;!-- Next page link --&gt;
+&lt;?php if (isset($this-&gt;next)): ?&gt;
+  &lt;a href="&lt;?= $this-&gt;url($this-&gt;route, ['page' =&gt; $this-&gt;next]); ?&gt;"&gt;
+    Next &amp;gt;
+  &lt;/a&gt; |
+&lt;?php else: ?&gt;
+  &lt;span class="disabled"&gt;Next &amp;gt;&lt;/span&gt; |
+&lt;?php endif; ?&gt;
+
+&lt;!-- Last page link --&gt;
+&lt;?php if (isset($this-&gt;next)): ?&gt;
+  &lt;a href="&lt;?= $this-&gt;url($this-&gt;route, ['page' =&gt; $this-&gt;last]); ?&gt;"&gt;
+    Last
+  &lt;/a&gt;
+&lt;?php else: ?&gt;
+  &lt;span class="disabled"&gt;Last&lt;/span&gt;
+&lt;?php endif; ?&gt;
+
+&lt;/div&gt;
+&lt;?php endif; ?&gt;</code></pre>
+<p>Dropdown pagination:</p>
+<pre class="highlight"><code class="language-php">&lt;?php if ($this-&gt;pageCount): ?&gt;
+&lt;select id="paginationControl" size="1"&gt;
+&lt;?php foreach ($this-&gt;pagesInRange as $page): ?&gt;
+  &lt;?php $selected = ($page == $this-&gt;current) ? ' selected="selected"' : ''; ?&gt;
+  &lt;option value="&lt;?= $this-&gt;url($this-&gt;route, ['page' =&gt; $page]);?&gt;"&lt;?= $selected ?&gt;&gt;
+    &lt;?= $page; ?&gt;
+  &lt;/option&gt;
+&lt;?php endforeach; ?&gt;
+&lt;/select&gt;
+&lt;?php endif; ?&gt;
+
+&lt;script type="text/javascript"
+     src="http://ajax.googleapis.com/ajax/libs/prototype/1.6.0.2/prototype.js"&gt;
+&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+$('paginationControl').observe('change', function() {
+    window.location = this.options[this.selectedIndex].value;
+})
+&lt;/script&gt;</code></pre>
+<h3 id="listing-of-properties">Listing of properties</h3>
+<p>The following options are available to pagination control view scripts:</p>
+<div class="table-responsive"><table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>first</td>
+<td>integer</td>
+<td>First page number (typically 1).</td>
+</tr>
+<tr>
+<td>firstItemNumber</td>
+<td>integer</td>
+<td>Absolute number of the first item on this page.</td>
+</tr>
+<tr>
+<td>firstPageInRange</td>
+<td>integer</td>
+<td>First page in the range returned by the scrolling style.</td>
+</tr>
+<tr>
+<td>current</td>
+<td>integer</td>
+<td>Current page number.</td>
+</tr>
+<tr>
+<td>currentItemCount</td>
+<td>integer</td>
+<td>Number of items on this page.</td>
+</tr>
+<tr>
+<td>itemCountPerPage</td>
+<td>integer</td>
+<td>Maximum number of items available to each page.</td>
+</tr>
+<tr>
+<td>last</td>
+<td>integer</td>
+<td>Last page number.</td>
+</tr>
+<tr>
+<td>lastItemNumber</td>
+<td>integer</td>
+<td>Absolute number of the last item on this page.</td>
+</tr>
+<tr>
+<td>lastPageInRange</td>
+<td>integer</td>
+<td>Last page in the range returned by the scrolling style.</td>
+</tr>
+<tr>
+<td>next</td>
+<td>integer</td>
+<td>Next page number.</td>
+</tr>
+<tr>
+<td>pageCount</td>
+<td>integer</td>
+<td>Number of pages.</td>
+</tr>
+<tr>
+<td>pagesInRange</td>
+<td>array</td>
+<td>Array of pages returned by the scrolling style.</td>
+</tr>
+<tr>
+<td>previous</td>
+<td>integer</td>
+<td>Previous page number.</td>
+</tr>
+<tr>
+<td>totalItemCount</td>
+<td>integer</td>
+<td>Total number of items.</td>
+</tr>
+</tbody>
+</table></div>
+
+
+
+
+    <nav>
+    <ul class="page-nav hidden-print">
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../installation/">
+                    <small class="page-nav__label">Previous</small>
+                    <i class="fa fa-chevron-left"></i>
+                    Installation
+                </a>
+            
+        </li>
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="next" class="page-nav__link page-nav__link--next" href="../configuration/">
+                    <small class="page-nav__label">Next</small>
+                    Configuration
+                    <i class="fa fa-chevron-right"></i>
+                </a>
+            
+        </li>
+    </ul>
+</nav>
+
+
+
+                
+            </div>
+            <div class="col-md-3 col-sm-12 sidebar">
+                <div class="donation-banner">
+    <a href="https://getlaminas.org/support/">
+        <h2>Donate</h2>
+        <p>Support Laminas Developers Directly</p>
+        <img src="https://funding.communitybridge.org/assets/cb-f-horizontal-white.svg">
+    </a>
+</div>
+
+                
+                    <div class="component-selector">
+    
+    <h5 class="component-selector__subtitle">Find documentation…</h5>
+    <select class="form-control component-selector__control">
+        <option value="/">Overview</option>
+        <optgroup label="Components"></optgroup>
+    </select>
+</div>
+                    
+    <div class="subnavigation hidden-print">
+        <h4 class="subnavigation__title">
+            <a href="../..">laminas-paginator</a>
+        </h4>
+
+        <h5 class="subnavigation__subtitle">Table of Contents</h5>
+
+        <ul class="subnavigation__list">
+            
+
+                
+                
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../intro/" class="subnavigation__link">Introduction</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../installation/" class="subnavigation__link">Installation</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Usage</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../configuration/" class="subnavigation__link">Configuration</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../advanced/" class="subnavigation__link">Advanced Usage</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Application Integration</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../application-integration/stand-alone/" class="subnavigation__link">Stand-Alone</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                
+            
+        </ul>
+    </div>
+
+                    
+                
+            </div>
+        </div>
+    </div>
+
+    
+    <footer class="footer">
+    <div class="container">
+
+        
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <a class="footer__button" href="#page-top"><i class="fa fa-chevron-up" aria-hidden="true"></i></a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h5>Laminas</h5>
+                <ul>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Maintenance Overview <a href="https://getlaminas.org/packages-maintenance-status/">Current maintenance status of Laminas &amp; Mezzio packages</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+
+                    
+                    <div class="col-md-4">
+                        <h4 class="footer__headline">Support</h4>
+                        <ul class="support__list">
+                            <li class="support__list-item">
+                                <a href="https://discourse.laminas.dev" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
+                            </li>
+                            <li class="support__list-item">
+                                <a href="https://laminas.dev/chat" class="support__link" title="Chat"><i class="fab fa-slack"></i></a>
+                            </li>
+                            <li class="support__list-item">
+                                <a href="https://github.com/laminas" class="support__link" title="Github"><i class="fab fa-github"></i></a>
+                            </li>
+                            <li class="support__list-item">
+                                <a href="https://phpc.social/@getlaminas" class="support__link" title="Mastodon"><i class="fab fa-mastodon"></i></a>
+                            </li>
+                            <li class="support__list-item">
+                                <a href="https://getlaminas.org/blog/rss.xml" class="support__link" title="Blog feed"><i class="fa fa-rss"></i></a>
+                            </li>
+                            <li class="support__list-item">
+                                <a href="https://getlaminas.org/security/feed" class="support__link" title="Security feed"><i class="fa fa-rss-square"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    
+                    <div class="col-md-4">
+                        <h4 class="footer__headline">License</h4>
+                        <p>
+                            Code licensed under <a
+                                href="https://github.com/laminas/laminas-paginator/blob/-/LICENSE.md">BSD 3-Clause</a>.
+                        </p>
+                    </div>
+
+                    
+                    <div class="col-md-4">
+                        <h4 class="footer__headline">Copyright</h4>
+                        <p>
+                            <!--Built with love by the Laminas team with the help of our
+                            <a href="https://github.com/laminas/laminas-paginator/graphs/contributors">contributors</a>.<br>-->
+                            &copy; 2024 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script>
+        let base_url = '../..',
+            project  = "components",
+            siteName = 'laminas-paginator';
+    </script>
+    <script src="https://docs.laminas.dev/js/scripts.js"></script>
+    
+        <script src="../../search/main.js"></script>
+    
+
+    
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Search</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search in laminas-paginator" id="mkdocs-search-query">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+
+</html>

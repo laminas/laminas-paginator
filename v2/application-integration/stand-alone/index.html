@@ -15,10 +15,10 @@
     <meta name="docsearch:language" content="en">
     <meta name="docsearch:component" content="laminas-paginator">
 
-    <link rel="canonical" href="https://docs.laminas.dev/laminas-paginator/">
+    <link rel="canonical" href="https://docs.laminas.dev/laminas-paginator/v2/application-integration/stand-alone/">
     <link rel="shortcut icon" href="https://docs.laminas.dev/img/trademark-laminas-foundation-rgb.svg">
 
-    <title>laminas-paginator - Laminas Docs</title>
+    <title>Stand-Alone - laminas-paginator - Laminas Docs</title>
 
     <link rel="stylesheet" href="https://docs.laminas.dev/css/styles.css">
     
@@ -113,7 +113,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href=".">laminas-paginator</a>
+            <a href="../../..">laminas-paginator</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -126,31 +126,31 @@
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="v2/intro/" class="subnavigation__link">Introduction</a>
+        <a href="../../intro/" class="subnavigation__link">Introduction</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="v2/installation/" class="subnavigation__link">Installation</a>
+        <a href="../../installation/" class="subnavigation__link">Installation</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="v2/usage/" class="subnavigation__link">Usage</a>
+        <a href="../../usage/" class="subnavigation__link">Usage</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="v2/configuration/" class="subnavigation__link">Configuration</a>
+        <a href="../../configuration/" class="subnavigation__link">Configuration</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="v2/advanced/" class="subnavigation__link">Advanced Usage</a>
+        <a href="../../advanced/" class="subnavigation__link">Advanced Usage</a>
     </li>
 
                     
@@ -160,8 +160,8 @@
         <ul class="subnavigation__list">
             
                 
-    <li class="subnavigation__list-item ">
-        <a href="v2/application-integration/stand-alone/" class="subnavigation__link">Stand-Alone</a>
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Stand-Alone</a>
     </li>
 
             
@@ -231,6 +231,32 @@
             <div class="col-md-9 col-sm-12 content" role="main">
                 
                 
+                    
+    
+
+    
+    
+        <div class="toc">
+            <h6 class="toc__headline">On this page</h6>
+            <ul class="toc__list">
+                
+                    <li class="toc__entry">
+                        <a href="#create-and-configure-paginator" class="toc__link nav-link">Create and Configure Paginator</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#output-pure-data" class="toc__link nav-link">Output Pure Data</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#usage-with-laminas-view" class="toc__link nav-link">Usage with laminas-view</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
+                
 
                 
                     <nav aria-label="breadcrumb">
@@ -240,7 +266,23 @@
             <li class="breadcrumb-item"><a href="https://docs.laminas.dev/components/">Components</a></li>
 
             
-                <li class="breadcrumb-item">laminas-paginator</li>
+                <li class="breadcrumb-item"><a href="../../..">laminas-paginator</a></li>
+
+                
+                    
+                        
+                        
+                    
+                
+                    
+                        
+                        
+                            <li class="breadcrumb-item">Application Integration</li>
+                        
+                    
+                
+
+                <li class="breadcrumb-item active" aria-current="page">Stand-Alone</li>
             
         
     </ol>
@@ -250,22 +292,273 @@
 
 
 
-    <h1>laminas-paginator</h1>
-<p>Paginate collections of data from arbitrary sources</p>
 
+    
+    
+        <h2 class="chapter__headline">Application Integration</h2>
+    
 
-    <h2>Installation</h2>
-    <h3>Using Composer</h3>
-    <pre><code class="language-bash">$ composer require laminas/laminas-paginator</code></pre>
+    <h1 id="stand-alone">Stand-Alone</h1>
+<p>The paginator can also be used stand-alone, outside of a Mezzio or laminas-mvc
+application.</p>
+<p>The example uses the following directory structure:</p>
+<pre class="highlight"><code class="language-treeview">example-app/
+|-- public/
+|   `-- index.php
+|-- templates/
+|   `-- pagination-control.phtml
+`-- vendor
+    `-- …</code></pre>
+<h2 id="create-and-configure-paginator">Create and Configure Paginator</h2>
+<p><a href="../../usage/#paginating-data-collections">Create a paginator and a related adapter</a>,
+set the item count for one page and the current page number in <code>public/index.php</code>:</p>
+<pre class="highlight"><code class="language-php">// Create paginator
+$paginator = new Laminas\Paginator\Paginator(
+    new Laminas\Paginator\Adapter\ArrayAdapter($albums)
+);
 
+// Configure paginator
+$paginator-&gt;setItemCountPerPage(4);
+$paginator-&gt;setCurrentPageNumber((int) ($_GET['page'] ?? 1));</code></pre>
+<!-- markdownlint-disable-next-line MD033-->
+<details><summary>Example Data</summary>
 
-<h2>Support</h2>
-<ul>
-    <li>Issues: <a href="https://github.com/laminas/laminas-paginator/issues">github.com/laminas/laminas-paginator/issues</a></li>
-    <li>Source: <a href="https://github.com/laminas/laminas-paginator">github.com/laminas/laminas-paginator</a></li>
-    <li>Chat: <a href="https://laminas.dev/chat">laminas.dev/chat</a></li>
-    <li>Forum: <a href="https://discourse.laminas.dev/">discourse.laminas.dev</a></li>
-</ul>
+<pre class="highlight"><code class="language-php">$albums = [
+    [
+        'artist' =&gt; 'David Bowie',
+        'title'  =&gt; 'The Next Day (Deluxe Version)',
+    ],
+    [
+        'artist' =&gt; 'Bastille',
+        'title'  =&gt; 'Bad Blood',
+    ],
+    [
+        'artist' =&gt; 'Bruno Mars',
+        'title'  =&gt; 'Unorthodox Jukebox',
+    ],
+    [
+        'artist' =&gt; 'Emeli Sandé',
+        'title'  =&gt; 'Our Version of Events (Special Edition)',
+    ],
+    [
+        'artist' =&gt; 'Bon Jovi',
+        'title'  =&gt; 'What About Now (Deluxe Version)',
+    ],
+    [
+        'artist' =&gt; 'Justin Timberlake',
+        'title'  =&gt; 'The 20/20 Experience (Deluxe Version)',
+    ],
+    [
+        'artist' =&gt; 'Bastille',
+        'title'  =&gt; 'Bad Blood (The Extended Cut)',
+    ],
+    [
+        'artist' =&gt; 'P!nk',
+        'title'  =&gt; 'The Truth About Love',
+    ],
+    [
+        'artist' =&gt; 'Sound City - Real to Reel',
+        'title'  =&gt; 'Sound City - Real to Reel',
+    ],
+    [
+        'artist' =&gt; 'Jake Bugg',
+        'title'  =&gt; 'Jake Bugg',
+    ],
+];</code></pre>
+
+<!-- markdownlint-disable-next-line MD033-->
+</details>
+
+<h2 id="output-pure-data">Output Pure Data</h2>
+<p>The data of each sub-array is returned by iteration over the paginator:</p>
+<pre class="highlight"><code class="language-php">foreach ($paginator as $item) {
+    var_dump($item['artist']); // "Bon Jovi", "Justin Timberlake", …
+    var_dump($item['title']); // "What About Now (Deluxe Version)", "The 20/20 Experience (Deluxe Version)", …
+}</code></pre>
+<p>Retrieving the <a href="../../usage/#listing-of-properties">current status data of the paginator</a>:</p>
+<pre class="highlight"><code class="language-php">var_dump($paginator-&gt;getPages()-&gt;previous); // 1
+var_dump($paginator-&gt;getPages()-&gt;next); // 3</code></pre>
+<h2 id="usage-with-laminas-view">Usage with laminas-view</h2>
+<h3 id="create-view-script">Create View Script</h3>
+<p><a href="https://docs.laminas.dev/laminas-view/view-scripts/">Create a view script</a> in
+<code>templates/pagination-control.phtml</code>:</p>
+<pre class="highlight"><code class="language-php">&lt;?php
+/**
+ * @var Laminas\View\Renderer\PhpRenderer $this
+ * @var int                               $pageCount
+ * @var int                               $previous
+ * @var int                               $next
+ * @var int                               $current
+ * @var array&lt;int, int&gt;                   $pagesInRange
+ */
+?&gt;
+
+&lt;?php if ($pageCount): ?&gt;
+    &lt;nav aria-label="Page navigation example"&gt;
+        &lt;ul class="pagination"&gt;
+        &lt;!-- Previous page link --&gt;
+        &lt;?php if (isset($previous)): ?&gt;
+            &lt;li class="page-item"&gt;
+                &lt;a class="page-link" href="index.php?page=&lt;?= $previous ?&gt;"&gt;Previous&lt;/a&gt;
+            &lt;/li&gt;
+        &lt;?php else: ?&gt;
+            &lt;li class="page-item disabled"&gt;
+                &lt;a class="page-link" href="#" tabindex="-1" aria-disabled="true"&gt;Previous&lt;/a&gt;
+            &lt;/li&gt;
+        &lt;?php endif; ?&gt;
+
+        &lt;!-- Numbered page links --&gt;
+        &lt;?php foreach ($pagesInRange as $page): ?&gt;
+            &lt;?php if ($page !== $current): ?&gt;
+                &lt;li class="page-item"&gt;
+                    &lt;a class="page-link" href="index.php?page=&lt;?= $page ?&gt;"&gt;
+                        &lt;?= $page ?&gt;
+                    &lt;/a&gt;
+                &lt;/li&gt;
+            &lt;?php else: ?&gt;
+                &lt;!-- Current page --&gt;
+                &lt;li class="page-item active" aria-current="page"&gt;
+                    &lt;a class="page-link" href="#"&gt;&lt;?= $page ?&gt; &lt;span class="sr-only"&gt;(current)&lt;/span&gt;&lt;/a&gt;
+                &lt;/li&gt;
+            &lt;?php endif; ?&gt;
+        &lt;?php endforeach; ?&gt;
+
+        &lt;!-- Next page link --&gt;
+        &lt;?php if (isset($this-&gt;next)): ?&gt;
+            &lt;li class="page-item"&gt;
+                &lt;a class="page-link" href="index.php?page=&lt;?= $next ?&gt;"&gt;Next&lt;/a&gt;
+            &lt;/li&gt;
+        &lt;?php else: ?&gt;
+            &lt;li class="page-item disabled"&gt;
+                &lt;a class="page-link" href="#" tabindex="-1" aria-disabled="true"&gt;Next&lt;/a&gt;
+            &lt;/li&gt;
+        &lt;?php endif; ?&gt;
+        &lt;/ul&gt;
+    &lt;/nav&gt;
+&lt;?php endif; ?&gt;</code></pre>
+<h3 id="setup">Setup</h3>
+<p><a href="https://docs.laminas.dev/laminas-view/php-renderer/#usage">Set a resolver for templates</a>
+and set template for the <a href="../../usage/#rendering-pages-with-view-scripts">related view helper</a>
+in <code>public/index.php</code>:</p>
+<pre class="highlight"><code class="language-php">// Create template resolver
+$templateResolver = new Laminas\View\Resolver\TemplatePathStack([
+    'script_paths' =&gt; [__DIR__ . '/../templates'],
+]);
+
+// Setup renderer
+/** @var Laminas\View\Renderer\PhpRenderer $renderer */
+$renderer = $paginator-&gt;getView();
+$renderer-&gt;setResolver($templateResolver);
+
+// Set template for related view helper
+$renderer-&gt;plugin('paginationControl')-&gt;setDefaultViewPartial('pagination-control');</code></pre>
+<h3 id="render-output">Render Output</h3>
+<pre class="highlight"><code class="language-php">echo $paginator-&gt;render();</code></pre>
+<p>Output:</p>
+<pre class="highlight"><code class="language-html">&lt;nav aria-label="Page navigation example"&gt;
+    &lt;ul class="pagination"&gt;
+        &lt;!-- Previous page link --&gt;
+        &lt;li class="page-item"&gt;
+            &lt;a class="page-link" href="index.php?page=1"&gt;Previous&lt;/a&gt;
+        &lt;/li&gt;
+
+        &lt;!-- Numbered page links --&gt;
+        &lt;li class="page-item"&gt;
+            &lt;a class="page-link" href="index.php?page=1"&gt;
+                1
+            &lt;/a&gt;
+        &lt;/li&gt;
+        &lt;!-- Current page --&gt;
+        &lt;li class="page-item active" aria-current="page"&gt;
+            &lt;a class="page-link" href="#"&gt;2 &lt;span class="sr-only"&gt;(current)&lt;/span&gt;&lt;/a&gt;
+        &lt;/li&gt;
+        &lt;li class="page-item"&gt;
+            &lt;a class="page-link" href="index.php?page=3"&gt;
+                3
+            &lt;/a&gt;
+        &lt;/li&gt;
+
+        &lt;!-- Next page link --&gt;
+        &lt;li class="page-item"&gt;
+            &lt;a class="page-link" href="index.php?page=3"&gt;Next&lt;/a&gt;
+        &lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/nav&gt;</code></pre>
+<!-- markdownlint-disable-next-line MD033-->
+<details><summary>Show full code example</summary>
+
+<pre class="highlight"><code class="language-php">&lt;?php
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$albums = [
+    [
+        'artist' =&gt; 'David Bowie',
+        'title'  =&gt; 'The Next Day (Deluxe Version)',
+    ],
+    [
+        'artist' =&gt; 'Bastille',
+        'title'  =&gt; 'Bad Blood',
+    ],
+    [
+        'artist' =&gt; 'Bruno Mars',
+        'title'  =&gt; 'Unorthodox Jukebox',
+    ],
+    [
+        'artist' =&gt; 'Emeli Sandé',
+        'title'  =&gt; 'Our Version of Events (Special Edition)',
+    ],
+    [
+        'artist' =&gt; 'Bon Jovi',
+        'title'  =&gt; 'What About Now (Deluxe Version)',
+    ],
+    [
+        'artist' =&gt; 'Justin Timberlake',
+        'title'  =&gt; 'The 20/20 Experience (Deluxe Version)',
+    ],
+    [
+        'artist' =&gt; 'Bastille',
+        'title'  =&gt; 'Bad Blood (The Extended Cut)',
+    ],
+    [
+        'artist' =&gt; 'P!nk',
+        'title'  =&gt; 'The Truth About Love',
+    ],
+    [
+        'artist' =&gt; 'Sound City - Real to Reel',
+        'title'  =&gt; 'Sound City - Real to Reel',
+    ],
+    [
+        'artist' =&gt; 'Jake Bugg',
+        'title'  =&gt; 'Jake Bugg',
+    ],
+];
+
+// Create paginator
+$paginator = new Laminas\Paginator\Paginator(
+    new Laminas\Paginator\Adapter\ArrayAdapter($albums)
+);
+$paginator-&gt;setItemCountPerPage(4);
+$paginator-&gt;setCurrentPageNumber((int) ($_GET['page'] ?? 1));
+
+// Create template resolver
+$templateResolver = new Laminas\View\Resolver\TemplatePathStack([
+    'script_paths' =&gt; [__DIR__ . '/../templates'],
+]);
+
+// Setup renderer
+/** @var Laminas\View\Renderer\PhpRenderer $renderer */
+$renderer = $paginator-&gt;getView();
+$renderer-&gt;setResolver($templateResolver);
+
+// Set template for related view helper
+$renderer-&gt;plugin('paginationControl')-&gt;setDefaultViewPartial('pagination-control');
+
+// Render output
+echo $paginator-&gt;render();</code></pre>
+
+<!-- markdownlint-disable-next-line MD033-->
+</details>
 
 
 
@@ -276,16 +569,16 @@
         
         <li class="page-nav__item">
             
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../../advanced/">
+                    <small class="page-nav__label">Previous</small>
+                    <i class="fa fa-chevron-left"></i>
+                    Advanced Usage
+                </a>
+            
         </li>
 
         
         <li class="page-nav__item">
-            
-                <a rel="next" class="page-nav__link page-nav__link--next" href="v2/intro/">
-                    <small class="page-nav__label">Next</small>
-                    Introduction
-                    <i class="fa fa-chevron-right"></i>
-                </a>
             
         </li>
     </ul>
@@ -316,7 +609,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href=".">laminas-paginator</a>
+            <a href="../../..">laminas-paginator</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -329,31 +622,31 @@
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="v2/intro/" class="subnavigation__link">Introduction</a>
+        <a href="../../intro/" class="subnavigation__link">Introduction</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="v2/installation/" class="subnavigation__link">Installation</a>
+        <a href="../../installation/" class="subnavigation__link">Installation</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="v2/usage/" class="subnavigation__link">Usage</a>
+        <a href="../../usage/" class="subnavigation__link">Usage</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="v2/configuration/" class="subnavigation__link">Configuration</a>
+        <a href="../../configuration/" class="subnavigation__link">Configuration</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="v2/advanced/" class="subnavigation__link">Advanced Usage</a>
+        <a href="../../advanced/" class="subnavigation__link">Advanced Usage</a>
     </li>
 
                     
@@ -363,8 +656,8 @@
         <ul class="subnavigation__list">
             
                 
-    <li class="subnavigation__list-item ">
-        <a href="v2/application-integration/stand-alone/" class="subnavigation__link">Stand-Alone</a>
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Stand-Alone</a>
     </li>
 
             
@@ -460,13 +753,13 @@
 </footer>
 
     <script>
-        let base_url = '.',
+        let base_url = '../../..',
             project  = "components",
             siteName = 'laminas-paginator';
     </script>
     <script src="https://docs.laminas.dev/js/scripts.js"></script>
     
-        <script src="search/main.js"></script>
+        <script src="../../../search/main.js"></script>
     
 
     
@@ -495,8 +788,3 @@
 
 
 </html>
-
-<!--
-MkDocs version : 1.6.1
-Build Date UTC : 2024-10-16 13:12:21.209675+00:00
--->

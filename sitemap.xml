@@ -2,37 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://docs.laminas.dev/laminas-paginator/</loc>
-         <lastmod>2024-01-11</lastmod>
-         <changefreq>daily</changefreq>
+         <lastmod>2024-10-16</lastmod>
     </url>
     <url>
-         <loc>https://docs.laminas.dev/laminas-paginator/advanced/</loc>
-         <lastmod>2024-01-11</lastmod>
-         <changefreq>daily</changefreq>
+         <loc>https://docs.laminas.dev/laminas-paginator/v2/advanced/</loc>
+         <lastmod>2024-10-16</lastmod>
     </url>
     <url>
-         <loc>https://docs.laminas.dev/laminas-paginator/configuration/</loc>
-         <lastmod>2024-01-11</lastmod>
-         <changefreq>daily</changefreq>
+         <loc>https://docs.laminas.dev/laminas-paginator/v2/configuration/</loc>
+         <lastmod>2024-10-16</lastmod>
     </url>
     <url>
-         <loc>https://docs.laminas.dev/laminas-paginator/installation/</loc>
-         <lastmod>2024-01-11</lastmod>
-         <changefreq>daily</changefreq>
+         <loc>https://docs.laminas.dev/laminas-paginator/v2/installation/</loc>
+         <lastmod>2024-10-16</lastmod>
     </url>
     <url>
-         <loc>https://docs.laminas.dev/laminas-paginator/intro/</loc>
-         <lastmod>2024-01-11</lastmod>
-         <changefreq>daily</changefreq>
+         <loc>https://docs.laminas.dev/laminas-paginator/v2/intro/</loc>
+         <lastmod>2024-10-16</lastmod>
     </url>
     <url>
-         <loc>https://docs.laminas.dev/laminas-paginator/usage/</loc>
-         <lastmod>2024-01-11</lastmod>
-         <changefreq>daily</changefreq>
+         <loc>https://docs.laminas.dev/laminas-paginator/v2/usage/</loc>
+         <lastmod>2024-10-16</lastmod>
     </url>
     <url>
-         <loc>https://docs.laminas.dev/laminas-paginator/application-integration/stand-alone/</loc>
-         <lastmod>2024-01-11</lastmod>
-         <changefreq>daily</changefreq>
+         <loc>https://docs.laminas.dev/laminas-paginator/v2/application-integration/stand-alone/</loc>
+         <lastmod>2024-10-16</lastmod>
     </url>
 </urlset>
