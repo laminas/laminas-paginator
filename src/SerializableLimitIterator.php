@@ -35,7 +35,7 @@ class SerializableLimitIterator extends LimitIterator implements Serializable, A
      */
     public function __construct(Iterator $it, private readonly int $offset = 0, private readonly int $count = -1)
     {
-        parent::__construct($it, $this->offset, $this->count);
+        parent::__construct($it, $offset, $count);
     }
 
     /**
