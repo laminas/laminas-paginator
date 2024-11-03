@@ -301,7 +301,7 @@ class Paginator implements Countable, IteratorAggregate, Stringable
         if (! $scrollingAdapters instanceof ScrollingStylePluginManager) {
             throw new Exception\InvalidArgumentException(sprintf(
                 'Pagination scrolling-style manager must extend ScrollingStylePluginManager; received "%s"',
-                is_object($scrollingAdapters) ? $scrollingAdapters::class : gettype($scrollingAdapters)
+                get_debug_type($scrollingAdapters)
             ));
         }
         static::$scrollingStyles = $scrollingAdapters;

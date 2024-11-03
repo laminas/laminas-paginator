@@ -25,16 +25,6 @@ use function unserialize;
 class SerializableLimitIterator extends LimitIterator implements Serializable, ArrayAccess
 {
     /**
-     * Offset to first element
-     */
-    private int $offset;
-
-    /**
-     * Maximum number of elements to show or -1 for all
-     */
-    private int $count;
-
-    /**
      * Construct a Laminas\Paginator\SerializableLimitIterator
      *
      * @see LimitIterator::__construct
@@ -43,11 +33,9 @@ class SerializableLimitIterator extends LimitIterator implements Serializable, A
      * @param int $offset Offset to first element
      * @param int $count Maximum number of elements to show or -1 for all
      */
-    public function __construct(Iterator $it, $offset = 0, $count = -1)
+    public function __construct(Iterator $it, private readonly int $offset = 0, private readonly int $count = -1)
     {
-        $this->offset = $offset;
-        $this->count  = $count;
-        parent::__construct($it, $offset, $count);
+        parent::__construct($it, $this->offset, $this->count);
     }
 
     /**

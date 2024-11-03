@@ -45,7 +45,7 @@ class IteratorFactory implements FactoryInterface
             throw new ServiceNotCreatedException(sprintf(
                 '%s requires an Iterator instance; received %s',
                 IteratorAdapter::class,
-                is_object($iterator) ? $iterator::class : gettype($iterator)
+                get_debug_type($iterator)
             ));
         }
 
