@@ -28,10 +28,10 @@ use function assert;
 use function ceil;
 use function class_exists;
 use function count;
+use function get_debug_type;
 use function gettype;
 use function is_array;
 use function is_countable;
-use function is_object;
 use function is_string;
 use function iterator_count;
 use function json_encode;
@@ -301,7 +301,7 @@ class Paginator implements Countable, IteratorAggregate, Stringable
         if (! $scrollingAdapters instanceof ScrollingStylePluginManager) {
             throw new Exception\InvalidArgumentException(sprintf(
                 'Pagination scrolling-style manager must extend ScrollingStylePluginManager; received "%s"',
-                is_object($scrollingAdapters) ? $scrollingAdapters::class : gettype($scrollingAdapters)
+                get_debug_type($scrollingAdapters)
             ));
         }
         static::$scrollingStyles = $scrollingAdapters;

@@ -15,7 +15,7 @@ use ReflectionProperty;
 
 use function assert;
 use function is_string;
-use function strpos;
+use function str_contains;
 
 class AdapterPluginManagerCompatibilityTest extends TestCase
 {
@@ -58,17 +58,17 @@ class AdapterPluginManagerCompatibilityTest extends TestCase
             assert(is_string($alias) && is_string($target));
 
             // Skipping as these have required arguments
-            if (strpos($target, '\\Db') !== false) {
+            if (str_contains($target, '\\Db')) {
                 continue;
             }
 
             // Skipping as has required arguments
-            if (strpos($target, '\\Callback') !== false) {
+            if (str_contains($target, '\\Callback')) {
                 continue;
             }
 
             // Skipping as has required arguments
-            if (strpos($target, Iterator::class) !== false) {
+            if (str_contains($target, Iterator::class)) {
                 continue;
             }
 
