@@ -15,7 +15,7 @@ use ReflectionProperty;
 
 use function assert;
 use function is_string;
-use function strpos;
+use function str_contains;
 
 class AdapterPluginManagerCompatibilityTest extends TestCase
 {

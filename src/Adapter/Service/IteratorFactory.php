@@ -12,8 +12,7 @@ use Laminas\ServiceManager\ServiceLocatorInterface;
 use Psr\Container\ContainerInterface;
 
 use function array_shift;
-use function gettype;
-use function is_object;
+use function get_debug_type;
 use function sprintf;
 
 class IteratorFactory implements FactoryInterface

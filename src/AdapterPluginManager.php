@@ -9,8 +9,7 @@ use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\Exception\InvalidServiceException;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 
-use function gettype;
-use function is_object;
+use function get_debug_type;
 use function sprintf;
 
 /**
