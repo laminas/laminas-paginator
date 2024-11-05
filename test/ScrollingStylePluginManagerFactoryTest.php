@@ -8,6 +8,7 @@ use Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface;
 use Laminas\Paginator\ScrollingStylePluginManager;
 use Laminas\Paginator\ScrollingStylePluginManagerFactory;
 use Laminas\ServiceManager\ServiceLocatorInterface;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 
@@ -22,9 +23,7 @@ class ScrollingStylePluginManagerFactoryTest extends TestCase
         $this->assertInstanceOf(ScrollingStylePluginManager::class, $scrollingStyles);
     }
 
-    /**
-     * @depends testFactoryReturnsPluginManager
-     */
+    #[Depends('testFactoryReturnsPluginManager')]
     public function testFactoryConfiguresPluginManagerUnderContainerInterop(): void
     {
         $container      = $this->createMock(ContainerInterface::class);
@@ -39,9 +38,7 @@ class ScrollingStylePluginManagerFactoryTest extends TestCase
         $this->assertSame($scrollingStyle, $scrollingStyles->get('test'));
     }
 
-    /**
-     * @depends testFactoryReturnsPluginManager
-     */
+    #[Depends('testFactoryReturnsPluginManager')]
     public function testFactoryConfiguresPluginManagerUnderServiceManagerV2(): void
     {
         $container      = $this->createMock(ServiceLocatorInterface::class);

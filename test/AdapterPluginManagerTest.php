@@ -7,14 +7,14 @@ namespace LaminasTest\Paginator;
 use ArrayIterator;
 use Laminas\Paginator\Adapter;
 use Laminas\Paginator\AdapterPluginManager;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 
 use function range;
 
-/**
- * @covers \Laminas\Paginator\AdapterPluginManager
- */
+#[CoversClass(AdapterPluginManager::class)]
 class AdapterPluginManagerTest extends TestCase
 {
     /** @var AdapterPluginManager */
@@ -48,9 +48,9 @@ class AdapterPluginManagerTest extends TestCase
     }
 
     /**
-     * @dataProvider pluginProvider
      * @psalm-param class-string $expectedType
      */
+    #[DataProvider('pluginProvider')]
     public function testCanRetrieveAdapterPlugin(string $pluginName, array $options, string $expectedType): void
     {
         $plugin = $this->adapterPluginManager->get($pluginName, $options);

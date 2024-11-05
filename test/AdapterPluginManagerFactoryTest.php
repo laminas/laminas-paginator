@@ -8,6 +8,7 @@ use Laminas\Paginator\Adapter\AdapterInterface;
 use Laminas\Paginator\AdapterPluginManager;
 use Laminas\Paginator\AdapterPluginManagerFactory;
 use Laminas\ServiceManager\ServiceLocatorInterface;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -32,9 +33,7 @@ class AdapterPluginManagerFactoryTest extends TestCase
         $this->assertInstanceOf(AdapterPluginManager::class, $adapters);
     }
 
-    /**
-     * @depends testFactoryReturnsPluginManager
-     */
+    #[Depends('testFactoryReturnsPluginManager')]
     public function testFactoryConfiguresPluginManagerUnderContainerInterop(): void
     {
         $container = $this->createMock(ContainerInterface::class);
@@ -58,9 +57,7 @@ class AdapterPluginManagerFactoryTest extends TestCase
         $this->assertSame($adapter, $adapters->get('test'));
     }
 
-    /**
-     * @depends testFactoryReturnsPluginManager
-     */
+    #[Depends('testFactoryReturnsPluginManager')]
     public function testFactoryConfiguresPluginManagerUnderServiceManagerV2(): void
     {
         $container = $this->createMock(ServiceLocatorInterface::class);

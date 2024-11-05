@@ -13,6 +13,7 @@ use Laminas\Db\Sql\Select;
 use Laminas\Db\Sql\Sql;
 use Laminas\Paginator\Adapter\DbSelect;
 use Laminas\Paginator\Adapter\Exception\MissingRowCountColumnException;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 
@@ -62,7 +63,7 @@ class DbSelectTest extends TestCase
         $mockPlatform->expects($this->any())->method('getName')->will($this->returnValue('platform'));
 
         $this->mockSql = $this->getMockBuilder(Sql::class)
-            ->setMethods(['prepareStatementForSqlObject', 'execute'])
+            ->onlyMethods(['prepareStatementForSqlObject', 'execute'])
             ->setConstructorArgs(
                 [
                     $this->getMockForAbstractClass(
@@ -137,10 +138,8 @@ class DbSelectTest extends TestCase
         $this->assertEquals(7, $count);
     }
 
-    /**
-     * @group 6817
-     * @group 6812
-     */
+    #[Group('6817')]
+    #[Group('6812')]
     public function testReturnValueIsArray(): void
     {
         $this->assertIsArray($this->dbSelect->getItems(0, 10));
