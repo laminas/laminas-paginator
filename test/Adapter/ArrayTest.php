@@ -6,15 +6,13 @@ namespace LaminasTest\Paginator\Adapter;
 
 use Laminas\Paginator\Adapter;
 use Laminas\Paginator\Adapter\ArrayAdapter;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 use function assert;
 use function range;
 
-/**
- * @group      Laminas_Paginator
- * @covers  Laminas\Paginator\Adapter\ArrayAdapter<extended>
- */
+#[Group('Laminas_Paginator')]
 class ArrayTest extends TestCase
 {
     private ?ArrayAdapter $adapter;
@@ -64,9 +62,7 @@ class ArrayTest extends TestCase
         $this->assertEquals(101, $this->adapter->count());
     }
 
-    /**
-     * @group Laminas-4151
-     */
+    #[Group('Laminas-4151')]
     public function testEmptySet(): void
     {
         $this->adapter = new Adapter\ArrayAdapter([]);

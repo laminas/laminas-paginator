@@ -12,15 +12,13 @@ use Laminas\Paginator\Adapter\DbSelect;
 use Laminas\Paginator\Adapter\Iterator;
 use Laminas\Paginator\Exception\InvalidArgumentException;
 use LaminasTest\Paginator\TestAsset\TestArrayAggregate;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 use function count;
 use function sprintf;
 
-/**
- * @group      Laminas_Paginator
- * @covers  Laminas\Paginator\Factory<extended>
- */
+#[Group('Laminas_Paginator')]
 class FactoryTest extends TestCase
 {
     public function testCanFactoryPaginatorWithStringAdapterObject(): void

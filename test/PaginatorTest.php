@@ -24,6 +24,7 @@ use Laminas\View\Renderer\RendererInterface;
 use LaminasTest\Paginator\TestAsset\ScrollingStylePluginManager;
 use LaminasTest\Paginator\TestAsset\TestArrayAggregate;
 use LimitIterator;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use ReflectionMethod;
@@ -37,10 +38,7 @@ use function is_array;
 use function is_int;
 use function range;
 
-/**
- * @group      Laminas_Paginator
- * @covers  Laminas\Paginator\Paginator<extended>
- */
+#[Group('Laminas_Paginator')]
 class PaginatorTest extends TestCase
 {
     /**
@@ -84,7 +82,7 @@ class PaginatorTest extends TestCase
         Paginator\Paginator::setGlobalConfig($this->config->default);
 
         Paginator\Paginator::setScrollingStylePluginManager(new Paginator\ScrollingStylePluginManager(
-            $this->getMockBuilder(ContainerInterface::class)->getMock()
+            $this->createMock(ContainerInterface::class)
         ));
 
         $this->paginator->setCacheEnabled(true);
@@ -215,9 +213,7 @@ class PaginatorTest extends TestCase
         $this->paginator->setItemCountPerPage(10);
     }
 
-    /**
-     * @group Laminas-5376
-     */
+    #[Group('Laminas-5376')]
     public function testGetsAndSetsItemCounterPerPageOfNegativeOne(): void
     {
         Paginator\Paginator::setGlobalConfig(new Config\Config([]));
@@ -227,9 +223,7 @@ class PaginatorTest extends TestCase
         $this->paginator->setItemCountPerPage(10);
     }
 
-    /**
-     * @group Laminas-5376
-     */
+    #[Group('Laminas-5376')]
     public function testGetsAndSetsItemCounterPerPageOfZero(): void
     {
         Paginator\Paginator::setGlobalConfig(new Config\Config([]));
@@ -239,9 +233,7 @@ class PaginatorTest extends TestCase
         $this->paginator->setItemCountPerPage(10);
     }
 
-    /**
-     * @group Laminas-5376
-     */
+    #[Group('Laminas-5376')]
     public function testGetsAndSetsItemCounterPerPageOfNull(): void
     {
         Paginator\Paginator::setGlobalConfig(new Config\Config([]));
@@ -348,9 +340,9 @@ class PaginatorTest extends TestCase
     }
 
     /**
-     * @group Laminas-8656
      * @psalm-suppress InvalidArgument
      */
+    #[Group('Laminas-8656')]
     public function testNormalizesPageNumberWhenGivenAFloat(): void
     {
         $this->assertEquals(1, $this->paginator->normalizePageNumber(0.5));
@@ -363,9 +355,9 @@ class PaginatorTest extends TestCase
     }
 
     /**
-     * @group Laminas-8656
      * @psalm-suppress InvalidArgument
      */
+    #[Group('Laminas-8656')]
     public function testNormalizesItemNumberWhenGivenAFloat(): void
     {
         $this->assertEquals(1, $this->paginator->normalizeItemNumber(0.5));
@@ -450,9 +442,7 @@ class PaginatorTest extends TestCase
         $this->assertEquals(15, $this->paginator->getPageRange());
     }
 
-    /**
-     * @group Laminas-3720
-     */
+    #[Group('Laminas-3720')]
     public function testGivesCorrectItemCount(): void
     {
         $paginator = new Paginator\Paginator(new Adapter\ArrayAdapter(range(1, 101)));
@@ -463,9 +453,7 @@ class PaginatorTest extends TestCase
         $this->assertEquals($expected, $paginator->getCurrentItems());
     }
 
-    /**
-     * @group Laminas-3737
-     */
+    #[Group('Laminas-3737')]
     public function testKeepsCurrentPageNumberAfterItemCountPerPageSet(): void
     {
         $paginator = new Paginator\Paginator(new Adapter\ArrayAdapter(['item1', 'item2']));
@@ -478,9 +466,7 @@ class PaginatorTest extends TestCase
         $this->assertEquals('item2', $items[0]);
     }
 
-    /**
-     * @group Laminas-4193
-     */
+    #[Group('Laminas-4193')]
     public function testCastsIntegerValuesToInteger(): void
     {
         // Current page number
@@ -499,9 +485,7 @@ class PaginatorTest extends TestCase
         $this->assertEquals(3, $this->paginator->getPageRange());
     }
 
-    /**
-     * @group Laminas-4207
-     */
+    #[Group('Laminas-4207')]
     public function testAcceptsTraversableInstanceFromAdapter(): void
     {
         $paginator = new Paginator\Paginator(new TestAsset\TestAdapter());
@@ -631,9 +615,7 @@ class PaginatorTest extends TestCase
         $this->assertEquals(new ArrayIterator(range(10, 100, 10)), $page);
     }
 
-    /**
-     * @group Laminas-5785
-     */
+    #[Group('Laminas-5785')]
     public function testGetSetDefaultItemCountPerPage(): void
     {
         Paginator\Paginator::setGlobalConfig(new Config\Config([]));
@@ -650,18 +632,14 @@ class PaginatorTest extends TestCase
         $this->_restorePaginatorDefaults();
     }
 
-    /**
-     * @group Laminas-7207
-     */
+    #[Group('Laminas-7207')]
     public function testItemCountPerPageByDefault(): void
     {
         $paginator = new Paginator\Paginator(new Adapter\ArrayAdapter(range(1, 20)));
         $this->assertEquals(2, $paginator->count());
     }
 
-    /**
-     * @group Laminas-5427
-     */
+    #[Group('Laminas-5427')]
     public function testNegativeItemNumbers(): void
     {
         $this->assertEquals(10, $this->paginator->getItem(-1, 1));
@@ -669,9 +647,7 @@ class PaginatorTest extends TestCase
         $this->assertEquals(101, $this->paginator->getItem(-1, -1));
     }
 
-    /**
-     * @group Laminas-7602
-     */
+    #[Group('Laminas-7602')]
     public function testAcceptAndHandlePaginatorAdapterAggregateDataInFactory(): void
     {
         $p = new Paginator\Paginator(new TestArrayAggregate());
@@ -681,9 +657,7 @@ class PaginatorTest extends TestCase
         $this->assertEquals(4, count($p->getAdapter()));
     }
 
-    /**
-     * @group Laminas-7602
-     */
+    #[Group('Laminas-7602')]
     public function testAcceptAndHandlePaginatorAdapterAggregateInConstructor(): void
     {
         $p = new Paginator\Paginator(new TestArrayAggregate());
@@ -693,9 +667,7 @@ class PaginatorTest extends TestCase
         $this->assertEquals(4, count($p->getAdapter()));
     }
 
-    /**
-     * @group Laminas-7602
-     */
+    #[Group('Laminas-7602')]
     public function testInvalidDataInConstructorThrowsException(): void
     {
         $this->expectException(Exception\ExceptionInterface::class);
@@ -703,9 +675,7 @@ class PaginatorTest extends TestCase
         new Paginator\Paginator([]);
     }
 
-    /**
-     * @group Laminas-9396
-     */
+    #[Group('Laminas-9396')]
     public function testArrayAccessInClassSerializableLimitIterator(): void
     {
         $iterator  = new ArrayIterator(['laminas9396', 'foo', null]);
@@ -875,10 +845,8 @@ class PaginatorTest extends TestCase
         $this->assertInstanceOf('ArrayObject', $paginator->getCurrentItems());
     }
 
-    /**
-     * @group 6808
-     * @group 6809
-     */
+    #[Group('6808')]
+    #[Group('6809')]
     public function testItemCountsForEmptyItemSet(): void
     {
         $paginator = new Paginator\Paginator(new Adapter\ArrayAdapter([]));

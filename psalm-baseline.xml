@@ -314,6 +314,9 @@
     <MixedAssignment>
       <code><![CDATA[$plugin]]></code>
     </MixedAssignment>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[pluginProvider]]></code>
+    </PossiblyUnusedMethod>
   </file>
   <file src="test/PaginatorTest.php">
     <ArgumentTypeCoercion>
