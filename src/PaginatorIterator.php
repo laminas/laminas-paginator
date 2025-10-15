@@ -18,6 +18,7 @@ use function is_int;
  * @template TKey of int
  * @template TValue
  * @implements OuterIterator<TKey, TValue>
+ * @final
  */
 class PaginatorIterator implements OuterIterator
 {

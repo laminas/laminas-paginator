@@ -9,7 +9,7 @@ use Laminas\Paginator\Paginator;
 use Laminas\Paginator\PaginatorIterator;
 use PHPUnit\Framework\TestCase;
 
-class PaginatorIteratorTest extends TestCase
+final class PaginatorIteratorTest extends TestCase
 {
     public function testIteratorFlattensPaginator(): void
     {

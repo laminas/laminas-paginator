@@ -15,6 +15,7 @@ use function array_shift;
 use function get_debug_type;
 use function sprintf;
 
+/** @final */
 class IteratorFactory implements FactoryInterface
 {
     /**

@@ -15,7 +15,7 @@ use Psr\Container\ContainerInterface;
 use function range;
 
 #[CoversClass(AdapterPluginManager::class)]
-class AdapterPluginManagerTest extends TestCase
+final class AdapterPluginManagerTest extends TestCase
 {
     /** @var AdapterPluginManager */
     protected $adapterPluginManager;

@@ -10,6 +10,8 @@ use Laminas\Paginator\Paginator;
  * A scrolling style that returns every page in the collection.
  * Useful when it is necessary to make every page available at
  * once--for example, when using a drop-down menu pagination control.
+ *
+ * @final
  */
 class All implements ScrollingStyleInterface
 {

@@ -20,6 +20,7 @@ use function sprintf;
  * adapters available.
  *
  * @extends AbstractPluginManager<AdapterInterface|AdapterAggregateInterface>
+ * @final
  */
 class AdapterPluginManager extends AbstractPluginManager
 {

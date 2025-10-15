@@ -22,6 +22,7 @@ use function sprintf;
  *
  * @extends AbstractPluginManager<ScrollingStyleInterface>
  * @psalm-import-type FactoriesConfigurationType from ConfigInterface
+ * @final
  */
 class ScrollingStylePluginManager extends AbstractPluginManager
 {

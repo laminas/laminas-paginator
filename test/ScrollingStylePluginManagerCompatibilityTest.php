@@ -11,7 +11,7 @@ use Laminas\ServiceManager\ServiceManager;
 use Laminas\ServiceManager\Test\CommonPluginManagerTrait;
 use PHPUnit\Framework\TestCase;
 
-class ScrollingStylePluginManagerCompatibilityTest extends TestCase
+final class ScrollingStylePluginManagerCompatibilityTest extends TestCase
 {
     use CommonPluginManagerTrait;
 

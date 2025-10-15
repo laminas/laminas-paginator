@@ -21,6 +21,7 @@ use function unserialize;
  * @template TValue
  * @template-extends LimitIterator<TKey, TValue, Iterator<TKey, TValue>>
  * @implements ArrayAccess<TKey, TValue>
+ * @final
  */
 class SerializableLimitIterator extends LimitIterator implements Serializable, ArrayAccess
 {

@@ -71,6 +71,7 @@ use const JSON_HEX_TAG;
  *     firstItemNumber: int,
  *     lastItemNumber: int,
  * }
+ * @final
  */
 class Paginator implements Countable, IteratorAggregate, Stringable
 {

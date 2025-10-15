@@ -12,6 +12,7 @@ use function call_user_func;
  * @template-covariant TKey of int
  * @template-covariant TValue
  * @implements AdapterInterface<TKey, TValue>
+ *     @final
  */
 class Callback implements AdapterInterface
 {

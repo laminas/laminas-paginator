@@ -9,6 +9,6 @@ namespace LaminasTest\Paginator\TestAsset;
  * @template-covariant TValue
  * @extends TestAdapter<TKey, TValue>
  */
-class TestSimilarAdapter extends TestAdapter
+final class TestSimilarAdapter extends TestAdapter
 {
 }

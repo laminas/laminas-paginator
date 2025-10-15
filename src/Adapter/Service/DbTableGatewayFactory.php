@@ -14,6 +14,8 @@ use function sprintf;
 
 /**
  * @deprecated 2.10.0 Use the adapters in laminas/laminas-paginator-adapter-laminasdb.
+ *
+ * @final
  */
 class DbTableGatewayFactory implements FactoryInterface
 {

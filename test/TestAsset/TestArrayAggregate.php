@@ -10,7 +10,7 @@ use Laminas\Paginator\Adapter;
 /**
  * @implements Paginator\AdapterAggregateInterface<int, int>
  */
-class TestArrayAggregate implements Paginator\AdapterAggregateInterface
+final class TestArrayAggregate implements Paginator\AdapterAggregateInterface
 {
     /**
      * @return Adapter\ArrayAdapter<int, int>

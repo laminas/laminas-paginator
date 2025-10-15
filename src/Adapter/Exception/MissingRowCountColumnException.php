@@ -8,6 +8,7 @@ use LogicException;
 
 use function sprintf;
 
+/** @final */
 class MissingRowCountColumnException extends LogicException implements ExceptionInterface
 {
     /**

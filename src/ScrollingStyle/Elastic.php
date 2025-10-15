@@ -14,6 +14,8 @@ use function count;
  * link.
  *
  * @link       http://www.google.com/search?q=Laminas+Framework
+ *
+ * @final
  */
 class Elastic extends Sliding
 {

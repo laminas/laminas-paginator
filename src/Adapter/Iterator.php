@@ -14,6 +14,7 @@ use function count;
  * @template TKey of int
  * @template TValue
  * @implements AdapterInterface<TKey, TValue>
+ *     @final
  */
 class Iterator implements AdapterInterface
 {

@@ -12,7 +12,7 @@ use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 
-class ScrollingStylePluginManagerFactoryTest extends TestCase
+final class ScrollingStylePluginManagerFactoryTest extends TestCase
 {
     public function testFactoryReturnsPluginManager(): void
     {

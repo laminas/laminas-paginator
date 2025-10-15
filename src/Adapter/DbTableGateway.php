@@ -15,6 +15,7 @@ use Laminas\Db\TableGateway\AbstractTableGateway;
  * @template-covariant TKey of int
  * @template-covariant TValue
  * @extends DbSelect<TKey, TValue>
+ *     @final
  */
 class DbTableGateway extends DbSelect
 {

@@ -9,7 +9,7 @@ namespace LaminasTest\Paginator\TestAsset;
  * @template-covariant TValue
  * @extends TestAdapter<TKey, TValue>
  */
-class TestArrayCopyAdapter extends TestAdapter
+final class TestArrayCopyAdapter extends TestAdapter
 {
     /**
      * @return array
