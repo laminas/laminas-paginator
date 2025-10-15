@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Laminas\Paginator;
 
+/** @final */
 class ConfigProvider
 {
     /**

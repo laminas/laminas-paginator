@@ -11,6 +11,7 @@ use function min;
 
 /**
  * @implements AdapterInterface<int, null>
+ *     @final
  */
 class NullFill implements AdapterInterface
 {

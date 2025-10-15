@@ -10,6 +10,8 @@ use Laminas\Paginator\Paginator;
  * A scrolling style in which the cursor advances to the upper bound
  * of the page range, the page range "jumps" to the next section, and
  * the cursor moves back to the beginning of the range.
+ *
+ * @final
  */
 class Jumping implements ScrollingStyleInterface
 {

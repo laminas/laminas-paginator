@@ -23,6 +23,7 @@ use function strtolower;
  * @template-covariant TKey of int
  * @template-covariant TValue
  * @implements AdapterInterface<TKey, TValue>
+ *     @final
  */
 class DbSelect implements AdapterInterface
 {

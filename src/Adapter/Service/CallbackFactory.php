@@ -17,6 +17,8 @@ use function sprintf;
 
 /**
  * Create and return an instance of the Callback adapter.
+ *
+ * @final
  */
 class CallbackFactory implements FactoryInterface
 {

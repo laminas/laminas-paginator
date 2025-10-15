@@ -13,6 +13,7 @@ use function count;
  * @template-covariant TKey of int
  * @template-covariant TValue
  * @implements AdapterInterface<TKey, TValue>
+ *     @final
  */
 class ArrayAdapter implements AdapterInterface
 {
