@@ -21,7 +21,7 @@ use function serialize;
 use function unserialize;
 
 #[Group('Laminas_Paginator')]
-class IteratorTest extends TestCase
+final class IteratorTest extends TestCase
 {
     private ?Adapter\Iterator $adapter;
 

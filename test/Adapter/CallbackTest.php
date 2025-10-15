@@ -12,7 +12,7 @@ use function range;
 /**
  * @covers  Laminas\Paginator\Adapter\Callback<extended>
  */
-class CallbackTest extends TestCase
+final class CallbackTest extends TestCase
 {
     public function testMustDefineTwoCallbacksOnConstructor(): void
     {

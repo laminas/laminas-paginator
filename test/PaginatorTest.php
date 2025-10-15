@@ -39,7 +39,7 @@ use function is_int;
 use function range;
 
 #[Group('Laminas_Paginator')]
-class PaginatorTest extends TestCase
+final class PaginatorTest extends TestCase
 {
     /**
      * Paginator instance

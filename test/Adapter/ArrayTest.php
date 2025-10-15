@@ -13,7 +13,7 @@ use function assert;
 use function range;
 
 #[Group('Laminas_Paginator')]
-class ArrayTest extends TestCase
+final class ArrayTest extends TestCase
 {
     private ?ArrayAdapter $adapter;
 

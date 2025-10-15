@@ -15,7 +15,7 @@ use function assert;
 use function range;
 
 #[Group('Laminas_Paginator')]
-class SlidingTest extends TestCase
+final class SlidingTest extends TestCase
 {
     // @codingStandardsIgnoreStart
     private ?Sliding $_scrollingStyle;

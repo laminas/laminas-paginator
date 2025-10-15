@@ -20,7 +20,7 @@ use function sprintf;
 /**
  * @covers  Laminas\Paginator\Adapter\DbTableGateway<extended>
  */
-class DbTableGatewayTest extends TestCase
+final class DbTableGatewayTest extends TestCase
 {
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $mockStatement;

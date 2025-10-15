@@ -17,7 +17,7 @@ use function assert;
 use function is_string;
 use function str_contains;
 
-class AdapterPluginManagerCompatibilityTest extends TestCase
+final class AdapterPluginManagerCompatibilityTest extends TestCase
 {
     use CommonPluginManagerTrait;
 

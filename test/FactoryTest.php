@@ -19,7 +19,7 @@ use function count;
 use function sprintf;
 
 #[Group('Laminas_Paginator')]
-class FactoryTest extends TestCase
+final class FactoryTest extends TestCase
 {
     public function testCanFactoryPaginatorWithStringAdapterObject(): void
     {

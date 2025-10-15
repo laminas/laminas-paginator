@@ -24,7 +24,7 @@ use function strtolower;
 /**
  * @covers  Laminas\Paginator\Adapter\DbSelect<extended>
  */
-class DbSelectTest extends TestCase
+final class DbSelectTest extends TestCase
 {
     /** @var PHPUnit_Framework_MockObject_MockObject|Select */
     protected $mockSelect;

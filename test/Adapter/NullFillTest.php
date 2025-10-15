@@ -13,7 +13,7 @@ use function array_fill;
 use function assert;
 
 #[Group('Laminas_Paginator')]
-class NullFillTest extends TestCase
+final class NullFillTest extends TestCase
 {
     private ?Adapter\NullFill $adapter;
 

@@ -16,7 +16,7 @@ use function count;
 use function range;
 
 #[Group('Laminas_Paginator')]
-class ElasticTest extends TestCase
+final class ElasticTest extends TestCase
 {
     private ?Elastic $scrollingStyle;
     private ?Paginator $paginator;
