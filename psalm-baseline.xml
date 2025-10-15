@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.26.1@d747f6500b38ac4f7dfc5edbcae6e4b637d7add0">
+<files psalm-version="6.13.1@1e3b7f0a8ab32b23197b91107adc0a7ed8a05b51">
   <file src="src/Adapter/Exception/MissingRowCountColumnException.php">
     <PossiblyUnusedMethod>
       <code><![CDATA[forColumn]]></code>
@@ -33,6 +33,9 @@
     <ParamNameMismatch>
       <code><![CDATA[$container]]></code>
     </ParamNameMismatch>
+    <PossiblyNullArgument>
+      <code><![CDATA[$countCallback]]></code>
+    </PossiblyNullArgument>
     <PossiblyUnusedMethod>
       <code><![CDATA[setCreationOptions]]></code>
     </PossiblyUnusedMethod>
@@ -93,9 +96,6 @@
     <MissingConstructor>
       <code><![CDATA[$creationOptions]]></code>
     </MissingConstructor>
-    <MoreSpecificImplementedParamType>
-      <code><![CDATA[$options]]></code>
-    </MoreSpecificImplementedParamType>
     <ParamNameMismatch>
       <code><![CDATA[$container]]></code>
     </ParamNameMismatch>
@@ -146,12 +146,13 @@
       <code><![CDATA[is_array($config)]]></code>
       <code><![CDATA[static::$scrollingStyles === null]]></code>
     </DocblockTypeContradiction>
-    <InvalidReturnStatement>
-      <code><![CDATA[$this->getCurrentItems()]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[Traversable<TKey, TValue>]]></code>
-    </InvalidReturnType>
+    <FalsableReturnStatement>
+      <code><![CDATA[json_encode($currentItems, $encodeOptions)]]></code>
+      <code><![CDATA[json_encode($currentItems->toArray(), $encodeOptions)]]></code>
+    </FalsableReturnStatement>
+    <InvalidFalsableReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidFalsableReturnType>
     <MixedArgument>
       <code><![CDATA[$adapters]]></code>
       <code><![CDATA[$key]]></code>
@@ -170,11 +171,6 @@
       <code><![CDATA[$value]]></code>
       <code><![CDATA[$value]]></code>
     </MixedAssignment>
-    <MixedInferredReturnType>
-      <code><![CDATA[ScrollingStyleInterface]]></code>
-      <code><![CDATA[TValue]]></code>
-      <code><![CDATA[string]]></code>
-    </MixedInferredReturnType>
     <MixedMethodCall>
       <code><![CDATA[new $scrollingAdapters(new ServiceManager())]]></code>
       <code><![CDATA[setMode]]></code>
@@ -186,6 +182,9 @@
       <code><![CDATA[static::getScrollingStylePluginManager()->get($scrollingStyle)]]></code>
       <code><![CDATA[static::getScrollingStylePluginManager()->get($scrollingStyle)]]></code>
     </MixedReturnStatement>
+    <PossiblyFalseOperand>
+      <code><![CDATA[json_encode($adapterToSerialize)]]></code>
+    </PossiblyFalseOperand>
     <PossiblyInvalidArrayOffset>
       <code><![CDATA[$page[$itemNumber - 1]]]></code>
     </PossiblyInvalidArrayOffset>
@@ -242,9 +241,6 @@
     <InvalidReturnType>
       <code><![CDATA[TKey|null]]></code>
     </InvalidReturnType>
-    <MixedInferredReturnType>
-      <code><![CDATA[TValue]]></code>
-    </MixedInferredReturnType>
     <MixedReturnStatement>
       <code><![CDATA[$this->getInnerIterator()->current()]]></code>
     </MixedReturnStatement>
@@ -262,9 +258,6 @@
     <DeprecatedInterface>
       <code><![CDATA[ScrollingStylePluginManagerFactory]]></code>
     </DeprecatedInterface>
-    <MoreSpecificImplementedParamType>
-      <code><![CDATA[$options]]></code>
-    </MoreSpecificImplementedParamType>
     <ParamNameMismatch>
       <code><![CDATA[$container]]></code>
     </ParamNameMismatch>
@@ -314,15 +307,19 @@
     <MixedAssignment>
       <code><![CDATA[$plugin]]></code>
     </MixedAssignment>
-    <PossiblyUnusedMethod>
-      <code><![CDATA[pluginProvider]]></code>
-    </PossiblyUnusedMethod>
   </file>
   <file src="test/PaginatorTest.php">
     <ArgumentTypeCoercion>
       <code><![CDATA['ArrayObject']]></code>
       <code><![CDATA['ArrayObject']]></code>
     </ArgumentTypeCoercion>
+    <DeprecatedClass>
+      <code><![CDATA[Helper\PaginationControl::setDefaultViewPartial('partial.phtml')]]></code>
+      <code><![CDATA[Helper\PaginationControl::setDefaultViewPartial(null)]]></code>
+    </DeprecatedClass>
+    <DeprecatedMethod>
+      <code><![CDATA[resolver]]></code>
+    </DeprecatedMethod>
     <InvalidArgument>
       <code><![CDATA['not array']]></code>
       <code><![CDATA[[]]]></code>
@@ -360,6 +357,11 @@
     <UndefinedInterfaceMethod>
       <code><![CDATA[addPath]]></code>
     </UndefinedInterfaceMethod>
+  </file>
+  <file src="test/TestAsset/ScrollingStylePluginManager.php">
+    <InvalidExtendClass>
+      <code><![CDATA[BaseScrollingStylePluginManager]]></code>
+    </InvalidExtendClass>
   </file>
   <file src="test/TestAsset/TestAdapter.php">
     <ParamNameMismatch>
