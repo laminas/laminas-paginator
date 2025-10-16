@@ -18,8 +18,6 @@
             <file name="src/Adapter/DbTableGateway.php"/>
             <file name="src/Adapter/Service/DbSelectFactory.php"/>
             <file name="src/Adapter/Service/DbTableGatewayFactory.php"/>
-            <file name="test/Adapter/DbSelectTest.php"/>
-            <file name="test/Adapter/DbTableGatewayTest.php"/>
         </ignoreFiles>
     </projectFiles>
 

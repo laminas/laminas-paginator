@@ -8,7 +8,6 @@ use ArrayIterator;
 use Laminas\Paginator;
 use Laminas\Paginator\Adapter;
 use Laminas\Paginator\Adapter\ArrayAdapter;
-use Laminas\Paginator\Adapter\DbSelect;
 use Laminas\Paginator\Adapter\Iterator;
 use Laminas\Paginator\Exception\InvalidArgumentException;
 use LaminasTest\Paginator\TestAsset\TestArrayAggregate;
@@ -16,7 +15,6 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 use function count;
-use function sprintf;
 
 #[Group('Laminas_Paginator')]
 final class FactoryTest extends TestCase
@@ -41,18 +39,6 @@ final class FactoryTest extends TestCase
     {
         $paginator = Paginator\Factory::factory(null, new TestArrayAggregate());
         $this->assertInstanceOf(ArrayAdapter::class, $paginator->getAdapter());
-    }
-
-    public function testCanFactoryPaginatorWithDbSelect(): void
-    {
-        $this->markTestSkipped(sprintf(
-            '%s adapter is deprecated starting with version 2.10.x',
-            DbSelect::class
-        ));
-        /*
-        $paginator = Paginator\Factory::factory([$this->mockSelect, $this->mockAdapter], 'dbselect');
-        $this->assertInstanceOf(DbSelect::class, $paginator->getAdapter());
-         */
     }
 
     public function testCanFactoryPaginatorWithOneParameterWithArrayAdapter(): void
