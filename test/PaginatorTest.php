@@ -262,7 +262,7 @@ final class PaginatorTest extends TestCase
         $items = $this->paginator->getCurrentItems();
 
         self::assertCount(10, $items);
-        self::assertContainsOnly('integer', $items);
+        self::assertContainsOnlyInt($items);
     }
 
     public function testGetsIterator(): void
@@ -271,7 +271,7 @@ final class PaginatorTest extends TestCase
 
         self::assertInstanceOf(ArrayIterator::class, $items);
         self::assertCount(10, $items);
-        self::assertContainsOnly('integer', $items);
+        self::assertContainsOnlyInt($items);
     }
 
     public function testGetsAndSetsCurrentPageNumber(): void

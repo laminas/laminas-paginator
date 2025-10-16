@@ -12,14 +12,13 @@ use Laminas\Db\Adapter\Platform\Sql92;
 use Laminas\Db\TableGateway\TableGateway;
 use Laminas\Paginator\Adapter\DbSelect;
 use Laminas\Paginator\Adapter\DbTableGateway;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 
 use function sprintf;
 
-/**
- * @covers  Laminas\Paginator\Adapter\DbTableGateway<extended>
- */
+#[CoversClass(DbTableGateway::class)]
 final class DbTableGatewayTest extends TestCase
 {
     /** @var PHPUnit_Framework_MockObject_MockObject */

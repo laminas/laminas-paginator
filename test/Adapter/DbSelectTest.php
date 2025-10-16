@@ -13,6 +13,7 @@ use Laminas\Db\Sql\Select;
 use Laminas\Db\Sql\Sql;
 use Laminas\Paginator\Adapter\DbSelect;
 use Laminas\Paginator\Adapter\Exception\MissingRowCountColumnException;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
@@ -21,9 +22,7 @@ use function array_keys;
 use function sprintf;
 use function strtolower;
 
-/**
- * @covers  Laminas\Paginator\Adapter\DbSelect<extended>
- */
+#[CoversClass(DbSelect::class)]
 final class DbSelectTest extends TestCase
 {
     /** @var PHPUnit_Framework_MockObject_MockObject|Select */
