@@ -6,12 +6,12 @@ namespace LaminasTest\Paginator;
 
 use Iterator;
 use Laminas\Paginator\Adapter\AdapterInterface;
+use Laminas\Paginator\Adapter\ArrayAdapter;
 use Laminas\Paginator\AdapterPluginManager;
 use Laminas\ServiceManager\Exception\InvalidServiceException;
 use Laminas\ServiceManager\ServiceManager;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use ReflectionClass;
 use ReflectionProperty;
 use stdClass;
 
@@ -61,37 +61,19 @@ final class AdapterPluginManagerCompatibilityTest extends TestCase
         }
     }
 
-    public function testInstanceOfMatches(): void
+    public function testInstancesAreTheExpectedType(): void
     {
-        $manager    = $this->getPluginManager();
-        $reflection = new ReflectionProperty($manager, 'instanceOf');
-        $this->assertEquals(AdapterInterface::class, $reflection->getValue($manager), 'instanceOf does not match');
+        $manager  = $this->getPluginManager();
+        $instance = $manager->get(ArrayAdapter::class);
+        self::assertInstanceOf(AdapterInterface::class, $instance);
     }
 
-    public function testShareByDefaultAndSharedByDefault(): void
+    public function testAdaptersAreShared(): void
     {
-        $manager        = $this->getPluginManager();
-        $reflection     = new ReflectionClass($manager);
-        $shareByDefault = $sharedByDefault = true;
-
-        foreach ($reflection->getProperties() as $prop) {
-            if ($prop->getName() === 'shareByDefault') {
-                /** @psalm-var mixed $shareByDefault */
-                $shareByDefault = $prop->getValue($manager);
-                self::assertIsBool($shareByDefault);
-            }
-            if ($prop->getName() === 'sharedByDefault') {
-                /** @psalm-var mixed $sharedByDefault */
-                $sharedByDefault = $prop->getValue($manager);
-                self::assertIsBool($sharedByDefault);
-            }
-        }
-
-        $this->assertSame(
-            $shareByDefault,
-            $sharedByDefault,
-            'Values of shareByDefault and sharedByDefault do not match'
-        );
+        $manager  = $this->getPluginManager();
+        $instance = $manager->get(ArrayAdapter::class);
+        self::assertInstanceOf(ArrayAdapter::class, $instance);
+        self::assertSame($instance, $manager->get(ArrayAdapter::class));
     }
 
     public function testRegisteringInvalidElementRaisesException(): void
