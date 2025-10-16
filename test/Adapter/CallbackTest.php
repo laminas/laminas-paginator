@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace LaminasTest\Paginator\Adapter;
 
 use Laminas\Paginator\Adapter\Callback;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 use function range;
 
-/**
- * @covers  Laminas\Paginator\Adapter\Callback<extended>
- */
+#[CoversClass(Callback::class)]
 final class CallbackTest extends TestCase
 {
     public function testMustDefineTwoCallbacksOnConstructor(): void
