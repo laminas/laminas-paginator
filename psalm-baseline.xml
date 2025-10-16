@@ -298,11 +298,6 @@
       <code><![CDATA[getInnerIterator]]></code>
     </MixedMethodCall>
   </file>
-  <file src="test/AdapterPluginManagerCompatibilityTest.php">
-    <MixedAssignment>
-      <code><![CDATA[$aliases]]></code>
-    </MixedAssignment>
-  </file>
   <file src="test/AdapterPluginManagerTest.php">
     <MixedAssignment>
       <code><![CDATA[$plugin]]></code>
