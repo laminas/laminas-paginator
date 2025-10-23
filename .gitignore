@@ -7,3 +7,5 @@
 /laminas-mkdoc-theme/
 /phpunit.xml
 /vendor/
+.markdownlint.json
+.phpunit.cache
