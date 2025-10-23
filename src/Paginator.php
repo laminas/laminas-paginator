@@ -10,7 +10,6 @@ use Countable;
 use IteratorAggregate;
 use Laminas\Cache\Storage\IteratorInterface as CacheIterator;
 use Laminas\Cache\Storage\StorageInterface as CacheStorage;
-use Laminas\Db\ResultSet\AbstractResultSet;
 use Laminas\Filter\FilterInterface;
 use Laminas\Paginator\Adapter\AdapterInterface;
 use Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface;
@@ -868,11 +867,6 @@ class Paginator implements Countable, IteratorAggregate, Stringable
     {
         $currentItems  = $this->getCurrentItems();
         $encodeOptions = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP;
-
-        /** @psalm-suppress UndefinedClass */
-        if ($currentItems instanceof AbstractResultSet) {
-            return json_encode($currentItems->toArray(), $encodeOptions);
-        }
 
         return json_encode($currentItems, $encodeOptions);
     }
