@@ -42,7 +42,6 @@
         "laminas/laminas-config": "^3.10.1",
         "laminas/laminas-filter": "^2.42",
         "laminas/laminas-servicemanager": "^3.24.0",
-        "laminas/laminas-view": "^2.43",
         "phpunit/phpunit": "^11.5.42",
         "psalm/plugin-phpunit": "^0.19.5",
         "vimeo/psalm": "^6.13.1"
@@ -50,8 +49,7 @@
     "suggest": {
         "laminas/laminas-cache": "Laminas\\Cache component to support cache features",
         "laminas/laminas-filter": "Laminas\\Filter component",
-        "laminas/laminas-servicemanager": "Laminas\\ServiceManager component",
-        "laminas/laminas-view": "Laminas\\View component"
+        "laminas/laminas-servicemanager": "Laminas\\ServiceManager component"
     },
     "autoload": {
         "psr-4": {

@@ -15,11 +15,8 @@ use Laminas\Paginator\Adapter\AdapterInterface;
 use Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface;
 use Laminas\ServiceManager\ServiceManager;
 use Laminas\Stdlib\ArrayUtils;
-use Laminas\View;
-use Laminas\View\Renderer\RendererInterface;
 use ReturnTypeWillChange;
 use stdClass;
-use Stringable;
 use Throwable;
 use Traversable;
 
@@ -42,9 +39,7 @@ use function str_starts_with;
 use function strlen;
 use function strtolower;
 use function substr;
-use function trigger_error;
 
-use const E_USER_WARNING;
 use const JSON_HEX_AMP;
 use const JSON_HEX_APOS;
 use const JSON_HEX_QUOT;
@@ -72,7 +67,7 @@ use const JSON_HEX_TAG;
  * }
  * @final
  */
-class Paginator implements Countable, IteratorAggregate, Stringable
+class Paginator implements Countable, IteratorAggregate
 {
     /**
      * The cache tag prefix used to namespace Paginator results in the cache
@@ -191,13 +186,6 @@ class Paginator implements Countable, IteratorAggregate, Stringable
      * @var PagesType|null
      */
     protected $pages;
-
-    /**
-     * View instance used for self rendering
-     *
-     * @var RendererInterface|null
-     */
-    protected $view;
 
     /**
      * Set a global config
@@ -354,20 +342,6 @@ class Paginator implements Countable, IteratorAggregate, Stringable
                 }
             }
         }
-    }
-
-    /**
-     * Serializes the object as a string.  Proxies to {@link render()}.
-     */
-    public function __toString(): string
-    {
-        try {
-            return $this->render();
-        } catch (Throwable $e) {
-            trigger_error($e->getMessage(), E_USER_WARNING);
-        }
-
-        return '';
     }
 
     /**
@@ -771,34 +745,6 @@ class Paginator implements Countable, IteratorAggregate, Stringable
     }
 
     /**
-     * Retrieves the view instance.
-     *
-     * If none registered, instantiates a PhpRenderer instance.
-     *
-     * @return RendererInterface|null
-     */
-    public function getView()
-    {
-        if ($this->view === null) {
-            $this->setView(new View\Renderer\PhpRenderer());
-        }
-
-        return $this->view;
-    }
-
-    /**
-     * Sets the view object.
-     *
-     * @return Paginator
-     */
-    public function setView(?View\Renderer\RendererInterface $view = null)
-    {
-        $this->view = $view;
-
-        return $this;
-    }
-
-    /**
      * Brings the item number in range of the page.
      *
      * @param  int $itemNumber
@@ -840,22 +786,6 @@ class Paginator implements Countable, IteratorAggregate, Stringable
         }
 
         return $pageNumber;
-    }
-
-    /**
-     * Renders the paginator.
-     *
-     * @return string
-     */
-    public function render(?View\Renderer\RendererInterface $view = null)
-    {
-        if (null !== $view) {
-            $this->setView($view);
-        }
-
-        $view = $this->getView();
-
-        return $view->paginationControl($this);
     }
 
     /**

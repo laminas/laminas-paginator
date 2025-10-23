@@ -17,10 +17,6 @@ use Laminas\Paginator\Adapter\ArrayAdapter;
 use Laminas\Paginator\Exception;
 use Laminas\Paginator\Exception\InvalidArgumentException;
 use Laminas\Paginator\SerializableLimitIterator;
-use Laminas\View;
-use Laminas\View\Exception\ExceptionInterface;
-use Laminas\View\Helper;
-use Laminas\View\Renderer\RendererInterface;
 use LaminasTest\Paginator\TestAsset\ScrollingStylePluginManager;
 use LaminasTest\Paginator\TestAsset\TestArrayAggregate;
 use LimitIterator;
@@ -74,11 +70,8 @@ final class PaginatorTest extends TestCase
         $this->paginator->setItemCountPerPage(10);
         $this->paginator->setCurrentPageNumber(1);
         $this->paginator->setPageRange(10);
-        $this->paginator->setView();
 
         Paginator\Paginator::setDefaultScrollingStyle();
-        Helper\PaginationControl::setDefaultViewPartial(null);
-
         Paginator\Paginator::setGlobalConfig($this->config->default);
 
         Paginator\Paginator::setScrollingStylePluginManager(new Paginator\ScrollingStylePluginManager(
@@ -174,26 +167,6 @@ final class PaginatorTest extends TestCase
         $actual = $this->paginator->getPages();
 
         $this->assertEquals($expected, $actual);
-    }
-
-    public function testRendersWithoutPartial(): void
-    {
-        $this->paginator->setView(new View\Renderer\PhpRenderer());
-        $string = @$this->paginator->__toString();
-        $this->assertEquals('', $string);
-    }
-
-    public function testRendersWithPartial(): void
-    {
-        $view = new View\Renderer\PhpRenderer();
-        $view->resolver()->addPath(__DIR__ . '/_files/scripts');
-
-        Helper\PaginationControl::setDefaultViewPartial('partial.phtml');
-
-        $this->paginator->setView($view);
-
-        $string = $this->paginator->__toString();
-        $this->assertEquals('partial rendered successfully', $string);
     }
 
     public function testGetsPageCount(): void
@@ -415,24 +388,6 @@ final class PaginatorTest extends TestCase
 
         $limitIterator = new LimitIterator(new ArrayIterator(range(1, 101)));
         $this->assertEquals(101, $this->paginator->getItemCount($limitIterator));
-    }
-
-    public function testGeneratesViewIfNonexistent(): void
-    {
-        $this->assertInstanceOf(RendererInterface::class, $this->paginator->getView());
-    }
-
-    public function testGetsAndSetsView(): void
-    {
-        $this->paginator->setView(new View\Renderer\PhpRenderer());
-        $this->assertInstanceOf(RendererInterface::class, $this->paginator->getView());
-    }
-
-    public function testRenders(): void
-    {
-        $this->expectException(ExceptionInterface::class);
-        $this->expectExceptionMessage('view partial');
-        $this->paginator->render(new View\Renderer\PhpRenderer());
     }
 
     public function testGetsAndSetsPageRange(): void

@@ -165,7 +165,6 @@
     </MixedMethodCall>
     <MixedReturnStatement>
       <code><![CDATA[$page[$itemNumber - 1]]]></code>
-      <code><![CDATA[$view->paginationControl($this)]]></code>
       <code><![CDATA[static::getScrollingStylePluginManager()->get($scrollingStyle)]]></code>
       <code><![CDATA[static::getScrollingStylePluginManager()->get($scrollingStyle)]]></code>
     </MixedReturnStatement>
@@ -178,9 +177,6 @@
     <PossiblyInvalidPropertyAssignmentValue>
       <code><![CDATA[$adapter]]></code>
     </PossiblyInvalidPropertyAssignmentValue>
-    <PossiblyNullReference>
-      <code><![CDATA[paginationControl]]></code>
-    </PossiblyNullReference>
     <PossiblyUnusedProperty>
       <code><![CDATA[$adapters]]></code>
     </PossiblyUnusedProperty>
@@ -203,7 +199,6 @@
     <UndefinedInterfaceMethod>
       <code><![CDATA[getIterator]]></code>
       <code><![CDATA[getIterator]]></code>
-      <code><![CDATA[paginationControl]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="src/PaginatorIterator.php">
@@ -292,13 +287,6 @@
       <code><![CDATA['ArrayObject']]></code>
       <code><![CDATA['ArrayObject']]></code>
     </ArgumentTypeCoercion>
-    <DeprecatedClass>
-      <code><![CDATA[Helper\PaginationControl::setDefaultViewPartial('partial.phtml')]]></code>
-      <code><![CDATA[Helper\PaginationControl::setDefaultViewPartial(null)]]></code>
-    </DeprecatedClass>
-    <DeprecatedMethod>
-      <code><![CDATA[resolver]]></code>
-    </DeprecatedMethod>
     <InvalidArgument>
       <code><![CDATA['not array']]></code>
       <code><![CDATA[[]]]></code>
@@ -324,18 +312,9 @@
       <code><![CDATA[$outputGetCacheInternalId]]></code>
       <code><![CDATA[$outputGetCacheInternalId]]></code>
     </MixedOperand>
-    <NullArgument>
-      <code><![CDATA[null]]></code>
-    </NullArgument>
-    <PossiblyInvalidMethodCall>
-      <code><![CDATA[addPath]]></code>
-    </PossiblyInvalidMethodCall>
     <PossiblyInvalidPropertyAssignmentValue>
       <code><![CDATA[Config\Factory::fromFile(__DIR__ . '/_files/config.xml', true)]]></code>
     </PossiblyInvalidPropertyAssignmentValue>
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[addPath]]></code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="test/TestAsset/ScrollingStylePluginManager.php">
     <InvalidExtendClass>
