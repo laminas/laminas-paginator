@@ -27,11 +27,6 @@ class ConfigProvider
     public function getDependencyConfig()
     {
         return [
-            // Legacy Zend Framework aliases
-            'aliases'   => [
-                \Zend\Paginator\AdapterPluginManager::class        => AdapterPluginManager::class,
-                \Zend\Paginator\ScrollingStylePluginManager::class => ScrollingStylePluginManager::class,
-            ],
             'factories' => [
                 AdapterPluginManager::class        => AdapterPluginManagerFactory::class,
                 ScrollingStylePluginManager::class => ScrollingStylePluginManagerFactory::class,

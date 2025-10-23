@@ -100,18 +100,6 @@
       <code><![CDATA[$container]]></code>
     </ParamNameMismatch>
   </file>
-  <file src="src/ConfigProvider.php">
-    <MixedArrayOffset>
-      <code><![CDATA[[
-                \Zend\Paginator\AdapterPluginManager::class        => AdapterPluginManager::class,
-                \Zend\Paginator\ScrollingStylePluginManager::class => ScrollingStylePluginManager::class,
-            ]]]></code>
-    </MixedArrayOffset>
-    <UndefinedClass>
-      <code><![CDATA[\Zend\Paginator\AdapterPluginManager]]></code>
-      <code><![CDATA[\Zend\Paginator\ScrollingStylePluginManager]]></code>
-    </UndefinedClass>
-  </file>
   <file src="src/Factory.php">
     <DocblockTypeContradiction>
       <code><![CDATA[is_array($items)]]></code>
