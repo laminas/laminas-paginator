@@ -2,6 +2,14 @@ docs_dir: docs/book
 site_dir: docs/html
 nav:
     - Home: index.md
+    - v3:
+        - Introduction: v3/intro.md
+        - Installation: v3/installation.md
+        - Usage: v3/usage.md
+        - Configuration: v3/configuration.md
+        - "Advanced Usage": v3/advanced.md
+        - 'Application Integration':
+            - 'Stand-Alone': v3/application-integration/stand-alone.md
     - v2:
         - Introduction: v2/intro.md
         - Installation: v2/installation.md
@@ -18,15 +26,16 @@ extra:
     installation:
         config_provider_class: 'Laminas\Paginator\ConfigProvider'
         module_class: 'Laminas\Paginator\Module'
-    current_version: v2
+    current_version: v3
     versions:
+        - v3
         - v2
 plugins:
     - redirects:
           redirect_maps:
-              intro.md: v2/intro.md
-              installation.md: v2/installation.md
-              usage.md: v2/usage.md
-              configuration.md: v2/configuration.md
-              advanced.md: v2/advanced.md
-              application-integration/stand-alone.md: v2/application-integration/stand-alone.md
+              intro.md: v3/intro.md
+              installation.md: v3/installation.md
+              usage.md: v3/usage.md
+              configuration.md: v3/configuration.md
+              advanced.md: v3/advanced.md
+              application-integration/stand-alone.md: v3/application-integration/stand-alone.md
