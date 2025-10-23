@@ -50,7 +50,6 @@
     "suggest": {
         "laminas/laminas-cache": "Laminas\\Cache component to support cache features",
         "laminas/laminas-filter": "Laminas\\Filter component",
-        "laminas/laminas-paginator-adapter-laminasdb": "Provides pagination adapters for Select statements and TableGateway instances",
         "laminas/laminas-servicemanager": "Laminas\\ServiceManager component",
         "laminas/laminas-view": "Laminas\\View component"
     },
@@ -74,8 +73,5 @@
         "static-analysis": "psalm --shepherd --stats",
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
-    },
-    "conflict": {
-        "zendframework/zend-paginator": "*"
     }
 }
