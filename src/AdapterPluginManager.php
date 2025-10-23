@@ -44,19 +44,6 @@ class AdapterPluginManager extends AbstractPluginManager
         'Array'    => Adapter\ArrayAdapter::class,
         'iterator' => Adapter\Iterator::class,
         'Iterator' => Adapter\Iterator::class,
-
-        // Legacy Zend Framework aliases
-        'Zend\Paginator\Adapter\Callback'     => Adapter\Callback::class,
-        'Zend\Paginator\Adapter\NullFill'     => Adapter\NullFill::class,
-        'Zend\Paginator\Adapter\Iterator'     => Adapter\Iterator::class,
-        'Zend\Paginator\Adapter\ArrayAdapter' => Adapter\ArrayAdapter::class,
-
-        // v2 normalized FQCNs
-        'zendpaginatoradapternull'         => Adapter\NullFill::class,
-        'zendpaginatoradaptercallback'     => Adapter\Callback::class,
-        'zendpaginatoradapternullfill'     => Adapter\NullFill::class,
-        'zendpaginatoradapteriterator'     => Adapter\Iterator::class,
-        'zendpaginatoradapterarrayadapter' => Adapter\ArrayAdapter::class,
     ];
 
     /**
@@ -69,12 +56,6 @@ class AdapterPluginManager extends AbstractPluginManager
         Adapter\NullFill::class     => InvokableFactory::class,
         Adapter\Iterator::class     => Adapter\Service\IteratorFactory::class,
         Adapter\ArrayAdapter::class => InvokableFactory::class,
-
-        // v2 normalized names
-        'laminaspaginatoradaptercallback'     => Adapter\Service\CallbackFactory::class,
-        'laminaspaginatoradapternullfill'     => InvokableFactory::class,
-        'laminaspaginatoradapteriterator'     => Adapter\Service\IteratorFactory::class,
-        'laminaspaginatoradapterarrayadapter' => InvokableFactory::class,
     ];
 
     /** @var string */
