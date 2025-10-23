@@ -11,3 +11,4 @@
 /mkdocs.yml export-ignore
 /renovate.json export-ignore
 /composer.lock export-ignore
+/Makefile export-ignore
