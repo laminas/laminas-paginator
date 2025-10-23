@@ -17,20 +17,9 @@ $pluginManager = new AdapterPluginManager();
 // Get an array adapter for an array of items
 $arrayAdapter = $pluginManager->get(Adapter\ArrayAdapter::class, [$arrayOfItems]);
 
-// Get a DbSelect adapter based on a Laminas\Db\Sql\Select instance and a DB adapter:
-$dbSelectAdapter = $pluginManager->get(Adapter\DbSelect::class, [
-    $select,
-    $dbAdapter
-]);
-
-// Get a DbTableGateway adapter based on a Laminas\Db\TableGateway\TableGateway instance:
-$dbTDGAdapter = $pluginManager->get(Adapter\DbTableGateway::class, [$tableGateway]);
-
 // Get an Iterator adapter based on an iterator:
 $iteratorAdapter = $pluginManager->get(Adapter\Iterator::class, [$iterator]);
 ```
-
-> **Note**: the laminas-db-based adapters are deprecated since version 2.10.0.
 
 ## Custom data source adapters
 

@@ -40,11 +40,6 @@ final class AdapterPluginManagerCompatibilityTest extends TestCase
         foreach ($aliases as $alias => $target) {
             assert(is_string($alias) && is_string($target));
 
-            // Skipping as these have required arguments
-            if (str_contains($target, '\\Db')) {
-                continue;
-            }
-
             // Skipping as has required arguments
             if (str_contains($target, '\\Callback')) {
                 continue;

@@ -148,7 +148,6 @@
     </DocblockTypeContradiction>
     <FalsableReturnStatement>
       <code><![CDATA[json_encode($currentItems, $encodeOptions)]]></code>
-      <code><![CDATA[json_encode($currentItems->toArray(), $encodeOptions)]]></code>
     </FalsableReturnStatement>
     <InvalidFalsableReturnType>
       <code><![CDATA[string]]></code>
@@ -213,9 +212,6 @@
     <RedundantConditionGivenDocblockType>
       <code><![CDATA[static::$cache !== null]]></code>
     </RedundantConditionGivenDocblockType>
-    <TypeDoesNotContainType>
-      <code><![CDATA[$currentItems instanceof AbstractResultSet]]></code>
-    </TypeDoesNotContainType>
     <UndefinedInterfaceMethod>
       <code><![CDATA[getIterator]]></code>
       <code><![CDATA[getIterator]]></code>

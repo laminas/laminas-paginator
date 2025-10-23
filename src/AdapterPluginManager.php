@@ -33,41 +33,30 @@ class AdapterPluginManager extends AbstractPluginManager
      * @var array
      */
     protected $aliases = [
-        'callback'                    => Adapter\Callback::class,
-        'Callback'                    => Adapter\Callback::class,
-        'dbselect'                    => Adapter\DbSelect::class,
-        'dbSelect'                    => Adapter\DbSelect::class,
-        'DbSelect'                    => Adapter\DbSelect::class,
-        'dbtablegateway'              => Adapter\DbTableGateway::class,
-        'dbTableGateway'              => Adapter\DbTableGateway::class,
-        'DbTableGateway'              => Adapter\DbTableGateway::class,
-        'null'                        => Adapter\NullFill::class,
-        'Null'                        => Adapter\NullFill::class,
-        'nullfill'                    => Adapter\NullFill::class,
-        'nullFill'                    => Adapter\NullFill::class,
-        'NullFill'                    => Adapter\NullFill::class,
-        'array'                       => Adapter\ArrayAdapter::class,
-        'Array'                       => Adapter\ArrayAdapter::class,
-        'iterator'                    => Adapter\Iterator::class,
-        'Iterator'                    => Adapter\Iterator::class,
-        'laminaspaginatoradapternull' => Adapter\NullFill::class,
+        'callback' => Adapter\Callback::class,
+        'Callback' => Adapter\Callback::class,
+        'null'     => Adapter\NullFill::class,
+        'Null'     => Adapter\NullFill::class,
+        'nullfill' => Adapter\NullFill::class,
+        'nullFill' => Adapter\NullFill::class,
+        'NullFill' => Adapter\NullFill::class,
+        'array'    => Adapter\ArrayAdapter::class,
+        'Array'    => Adapter\ArrayAdapter::class,
+        'iterator' => Adapter\Iterator::class,
+        'Iterator' => Adapter\Iterator::class,
 
         // Legacy Zend Framework aliases
-        'Zend\Paginator\Adapter\Callback'       => Adapter\Callback::class,
-        'Zend\Paginator\Adapter\DbSelect'       => Adapter\DbSelect::class,
-        'Zend\Paginator\Adapter\DbTableGateway' => Adapter\DbTableGateway::class,
-        'Zend\Paginator\Adapter\NullFill'       => Adapter\NullFill::class,
-        'Zend\Paginator\Adapter\Iterator'       => Adapter\Iterator::class,
-        'Zend\Paginator\Adapter\ArrayAdapter'   => Adapter\ArrayAdapter::class,
+        'Zend\Paginator\Adapter\Callback'     => Adapter\Callback::class,
+        'Zend\Paginator\Adapter\NullFill'     => Adapter\NullFill::class,
+        'Zend\Paginator\Adapter\Iterator'     => Adapter\Iterator::class,
+        'Zend\Paginator\Adapter\ArrayAdapter' => Adapter\ArrayAdapter::class,
 
         // v2 normalized FQCNs
-        'zendpaginatoradapternull'           => Adapter\NullFill::class,
-        'zendpaginatoradaptercallback'       => Adapter\Callback::class,
-        'zendpaginatoradapterdbselect'       => Adapter\DbSelect::class,
-        'zendpaginatoradapterdbtablegateway' => Adapter\DbTableGateway::class,
-        'zendpaginatoradapternullfill'       => Adapter\NullFill::class,
-        'zendpaginatoradapteriterator'       => Adapter\Iterator::class,
-        'zendpaginatoradapterarrayadapter'   => Adapter\ArrayAdapter::class,
+        'zendpaginatoradapternull'         => Adapter\NullFill::class,
+        'zendpaginatoradaptercallback'     => Adapter\Callback::class,
+        'zendpaginatoradapternullfill'     => Adapter\NullFill::class,
+        'zendpaginatoradapteriterator'     => Adapter\Iterator::class,
+        'zendpaginatoradapterarrayadapter' => Adapter\ArrayAdapter::class,
     ];
 
     /**
@@ -76,20 +65,16 @@ class AdapterPluginManager extends AbstractPluginManager
      * @var array
      */
     protected $factories = [
-        Adapter\Callback::class       => Adapter\Service\CallbackFactory::class,
-        Adapter\DbSelect::class       => Adapter\Service\DbSelectFactory::class,
-        Adapter\DbTableGateway::class => Adapter\Service\DbTableGatewayFactory::class,
-        Adapter\NullFill::class       => InvokableFactory::class,
-        Adapter\Iterator::class       => Adapter\Service\IteratorFactory::class,
-        Adapter\ArrayAdapter::class   => InvokableFactory::class,
+        Adapter\Callback::class     => Adapter\Service\CallbackFactory::class,
+        Adapter\NullFill::class     => InvokableFactory::class,
+        Adapter\Iterator::class     => Adapter\Service\IteratorFactory::class,
+        Adapter\ArrayAdapter::class => InvokableFactory::class,
 
         // v2 normalized names
-        'laminaspaginatoradaptercallback'       => Adapter\Service\CallbackFactory::class,
-        'laminaspaginatoradapterdbselect'       => Adapter\Service\DbSelectFactory::class,
-        'laminaspaginatoradapterdbtablegateway' => Adapter\Service\DbTableGatewayFactory::class,
-        'laminaspaginatoradapternullfill'       => InvokableFactory::class,
-        'laminaspaginatoradapteriterator'       => Adapter\Service\IteratorFactory::class,
-        'laminaspaginatoradapterarrayadapter'   => InvokableFactory::class,
+        'laminaspaginatoradaptercallback'     => Adapter\Service\CallbackFactory::class,
+        'laminaspaginatoradapternullfill'     => InvokableFactory::class,
+        'laminaspaginatoradapteriterator'     => Adapter\Service\IteratorFactory::class,
+        'laminaspaginatoradapterarrayadapter' => InvokableFactory::class,
     ];
 
     /** @var string */
