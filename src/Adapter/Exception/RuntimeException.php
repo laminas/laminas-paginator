@@ -6,8 +6,7 @@ namespace Laminas\Paginator\Adapter\Exception;
 
 use Laminas\Paginator\Exception;
 
-/** @final */
-class RuntimeException extends Exception\RuntimeException implements
+final class RuntimeException extends Exception\RuntimeException implements
     ExceptionInterface
 {
 }

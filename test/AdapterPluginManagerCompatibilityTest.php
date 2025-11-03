@@ -7,12 +7,13 @@ namespace LaminasTest\Paginator;
 use Iterator;
 use Laminas\Paginator\Adapter\AdapterInterface;
 use Laminas\Paginator\Adapter\ArrayAdapter;
+use Laminas\Paginator\Adapter\Callback;
 use Laminas\Paginator\AdapterPluginManager;
 use Laminas\ServiceManager\Exception\InvalidServiceException;
 use Laminas\ServiceManager\ServiceManager;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use ReflectionProperty;
+use ReflectionClassConstant;
 use stdClass;
 
 use function assert;
@@ -20,11 +21,15 @@ use function class_exists;
 use function is_string;
 use function str_contains;
 
+/**
+ * @psalm-import-type ServiceManagerConfiguration from ServiceManager
+ */
 final class AdapterPluginManagerCompatibilityTest extends TestCase
 {
-    protected static function getPluginManager(): AdapterPluginManager
+    /** @param ServiceManagerConfiguration $config */
+    protected static function getPluginManager(array $config = []): AdapterPluginManager
     {
-        return new AdapterPluginManager(new ServiceManager());
+        return new AdapterPluginManager(new ServiceManager(), $config);
     }
 
     /**
@@ -32,16 +37,16 @@ final class AdapterPluginManagerCompatibilityTest extends TestCase
      */
     public static function aliasProvider(): iterable
     {
-        $pluginManager = self::getPluginManager();
-        $r             = new ReflectionProperty($pluginManager, 'aliases');
-        $aliases       = $r->getValue($pluginManager);
+        $config = (new ReflectionClassConstant(AdapterPluginManager::class, 'DEFAULT_CONFIG'))->getValue();
+        self::assertIsArray($config);
+        $aliases = $config['aliases'] ?? null;
         self::assertIsArray($aliases);
 
         foreach ($aliases as $alias => $target) {
             assert(is_string($alias) && is_string($target));
 
             // Skipping as has required arguments
-            if (str_contains($target, '\\Callback')) {
+            if (str_contains($target, Callback::class)) {
                 continue;
             }
 
@@ -80,8 +85,11 @@ final class AdapterPluginManagerCompatibilityTest extends TestCase
 
     public function testLoadingInvalidElementRaisesException(): void
     {
-        $manager = $this->getPluginManager();
-        $manager->setInvokableClass('test', stdClass::class);
+        $manager = $this->getPluginManager([
+            'invokables' => [
+                'test' => stdClass::class,
+            ],
+        ]);
         $this->expectException(InvalidServiceException::class);
         $manager->get('test');
     }

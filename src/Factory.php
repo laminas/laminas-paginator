@@ -1,4 +1,6 @@
-<?php // phpcs:disable Generic.NamingConventions.ConstructorName.OldStyle, WebimpressCodingStandard.NamingConventions.AbstractClass.Prefix
+<?php
+
+declare(strict_types=1);
 
 namespace Laminas\Paginator;
 
@@ -9,6 +11,9 @@ use Traversable;
 
 use function is_array;
 
+/**
+ * phpcs:disable WebimpressCodingStandard.NamingConventions.AbstractClass, Generic.NamingConventions.ConstructorName
+ */
 abstract class Factory
 {
     /**
@@ -59,7 +64,7 @@ abstract class Factory
         if ($adapter instanceof AdapterInterface || $adapter instanceof AdapterAggregateInterface) {
             return new Paginator($adapter);
         }
-        $adapter = static::getAdapterPluginManager()->get($adapter, $items);
+        $adapter = static::getAdapterPluginManager()->build($adapter, $items);
         return new Paginator($adapter);
     }
 

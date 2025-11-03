@@ -10,8 +10,6 @@ use Laminas\Paginator\Adapter\AdapterInterface;
 use function range;
 
 /**
- * @template-covariant TKey
- * @template-covariant TValue
  * @implements AdapterInterface<int, int>
  */
 class TestAdapter implements AdapterInterface
@@ -26,7 +24,7 @@ class TestAdapter implements AdapterInterface
     }
 
     /** @inheritDoc */
-    public function getItems($pageNumber, $itemCountPerPage)
+    public function getItems(int $offset, int $itemCountPerPage): iterable
     {
         return new ArrayObject(range(1, 10));
     }

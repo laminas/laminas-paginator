@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace Laminas\Paginator;
 
 use Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface;
-use Laminas\ServiceManager\AbstractPluginManager;
-use Laminas\ServiceManager\ConfigInterface;
-use Laminas\ServiceManager\Exception\InvalidServiceException;
+use Laminas\ServiceManager\AbstractSingleInstancePluginManager;
 use Laminas\ServiceManager\Factory\InvokableFactory;
+use Laminas\ServiceManager\ServiceManager;
+use Psr\Container\ContainerInterface;
 
-use function get_debug_type;
-use function sprintf;
+use function array_replace_recursive;
 
 /**
  * Plugin manager implementation for scrolling style adapters
@@ -20,78 +19,40 @@ use function sprintf;
  * ScrollingStyleInterface. Additionally, it registers a number
  * of default adapters available.
  *
- * @extends AbstractPluginManager<ScrollingStyleInterface>
- * @psalm-import-type FactoriesConfigurationType from ConfigInterface
- * @final
+ * @psalm-import-type ServiceManagerConfiguration from ServiceManager
+ * @extends AbstractSingleInstancePluginManager<ScrollingStyleInterface>
  */
-class ScrollingStylePluginManager extends AbstractPluginManager
+final class ScrollingStylePluginManager extends AbstractSingleInstancePluginManager
 {
-    /**
-     * Default set of adapters
-     *
-     * @var array<array-key, string>
-     */
-    protected $aliases = [
-        'all'     => ScrollingStyle\All::class,
-        'All'     => ScrollingStyle\All::class,
-        'elastic' => ScrollingStyle\Elastic::class,
-        'Elastic' => ScrollingStyle\Elastic::class,
-        'jumping' => ScrollingStyle\Jumping::class,
-        'Jumping' => ScrollingStyle\Jumping::class,
-        'sliding' => ScrollingStyle\Sliding::class,
-        'Sliding' => ScrollingStyle\Sliding::class,
+    private const DEFAULT_CONFIG = [
+        'aliases'   => [
+            'all'     => ScrollingStyle\All::class,
+            'All'     => ScrollingStyle\All::class,
+            'elastic' => ScrollingStyle\Elastic::class,
+            'Elastic' => ScrollingStyle\Elastic::class,
+            'jumping' => ScrollingStyle\Jumping::class,
+            'Jumping' => ScrollingStyle\Jumping::class,
+            'sliding' => ScrollingStyle\Sliding::class,
+            'Sliding' => ScrollingStyle\Sliding::class,
+        ],
+        'factories' => [
+            ScrollingStyle\All::class     => InvokableFactory::class,
+            ScrollingStyle\Elastic::class => InvokableFactory::class,
+            ScrollingStyle\Jumping::class => InvokableFactory::class,
+            ScrollingStyle\Sliding::class => InvokableFactory::class,
+        ],
     ];
 
-    /**
-     * Default set of adapter factories
-     *
-     * @var FactoriesConfigurationType
-     */
-    protected $factories = [
-        ScrollingStyle\All::class     => InvokableFactory::class,
-        ScrollingStyle\Elastic::class => InvokableFactory::class,
-        ScrollingStyle\Jumping::class => InvokableFactory::class,
-        ScrollingStyle\Sliding::class => InvokableFactory::class,
-    ];
+    /** @var class-string */
+    protected string $instanceOf = ScrollingStyleInterface::class;
 
-    /** @inheritDoc */
-    protected $instanceOf = ScrollingStyleInterface::class;
+    public function __construct(
+        ContainerInterface $creationContext,
+        array $config = [],
+    ) {
+        /** @psalm-var ServiceManagerConfiguration $config Psalm cannot infer this after merge */
+        $config = array_replace_recursive(self::DEFAULT_CONFIG, $config);
 
-    /**
-     * Validate a plugin (v3)
-     *
-     * @param mixed $instance
-     * @throws InvalidServiceException
-     * @psalm-assert ScrollingStyleInterface $instance
-     */
-    public function validate($instance)
-    {
-        if (! $instance instanceof $this->instanceOf) {
-            throw new InvalidServiceException(sprintf(
-                'Plugin of type %s is invalid; must implement %s',
-                get_debug_type($instance),
-                ScrollingStyleInterface::class
-            ));
-        }
-    }
-
-    /**
-     * Validate a plugin (v2)
-     *
-     * @throws Exception\InvalidArgumentException
-     * @return void
-     * @psalm-assert ScrollingStyleInterface $instance
-     */
-    public function validatePlugin(mixed $plugin)
-    {
-        try {
-            $this->validate($plugin);
-        } catch (InvalidServiceException $e) {
-            throw new Exception\InvalidArgumentException(
-                $e->getMessage(),
-                $e->getCode(),
-                $e
-            );
-        }
+        parent::__construct($creationContext, $config);
     }
 }

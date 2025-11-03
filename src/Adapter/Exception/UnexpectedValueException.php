@@ -6,8 +6,7 @@ namespace Laminas\Paginator\Adapter\Exception;
 
 use Laminas\Paginator\Exception;
 
-/** @final */
-class UnexpectedValueException extends Exception\UnexpectedValueException implements
+final class UnexpectedValueException extends Exception\UnexpectedValueException implements
     ExceptionInterface
 {
 }

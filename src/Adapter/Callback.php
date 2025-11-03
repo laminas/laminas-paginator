@@ -4,35 +4,30 @@ declare(strict_types=1);
 
 namespace Laminas\Paginator\Adapter;
 
-use ReturnTypeWillChange;
-
 use function call_user_func;
 
 /**
- * @template-covariant TKey of int
- * @template-covariant TValue
+ * @template TKey of array-key
+ * @template TValue
  * @implements AdapterInterface<TKey, TValue>
- *     @final
  */
-class Callback implements AdapterInterface
+final class Callback implements AdapterInterface
 {
     /**
      * Callback to be executed to retrieve the items for a page.
      *
      * @var callable(int, int): iterable<TKey, TValue>
      */
-    protected $itemsCallback;
+    private $itemsCallback;
 
     /**
      * Callback to be executed to retrieve the total number of items.
      *
      * @var callable(): int
      */
-    protected $countCallback;
+    private $countCallback;
 
     /**
-     * Constructs instance.
-     *
      * @param callable(int, int): iterable<TKey, TValue> $itemsCallback Callback to be executed to retrieve
      *                                                            the items for a page.
      * @param callable(): int $countCallback Callback to be executed to retrieve the total number of items.
@@ -50,20 +45,12 @@ class Callback implements AdapterInterface
      *
      * @inheritDoc
      */
-    public function getItems($offset, $itemCountPerPage)
+    public function getItems(int $offset, int $itemCountPerPage): iterable
     {
         return call_user_func($this->itemsCallback, $offset, $itemCountPerPage);
     }
 
-    /**
-     * Returns the total number of items.
-     *
-     * Executes the {$countCallback}.
-     *
-     * @return int
-     */
-    #[ReturnTypeWillChange]
-    public function count()
+    public function count(): int
     {
         return call_user_func($this->countCallback);
     }

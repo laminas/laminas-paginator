@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="6.13.1@1e3b7f0a8ab32b23197b91107adc0a7ed8a05b51">
-  <file src="src/Adapter/Exception/MissingRowCountColumnException.php">
-    <PossiblyUnusedMethod>
-      <code><![CDATA[forColumn]]></code>
-    </PossiblyUnusedMethod>
-  </file>
   <file src="src/Adapter/Exception/RuntimeException.php">
     <UnusedClass>
       <code><![CDATA[RuntimeException]]></code>
@@ -15,90 +10,16 @@
       <code><![CDATA[UnexpectedValueException]]></code>
     </UnusedClass>
   </file>
+  <file src="src/Adapter/Iterator.php">
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$this->iterator]]></code>
+    </MixedArgumentTypeCoercion>
+  </file>
   <file src="src/Adapter/Service/CallbackFactory.php">
-    <DeprecatedInterface>
-      <code><![CDATA[CallbackFactory]]></code>
-    </DeprecatedInterface>
-    <MissingParamType>
-      <code><![CDATA[$requestedName]]></code>
-    </MissingParamType>
-    <MixedArgument>
+    <MixedArgumentTypeCoercion>
       <code><![CDATA[$countCallback]]></code>
       <code><![CDATA[$itemsCallback]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$countCallback]]></code>
-      <code><![CDATA[$itemsCallback]]></code>
-    </MixedAssignment>
-    <ParamNameMismatch>
-      <code><![CDATA[$container]]></code>
-    </ParamNameMismatch>
-    <PossiblyNullArgument>
-      <code><![CDATA[$countCallback]]></code>
-    </PossiblyNullArgument>
-    <PossiblyUnusedMethod>
-      <code><![CDATA[setCreationOptions]]></code>
-    </PossiblyUnusedMethod>
-  </file>
-  <file src="src/Adapter/Service/IteratorFactory.php">
-    <DeprecatedInterface>
-      <code><![CDATA[IteratorFactory]]></code>
-    </DeprecatedInterface>
-    <LessSpecificReturnStatement>
-      <code><![CDATA[new $requestedName($iterator)]]></code>
-    </LessSpecificReturnStatement>
-    <MissingParamType>
-      <code><![CDATA[$requestedName]]></code>
-    </MissingParamType>
-    <MixedArgument>
-      <code><![CDATA[IteratorAdapter::class]]></code>
-      <code><![CDATA[IteratorAdapter::class]]></code>
-    </MixedArgument>
-    <MixedMethodCall>
-      <code><![CDATA[new $requestedName($iterator)]]></code>
-    </MixedMethodCall>
-    <MoreSpecificReturnType>
-      <code><![CDATA[IteratorAdapter]]></code>
-    </MoreSpecificReturnType>
-    <ParamNameMismatch>
-      <code><![CDATA[$container]]></code>
-    </ParamNameMismatch>
-    <PossiblyUnusedMethod>
-      <code><![CDATA[setCreationOptions]]></code>
-    </PossiblyUnusedMethod>
-    <UndefinedClass>
-      <code><![CDATA[IteratorAdapter]]></code>
-      <code><![CDATA[IteratorAdapter]]></code>
-      <code><![CDATA[IteratorAdapter]]></code>
-    </UndefinedClass>
-    <UndefinedDocblockClass>
-      <code><![CDATA[IteratorAdapter]]></code>
-      <code><![CDATA[IteratorAdapter]]></code>
-    </UndefinedDocblockClass>
-  </file>
-  <file src="src/AdapterPluginManager.php">
-    <NonInvariantDocblockPropertyType>
-      <code><![CDATA[$aliases]]></code>
-      <code><![CDATA[$factories]]></code>
-      <code><![CDATA[$instanceOf]]></code>
-    </NonInvariantDocblockPropertyType>
-    <PossiblyUnusedMethod>
-      <code><![CDATA[validatePlugin]]></code>
-    </PossiblyUnusedMethod>
-  </file>
-  <file src="src/AdapterPluginManagerFactory.php">
-    <DeprecatedClass>
-      <code><![CDATA[new Config($config)]]></code>
-    </DeprecatedClass>
-    <DeprecatedInterface>
-      <code><![CDATA[AdapterPluginManagerFactory]]></code>
-    </DeprecatedInterface>
-    <MissingConstructor>
-      <code><![CDATA[$creationOptions]]></code>
-    </MissingConstructor>
-    <ParamNameMismatch>
-      <code><![CDATA[$container]]></code>
-    </ParamNameMismatch>
+    </MixedArgumentTypeCoercion>
   </file>
   <file src="src/Factory.php">
     <DocblockTypeContradiction>
@@ -130,7 +51,6 @@
       <code><![CDATA[$pages->pagesInRange]]></code>
     </ArgumentTypeCoercion>
     <DocblockTypeContradiction>
-      <code><![CDATA[$this->pageCount === null]]></code>
       <code><![CDATA[is_array($config)]]></code>
       <code><![CDATA[static::$scrollingStyles === null]]></code>
     </DocblockTypeContradiction>
@@ -163,6 +83,9 @@
       <code><![CDATA[setMode]]></code>
       <code><![CDATA[setMode]]></code>
     </MixedMethodCall>
+    <MixedPropertyTypeCoercion>
+      <code><![CDATA[$config]]></code>
+    </MixedPropertyTypeCoercion>
     <MixedReturnStatement>
       <code><![CDATA[$page[$itemNumber - 1]]]></code>
       <code><![CDATA[static::getScrollingStylePluginManager()->get($scrollingStyle)]]></code>
@@ -174,25 +97,12 @@
     <PossiblyInvalidArrayOffset>
       <code><![CDATA[$page[$itemNumber - 1]]]></code>
     </PossiblyInvalidArrayOffset>
-    <PossiblyInvalidPropertyAssignmentValue>
-      <code><![CDATA[$adapter]]></code>
-    </PossiblyInvalidPropertyAssignmentValue>
-    <PossiblyUnusedProperty>
-      <code><![CDATA[$adapters]]></code>
-    </PossiblyUnusedProperty>
-    <PropertyNotSetInConstructor>
-      <code><![CDATA[$itemCountPerPage]]></code>
-      <code><![CDATA[$pageCount]]></code>
-    </PropertyNotSetInConstructor>
     <RedundantCastGivenDocblockType>
       <code><![CDATA[(bool) $enable]]></code>
-      <code><![CDATA[(int) $count]]></code>
-      <code><![CDATA[(int) $itemCountPerPage]]></code>
-      <code><![CDATA[(int) $itemNumber]]></code>
-      <code><![CDATA[(int) $pageNumber]]></code>
-      <code><![CDATA[(int) $pageNumber]]></code>
-      <code><![CDATA[(int) $pageRange]]></code>
     </RedundantCastGivenDocblockType>
+    <RedundantCondition>
+      <code><![CDATA[$config !== []]]></code>
+    </RedundantCondition>
     <RedundantConditionGivenDocblockType>
       <code><![CDATA[static::$cache !== null]]></code>
     </RedundantConditionGivenDocblockType>
@@ -224,44 +134,26 @@
       <code><![CDATA[$this->getInnerIterator()->current()]]></code>
     </MixedReturnStatement>
   </file>
+  <file src="src/ScrollingStyle/Elastic.php">
+    <InvalidArgument>
+      <code><![CDATA[$pageRange]]></code>
+    </InvalidArgument>
+  </file>
   <file src="src/ScrollingStylePluginManager.php">
     <NonInvariantDocblockPropertyType>
-      <code><![CDATA[$factories]]></code>
-      <code><![CDATA[$factories]]></code>
+      <code><![CDATA[$instanceOf]]></code>
     </NonInvariantDocblockPropertyType>
-    <PossiblyUnusedMethod>
-      <code><![CDATA[validatePlugin]]></code>
-    </PossiblyUnusedMethod>
-  </file>
-  <file src="src/ScrollingStylePluginManagerFactory.php">
-    <DeprecatedInterface>
-      <code><![CDATA[ScrollingStylePluginManagerFactory]]></code>
-    </DeprecatedInterface>
-    <ParamNameMismatch>
-      <code><![CDATA[$container]]></code>
-    </ParamNameMismatch>
   </file>
   <file src="src/SerializableLimitIterator.php">
     <DirectConstructorCall>
       <code><![CDATA[$this->__construct($data['it'], $data['offset'], $data['count'])]]></code>
     </DirectConstructorCall>
-    <MethodSignatureMustProvideReturnType>
-      <code><![CDATA[serialize]]></code>
-      <code><![CDATA[unserialize]]></code>
-    </MethodSignatureMustProvideReturnType>
     <MixedArgument>
-      <code><![CDATA[$data['count']]]></code>
-      <code><![CDATA[$data['it']]]></code>
-      <code><![CDATA[$data['offset']]]></code>
-      <code><![CDATA[$data['pos'] + $data['offset']]]></code>
       <code><![CDATA[unserialize($data)]]></code>
     </MixedArgument>
-    <MixedOperand>
-      <code><![CDATA[$data['pos']]]></code>
-    </MixedOperand>
-    <UndefinedThisPropertyFetch>
-      <code><![CDATA[$this->__serialize]]></code>
-    </UndefinedThisPropertyFetch>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$data['it']]]></code>
+    </MixedArgumentTypeCoercion>
   </file>
   <file src="test/Adapter/IteratorTest.php">
     <ArgumentTypeCoercion>
@@ -277,28 +169,25 @@
       <code><![CDATA[getInnerIterator]]></code>
     </MixedMethodCall>
   </file>
+  <file src="test/AdapterPluginManagerCompatibilityTest.php">
+    <DeprecatedMethod>
+      <code><![CDATA[setService]]></code>
+    </DeprecatedMethod>
+    <DocblockTypeContradiction>
+      <code><![CDATA[assertIsArray]]></code>
+    </DocblockTypeContradiction>
+  </file>
   <file src="test/AdapterPluginManagerTest.php">
     <MixedAssignment>
       <code><![CDATA[$plugin]]></code>
     </MixedAssignment>
   </file>
   <file src="test/PaginatorTest.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA['ArrayObject']]></code>
-      <code><![CDATA['ArrayObject']]></code>
-    </ArgumentTypeCoercion>
     <InvalidArgument>
+      <code><![CDATA[$this->cache]]></code>
       <code><![CDATA['not array']]></code>
-      <code><![CDATA[[]]]></code>
+      <code><![CDATA[-1]]></code>
     </InvalidArgument>
-    <InvalidPropertyFetch>
-      <code><![CDATA[$this->config->default]]></code>
-      <code><![CDATA[$this->config->testing]]></code>
-    </InvalidPropertyFetch>
-    <MixedArgument>
-      <code><![CDATA[$this->config->default]]></code>
-      <code><![CDATA[$this->config->testing]]></code>
-    </MixedArgument>
     <MixedAssignment>
       <code><![CDATA[$firstOutputGetCacheInternalId]]></code>
       <code><![CDATA[$firstOutputGetCacheInternalId]]></code>
@@ -312,19 +201,13 @@
       <code><![CDATA[$outputGetCacheInternalId]]></code>
       <code><![CDATA[$outputGetCacheInternalId]]></code>
     </MixedOperand>
-    <PossiblyInvalidPropertyAssignmentValue>
-      <code><![CDATA[Config\Factory::fromFile(__DIR__ . '/_files/config.xml', true)]]></code>
-    </PossiblyInvalidPropertyAssignmentValue>
   </file>
-  <file src="test/TestAsset/ScrollingStylePluginManager.php">
-    <InvalidExtendClass>
-      <code><![CDATA[BaseScrollingStylePluginManager]]></code>
-    </InvalidExtendClass>
+  <file src="test/ScrollingStylePluginManagerCompatibilityTest.php">
+    <DeprecatedMethod>
+      <code><![CDATA[setService]]></code>
+    </DeprecatedMethod>
   </file>
   <file src="test/TestAsset/TestAdapter.php">
-    <ParamNameMismatch>
-      <code><![CDATA[$pageNumber]]></code>
-    </ParamNameMismatch>
     <PossiblyUnusedProperty>
       <code><![CDATA[$property]]></code>
     </PossiblyUnusedProperty>
