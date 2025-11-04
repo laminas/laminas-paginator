@@ -11,20 +11,18 @@ use Laminas\Paginator\Adapter\ArrayAdapter;
 use Laminas\Paginator\Adapter\Iterator;
 use Laminas\Paginator\Exception\InvalidArgumentException;
 use LaminasTest\Paginator\TestAsset\TestArrayAggregate;
-use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 use function count;
 
-#[Group('Laminas_Paginator')]
 final class FactoryTest extends TestCase
 {
     public function testCanFactoryPaginatorWithStringAdapterObject(): void
     {
-        $datas     = [1, 2, 3];
-        $paginator = Paginator\Factory::factory($datas, new Adapter\ArrayAdapter($datas));
+        $data      = [1, 2, 3];
+        $paginator = Paginator\Factory::factory($data, new Adapter\ArrayAdapter($data));
         $this->assertInstanceOf(ArrayAdapter::class, $paginator->getAdapter());
-        $this->assertEquals(count($datas), $paginator->getCurrentItemCount());
+        $this->assertEquals(count($data), $paginator->getCurrentItemCount());
     }
 
     public function testCanFactoryPaginatorWithStringAdapterName(): void

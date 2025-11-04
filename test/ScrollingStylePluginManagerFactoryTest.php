@@ -7,8 +7,6 @@ namespace LaminasTest\Paginator;
 use Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface;
 use Laminas\Paginator\ScrollingStylePluginManager;
 use Laminas\Paginator\ScrollingStylePluginManagerFactory;
-use Laminas\ServiceManager\ServiceLocatorInterface;
-use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 
@@ -19,12 +17,11 @@ final class ScrollingStylePluginManagerFactoryTest extends TestCase
         $container = $this->createMock(ContainerInterface::class);
         $factory   = new ScrollingStylePluginManagerFactory();
 
-        $scrollingStyles = $factory($container, ScrollingStylePluginManager::class);
+        $scrollingStyles = $factory($container, $factory::class);
         $this->assertInstanceOf(ScrollingStylePluginManager::class, $scrollingStyles);
     }
 
-    #[Depends('testFactoryReturnsPluginManager')]
-    public function testFactoryConfiguresPluginManagerUnderContainerInterop(): void
+    public function testOptionsWillBeUsedToSeedServices(): void
     {
         $container      = $this->createMock(ContainerInterface::class);
         $scrollingStyle = $this->createMock(ScrollingStyleInterface::class);
@@ -35,23 +32,6 @@ final class ScrollingStylePluginManagerFactoryTest extends TestCase
                 'test' => $scrollingStyle,
             ],
         ]);
-        $this->assertSame($scrollingStyle, $scrollingStyles->get('test'));
-    }
-
-    #[Depends('testFactoryReturnsPluginManager')]
-    public function testFactoryConfiguresPluginManagerUnderServiceManagerV2(): void
-    {
-        $container      = $this->createMock(ServiceLocatorInterface::class);
-        $scrollingStyle = $this->createMock(ScrollingStyleInterface::class);
-
-        $factory = new ScrollingStylePluginManagerFactory();
-        $factory->setCreationOptions([
-            'services' => [
-                'test' => $scrollingStyle,
-            ],
-        ]);
-
-        $scrollingStyles = $factory->createService($container);
         $this->assertSame($scrollingStyle, $scrollingStyles->get('test'));
     }
 }

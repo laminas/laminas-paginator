@@ -5,34 +5,29 @@ declare(strict_types=1);
 namespace Laminas\Paginator\Adapter\Service;
 
 use Iterator;
-use Laminas\Paginator\Iterator as IteratorAdapter;
+use Laminas\Paginator\Adapter\Iterator as IteratorAdapter;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
-use Laminas\ServiceManager\FactoryInterface;
-use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Psr\Container\ContainerInterface;
 
 use function array_shift;
 use function get_debug_type;
 use function sprintf;
 
-/** @final */
-class IteratorFactory implements FactoryInterface
+/**
+ * @internal
+ *
+ * @psalm-internal Laminas\Paginator
+ * @psalm-internal LaminasTest\Paginator
+ */
+final class IteratorFactory implements FactoryInterface
 {
-    /**
-     * Options to use when creating adapter (v2)
-     *
-     * @var null|array
-     */
-    protected $creationOptions;
-
-    /**
-     * {@inheritDoc}
-     *
-     * @return IteratorAdapter
-     */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
-    {
-        if (null === $options || empty($options)) {
+    public function __invoke(
+        ContainerInterface $container,
+        string $requestedName,
+        ?array $options = null,
+    ): IteratorAdapter {
+        if (null === $options || $options === []) {
             throw new ServiceNotCreatedException(sprintf(
                 '%s requires a minimum of an Iterator instance',
                 IteratorAdapter::class
@@ -49,31 +44,8 @@ class IteratorFactory implements FactoryInterface
             ));
         }
 
-        return new $requestedName($iterator);
-    }
+        /** @psalm-var Iterator<array-key, mixed> $iterator */
 
-    /**
-     * Create and return an IteratorAdapter instance (v2)
-     *
-     * @param null|string $name
-     * @param string $requestedName
-     * @return IteratorAdapter
-     */
-    public function createService(
-        ServiceLocatorInterface $container,
-        $name = null,
-        $requestedName = IteratorAdapter::class
-    ) {
-        return $this($container, $requestedName, $this->creationOptions);
-    }
-
-    /**
-     * Options to use with factory (v2)
-     *
-     * @return void
-     */
-    public function setCreationOptions(array $creationOptions)
-    {
-        $this->creationOptions = $creationOptions;
+        return new IteratorAdapter($iterator);
     }
 }

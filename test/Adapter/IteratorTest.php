@@ -20,7 +20,6 @@ use function range;
 use function serialize;
 use function unserialize;
 
-#[Group('Laminas_Paginator')]
 final class IteratorTest extends TestCase
 {
     private ?Adapter\Iterator $adapter;

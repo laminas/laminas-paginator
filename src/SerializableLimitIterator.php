@@ -8,7 +8,6 @@ use ArrayAccess;
 use Iterator;
 use LimitIterator;
 use OutOfBoundsException;
-use ReturnTypeWillChange;
 use Serializable;
 
 use function assert;
@@ -17,13 +16,13 @@ use function serialize;
 use function unserialize;
 
 /**
+ * @psalm-type SerialisedShape = array{it: Iterator, offset: int, count: int, pos: int}
  * @template TKey of int
  * @template TValue
- * @template-extends LimitIterator<TKey, TValue, Iterator<TKey, TValue>>
+ * @extends LimitIterator<TKey, TValue, Iterator<TKey, TValue>>
  * @implements ArrayAccess<TKey, TValue>
- * @final
  */
-class SerializableLimitIterator extends LimitIterator implements Serializable, ArrayAccess
+final class SerializableLimitIterator extends LimitIterator implements Serializable, ArrayAccess
 {
     /**
      * Offset to first element
@@ -36,49 +35,45 @@ class SerializableLimitIterator extends LimitIterator implements Serializable, A
     private int $count;
 
     /**
-     * Construct a Laminas\Paginator\SerializableLimitIterator
-     *
      * @see LimitIterator::__construct
      *
      * @param Iterator<TKey, TValue> $it Iterator to limit (must be serializable by un-/serialize)
      * @param int $offset Offset to first element
      * @param int $count Maximum number of elements to show or -1 for all
      */
-    public function __construct(Iterator $it, $offset = 0, $count = -1)
+    public function __construct(Iterator $it, int $offset = 0, int $count = -1)
     {
         $this->offset = $offset;
         $this->count  = $count;
         parent::__construct($it, $offset, $count);
     }
 
-    /**
-     * @return string representation of the instance
-     */
-    public function serialize()
+    public function serialize(): string
     {
-        return serialize($this->__serialize);
+        return serialize($this->__serialize());
     }
 
+    /** @return SerialisedShape */
     public function __serialize(): array
     {
+        $iterator = $this->getInnerIterator();
+        assert($iterator !== null);
+
         return [
-            'it'     => $this->getInnerIterator(),
+            'it'     => $iterator,
             'offset' => $this->offset,
             'count'  => $this->count,
             'pos'    => $this->getPosition(),
         ];
     }
 
-    /**
-     * @param string $data representation of the instance
-     * @return void
-     */
-    public function unserialize($data)
+    public function unserialize(string $data): void
     {
         $this->__unserialize(unserialize($data));
     }
 
-    public function __unserialize(array $data)
+    /** @param SerialisedShape $data */
+    public function __unserialize(array $data): void
     {
         $this->__construct($data['it'], $data['offset'], $data['count']);
         $this->seek($data['pos'] + $data['offset']);
@@ -87,17 +82,17 @@ class SerializableLimitIterator extends LimitIterator implements Serializable, A
     /**
      * Returns value of the Iterator
      *
-     * @param int $offset
+     * @param TKey $offset
      * @return TValue|null
      */
-    #[ReturnTypeWillChange]
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         $currentOffset = $this->key() ?? 0;
         assert(is_int($currentOffset));
         $this->seek($offset);
         $current = $this->current();
         $this->seek($currentOffset);
+
         return $current;
     }
 
@@ -108,8 +103,7 @@ class SerializableLimitIterator extends LimitIterator implements Serializable, A
      * @param TKey $offset
      * @param TValue $value
      */
-    #[ReturnTypeWillChange]
-    public function offsetSet($offset, mixed $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
     }
 
@@ -117,10 +111,8 @@ class SerializableLimitIterator extends LimitIterator implements Serializable, A
      * Determine if a value of Iterator is set and is not NULL
      *
      * @param int $offset
-     * @return bool
      */
-    #[ReturnTypeWillChange]
-    public function offsetExists($offset)
+    public function offsetExists(mixed $offset): bool
     {
         if ($offset > 0 && $offset < $this->count) {
             $currentOffset = $this->key() ?? 0;
@@ -145,8 +137,7 @@ class SerializableLimitIterator extends LimitIterator implements Serializable, A
      *
      * @param TKey $offset
      */
-    #[ReturnTypeWillChange]
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
     }
 }

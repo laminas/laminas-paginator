@@ -12,7 +12,6 @@ use PHPUnit\Framework\TestCase;
 use function assert;
 use function range;
 
-#[Group('Laminas_Paginator')]
 final class ArrayTest extends TestCase
 {
     private ?ArrayAdapter $adapter;

@@ -11,12 +11,15 @@ use Laminas\ServiceManager\Exception\InvalidServiceException;
 use Laminas\ServiceManager\ServiceManager;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use ReflectionProperty;
+use ReflectionClassConstant;
 use stdClass;
 
 use function assert;
 use function class_exists;
 
+/**
+ * @psalm-import-type ServiceManagerConfiguration from ServiceManager
+ */
 final class ScrollingStylePluginManagerCompatibilityTest extends TestCase
 {
     public function testReturnsInstancesOfTheExpectedType(): void
@@ -42,8 +45,11 @@ final class ScrollingStylePluginManagerCompatibilityTest extends TestCase
 
     public function testLoadingInvalidElementRaisesException(): void
     {
-        $manager = $this->getPluginManager();
-        $manager->setInvokableClass('test', stdClass::class);
+        $manager = $this->getPluginManager([
+            'invokables' => [
+                'test' => stdClass::class,
+            ],
+        ]);
         $this->expectException(InvalidServiceException::class);
         $manager->get('test');
     }
@@ -58,26 +64,25 @@ final class ScrollingStylePluginManagerCompatibilityTest extends TestCase
     }
 
     /**
-     * @return list<array{0: string, 1: class-string}>
+     * @return iterable<string, array{0: string, 1: class-string}>
      */
-    public static function aliasProvider(): array
+    public static function aliasProvider(): iterable
     {
-        $manager    = self::getPluginManager();
-        $reflection = new ReflectionProperty($manager, 'aliases');
-        $data       = [];
-        foreach ($reflection->getValue($manager) as $alias => $expected) {
+        $reflection = new ReflectionClassConstant(ScrollingStylePluginManager::class, 'DEFAULT_CONFIG');
+        $aliases    = $reflection->getValue()['aliases'] ?? [];
+        self::assertIsArray($aliases);
+        foreach ($aliases as $alias => $expected) {
             self::assertIsString($alias);
             self::assertIsString($expected);
             assert(class_exists($expected));
 
-            $data[] = [$alias, $expected];
+            yield $alias => [$alias, $expected];
         }
-
-        return $data;
     }
 
-    protected static function getPluginManager(): ScrollingStylePluginManager
+    /** @param ServiceManagerConfiguration $config */
+    protected static function getPluginManager(array $config = []): ScrollingStylePluginManager
     {
-        return new ScrollingStylePluginManager(new ServiceManager());
+        return new ScrollingStylePluginManager(new ServiceManager(), $config);
     }
 }

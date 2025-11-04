@@ -7,7 +7,6 @@ namespace LaminasTest\Paginator\ScrollingStyle;
 use Laminas\Paginator\Adapter\ArrayAdapter;
 use Laminas\Paginator\Paginator;
 use Laminas\Paginator\ScrollingStyle\Elastic;
-use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 use function array_combine;
@@ -15,7 +14,6 @@ use function assert;
 use function count;
 use function range;
 
-#[Group('Laminas_Paginator')]
 final class ElasticTest extends TestCase
 {
     private ?Elastic $scrollingStyle;

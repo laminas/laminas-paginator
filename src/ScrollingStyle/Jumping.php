@@ -10,18 +10,10 @@ use Laminas\Paginator\Paginator;
  * A scrolling style in which the cursor advances to the upper bound
  * of the page range, the page range "jumps" to the next section, and
  * the cursor moves back to the beginning of the range.
- *
- * @final
  */
-class Jumping implements ScrollingStyleInterface
+final class Jumping implements ScrollingStyleInterface
 {
-    /**
-     * Returns an array of "local" pages given a page number and range.
-     *
-     * @param  int $pageRange Unused
-     * @return array<int, int>
-     */
-    public function getPages(Paginator $paginator, $pageRange = null)
+    public function getPages(Paginator $paginator, int|null $pageRange = null): array
     {
         $pageRange  = $paginator->getPageRange();
         $pageNumber = $paginator->getCurrentPageNumber();

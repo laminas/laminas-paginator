@@ -4,17 +4,9 @@ declare(strict_types=1);
 
 namespace LaminasTest\Paginator\TestAsset;
 
-/**
- * @template-covariant TKey
- * @template-covariant TValue
- * @extends TestAdapter<TKey, TValue>
- */
 final class TestArrayCopyAdapter extends TestAdapter
 {
-    /**
-     * @return array
-     */
-    public function getArrayCopy()
+    public function getArrayCopy(): array
     {
         return [];
     }

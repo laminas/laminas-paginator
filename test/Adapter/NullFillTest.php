@@ -12,7 +12,6 @@ use PHPUnit\Framework\TestCase;
 use function array_fill;
 use function assert;
 
-#[Group('Laminas_Paginator')]
 final class NullFillTest extends TestCase
 {
     private ?Adapter\NullFill $adapter;
