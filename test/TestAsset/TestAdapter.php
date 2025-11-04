@@ -12,7 +12,7 @@ use function range;
 /**
  * @implements AdapterInterface<int, int>
  */
-class TestAdapter implements AdapterInterface
+final class TestAdapter implements AdapterInterface
 {
     public function __construct(public mixed $property = null)
     {

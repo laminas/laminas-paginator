@@ -7,8 +7,6 @@ namespace LaminasTest\Paginator;
 use ArrayAccess;
 use ArrayIterator;
 use ArrayObject;
-use Laminas\Cache\Storage\Adapter\Memory as MemoryCache;
-use Laminas\Cache\Storage\StorageInterface;
 use Laminas\Filter;
 use Laminas\Paginator;
 use Laminas\Paginator\Adapter;
@@ -35,15 +33,11 @@ use function range;
 final class PaginatorTest extends TestCase
 {
     private Paginator\Paginator $paginator;
-    private StorageInterface $cache;
 
     protected function setUp(): void
     {
         $testCollection  = range(1, 101);
         $this->paginator = new Paginator\Paginator(new Paginator\Adapter\ArrayAdapter($testCollection));
-
-        $this->cache = new MemoryCache();
-        Paginator\Paginator::setCache($this->cache);
 
         $this->restorePaginatorDefaults();
     }
@@ -64,8 +58,6 @@ final class PaginatorTest extends TestCase
         Paginator\Paginator::setScrollingStylePluginManager(new Paginator\ScrollingStylePluginManager(
             $this->createMock(ContainerInterface::class)
         ));
-
-        $this->paginator->setCacheEnabled(true);
     }
 
     public function testGetsAndSetsDefaultScrollingStyle(): void
@@ -388,96 +380,6 @@ final class PaginatorTest extends TestCase
         $this->assertInstanceOf(ArrayObject::class, $paginator->getCurrentItems());
     }
 
-    public function testCachedItem(): void
-    {
-        $this->paginator->setCurrentPageNumber(1)->getCurrentItems();
-        $this->paginator->setCurrentPageNumber(2)->getCurrentItems();
-        $this->paginator->setCurrentPageNumber(3)->getCurrentItems();
-
-        // cache entry to check that paginator loads only own items
-        $this->cache->addItem('not_paginator_item', 42);
-
-        $pageItems = $this->paginator->getPageItemCache();
-        $expected  = [
-            1 => new ArrayIterator(range(1, 10)),
-            2 => new ArrayIterator(range(11, 20)),
-            3 => new ArrayIterator(range(21, 30)),
-        ];
-        $this->assertEquals($expected, $pageItems);
-    }
-
-    public function testClearPageItemCache(): void
-    {
-        $this->paginator->setCurrentPageNumber(1)->getCurrentItems();
-        $this->paginator->setCurrentPageNumber(2)->getCurrentItems();
-        $this->paginator->setCurrentPageNumber(3)->getCurrentItems();
-
-        // cache entry to check that paginator deletes only own items
-        $this->cache->addItem('not_paginator_item', 42);
-
-        // clear only page 2 items
-        $this->paginator->clearPageItemCache(2);
-        $pageItems = $this->paginator->getPageItemCache();
-        $expected  = [
-            1 => new ArrayIterator(range(1, 10)),
-            3 => new ArrayIterator(range(21, 30)),
-        ];
-        $this->assertEquals($expected, $pageItems);
-
-        // clear all
-        $this->paginator->clearPageItemCache();
-        $pageItems = $this->paginator->getPageItemCache();
-        $this->assertEquals([], $pageItems);
-
-        // assert that cache items not from paginator are not cleared
-        $this->assertEquals(42, $this->cache->getItem('not_paginator_item'));
-    }
-
-    public function testWithCacheDisabled(): void
-    {
-        $this->paginator->setCacheEnabled(false);
-        $this->paginator->setCurrentPageNumber(1)->getCurrentItems();
-
-        $cachedPageItems = $this->paginator->getPageItemCache();
-        $expected        = new ArrayIterator(range(1, 10));
-
-        $this->assertEquals([], $cachedPageItems);
-
-        $pageItems = $this->paginator->getCurrentItems();
-
-        $this->assertEquals($expected, $pageItems);
-    }
-
-    public function testCacheDoesNotDisturbResultsWhenChangingParam(): void
-    {
-        $this->paginator->setCurrentPageNumber(1)->getCurrentItems();
-        $pageItems = $this->paginator->setItemCountPerPage(5)->getCurrentItems();
-
-        $expected = new ArrayIterator(range(1, 5));
-        $this->assertEquals($expected, $pageItems);
-
-        $pageItems = $this->paginator->getItemsByPage(2);
-        $expected  = new ArrayIterator(range(6, 10));
-        $this->assertEquals($expected, $pageItems);
-
-        // change the inside Paginator scale
-        $this->paginator->setItemCountPerPage(8)->setCurrentPageNumber(3)->getCurrentItems();
-
-        $pageItems = $this->paginator->getPageItemCache();
-        $expected  = new ArrayIterator(range(17, 24)); /*array(3 => */ /*) */
-        $this->assertEquals($expected, $pageItems[3]);
-
-        // get back to already cached data
-        $this->paginator->setItemCountPerPage(5);
-        $pageItems = $this->paginator->getPageItemCache();
-        $expected  = [
-            1 => new ArrayIterator(range(1, 5)),
-            2 => new ArrayIterator(range(6, 10)),
-        ];
-        $this->assertEquals($expected[1], $pageItems[1]);
-        $this->assertEquals($expected[2], $pageItems[2]);
-    }
-
     public function testToJson(): void
     {
         $this->paginator->setCurrentPageNumber(1);
@@ -640,89 +542,6 @@ final class PaginatorTest extends TestCase
         );
 
         $reflection->invoke($paginator, new stdClass());
-    }
-
-    public function testGetCacheId(): void
-    {
-        $adapter              = new TestAsset\TestAdapter();
-        $paginator            = new Paginator\Paginator($adapter);
-        $reflectionGetCacheId = new ReflectionMethod($paginator, 'getCacheId');
-        $outputGetCacheId     = $reflectionGetCacheId->invoke($paginator, null);
-
-        $reflectionGetCacheInternalId = new ReflectionMethod($paginator, 'getCacheInternalId');
-        $outputGetCacheInternalId     = $reflectionGetCacheInternalId->invoke($paginator);
-
-        $this->assertEquals($outputGetCacheId, 'Laminas_Paginator_1_' . $outputGetCacheInternalId);
-
-        // After a re-creation of the same object, cacheId should remains the same
-        $adapter                      = new TestAsset\TestAdapter();
-        $paginator                    = new Paginator\Paginator($adapter);
-        $reflectionGetCacheInternalId = new ReflectionMethod($paginator, 'getCacheInternalId');
-        $outputGetCacheInternalId     = $reflectionGetCacheInternalId->invoke($paginator);
-        $this->assertEquals($outputGetCacheId, 'Laminas_Paginator_1_' . $outputGetCacheInternalId);
-    }
-
-    public function testGetCacheIdWithSameAdapterAndDifferentAttributes(): void
-    {
-        $adapter   = new TestAsset\TestAdapter([1, 2, 3, 4]);
-        $paginator = new Paginator\Paginator($adapter);
-
-        $reflectionGetCacheInternalId  = new ReflectionMethod($paginator, 'getCacheInternalId');
-        $firstOutputGetCacheInternalId = $reflectionGetCacheInternalId->invoke($paginator);
-
-        $adapter                        = new TestAsset\TestAdapter([1, 2, 3, 4, 5, 6]);
-        $paginator                      = new Paginator\Paginator($adapter);
-        $reflectionGetCacheInternalId   = new ReflectionMethod($paginator, 'getCacheInternalId');
-        $secondOutputGetCacheInternalId = $reflectionGetCacheInternalId->invoke($paginator);
-        $this->assertNotEquals($firstOutputGetCacheInternalId, $secondOutputGetCacheInternalId);
-    }
-
-    public function testGetCacheIdWithInheritedClass(): void
-    {
-        $adapter   = new TestAsset\TestAdapter([1, 2, 3, 4]);
-        $paginator = new Paginator\Paginator($adapter);
-
-        $reflectionGetCacheInternalId  = new ReflectionMethod($paginator, 'getCacheInternalId');
-        $firstOutputGetCacheInternalId = $reflectionGetCacheInternalId->invoke($paginator);
-
-        $adapter                        = new TestAsset\TestSimilarAdapter([1, 2, 3, 4]);
-        $paginator                      = new Paginator\Paginator($adapter);
-        $reflectionGetCacheInternalId   = new ReflectionMethod($paginator, 'getCacheInternalId');
-        $secondOutputGetCacheInternalId = $reflectionGetCacheInternalId->invoke($paginator);
-        $this->assertNotEquals($firstOutputGetCacheInternalId, $secondOutputGetCacheInternalId);
-    }
-
-    public function testPaginatorShouldProduceDifferentCacheIdsWithDifferentAdapterInstances(): void
-    {
-        // Create first interal cache ID
-        $paginator                    = new Paginator\Paginator(new TestAsset\TestAdapter('foo'));
-        $reflectionGetCacheInternalId = new ReflectionMethod($paginator, 'getCacheInternalId');
-        /** @var string $firstCacheId */
-        $firstCacheId = $reflectionGetCacheInternalId->invoke($paginator);
-
-        // Create second internal cache ID
-        $paginator                    = new Paginator\Paginator(new TestAsset\TestAdapter('bar'));
-        $reflectionGetCacheInternalId = new ReflectionMethod($paginator, 'getCacheInternalId');
-        /** @var string $secondCacheId */
-        $secondCacheId = $reflectionGetCacheInternalId->invoke($paginator);
-
-        // Test
-        $this->assertNotEquals($firstCacheId, $secondCacheId);
-    }
-
-    public function testPaginatorShouldProduceDifferentCacheIdsDependingOnGetArrayCopy(): void
-    {
-        $paginator                    = new Paginator\Paginator(new TestAsset\TestAdapter('foo'));
-        $reflectionGetCacheInternalId = new ReflectionMethod($paginator, 'getCacheInternalId');
-        /** @var string $firstCacheId */
-        $firstCacheId = $reflectionGetCacheInternalId->invoke($paginator);
-
-        $paginator                    = new Paginator\Paginator(new TestAsset\TestArrayCopyAdapter('foo'));
-        $reflectionGetCacheInternalId = new ReflectionMethod($paginator, 'getCacheInternalId');
-        /** @var string $secondCacheId */
-        $secondCacheId = $reflectionGetCacheInternalId->invoke($paginator);
-
-        $this->assertNotEquals($firstCacheId, $secondCacheId);
     }
 
     public function testAcceptsComplexAdapters(): void

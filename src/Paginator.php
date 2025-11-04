@@ -9,8 +9,6 @@ use ArrayIterator;
 use Countable;
 use Iterator;
 use IteratorAggregate;
-use Laminas\Cache\Storage\IteratorInterface as CacheIterator;
-use Laminas\Cache\Storage\StorageInterface as CacheStorage;
 use Laminas\Filter\FilterInterface;
 use Laminas\Paginator\Adapter\AdapterInterface;
 use Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface;
@@ -32,14 +30,9 @@ use function is_string;
 use function iterator_count;
 use function json_encode;
 use function max;
-use function md5;
-use function method_exists;
 use function min;
 use function sprintf;
-use function str_starts_with;
-use function strlen;
 use function strtolower;
-use function substr;
 
 use const JSON_HEX_AMP;
 use const JSON_HEX_APOS;
@@ -70,11 +63,6 @@ use const JSON_HEX_TAG;
 final class Paginator implements Countable, IteratorAggregate
 {
     /**
-     * The cache tag prefix used to namespace Paginator results in the cache
-     */
-    public const CACHE_TAG_PREFIX = 'Laminas_Paginator_';
-
-    /**
      * Configuration file
      *
      * @var array{itemcountperpage: positive-int, pagerange: positive-int, ...<string, mixed>}|null
@@ -101,18 +89,6 @@ final class Paginator implements Countable, IteratorAggregate
      * @var ScrollingStylePluginManager
      */
     protected static $scrollingStyles;
-
-    /**
-     * Cache object
-     *
-     * @var CacheStorage
-     */
-    protected static $cache;
-
-    /**
-     * Enable or disable the cache by Laminas\Paginator\Paginator instance
-     */
-    private bool $cacheEnabled = true;
 
     /** @var AdapterInterface<TKey, TValue> */
     private AdapterInterface $adapter;
@@ -235,16 +211,6 @@ final class Paginator implements Countable, IteratorAggregate
     }
 
     /**
-     * Sets a cache object
-     *
-     * @return void
-     */
-    public static function setCache(CacheStorage $cache)
-    {
-        static::$cache = $cache;
-    }
-
-    /**
      * Sets the default scrolling style.
      *
      * @param string $scrollingStyle
@@ -332,18 +298,6 @@ final class Paginator implements Countable, IteratorAggregate
     }
 
     /**
-     * Enables/Disables the cache for this instance
-     *
-     * @param bool $enable
-     * @return Paginator
-     */
-    public function setCacheEnabled($enable)
-    {
-        $this->cacheEnabled = (bool) $enable;
-        return $this;
-    }
-
-    /**
      * Returns the number of pages.
      *
      * @return int<0, max>
@@ -365,33 +319,6 @@ final class Paginator implements Countable, IteratorAggregate
     public function getTotalItemCount(): int
     {
         return count($this->getAdapter());
-    }
-
-    /**
-     * Clear the page item cache.
-     *
-     * @return $this
-     */
-    public function clearPageItemCache(int|null $pageNumber = null): self
-    {
-        if (! $this->cacheEnabled()) {
-            return $this;
-        }
-
-        if (null === $pageNumber) {
-            $prefixLength  = strlen(self::CACHE_TAG_PREFIX);
-            $cacheIterator = self::$cache->getIterator();
-            $cacheIterator->setMode(CacheIterator::CURRENT_AS_KEY);
-            foreach ($cacheIterator as $key) {
-                if (str_starts_with($key, self::CACHE_TAG_PREFIX)) {
-                    self::$cache->removeItem($this->getCacheId((int) substr($key, $prefixLength)));
-                }
-            }
-        } else {
-            $cleanId = $this->getCacheId($pageNumber);
-            self::$cache->removeItem($cleanId);
-        }
-        return $this;
     }
 
     /**
@@ -595,14 +522,6 @@ final class Paginator implements Countable, IteratorAggregate
     {
         $pageNumber = $this->normalizePageNumber($pageNumber);
 
-        if ($this->cacheEnabled()) {
-            /** @psalm-var iterable<TKey, TValue> $data Forced because cache will always return mixed */
-            $data = static::$cache->getItem($this->getCacheId($pageNumber));
-            if ($data) {
-                return $data;
-            }
-        }
-
         $offset = ($pageNumber - 1) * $this->getItemCountPerPage();
 
         $items = $this->adapter->getItems($offset, $this->getItemCountPerPage());
@@ -616,11 +535,6 @@ final class Paginator implements Countable, IteratorAggregate
 
         if (! $items instanceof Traversable) {
             $items = new ArrayIterator($items);
-        }
-
-        if ($this->cacheEnabled()) {
-            $cacheId = $this->getCacheId($pageNumber);
-            static::$cache->setItem($cacheId, $items);
         }
 
         return $items;
@@ -709,27 +623,6 @@ final class Paginator implements Countable, IteratorAggregate
     }
 
     /**
-     * Returns the page item cache.
-     *
-     * @return array
-     */
-    public function getPageItemCache()
-    {
-        $data = [];
-        if ($this->cacheEnabled()) {
-            $prefixLength  = strlen(self::CACHE_TAG_PREFIX);
-            $cacheIterator = static::$cache->getIterator();
-            $cacheIterator->setMode(CacheIterator::CURRENT_AS_VALUE);
-            foreach ($cacheIterator as $key => $value) {
-                if (str_starts_with($key, self::CACHE_TAG_PREFIX)) {
-                    $data[(int) substr($key, $prefixLength)] = $value;
-                }
-            }
-        }
-        return $data;
-    }
-
-    /**
      * Brings the item number in range of the page.
      *
      * @return int<1, max>
@@ -776,53 +669,6 @@ final class Paginator implements Countable, IteratorAggregate
         $encodeOptions = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP;
 
         return json_encode($currentItems, $encodeOptions);
-    }
-
-    /**
-     * Tells if there is an active cache object
-     * and if the cache has not been disabled
-     */
-    protected function cacheEnabled(): bool
-    {
-        return (static::$cache !== null) && $this->cacheEnabled;
-    }
-
-    /**
-     * Makes an Id for the cache
-     * Depends on the adapter object and the page number
-     *
-     * Used to store item in cache from that Paginator instance
-     *  and that current page
-     *
-     * @return non-empty-string
-     */
-    private function getCacheId(int|null $page = null): string
-    {
-        $page ??= $this->getCurrentPageNumber();
-
-        return self::CACHE_TAG_PREFIX . $page . '_' . $this->getCacheInternalId();
-    }
-
-    /**
-     * Get the internal cache id
-     * Depends on the adapter and the item count per page
-     *
-     * Used to tag that unique Paginator instance in cache
-     *
-     * @return non-empty-string
-     */
-    private function getCacheInternalId(): string
-    {
-        $adapter            = $this->getAdapter();
-        $adapterToSerialize = method_exists($adapter, 'getArrayCopy')
-            ? $adapter->getArrayCopy()
-            : $adapter;
-
-        return md5(
-            $adapter::class
-            . json_encode($adapterToSerialize)
-            . $this->getItemCountPerPage()
-        );
     }
 
     /**
