@@ -9,7 +9,6 @@ use ArrayIterator;
 use Countable;
 use Iterator;
 use IteratorAggregate;
-use Laminas\Filter\FilterInterface;
 use Laminas\Paginator\Adapter\AdapterInterface;
 use Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface;
 use Laminas\ServiceManager\ServiceManager;
@@ -113,11 +112,6 @@ final class Paginator implements Countable, IteratorAggregate
      * @var positive-int
      */
     private int $currentPageNumber = 1;
-
-    /**
-     * Result filter
-     */
-    protected FilterInterface|null $filter = null;
 
     /**
      * Number of items per page
@@ -401,28 +395,6 @@ final class Paginator implements Countable, IteratorAggregate
     }
 
     /**
-     * Get the filter
-     *
-     * @return FilterInterface|null
-     */
-    public function getFilter()
-    {
-        return $this->filter;
-    }
-
-    /**
-     * Set a filter chain
-     *
-     * @return Paginator
-     */
-    public function setFilter(FilterInterface $filter)
-    {
-        $this->filter = $filter;
-
-        return $this;
-    }
-
-    /**
      * Returns an item from a page.  The current page is used if there's no
      * page specified.
      *
@@ -525,13 +497,6 @@ final class Paginator implements Countable, IteratorAggregate
         $offset = ($pageNumber - 1) * $this->getItemCountPerPage();
 
         $items = $this->adapter->getItems($offset, $this->getItemCountPerPage());
-
-        $filter = $this->getFilter();
-
-        if ($filter !== null) {
-            /** @psalm-var iterable<TKey, TValue> $items Forced because the filter cannot be annotated */
-            $items = $filter->filter($items);
-        }
 
         if (! $items instanceof Traversable) {
             $items = new ArrayIterator($items);
