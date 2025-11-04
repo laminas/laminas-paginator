@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Laminas\Paginator;
 
-use ArrayAccess;
 use ArrayIterator;
 use Countable;
 use Iterator;
@@ -13,19 +12,20 @@ use Laminas\Paginator\Adapter\AdapterInterface;
 use Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface;
 use Laminas\ServiceManager\ServiceManager;
 use Laminas\Stdlib\ArrayUtils;
-use Throwable;
 use Traversable;
 
+use function array_values;
 use function assert;
 use function ceil;
 use function class_exists;
 use function count;
 use function get_debug_type;
-use function gettype;
 use function is_array;
 use function is_countable;
+use function is_numeric;
 use function is_string;
 use function iterator_count;
+use function iterator_to_array;
 use function json_encode;
 use function max;
 use function min;
@@ -294,20 +294,19 @@ final class Paginator implements Countable, IteratorAggregate
     /**
      * Returns the absolute item number for the specified item.
      *
-     * @param  int $relativeItemNumber Relative item number
-     * @param  int $pageNumber Page number
-     * @return int
+     * @param TKey|int $relativeItemNumber Relative item number
+     * @return TKey
      */
-    public function getAbsoluteItemNumber($relativeItemNumber, $pageNumber = null)
+    public function getAbsoluteItemNumber(int|string $relativeItemNumber, int|null $pageNumber = null): int|string
     {
-        $relativeItemNumber = $this->normalizeItemNumber($relativeItemNumber);
-
-        if ($pageNumber === null) {
-            $pageNumber = $this->getCurrentPageNumber();
+        if (is_string($relativeItemNumber) && ! is_numeric($relativeItemNumber)) {
+            return $relativeItemNumber;
         }
 
-        $pageNumber = $this->normalizePageNumber($pageNumber);
+        $relativeItemNumber = $this->normalizeItemNumber($relativeItemNumber);
+        $pageNumber         = $this->normalizePageNumber($pageNumber ?? $this->getCurrentPageNumber());
 
+        /** @psalm-var TKey */
         return (($pageNumber - 1) * $this->getItemCountPerPage()) + $relativeItemNumber;
     }
 
@@ -374,12 +373,11 @@ final class Paginator implements Countable, IteratorAggregate
      * Returns an item from a page.  The current page is used if there's no
      * page specified.
      *
-     * @param  int $itemNumber Item number (1 to itemCountPerPage)
-     * @param  int $pageNumber
+     * @param int $itemNumber Item number (1 to itemCountPerPage)
      * @throws Exception\InvalidArgumentException
      * @return TValue
      */
-    public function getItem($itemNumber, $pageNumber = null)
+    public function getItem(int $itemNumber, int|null $pageNumber = null): mixed
     {
         if ($pageNumber === null) {
             $pageNumber = $this->getCurrentPageNumber();
@@ -394,7 +392,7 @@ final class Paginator implements Countable, IteratorAggregate
             throw new Exception\InvalidArgumentException('Page ' . $pageNumber . ' does not exist');
         }
 
-        if ($itemNumber < 0) {
+        if ($itemNumber <= 0) {
             $itemNumber = ($itemCount + 1) + $itemNumber;
         }
 
@@ -406,7 +404,7 @@ final class Paginator implements Countable, IteratorAggregate
             );
         }
 
-        assert(is_array($page) || $page instanceof ArrayAccess);
+        $page = $page instanceof Traversable ? iterator_to_array($page, false) : array_values($page);
 
         return $page[$itemNumber - 1];
     }
@@ -489,19 +487,15 @@ final class Paginator implements Countable, IteratorAggregate
      */
     public function getIterator(): Traversable
     {
-        try {
-            $items = $this->getCurrentItems();
-            assert($items instanceof Iterator);
+        $items = $this->getCurrentItems();
+        assert($items instanceof Iterator);
 
-            /**
-             * Forcing here because we lose inference by returning `iterable<k, v>` in all methods
-             *
-             * @psalm-var Traversable<TKey, TValue> $items
-             */
-            return $items;
-        } catch (Throwable $e) {
-            throw new Exception\RuntimeException('Error producing an iterator', (int) $e->getCode(), $e);
-        }
+        /**
+         * Forcing here because we lose inference by returning `iterable<k, v>` in all methods
+         *
+         * @psalm-var Traversable<TKey, TValue> $items
+         */
+        return $items;
     }
 
     /**
@@ -542,7 +536,7 @@ final class Paginator implements Countable, IteratorAggregate
      * @param  int $upperBound Upper bound of the range
      * @return non-empty-array<int, int>
      */
-    public function getPagesInRange($lowerBound, $upperBound)
+    public function getPagesInRange(int $lowerBound, int $upperBound): array
     {
         $lowerBound = $this->normalizePageNumber($lowerBound);
         $upperBound = $this->normalizePageNumber($upperBound);
@@ -560,8 +554,6 @@ final class Paginator implements Countable, IteratorAggregate
 
     /**
      * Brings the item number in range of the page.
-     *
-     * @return int<1, max>
      */
     public function normalizeItemNumber(int $itemNumber): int
     {
@@ -622,10 +614,8 @@ final class Paginator implements Countable, IteratorAggregate
 
     /**
      * Creates the page collection.
-     *
-     * @param  string|null $scrollingStyle Scrolling style
      */
-    private function createPages(string|null $scrollingStyle = null): Pages
+    private function createPages(string|ScrollingStyleInterface|null $scrollingStyle = null): Pages
     {
         $pageCount         = $this->count();
         $currentPageNumber = $this->getCurrentPageNumber();
@@ -642,7 +632,7 @@ final class Paginator implements Countable, IteratorAggregate
         }
 
         // Pages in range
-        $scrollingStyle   = $this->_loadScrollingStyle($scrollingStyle);
+        $scrollingStyle   = $this->loadScrollingStyle($scrollingStyle);
         $pagesInRange     = $scrollingStyle->getPages($this);
         $firstPageInRange = min($pagesInRange);
         $lastPageInRange  = max($pagesInRange);
@@ -682,39 +672,25 @@ final class Paginator implements Countable, IteratorAggregate
     /**
      * Loads a scrolling style.
      *
-     * @param string $scrollingStyle
-     * @return ScrollingStyleInterface
      * @throws Exception\InvalidArgumentException
      */
-    // @codingStandardsIgnoreStart
-    protected function _loadScrollingStyle($scrollingStyle = null)
+    private function loadScrollingStyle(mixed $scrollingStyle = null): ScrollingStyleInterface
     {
-        // @codingStandardsIgnoreEnd
-        if ($scrollingStyle === null) {
-            $scrollingStyle = static::$defaultScrollingStyle;
+        /** @psalm-var mixed $scrollingStyle */
+        $scrollingStyle ??= self::$defaultScrollingStyle;
+
+        if (is_string($scrollingStyle)) {
+            /** @psalm-var ScrollingStyleInterface */
+            return self::getScrollingStylePluginManager()->get($scrollingStyle);
         }
 
-        switch (strtolower(gettype($scrollingStyle))) {
-            case 'object':
-                if (! $scrollingStyle instanceof ScrollingStyleInterface) {
-                    throw new Exception\InvalidArgumentException(
-                        'Scrolling style must implement Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface'
-                    );
-                }
-
-                return $scrollingStyle;
-
-            case 'string':
-                return static::getScrollingStylePluginManager()->get($scrollingStyle);
-
-            case 'null':
-                // Fall through to default case
-
-            default:
-                throw new Exception\InvalidArgumentException(
-                    'Scrolling style must be a class '
-                    . 'name or object implementing Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface'
-                );
+        if ($scrollingStyle instanceof ScrollingStyleInterface) {
+            return $scrollingStyle;
         }
+
+        throw new Exception\InvalidArgumentException(sprintf(
+            'Scrolling style must be a class name or an object implementing %s',
+            ScrollingStyleInterface::class,
+        ));
     }
 }

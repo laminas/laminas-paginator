@@ -40,12 +40,9 @@ final class Iterator implements AdapterInterface
         $this->count    = count($iterator);
     }
 
+    /** @return SerializableLimitIterator<TKey, TValue> */
     public function getItems(int $offset, int $itemCountPerPage): iterable
     {
-        if ($this->count === 0) {
-            return [];
-        }
-
         return new SerializableLimitIterator($this->iterator, $offset, $itemCountPerPage);
     }
 
