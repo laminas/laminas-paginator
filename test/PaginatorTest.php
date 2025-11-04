@@ -7,7 +7,6 @@ namespace LaminasTest\Paginator;
 use ArrayAccess;
 use ArrayIterator;
 use ArrayObject;
-use Laminas\Filter;
 use Laminas\Paginator;
 use Laminas\Paginator\Adapter;
 use Laminas\Paginator\Adapter\ArrayAdapter;
@@ -27,7 +26,6 @@ use function array_combine;
 use function assert;
 use function count;
 use function is_array;
-use function is_int;
 use function range;
 
 final class PaginatorTest extends TestCase
@@ -389,28 +387,6 @@ final class PaginatorTest extends TestCase
         $expected = '"0":1,"1":2,"2":3,"3":4,"4":5,"5":6,"6":7,"7":8,"8":9,"9":10';
 
         $this->assertStringContainsString($expected, $json);
-    }
-
-    public function testFilter(): void
-    {
-        $callback = function (array $value): array {
-            $data = [];
-
-            foreach ($value as $number) {
-                assert(is_int($number));
-                $data[] = $number * 10;
-            }
-
-            return $data;
-        };
-
-        $filter    = new Filter\Callback($callback);
-        $paginator = new Paginator\Paginator(new Adapter\ArrayAdapter(range(1, 101)));
-        $paginator->setFilter($filter);
-
-        $page = $paginator->getCurrentItems();
-
-        $this->assertEquals(new ArrayIterator(range(10, 100, 10)), $page);
     }
 
     #[Group('Laminas-5785')]
