@@ -62,26 +62,15 @@
     </InvalidFalsableReturnType>
     <MixedArgument>
       <code><![CDATA[$adapters]]></code>
-      <code><![CDATA[$key]]></code>
-      <code><![CDATA[$key]]></code>
       <code><![CDATA[$scrollingStyle]]></code>
     </MixedArgument>
     <MixedAssignment>
-      <code><![CDATA[$adapterToSerialize]]></code>
       <code><![CDATA[$adapters]]></code>
-      <code><![CDATA[$cacheIterator]]></code>
-      <code><![CDATA[$cacheIterator]]></code>
-      <code><![CDATA[$data[(int) substr($key, $prefixLength)]]]></code>
-      <code><![CDATA[$key]]></code>
-      <code><![CDATA[$key]]></code>
       <code><![CDATA[$scrollingStyle]]></code>
-      <code><![CDATA[$value]]></code>
       <code><![CDATA[$value]]></code>
     </MixedAssignment>
     <MixedMethodCall>
       <code><![CDATA[new $scrollingAdapters(new ServiceManager())]]></code>
-      <code><![CDATA[setMode]]></code>
-      <code><![CDATA[setMode]]></code>
     </MixedMethodCall>
     <MixedPropertyTypeCoercion>
       <code><![CDATA[$config]]></code>
@@ -91,25 +80,12 @@
       <code><![CDATA[static::getScrollingStylePluginManager()->get($scrollingStyle)]]></code>
       <code><![CDATA[static::getScrollingStylePluginManager()->get($scrollingStyle)]]></code>
     </MixedReturnStatement>
-    <PossiblyFalseOperand>
-      <code><![CDATA[json_encode($adapterToSerialize)]]></code>
-    </PossiblyFalseOperand>
     <PossiblyInvalidArrayOffset>
       <code><![CDATA[$page[$itemNumber - 1]]]></code>
     </PossiblyInvalidArrayOffset>
-    <RedundantCastGivenDocblockType>
-      <code><![CDATA[(bool) $enable]]></code>
-    </RedundantCastGivenDocblockType>
     <RedundantCondition>
       <code><![CDATA[$config !== []]]></code>
     </RedundantCondition>
-    <RedundantConditionGivenDocblockType>
-      <code><![CDATA[static::$cache !== null]]></code>
-    </RedundantConditionGivenDocblockType>
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[getIterator]]></code>
-      <code><![CDATA[getIterator]]></code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="src/PaginatorIterator.php">
     <ImplementedReturnTypeMismatch>
@@ -184,23 +160,9 @@
   </file>
   <file src="test/PaginatorTest.php">
     <InvalidArgument>
-      <code><![CDATA[$this->cache]]></code>
       <code><![CDATA['not array']]></code>
       <code><![CDATA[-1]]></code>
     </InvalidArgument>
-    <MixedAssignment>
-      <code><![CDATA[$firstOutputGetCacheInternalId]]></code>
-      <code><![CDATA[$firstOutputGetCacheInternalId]]></code>
-      <code><![CDATA[$outputGetCacheId]]></code>
-      <code><![CDATA[$outputGetCacheInternalId]]></code>
-      <code><![CDATA[$outputGetCacheInternalId]]></code>
-      <code><![CDATA[$secondOutputGetCacheInternalId]]></code>
-      <code><![CDATA[$secondOutputGetCacheInternalId]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$outputGetCacheInternalId]]></code>
-      <code><![CDATA[$outputGetCacheInternalId]]></code>
-    </MixedOperand>
   </file>
   <file src="test/ScrollingStylePluginManagerCompatibilityTest.php">
     <DeprecatedMethod>
@@ -211,10 +173,5 @@
     <PossiblyUnusedProperty>
       <code><![CDATA[$property]]></code>
     </PossiblyUnusedProperty>
-  </file>
-  <file src="test/TestAsset/TestArrayCopyAdapter.php">
-    <PossiblyUnusedMethod>
-      <code><![CDATA[getArrayCopy]]></code>
-    </PossiblyUnusedMethod>
   </file>
 </files>
