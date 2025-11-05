@@ -6,6 +6,11 @@
       <code><![CDATA[$itemsCallback]]></code>
     </MixedArgumentTypeCoercion>
   </file>
+  <file src="src/ConfigProvider.php">
+    <UnusedClass>
+      <code><![CDATA[ConfigProvider]]></code>
+    </UnusedClass>
+  </file>
   <file src="src/Factory.php">
     <DocblockTypeContradiction>
       <code><![CDATA[is_array($items)]]></code>
@@ -24,11 +29,6 @@
     <PossiblyUnusedMethod>
       <code><![CDATA[setAdapterPluginManager]]></code>
     </PossiblyUnusedMethod>
-  </file>
-  <file src="src/Module.php">
-    <UnusedClass>
-      <code><![CDATA[Module]]></code>
-    </UnusedClass>
   </file>
   <file src="src/Paginator.php">
     <DocblockTypeContradiction>
