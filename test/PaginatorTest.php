@@ -105,20 +105,22 @@ final class PaginatorTest extends TestCase
 
     public function testGetsPagesForPageOne(): void
     {
-        $expected                   = new stdClass();
-        $expected->pageCount        = 11;
-        $expected->itemCountPerPage = 10;
-        $expected->first            = 1;
-        $expected->current          = 1;
-        $expected->last             = 11;
-        $expected->next             = 2;
-        $expected->pagesInRange     = array_combine(range(1, 10), range(1, 10));
-        $expected->firstPageInRange = 1;
-        $expected->lastPageInRange  = 10;
-        $expected->currentItemCount = 10;
-        $expected->totalItemCount   = 101;
-        $expected->firstItemNumber  = 1;
-        $expected->lastItemNumber   = 10;
+        $expected = new Paginator\Pages(
+            11,
+            10,
+            1,
+            1,
+            11,
+            null,
+            2,
+            array_combine(range(1, 10), range(1, 10)),
+            1,
+            10,
+            10,
+            101,
+            1,
+            10,
+        );
 
         $actual = $this->paginator->getPages();
 
@@ -127,21 +129,22 @@ final class PaginatorTest extends TestCase
 
     public function testGetsPagesForPageTwo(): void
     {
-        $expected                   = new stdClass();
-        $expected->pageCount        = 11;
-        $expected->itemCountPerPage = 10;
-        $expected->first            = 1;
-        $expected->current          = 2;
-        $expected->last             = 11;
-        $expected->previous         = 1;
-        $expected->next             = 3;
-        $expected->pagesInRange     = array_combine(range(1, 10), range(1, 10));
-        $expected->firstPageInRange = 1;
-        $expected->lastPageInRange  = 10;
-        $expected->currentItemCount = 10;
-        $expected->totalItemCount   = 101;
-        $expected->firstItemNumber  = 11;
-        $expected->lastItemNumber   = 20;
+        $expected = new Paginator\Pages(
+            11,
+            10,
+            1,
+            2,
+            11,
+            1,
+            3,
+            array_combine(range(1, 10), range(1, 10)),
+            1,
+            10,
+            10,
+            101,
+            11,
+            20,
+        );
 
         $this->paginator->setCurrentPageNumber(2);
         $actual = $this->paginator->getPages();
@@ -535,22 +538,23 @@ final class PaginatorTest extends TestCase
         $paginator = new Paginator\Paginator(new Adapter\ArrayAdapter([]));
         $paginator->setCurrentPageNumber(1);
 
-        $expected                   = new stdClass();
-        $expected->pageCount        = 0;
-        $expected->itemCountPerPage = 10;
-        $expected->first            = 1;
-        $expected->current          = 1;
-        $expected->last             = 0;
-        $expected->pagesInRange     = [1 => 1];
-        $expected->firstPageInRange = 1;
-        $expected->lastPageInRange  = 1;
-        $expected->currentItemCount = 0;
-        $expected->totalItemCount   = 0;
-        $expected->firstItemNumber  = 0;
-        $expected->lastItemNumber   = 0;
+        $expected = new Paginator\Pages(
+            0,
+            10,
+            1,
+            1,
+            1,
+            null,
+            null,
+            [1 => 1],
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+        );
 
-        $actual = $paginator->getPages();
-
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expected, $paginator->getPages());
     }
 }

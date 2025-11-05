@@ -13,7 +13,6 @@ use Laminas\Paginator\Adapter\AdapterInterface;
 use Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface;
 use Laminas\ServiceManager\ServiceManager;
 use Laminas\Stdlib\ArrayUtils;
-use stdClass;
 use Throwable;
 use Traversable;
 
@@ -42,22 +41,6 @@ use const JSON_HEX_TAG;
  * @template TKey of array-key
  * @template TValue
  * @implements IteratorAggregate<TKey, TValue>
- * @psalm-type PagesType = object{
- *     pageCount: int,
- *     itemCountPerPage: int,
- *     first: int,
- *     current: int,
- *     last: int,
- *     previous?: int,
- *     next?: int,
- *     pagesInRange: array<int, int>,
- *     firstPageInRange: int,
- *     lastPageInRange: int,
- *     currentItemCount: int,
- *     totalItemCount: int,
- *     firstItemNumber: int,
- *     lastItemNumber: int,
- * }
  */
 final class Paginator implements Countable, IteratorAggregate
 {
@@ -134,13 +117,6 @@ final class Paginator implements Countable, IteratorAggregate
      * @var positive-int
      */
     private int $pageRange;
-
-    /**
-     * Pages
-     *
-     * @var PagesType|null
-     */
-    protected $pages;
 
     /**
      * Set a global config
@@ -553,17 +529,10 @@ final class Paginator implements Countable, IteratorAggregate
 
     /**
      * Returns the page collection.
-     *
-     * @param  string $scrollingStyle Scrolling style
-     * @return PagesType
      */
-    public function getPages($scrollingStyle = null)
+    public function getPages(string|null $scrollingStyle = null): Pages
     {
-        if ($this->pages === null) {
-            $this->pages = $this->createPages($scrollingStyle);
-        }
-
-        return $this->pages;
+        return $this->createPages($scrollingStyle);
     }
 
     /**
@@ -571,7 +540,7 @@ final class Paginator implements Countable, IteratorAggregate
      *
      * @param  int $lowerBound Lower bound of the range
      * @param  int $upperBound Upper bound of the range
-     * @return array<int, int>
+     * @return non-empty-array<int, int>
      */
     public function getPagesInRange($lowerBound, $upperBound)
     {
@@ -583,6 +552,8 @@ final class Paginator implements Countable, IteratorAggregate
         for ($pageNumber = $lowerBound; $pageNumber <= $upperBound; $pageNumber++) {
             $pages[$pageNumber] = $pageNumber;
         }
+
+        assert($pages !== []);
 
         return $pages;
     }
@@ -653,46 +624,59 @@ final class Paginator implements Countable, IteratorAggregate
      * Creates the page collection.
      *
      * @param  string|null $scrollingStyle Scrolling style
-     * @return PagesType
      */
-    private function createPages(string|null $scrollingStyle = null): object
+    private function createPages(string|null $scrollingStyle = null): Pages
     {
         $pageCount         = $this->count();
         $currentPageNumber = $this->getCurrentPageNumber();
 
-        $pages                   = new stdClass();
-        $pages->pageCount        = $pageCount;
-        $pages->itemCountPerPage = $this->getItemCountPerPage();
-        $pages->first            = 1;
-        $pages->current          = $currentPageNumber;
-        $pages->last             = $pageCount;
-
         // Previous and next
+        $previous = $next = null;
         if ($currentPageNumber - 1 > 0) {
-            $pages->previous = $currentPageNumber - 1;
+            $previous = $currentPageNumber - 1;
+            assert($previous >= 1);
         }
 
         if ($currentPageNumber + 1 <= $pageCount) {
-            $pages->next = $currentPageNumber + 1;
+            $next = $currentPageNumber + 1;
         }
 
         // Pages in range
-        $scrollingStyle          = $this->_loadScrollingStyle($scrollingStyle);
-        $pages->pagesInRange     = $scrollingStyle->getPages($this);
-        $pages->firstPageInRange = min($pages->pagesInRange);
-        $pages->lastPageInRange  = max($pages->pagesInRange);
+        $scrollingStyle   = $this->_loadScrollingStyle($scrollingStyle);
+        $pagesInRange     = $scrollingStyle->getPages($this);
+        $firstPageInRange = min($pagesInRange);
+        $lastPageInRange  = max($pagesInRange);
+        assert($firstPageInRange >= 1);
+        assert($lastPageInRange >= 1);
 
         // Item numbers
-        $pages->currentItemCount = $this->getCurrentItemCount();
-        $pages->totalItemCount   = $this->getTotalItemCount();
-        $pages->firstItemNumber  = $pages->totalItemCount
-            ? (($currentPageNumber - 1) * $pages->itemCountPerPage) + 1
+        $currentItemCount = $this->getCurrentItemCount();
+        assert($currentItemCount >= 0);
+        $totalItemCount  = $this->getTotalItemCount();
+        $firstItemNumber = $totalItemCount
+            ? (($currentPageNumber - 1) * $this->itemCountPerPage) + 1
             : 0;
-        $pages->lastItemNumber   = $pages->totalItemCount
-            ? $pages->firstItemNumber + $pages->currentItemCount - 1
+        $lastItemNumber  = $totalItemCount
+            ? $firstItemNumber + $currentItemCount - 1
             : 0;
+        assert($lastItemNumber >= 0);
 
-        return $pages;
+        return new Pages(
+            $pageCount,
+            $this->itemCountPerPage,
+            1,
+            $currentPageNumber,
+            $pageCount === 0 ? 1 : $pageCount,
+            $previous,
+            $next,
+            $pagesInRange,
+            $firstPageInRange,
+            $lastPageInRange,
+            $currentItemCount,
+            $totalItemCount,
+            $firstItemNumber,
+            $lastItemNumber,
+        );
     }
 
     /**

@@ -46,10 +46,6 @@
     </UnusedClass>
   </file>
   <file src="src/Paginator.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$pages->pagesInRange]]></code>
-      <code><![CDATA[$pages->pagesInRange]]></code>
-    </ArgumentTypeCoercion>
     <DocblockTypeContradiction>
       <code><![CDATA[is_array($config)]]></code>
       <code><![CDATA[static::$scrollingStyles === null]]></code>
