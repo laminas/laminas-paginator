@@ -1,25 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="6.13.1@1e3b7f0a8ab32b23197b91107adc0a7ed8a05b51">
-  <file src="src/Adapter/Exception/RuntimeException.php">
-    <UnusedClass>
-      <code><![CDATA[RuntimeException]]></code>
-    </UnusedClass>
-  </file>
-  <file src="src/Adapter/Exception/UnexpectedValueException.php">
-    <UnusedClass>
-      <code><![CDATA[UnexpectedValueException]]></code>
-    </UnusedClass>
-  </file>
-  <file src="src/Adapter/Iterator.php">
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$this->iterator]]></code>
-    </MixedArgumentTypeCoercion>
-  </file>
   <file src="src/Adapter/Service/CallbackFactory.php">
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$countCallback]]></code>
       <code><![CDATA[$itemsCallback]]></code>
     </MixedArgumentTypeCoercion>
+  </file>
+  <file src="src/ConfigProvider.php">
+    <UnusedClass>
+      <code><![CDATA[ConfigProvider]]></code>
+    </UnusedClass>
   </file>
   <file src="src/Factory.php">
     <DocblockTypeContradiction>
@@ -40,11 +30,6 @@
       <code><![CDATA[setAdapterPluginManager]]></code>
     </PossiblyUnusedMethod>
   </file>
-  <file src="src/Module.php">
-    <UnusedClass>
-      <code><![CDATA[Module]]></code>
-    </UnusedClass>
-  </file>
   <file src="src/Paginator.php">
     <DocblockTypeContradiction>
       <code><![CDATA[is_array($config)]]></code>
@@ -63,6 +48,7 @@
     <MixedAssignment>
       <code><![CDATA[$adapters]]></code>
       <code><![CDATA[$scrollingStyle]]></code>
+      <code><![CDATA[$scrollingStyle]]></code>
       <code><![CDATA[$value]]></code>
     </MixedAssignment>
     <MixedMethodCall>
@@ -71,45 +57,9 @@
     <MixedPropertyTypeCoercion>
       <code><![CDATA[$config]]></code>
     </MixedPropertyTypeCoercion>
-    <MixedReturnStatement>
-      <code><![CDATA[$page[$itemNumber - 1]]]></code>
-      <code><![CDATA[static::getScrollingStylePluginManager()->get($scrollingStyle)]]></code>
-      <code><![CDATA[static::getScrollingStylePluginManager()->get($scrollingStyle)]]></code>
-    </MixedReturnStatement>
-    <PossiblyInvalidArrayOffset>
-      <code><![CDATA[$page[$itemNumber - 1]]]></code>
-    </PossiblyInvalidArrayOffset>
     <RedundantCondition>
       <code><![CDATA[$config !== []]]></code>
     </RedundantCondition>
-  </file>
-  <file src="src/PaginatorIterator.php">
-    <ImplementedReturnTypeMismatch>
-      <code><![CDATA[iterable<TKey, TValue>]]></code>
-    </ImplementedReturnTypeMismatch>
-    <InvalidMethodCall>
-      <code><![CDATA[current]]></code>
-      <code><![CDATA[key]]></code>
-      <code><![CDATA[next]]></code>
-      <code><![CDATA[valid]]></code>
-    </InvalidMethodCall>
-    <InvalidReturnStatement>
-      <code><![CDATA[($this->paginator->getAbsoluteItemNumber(
-            $innerKey,
-            $this->paginator->getCurrentPageNumber()
-        )) - 1]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[TKey|null]]></code>
-    </InvalidReturnType>
-    <MixedReturnStatement>
-      <code><![CDATA[$this->getInnerIterator()->current()]]></code>
-    </MixedReturnStatement>
-  </file>
-  <file src="src/ScrollingStyle/Elastic.php">
-    <InvalidArgument>
-      <code><![CDATA[$pageRange]]></code>
-    </InvalidArgument>
   </file>
   <file src="src/ScrollingStylePluginManager.php">
     <NonInvariantDocblockPropertyType>
@@ -128,18 +78,9 @@
     </MixedArgumentTypeCoercion>
   </file>
   <file src="test/Adapter/IteratorTest.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA['LimitIterator']]></code>
-      <code><![CDATA['LimitIterator']]></code>
-    </ArgumentTypeCoercion>
     <MixedAssignment>
-      <code><![CDATA[$item]]></code>
-      <code><![CDATA[$item]]></code>
       <code><![CDATA[$items]]></code>
     </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[getInnerIterator]]></code>
-    </MixedMethodCall>
   </file>
   <file src="test/AdapterPluginManagerCompatibilityTest.php">
     <DeprecatedMethod>
@@ -157,7 +98,6 @@
   <file src="test/PaginatorTest.php">
     <InvalidArgument>
       <code><![CDATA['not array']]></code>
-      <code><![CDATA[-1]]></code>
     </InvalidArgument>
   </file>
   <file src="test/ScrollingStylePluginManagerCompatibilityTest.php">

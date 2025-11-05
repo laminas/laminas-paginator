@@ -17,7 +17,7 @@ use function unserialize;
 
 /**
  * @psalm-type SerialisedShape = array{it: Iterator, offset: int, count: int, pos: int}
- * @template TKey of int
+ * @template TKey of array-key
  * @template TValue
  * @extends LimitIterator<TKey, TValue, Iterator<TKey, TValue>>
  * @implements ArrayAccess<TKey, TValue>
@@ -25,26 +25,17 @@ use function unserialize;
 final class SerializableLimitIterator extends LimitIterator implements Serializable, ArrayAccess
 {
     /**
-     * Offset to first element
-     */
-    private int $offset;
-
-    /**
-     * Maximum number of elements to show or -1 for all
-     */
-    private int $count;
-
-    /**
      * @see LimitIterator::__construct
      *
      * @param Iterator<TKey, TValue> $it Iterator to limit (must be serializable by un-/serialize)
      * @param int $offset Offset to first element
      * @param int $count Maximum number of elements to show or -1 for all
      */
-    public function __construct(Iterator $it, int $offset = 0, int $count = -1)
-    {
-        $this->offset = $offset;
-        $this->count  = $count;
+    public function __construct(
+        Iterator $it,
+        private readonly int $offset = 0,
+        private readonly int $count = -1,
+    ) {
         parent::__construct($it, $offset, $count);
     }
 
@@ -82,7 +73,7 @@ final class SerializableLimitIterator extends LimitIterator implements Serializa
     /**
      * Returns value of the Iterator
      *
-     * @param TKey $offset
+     * @param int $offset
      * @return TValue|null
      */
     public function offsetGet(mixed $offset): mixed

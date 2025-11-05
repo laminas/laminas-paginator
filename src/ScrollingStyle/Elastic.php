@@ -6,6 +6,7 @@ namespace Laminas\Paginator\ScrollingStyle;
 
 use Laminas\Paginator\Paginator;
 
+use function assert;
 use function count;
 
 /**
@@ -30,6 +31,8 @@ final class Elastic implements ScrollingStyleInterface
         } elseif ($originalPageRange + $pageNumber - 1 > $count = count($paginator)) {
             $pageRange = $originalPageRange + $count - $pageNumber;
         }
+
+        assert($pageRange > 0);
 
         $sliding = new Sliding();
 

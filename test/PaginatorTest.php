@@ -7,12 +7,12 @@ namespace LaminasTest\Paginator;
 use ArrayAccess;
 use ArrayIterator;
 use ArrayObject;
+use Iterator;
 use Laminas\Paginator;
 use Laminas\Paginator\Adapter;
 use Laminas\Paginator\Adapter\ArrayAdapter;
 use Laminas\Paginator\Exception\InvalidArgumentException;
 use Laminas\Paginator\ScrollingStylePluginManager;
-use Laminas\Paginator\SerializableLimitIterator;
 use LaminasTest\Paginator\TestAsset\TestArrayAggregate;
 use LimitIterator;
 use PHPUnit\Framework\Attributes\Group;
@@ -23,10 +23,13 @@ use stdClass;
 use Traversable;
 
 use function array_combine;
+use function array_map;
 use function assert;
-use function count;
+use function chr;
 use function is_array;
+use function iterator_to_array;
 use function range;
+use function sprintf;
 
 final class PaginatorTest extends TestCase
 {
@@ -54,7 +57,7 @@ final class PaginatorTest extends TestCase
         ]);
 
         Paginator\Paginator::setScrollingStylePluginManager(new Paginator\ScrollingStylePluginManager(
-            $this->createMock(ContainerInterface::class)
+            $this->createMock(ContainerInterface::class),
         ));
     }
 
@@ -233,6 +236,7 @@ final class PaginatorTest extends TestCase
     public function testGetsAndSetsCurrentPageNumber(): void
     {
         $this->assertEquals(1, $this->paginator->getCurrentPageNumber());
+        /** @psalm-suppress InvalidArgument */
         $this->paginator->setCurrentPageNumber(-1);
         $this->assertEquals(1, $this->paginator->getCurrentPageNumber());
         $this->paginator->setCurrentPageNumber(11);
@@ -413,7 +417,7 @@ final class PaginatorTest extends TestCase
     public function testItemCountPerPageByDefault(): void
     {
         $paginator = new Paginator\Paginator(new Adapter\ArrayAdapter(range(1, 20)));
-        $this->assertEquals(2, $paginator->count());
+        $this->assertCount(2, $paginator);
     }
 
     #[Group('Laminas-5427')]
@@ -429,9 +433,9 @@ final class PaginatorTest extends TestCase
     {
         $p = new Paginator\Paginator(new TestArrayAggregate());
 
-        $this->assertEquals(1, count($p));
+        $this->assertCount(1, $p);
         $this->assertInstanceOf(ArrayAdapter::class, $p->getAdapter());
-        $this->assertEquals(4, count($p->getAdapter()));
+        $this->assertCount(4, $p->getAdapter());
     }
 
     #[Group('Laminas-7602')]
@@ -439,9 +443,9 @@ final class PaginatorTest extends TestCase
     {
         $p = new Paginator\Paginator(new TestArrayAggregate());
 
-        $this->assertEquals(1, count($p));
+        $this->assertCount(1, $p);
         $this->assertInstanceOf(ArrayAdapter::class, $p->getAdapter());
-        $this->assertEquals(4, count($p->getAdapter()));
+        $this->assertCount(4, $p->getAdapter());
     }
 
     #[Group('Laminas-9396')]
@@ -452,15 +456,17 @@ final class PaginatorTest extends TestCase
 
         $this->assertEquals('laminas9396', $paginator->getItem(1));
 
-        /** @psalm-var SerializableLimitIterator $items */
         $items = $paginator->getAdapter()
                            ->getItems(0, 10);
 
-        $this->assertEquals('foo', $items[1]);
+        assert($items instanceof Iterator);
+        assert($items instanceof ArrayAccess);
+
         $this->assertEquals(0, $items->key());
-        $this->assertFalse(isset($items[2]));
         $this->assertTrue(isset($items[1]));
+        $this->assertFalse(isset($items[2]));
         $this->assertFalse(isset($items[3]));
+        $this->assertEquals('foo', $items[1]);
     }
 
     public function testSetGlobalConfigThrowsInvalidArgumentException(): void
@@ -475,7 +481,7 @@ final class PaginatorTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            'Unable to locate scrolling style plugin manager with class "invalid adapter"; class not found'
+            'Unable to locate scrolling style plugin manager with class "invalid adapter"; class not found',
         );
 
         $this->paginator->setScrollingStylePluginManager('invalid adapter');
@@ -485,12 +491,12 @@ final class PaginatorTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            'Pagination scrolling-style manager must extend ScrollingStylePluginManager; received "stdClass"'
+            'Pagination scrolling-style manager must extend ScrollingStylePluginManager; received "stdClass"',
         );
 
         /** @psalm-suppress InvalidArgument */
         $this->paginator->setScrollingStylePluginManager(
-            new stdClass()
+            new stdClass(),
         );
     }
 
@@ -498,13 +504,13 @@ final class PaginatorTest extends TestCase
     {
         $adapter    = new TestAsset\TestAdapter();
         $paginator  = new Paginator\Paginator($adapter);
-        $reflection = new ReflectionMethod($paginator, '_loadScrollingStyle');
+        $reflection = new ReflectionMethod($paginator, 'loadScrollingStyle');
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            'Scrolling style must be a class '
-                . 'name or object implementing Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface'
-        );
+        $this->expectExceptionMessage(sprintf(
+            'Scrolling style must be a class name or an object implementing %s',
+            Paginator\ScrollingStyle\ScrollingStyleInterface::class,
+        ));
 
         $reflection->invoke($paginator, 12345);
     }
@@ -513,12 +519,13 @@ final class PaginatorTest extends TestCase
     {
         $adapter    = new TestAsset\TestAdapter();
         $paginator  = new Paginator\Paginator($adapter);
-        $reflection = new ReflectionMethod($paginator, '_loadScrollingStyle');
+        $reflection = new ReflectionMethod($paginator, 'loadScrollingStyle');
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            'Scrolling style must implement Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface'
-        );
+        $this->expectExceptionMessage(sprintf(
+            'Scrolling style must be a class name or an object implementing %s',
+            Paginator\ScrollingStyle\ScrollingStyleInterface::class,
+        ));
 
         $reflection->invoke($paginator, new stdClass());
     }
@@ -526,7 +533,7 @@ final class PaginatorTest extends TestCase
     public function testAcceptsComplexAdapters(): void
     {
         $paginator = new Paginator\Paginator(
-            new TestAsset\TestAdapter(static fn(): string => 'test')
+            new TestAsset\TestAdapter(static fn(): string => 'test'),
         );
         $this->assertInstanceOf(ArrayObject::class, $paginator->getCurrentItems());
     }
@@ -556,5 +563,39 @@ final class PaginatorTest extends TestCase
         );
 
         $this->assertEquals($expected, $paginator->getPages());
+    }
+
+    public function testItemRetrievalWithStringKeys(): void
+    {
+        $keys = array_map(
+            fn (int $i): string => chr($i),
+            range(65, 90),
+        );
+        $data = array_combine(
+            $keys,
+            $keys,
+        );
+
+        $paginator = new Paginator\Paginator(new ArrayAdapter($data));
+        $paginator->setItemCountPerPage(5);
+
+        $expect = [
+            'A' => 'A',
+            'B' => 'B',
+            'C' => 'C',
+            'D' => 'D',
+            'E' => 'E',
+        ];
+
+        $items = $paginator->getCurrentItems();
+        self::assertInstanceOf(Traversable::class, $items);
+        self::assertCount(5, $items);
+        $items = iterator_to_array($items);
+        self::assertEquals($expect, $items);
+
+        $item = $paginator->getItem(1, 5);
+        self::assertSame('U', $item);
+        self::assertSame(21, $paginator->getAbsoluteItemNumber(1, 5));
+        self::assertSame('Z', $paginator->getAbsoluteItemNumber('Z', 6));
     }
 }
