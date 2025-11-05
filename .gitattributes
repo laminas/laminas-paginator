@@ -12,3 +12,4 @@
 /renovate.json export-ignore
 /composer.lock export-ignore
 /Makefile export-ignore
+.psr-container.php.stub export-ignore
