@@ -33,7 +33,6 @@
   <file src="src/Paginator.php">
     <DocblockTypeContradiction>
       <code><![CDATA[is_array($config)]]></code>
-      <code><![CDATA[static::$scrollingStyles === null]]></code>
     </DocblockTypeContradiction>
     <FalsableReturnStatement>
       <code><![CDATA[json_encode($currentItems, $encodeOptions)]]></code>
@@ -41,30 +40,9 @@
     <InvalidFalsableReturnType>
       <code><![CDATA[string]]></code>
     </InvalidFalsableReturnType>
-    <MixedArgument>
-      <code><![CDATA[$adapters]]></code>
-      <code><![CDATA[$scrollingStyle]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$adapters]]></code>
-      <code><![CDATA[$scrollingStyle]]></code>
-      <code><![CDATA[$scrollingStyle]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[new $scrollingAdapters(new ServiceManager())]]></code>
-    </MixedMethodCall>
     <MixedPropertyTypeCoercion>
       <code><![CDATA[$config]]></code>
     </MixedPropertyTypeCoercion>
-    <RedundantCondition>
-      <code><![CDATA[$config !== []]]></code>
-    </RedundantCondition>
-  </file>
-  <file src="src/ScrollingStylePluginManager.php">
-    <NonInvariantDocblockPropertyType>
-      <code><![CDATA[$instanceOf]]></code>
-    </NonInvariantDocblockPropertyType>
   </file>
   <file src="src/SerializableLimitIterator.php">
     <DirectConstructorCall>
@@ -99,11 +77,6 @@
     <InvalidArgument>
       <code><![CDATA['not array']]></code>
     </InvalidArgument>
-  </file>
-  <file src="test/ScrollingStylePluginManagerCompatibilityTest.php">
-    <DeprecatedMethod>
-      <code><![CDATA[setService]]></code>
-    </DeprecatedMethod>
   </file>
   <file src="test/TestAsset/TestAdapter.php">
     <PossiblyUnusedProperty>

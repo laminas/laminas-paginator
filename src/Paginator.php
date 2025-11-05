@@ -9,17 +9,15 @@ use Countable;
 use Iterator;
 use IteratorAggregate;
 use Laminas\Paginator\Adapter\AdapterInterface;
+use Laminas\Paginator\ScrollingStyle\ScrollingStyleFactory;
 use Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface;
-use Laminas\ServiceManager\ServiceManager;
 use Laminas\Stdlib\ArrayUtils;
 use Traversable;
 
 use function array_values;
 use function assert;
 use function ceil;
-use function class_exists;
 use function count;
-use function get_debug_type;
 use function is_array;
 use function is_countable;
 use function is_numeric;
@@ -29,8 +27,6 @@ use function iterator_to_array;
 use function json_encode;
 use function max;
 use function min;
-use function sprintf;
-use function strtolower;
 
 use const JSON_HEX_AMP;
 use const JSON_HEX_APOS;
@@ -50,27 +46,6 @@ final class Paginator implements Countable, IteratorAggregate
      * @var array{itemcountperpage: positive-int, pagerange: positive-int, ...<string, mixed>}|null
      */
     private static array|null $config = null;
-
-    /**
-     * Default scrolling style
-     *
-     * @var string
-     */
-    protected static $defaultScrollingStyle = 'Sliding';
-
-    /**
-     * Default item count per page
-     *
-     * @var positive-int
-     */
-    protected static $defaultItemCountPerPage = 10;
-
-    /**
-     * Scrolling style plugin manager
-     *
-     * @var ScrollingStylePluginManager
-     */
-    protected static $scrollingStyles;
 
     /** @var AdapterInterface<TKey, TValue> */
     private AdapterInterface $adapter;
@@ -135,99 +110,6 @@ final class Paginator implements Countable, IteratorAggregate
         }
 
         static::$config = $config;
-
-        if (
-            isset($config['scrolling_style_plugins'])
-            && null !== ($adapters = $config['scrolling_style_plugins'])
-        ) {
-            static::setScrollingStylePluginManager($adapters);
-        }
-
-        $scrollingStyle = $config['scrolling_style'] ?? null;
-
-        if ($scrollingStyle !== null) {
-            static::setDefaultScrollingStyle($scrollingStyle);
-        }
-    }
-
-    /**
-     * Returns the default scrolling style.
-     *
-     * @return  string
-     */
-    public static function getDefaultScrollingStyle()
-    {
-        return static::$defaultScrollingStyle;
-    }
-
-    /**
-     * Get the default item count per page
-     *
-     * @return positive-int
-     */
-    public static function getDefaultItemCountPerPage(): int
-    {
-        return self::$defaultItemCountPerPage;
-    }
-
-    /**
-     * Set the default item count per page
-     *
-     * @param positive-int $count
-     */
-    public static function setDefaultItemCountPerPage(int $count): void
-    {
-        self::$defaultItemCountPerPage = $count;
-    }
-
-    /**
-     * Sets the default scrolling style.
-     *
-     * @param string $scrollingStyle
-     * @return void
-     */
-    public static function setDefaultScrollingStyle($scrollingStyle = 'Sliding')
-    {
-        static::$defaultScrollingStyle = $scrollingStyle;
-    }
-
-    /**
-     * @param string|ScrollingStylePluginManager $scrollingAdapters
-     * @return void
-     */
-    public static function setScrollingStylePluginManager($scrollingAdapters)
-    {
-        if (is_string($scrollingAdapters)) {
-            if (! class_exists($scrollingAdapters)) {
-                throw new Exception\InvalidArgumentException(sprintf(
-                    'Unable to locate scrolling style plugin manager with class "%s"; class not found',
-                    $scrollingAdapters
-                ));
-            }
-            $scrollingAdapters = new $scrollingAdapters(new ServiceManager());
-        }
-        if (! $scrollingAdapters instanceof ScrollingStylePluginManager) {
-            throw new Exception\InvalidArgumentException(sprintf(
-                'Pagination scrolling-style manager must extend ScrollingStylePluginManager; received "%s"',
-                get_debug_type($scrollingAdapters)
-            ));
-        }
-        static::$scrollingStyles = $scrollingAdapters;
-    }
-
-    /**
-     * Returns the scrolling style manager. If it doesn't exist it's
-     * created.
-     *
-     * @return ScrollingStylePluginManager
-     */
-    public static function getScrollingStylePluginManager()
-    {
-        if (static::$scrollingStyles === null) {
-            static::$scrollingStyles = new ScrollingStylePluginManager(new ServiceManager());
-        }
-
-        return static::$scrollingStyles;
     }
 
     /**
@@ -240,6 +122,7 @@ final class Paginator implements Countable, IteratorAggregate
         AdapterInterface|AdapterAggregateInterface $adapter,
         int|null $itemCountPerPage = null,
         int|null $pageRange = null,
+        private ScrollingStyleInterface|string|null $scrollingStyle = null,
     ) {
         if ($adapter instanceof AdapterAggregateInterface) {
             $adapter = $adapter->getPaginatorAdapter();
@@ -247,24 +130,8 @@ final class Paginator implements Countable, IteratorAggregate
 
         $this->adapter = $adapter;
 
-        $this->itemCountPerPage = $itemCountPerPage ?? self::getDefaultItemCountPerPage();
+        $this->itemCountPerPage = $itemCountPerPage ?? self::$config['itemcountperpage'] ?? 10;
         $this->pageRange        = $pageRange ?? self::$config['pagerange'] ?? 10;
-
-        $config = self::$config;
-
-        if (is_array($config) && $config !== []) {
-            $setupMethods = ['ItemCountPerPage', 'PageRange'];
-
-            foreach ($setupMethods as $setupMethod) {
-                $key   = strtolower($setupMethod);
-                $value = $config[$key] ?? null;
-
-                if ($value !== null) {
-                    $setupMethod = 'set' . $setupMethod;
-                    $this->$setupMethod($value);
-                }
-            }
-        }
     }
 
     /**
@@ -524,9 +391,11 @@ final class Paginator implements Countable, IteratorAggregate
     /**
      * Returns the page collection.
      */
-    public function getPages(string|null $scrollingStyle = null): Pages
+    public function getPages(string|ScrollingStyleInterface|null $scrollingStyle = null): Pages
     {
-        return $this->createPages($scrollingStyle);
+        $style = $this->loadScrollingStyle($scrollingStyle ?? $this->scrollingStyle);
+
+        return $this->createPages($style);
     }
 
     /**
@@ -615,7 +484,7 @@ final class Paginator implements Countable, IteratorAggregate
     /**
      * Creates the page collection.
      */
-    private function createPages(string|ScrollingStyleInterface|null $scrollingStyle = null): Pages
+    private function createPages(ScrollingStyleInterface $scrollingStyle): Pages
     {
         $pageCount         = $this->count();
         $currentPageNumber = $this->getCurrentPageNumber();
@@ -632,8 +501,7 @@ final class Paginator implements Countable, IteratorAggregate
         }
 
         // Pages in range
-        $scrollingStyle   = $this->loadScrollingStyle($scrollingStyle);
-        $pagesInRange     = $scrollingStyle->getPages($this);
+        $pagesInRange     = $scrollingStyle->getPages($this, $this->pageRange);
         $firstPageInRange = min($pagesInRange);
         $lastPageInRange  = max($pagesInRange);
         assert($firstPageInRange >= 1);
@@ -670,27 +538,15 @@ final class Paginator implements Countable, IteratorAggregate
     }
 
     /**
-     * Loads a scrolling style.
-     *
-     * @throws Exception\InvalidArgumentException
+     * Resolve the given scrolling style or return the default style
      */
-    private function loadScrollingStyle(mixed $scrollingStyle = null): ScrollingStyleInterface
-    {
-        /** @psalm-var mixed $scrollingStyle */
-        $scrollingStyle ??= self::$defaultScrollingStyle;
-
-        if (is_string($scrollingStyle)) {
-            /** @psalm-var ScrollingStyleInterface */
-            return self::getScrollingStylePluginManager()->get($scrollingStyle);
-        }
-
+    private function loadScrollingStyle(
+        string|ScrollingStyleInterface|null $scrollingStyle = null,
+    ): ScrollingStyleInterface {
         if ($scrollingStyle instanceof ScrollingStyleInterface) {
             return $scrollingStyle;
         }
 
-        throw new Exception\InvalidArgumentException(sprintf(
-            'Scrolling style must be a class name or an object implementing %s',
-            ScrollingStyleInterface::class,
-        ));
+        return ScrollingStyleFactory::fromString((string) $scrollingStyle, true);
     }
 }
