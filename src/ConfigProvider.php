@@ -32,8 +32,7 @@ final readonly class ConfigProvider
     {
         return [
             'factories' => [
-                AdapterPluginManager::class        => AdapterPluginManagerFactory::class,
-                ScrollingStylePluginManager::class => ScrollingStylePluginManagerFactory::class,
+                AdapterPluginManager::class => AdapterPluginManagerFactory::class,
             ],
         ];
     }
