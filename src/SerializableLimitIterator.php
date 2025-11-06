@@ -105,7 +105,7 @@ final class SerializableLimitIterator extends LimitIterator implements Serializa
      */
     public function offsetExists(mixed $offset): bool
     {
-        if ($offset > 0 && $offset < $this->count) {
+        if ($offset >= 0 && $offset < $this->count) {
             $currentOffset = $this->key() ?? 0;
             assert(is_int($currentOffset));
             try {

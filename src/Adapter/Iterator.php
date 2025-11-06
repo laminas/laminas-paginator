@@ -15,7 +15,7 @@ use function count;
  * @template TValue
  * @implements AdapterInterface<TKey, TValue>
  */
-final class Iterator implements AdapterInterface
+final readonly class Iterator implements AdapterInterface
 {
     /**
      * Iterator which implements Countable

@@ -542,7 +542,7 @@ final class PaginatorTest extends TestCase
     public function testItemRetrievalWithStringKeys(): void
     {
         $keys = array_map(
-            fn (int $i): string => chr($i),
+            chr(...),
             range(65, 90),
         );
         $data = array_combine(

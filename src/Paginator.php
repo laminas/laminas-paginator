@@ -33,7 +33,7 @@ use function min;
 final class Paginator implements Countable, IteratorAggregate
 {
     /** @var AdapterInterface<TKey, TValue> */
-    private AdapterInterface $adapter;
+    private readonly AdapterInterface $adapter;
 
     /**
      * Number of items in the current page
@@ -484,6 +484,6 @@ final class Paginator implements Countable, IteratorAggregate
             return $scrollingStyle;
         }
 
-        return ScrollingStyleFactory::fromString((string) $scrollingStyle, true);
+        return ScrollingStyleFactory::fromString((string) $scrollingStyle);
     }
 }
