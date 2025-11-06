@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Laminas\Paginator;
 
+use ArrayAccess;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Laminas\ServiceManager\ServiceManager;
 use Psr\Container\ContainerInterface;
@@ -26,7 +27,7 @@ final readonly class AdapterPluginManagerFactory implements FactoryInterface
         array|null $options = null,
     ): AdapterPluginManager {
         $config = $container->has('config') ? $container->get('config') : [];
-        assert(is_array($config));
+        assert(is_array($config) || $config instanceof ArrayAccess);
         /** @psalm-var ServiceManagerConfiguration $options */
         $options = $config['paginators'] ?? [];
 

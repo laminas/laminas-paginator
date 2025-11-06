@@ -17,6 +17,11 @@ use function strtolower;
  */
 final readonly class ScrollingStyleFactory
 {
+    /**
+     * Return one of the shipped scrolling styles by name (case-insensitive)
+     *
+     * @throws InvalidArgumentException If $useDefault is false and a style cannot be determined from the string.
+     */
     public static function fromString(string $style, bool $useDefault = true): ScrollingStyleInterface
     {
         $instance = match (strtolower($style)) {
