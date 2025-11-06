@@ -30,7 +30,21 @@ check-links: ## Check documentation links
 	@$(call MK_INFO,"Fetching markdown lint configuration")
 	@curl -o .markdownlint.json ${MDLINT_FILE}
 
-install: ## Install composer dependencies
+install-tools: ## Install standalone dev tools
+	@$(call MK_INFO,"Installing tooling dependencies")
+	@cd tools/crc && composer install
+	@cd tools/infection && composer install
+	@cd tools/rector && composer install
+.PHONY: install-tools
+
+bump-tools: ## Install standalone dev tools
+	@$(call MK_INFO,"Installing tooling dependencies")
+	@cd tools/crc && composer update && composer bump && composer update
+	@cd tools/infection && composer update && composer bump && composer update
+	@cd tools/rector && composer update && composer bump && composer update
+.PHONY: install-tools
+
+install: install-tools ## Install composer dependencies
 	@$(call MK_INFO,"Installing composer dependencies")
 	@composer install
 .PHONY: install
@@ -80,9 +94,9 @@ composer-checks: ## Dump the composer autoloader
 	@composer dump-autoload --strict-psr --optimize
 .PHONY: composer-checks
 
-qa: composer-checks cs test sa docs-lint check-links ## Run all QA checks
+qa: composer-checks cs test sa composer-require-checker unused rector docs-lint check-links ## Run all QA checks
 
-bump: ## Update dependencies and bump development dependency versions
+bump: bump-tools ## Update dependencies and bump development dependency versions
 	@$(call MK_INFO,"Bumping development dependencies and refreshing composer lock")
 	@composer update
 	@composer bump -D
@@ -96,3 +110,43 @@ clean: ## Delete caches and docs-build assets
 	@rm -f .phpcs-cache
 	@rm -f .phpunit.result.cache
 	@rm -rf .phpunit.cache
+
+composer-require-checker: ## Check for symbols from un-declared dependencies
+	@$(call MK_INFO,"Checking for undeclared dependencies")
+	tools/crc/vendor/bin/composer-require-checker check --config-file=tools/crc/config.json
+.PHONY: composer-require-checker
+
+mutants: ## Run mutation tests
+	@$(call MK_INFO,"Running Mutation Tests")
+	tools/infection/vendor/bin/roave-infection-static-analysis-plugin \
+ 		--configuration=.infection.json5.dist \
+ 		--psalm-config=psalm.xml
+.PHONY: mutants
+
+vendor/bin/composer-unused:
+	@$(call MK_INFO,"Installing composer-unused.phar")
+	@curl -sSL https://github.com/composer-unused/composer-unused/releases/latest/download/composer-unused.phar -o vendor/bin/composer-unused
+	@chmod +x vendor/bin/composer-unused
+
+unused: vendor/bin/composer-unused
+	@$(call MK_INFO,"Checking for unused dependencies")
+	vendor/bin/composer-unused
+.PHONY: unused
+
+unused-ci: vendor/bin/composer-unused
+	vendor/bin/composer-unused --output-format=github
+.PHONY: unused-ci
+
+rector: ## Run Rector and show the diff
+	@$(call MK_INFO,"Checking for syntax consistency with rector")
+	tools/rector/vendor/bin/rector process --dry-run -vv -c tools/rector/rector.php
+.PHONY: rector
+
+rector-ci: ## Run Rector and show the diff in GitHub format for CI
+	tools/rector/vendor/bin/rector process --dry-run --output-format=github -vv -c tools/rector/rector.php
+.PHONY: rector
+
+rector-fix: ## Apply Rector changes
+	@$(call MK_INFO,"Fixing syntax inconsistencies with rector")
+	tools/rector/vendor/bin/rector process -c tools/rector/rector.php
+.PHONY: rector-fix
