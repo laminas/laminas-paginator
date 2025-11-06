@@ -6,43 +6,18 @@
       <code><![CDATA[$itemsCallback]]></code>
     </MixedArgumentTypeCoercion>
   </file>
-  <file src="src/ConfigProvider.php">
-    <UnusedClass>
-      <code><![CDATA[ConfigProvider]]></code>
-    </UnusedClass>
-  </file>
-  <file src="src/Factory.php">
-    <DocblockTypeContradiction>
-      <code><![CDATA[is_array($items)]]></code>
-    </DocblockTypeContradiction>
-    <MixedArgument>
-      <code><![CDATA[$adapter]]></code>
-      <code><![CDATA[$adapter]]></code>
-      <code><![CDATA[$items]]></code>
-      <code><![CDATA[$items]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$adapter]]></code>
-      <code><![CDATA[$adapter]]></code>
-      <code><![CDATA[$items]]></code>
-    </MixedAssignment>
-    <PossiblyUnusedMethod>
-      <code><![CDATA[setAdapterPluginManager]]></code>
-    </PossiblyUnusedMethod>
+  <file src="src/AdapterPluginManager.php">
+    <MethodSignatureMismatch>
+      <code><![CDATA[AdapterPluginManager]]></code>
+    </MethodSignatureMismatch>
   </file>
   <file src="src/Paginator.php">
-    <DocblockTypeContradiction>
-      <code><![CDATA[is_array($config)]]></code>
-    </DocblockTypeContradiction>
     <FalsableReturnStatement>
       <code><![CDATA[json_encode($currentItems, $encodeOptions)]]></code>
     </FalsableReturnStatement>
     <InvalidFalsableReturnType>
       <code><![CDATA[string]]></code>
     </InvalidFalsableReturnType>
-    <MixedPropertyTypeCoercion>
-      <code><![CDATA[$config]]></code>
-    </MixedPropertyTypeCoercion>
   </file>
   <file src="src/SerializableLimitIterator.php">
     <DirectConstructorCall>
@@ -72,11 +47,6 @@
     <MixedAssignment>
       <code><![CDATA[$plugin]]></code>
     </MixedAssignment>
-  </file>
-  <file src="test/PaginatorTest.php">
-    <InvalidArgument>
-      <code><![CDATA['not array']]></code>
-    </InvalidArgument>
   </file>
   <file src="test/TestAsset/TestAdapter.php">
     <PossiblyUnusedProperty>
