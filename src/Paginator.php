@@ -11,14 +11,12 @@ use IteratorAggregate;
 use Laminas\Paginator\Adapter\AdapterInterface;
 use Laminas\Paginator\ScrollingStyle\ScrollingStyleFactory;
 use Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface;
-use Laminas\Stdlib\ArrayUtils;
 use Traversable;
 
 use function array_values;
 use function assert;
 use function ceil;
 use function count;
-use function is_array;
 use function is_countable;
 use function is_numeric;
 use function is_string;
@@ -40,13 +38,6 @@ use const JSON_HEX_TAG;
  */
 final class Paginator implements Countable, IteratorAggregate
 {
-    /**
-     * Configuration file
-     *
-     * @var array{itemcountperpage: positive-int, pagerange: positive-int, ...<string, mixed>}|null
-     */
-    private static array|null $config = null;
-
     /** @var AdapterInterface<TKey, TValue> */
     private AdapterInterface $adapter;
 
@@ -72,13 +63,6 @@ final class Paginator implements Countable, IteratorAggregate
     private int $currentPageNumber = 1;
 
     /**
-     * Number of items per page
-     *
-     * @var positive-int
-     */
-    private int $itemCountPerPage;
-
-    /**
      * Number of pages
      *
      * @var int<0, max>|null
@@ -86,52 +70,22 @@ final class Paginator implements Countable, IteratorAggregate
     private int|null $pageCount = null;
 
     /**
-     * Number of local pages (i.e., the number of discrete page numbers
-     * that will be displayed, including the current page number)
-     *
-     * @var positive-int
-     */
-    private int $pageRange;
-
-    /**
-     * Set a global config
-     *
-     * @param array|Traversable $config
-     * @throws Exception\InvalidArgumentException
-     * @return void
-     */
-    public static function setGlobalConfig($config)
-    {
-        if ($config instanceof Traversable) {
-            $config = ArrayUtils::iteratorToArray($config);
-        }
-        if (! is_array($config)) {
-            throw new Exception\InvalidArgumentException(__METHOD__ . ' expects an array or Traversable');
-        }
-
-        static::$config = $config;
-    }
-
-    /**
      * @param AdapterInterface<TKey, TValue>|AdapterAggregateInterface<TKey, TValue> $adapter
-     * @param positive-int|null $itemCountPerPage
-     * @param positive-int|null $pageRange
+     * @param positive-int $itemCountPerPage
+     * @param positive-int $pageRange
      * @throws Exception\InvalidArgumentException
      */
     public function __construct(
         AdapterInterface|AdapterAggregateInterface $adapter,
-        int|null $itemCountPerPage = null,
-        int|null $pageRange = null,
-        private ScrollingStyleInterface|string|null $scrollingStyle = null,
+        private int $itemCountPerPage = 10,
+        private int $pageRange = 10,
+        private readonly ScrollingStyleInterface|string|null $scrollingStyle = null,
     ) {
         if ($adapter instanceof AdapterAggregateInterface) {
             $adapter = $adapter->getPaginatorAdapter();
         }
 
         $this->adapter = $adapter;
-
-        $this->itemCountPerPage = $itemCountPerPage ?? self::$config['itemcountperpage'] ?? 10;
-        $this->pageRange        = $pageRange ?? self::$config['pagerange'] ?? 10;
     }
 
     /**
