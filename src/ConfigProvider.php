@@ -50,6 +50,7 @@ final readonly class ConfigProvider
             'factories' => [
                 AdapterPluginManager::class => AdapterPluginManagerFactory::class,
                 Defaults::class             => DefaultsFactory::class,
+                PaginatorFactory::class     => PaginatorFactoryFactory::class,
             ],
         ];
     }
