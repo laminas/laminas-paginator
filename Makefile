@@ -130,7 +130,7 @@ vendor/bin/composer-unused:
 
 unused: vendor/bin/composer-unused
 	@$(call MK_INFO,"Checking for unused dependencies")
-	vendor/bin/composer-unused
+	@docker run $(DOCKER_PHP) vendor/bin/composer-unused
 .PHONY: unused
 
 unused-ci: vendor/bin/composer-unused
@@ -139,7 +139,7 @@ unused-ci: vendor/bin/composer-unused
 
 rector: ## Run Rector and show the diff
 	@$(call MK_INFO,"Checking for syntax consistency with rector")
-	tools/rector/vendor/bin/rector process --dry-run -vv -c tools/rector/rector.php
+	@docker run $(DOCKER_PHP) tools/rector/vendor/bin/rector process --dry-run -vv -c tools/rector/rector.php
 .PHONY: rector
 
 rector-ci: ## Run Rector and show the diff in GitHub format for CI
