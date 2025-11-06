@@ -27,8 +27,10 @@ final class IteratorTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        /** @psalm-var Iterator<int, int> $this->adapter */
-        $this->adapter = new Iterator(new ArrayIterator(range(1, 101)));
+        /** @psalm-var Iterator<int, int> $iterator */
+        $iterator = new Iterator(new ArrayIterator(range(1, 101)));
+
+        $this->adapter = $iterator;
     }
 
     public function testGetsItemsAtOffsetZero(): void

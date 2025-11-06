@@ -47,7 +47,7 @@ final class PaginatorIteratorTest extends TestCase
     public function testIteratorWithStringKeys(int $itemCountPerPage): void
     {
         $keys = array_map(
-            fn (int $i): string => chr($i),
+            chr(...),
             range(65, 122),
         );
         $data = array_combine(
