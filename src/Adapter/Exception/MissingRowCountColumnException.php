@@ -8,7 +8,11 @@ use LogicException;
 
 use function sprintf;
 
-/** @final */
+/**
+ * @deprecated Since 2.22.0 This exception type will be removed in 3.0 without replacement
+ *
+ * @final
+ */
 class MissingRowCountColumnException extends LogicException implements ExceptionInterface
 {
     /**

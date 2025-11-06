@@ -9,6 +9,10 @@ use Traversable;
 
 use function is_array;
 
+/**
+ * @deprecated Since 2.22.0. This class will be replaced by `PaginatorFactory` in 3.0. The new class will not be a
+ *             drop-in replacement and will require refactoring of usage.
+ */
 abstract class Factory
 {
     /**

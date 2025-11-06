@@ -20,6 +20,9 @@ use function sprintf;
  * ScrollingStyleInterface. Additionally, it registers a number
  * of default adapters available.
  *
+ * @deprecated Since 2.22.0 This plugin manager will be removed in 3.0 in favour of simpler tools and a better
+ * system for project-wide defaults
+ *
  * @extends AbstractPluginManager<ScrollingStyleInterface>
  * @psalm-import-type FactoriesConfigurationType from ConfigInterface
  * @final

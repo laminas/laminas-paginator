@@ -203,6 +203,8 @@ class Paginator implements Countable, IteratorAggregate, Stringable
     /**
      * Set a global config
      *
+     * @deprecated Since 2.22.0 In 3.0.0 defaults will be declared in configuration and injected via DI.
+     *
      * @param array|Traversable $config
      * @throws Exception\InvalidArgumentException
      * @return void
@@ -235,6 +237,8 @@ class Paginator implements Countable, IteratorAggregate, Stringable
     /**
      * Returns the default scrolling style.
      *
+     * @deprecated Since 2.22.0. In 3.0, defaults will no longer be stored in static properties of the Paginator
+     *
      * @return  string
      */
     public static function getDefaultScrollingStyle()
@@ -245,6 +249,8 @@ class Paginator implements Countable, IteratorAggregate, Stringable
     /**
      * Get the default item count per page
      *
+     * @deprecated Since 2.22.0. In 3.0, defaults will no longer be stored in static properties of the Paginator
+     *
      * @return int
      */
     public static function getDefaultItemCountPerPage()
@@ -254,6 +260,8 @@ class Paginator implements Countable, IteratorAggregate, Stringable
 
     /**
      * Set the default item count per page
+     *
+     * @deprecated Since 2.22.0. In 3.0, defaults will no longer be stored in static properties of the Paginator
      *
      * @param int $count
      * @return void
@@ -266,6 +274,8 @@ class Paginator implements Countable, IteratorAggregate, Stringable
     /**
      * Sets a cache object
      *
+     * @deprecated Since 2.22.0. Caching features will be removed in 3.0 in favour of users implementing custom adapters
+     *
      * @return void
      */
     public static function setCache(CacheStorage $cache)
@@ -276,6 +286,8 @@ class Paginator implements Countable, IteratorAggregate, Stringable
     /**
      * Sets the default scrolling style.
      *
+     * @deprecated Since 2.22.0. In 3.0, defaults will no longer be stored in static properties of the Paginator
+     *
      * @param string $scrollingStyle
      * @return void
      */
@@ -285,6 +297,8 @@ class Paginator implements Countable, IteratorAggregate, Stringable
     }
 
     /**
+     * @deprecated Since 2.22.0. In 3.0, the scrolling style plugin manager no longer exists
+     *
      * @param string|ScrollingStylePluginManager $scrollingAdapters
      * @return void
      */
@@ -311,6 +325,8 @@ class Paginator implements Countable, IteratorAggregate, Stringable
     /**
      * Returns the scrolling style manager.  If it doesn't exist it's
      * created.
+     *
+     * @deprecated Since 2.22.0. In 3.0, the scrolling style plugin manager no longer exists
      *
      * @return ScrollingStylePluginManager
      */
@@ -359,6 +375,8 @@ class Paginator implements Countable, IteratorAggregate, Stringable
 
     /**
      * Serializes the object as a string.  Proxies to {@link render()}.
+     *
+     * @deprecated Since 2.22.0. In 3.0.0 laminas-view integration will be removed without replacement
      */
     public function __toString(): string
     {
@@ -373,6 +391,8 @@ class Paginator implements Countable, IteratorAggregate, Stringable
 
     /**
      * Enables/Disables the cache for this instance
+     *
+     * @deprecated Since 2.22.0. Caching features will be removed in 3.0 in favour of users implementing custom adapters
      *
      * @param bool $enable
      * @return Paginator
@@ -410,6 +430,8 @@ class Paginator implements Countable, IteratorAggregate, Stringable
 
     /**
      * Clear the page item cache.
+     *
+     * @deprecated Since 2.22.0. Caching features will be removed in 3.0 in favour of users implementing custom adapters
      *
      * @param int $pageNumber
      * @return Paginator
@@ -522,6 +544,9 @@ class Paginator implements Countable, IteratorAggregate, Stringable
     /**
      * Get the filter
      *
+     * @deprecated  Since 2.22.0. Paginator filters are undocumented and ill-advised. This method will be removed in 3.0
+     *              without replacement.
+     *
      * @return FilterInterface|null
      */
     public function getFilter()
@@ -531,6 +556,9 @@ class Paginator implements Countable, IteratorAggregate, Stringable
 
     /**
      * Set a filter chain
+     *
+     * @deprecated Since 2.22.0. Paginator filters are undocumented and ill-advised. This method will be removed in 3.0
+     *             without replacement.
      *
      * @return Paginator
      */
@@ -753,6 +781,8 @@ class Paginator implements Countable, IteratorAggregate, Stringable
     /**
      * Returns the page item cache.
      *
+     * @deprecated Since 2.22.0. Caching features will be removed in 3.0 in favour of users implementing custom adapters
+     *
      * @return array
      */
     public function getPageItemCache()
@@ -776,6 +806,8 @@ class Paginator implements Countable, IteratorAggregate, Stringable
      *
      * If none registered, instantiates a PhpRenderer instance.
      *
+     * @deprecated Since 2.22.0. In 3.0.0 laminas-view integration will be removed without replacement
+     *
      * @return RendererInterface|null
      */
     public function getView()
@@ -789,6 +821,8 @@ class Paginator implements Countable, IteratorAggregate, Stringable
 
     /**
      * Sets the view object.
+     *
+     * @deprecated Since 2.22.0. In 3.0.0 laminas-view integration will be removed without replacement
      *
      * @return Paginator
      */
@@ -846,6 +880,8 @@ class Paginator implements Countable, IteratorAggregate, Stringable
     /**
      * Renders the paginator.
      *
+     * @deprecated Since 2.22.0. In 3.0.0 laminas-view integration will be removed without replacement
+     *
      * @return string
      */
     public function render(?View\Renderer\RendererInterface $view = null)
@@ -861,6 +897,9 @@ class Paginator implements Countable, IteratorAggregate, Stringable
 
     /**
      * Returns the items of the current page as JSON.
+     *
+     * @deprecated Since 2.22.0. This method will be removed in 3.0. Serialising items to json can be accomplished
+     *             with `json_encode($paginator->getCurrentItems())` if your data set is serializable
      *
      * @return string
      */
@@ -881,6 +920,8 @@ class Paginator implements Countable, IteratorAggregate, Stringable
      * Tells if there is an active cache object
      * and if the cache has not been disabled
      *
+     * @deprecated Since 2.22.0. Caching features will be removed in 3.0 in favour of users implementing custom adapters
+     *
      * @return bool
      */
     protected function cacheEnabled()
@@ -894,6 +935,8 @@ class Paginator implements Countable, IteratorAggregate, Stringable
      *
      * Used to store item in cache from that Paginator instance
      *  and that current page
+     *
+     * @deprecated Since 2.22.0. Caching features will be removed in 3.0 in favour of users implementing custom adapters
      *
      * @param int $page
      * @return string
@@ -913,6 +956,8 @@ class Paginator implements Countable, IteratorAggregate, Stringable
      * Depends on the adapter and the item count per page
      *
      * Used to tag that unique Paginator instance in cache
+     *
+     * @deprecated Since 2.22.0. Caching features will be removed in 3.0 in favour of users implementing custom adapters
      *
      * @return string
      */
