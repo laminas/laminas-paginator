@@ -22,14 +22,8 @@ use function is_numeric;
 use function is_string;
 use function iterator_count;
 use function iterator_to_array;
-use function json_encode;
 use function max;
 use function min;
-
-use const JSON_HEX_AMP;
-use const JSON_HEX_APOS;
-use const JSON_HEX_QUOT;
-use const JSON_HEX_TAG;
 
 /**
  * @template TKey of array-key
@@ -409,17 +403,6 @@ final class Paginator implements Countable, IteratorAggregate
         }
 
         return $pageNumber;
-    }
-
-    /**
-     * Returns the items of the current page as JSON.
-     */
-    public function toJson(): string
-    {
-        $currentItems  = $this->getCurrentItems();
-        $encodeOptions = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP;
-
-        return json_encode($currentItems, $encodeOptions);
     }
 
     /**

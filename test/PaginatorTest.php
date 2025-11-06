@@ -341,18 +341,6 @@ final class PaginatorTest extends TestCase
         $this->assertInstanceOf(ArrayObject::class, $paginator->getCurrentItems());
     }
 
-    public function testToJson(): void
-    {
-        $paginator = new Paginator\Paginator(new ArrayAdapter(range(1, 101)));
-        $paginator->setCurrentPageNumber(1);
-
-        $json = $paginator->toJson();
-
-        $expected = '"0":1,"1":2,"2":3,"3":4,"4":5,"5":6,"6":7,"7":8,"8":9,"9":10';
-
-        $this->assertStringContainsString($expected, $json);
-    }
-
     #[Group('Laminas-7207')]
     public function testItemCountPerPageByDefault(): void
     {

@@ -11,14 +11,6 @@
       <code><![CDATA[AdapterPluginManager]]></code>
     </MethodSignatureMismatch>
   </file>
-  <file src="src/Paginator.php">
-    <FalsableReturnStatement>
-      <code><![CDATA[json_encode($currentItems, $encodeOptions)]]></code>
-    </FalsableReturnStatement>
-    <InvalidFalsableReturnType>
-      <code><![CDATA[string]]></code>
-    </InvalidFalsableReturnType>
-  </file>
   <file src="src/SerializableLimitIterator.php">
     <DirectConstructorCall>
       <code><![CDATA[$this->__construct($data['it'], $data['offset'], $data['count'])]]></code>
