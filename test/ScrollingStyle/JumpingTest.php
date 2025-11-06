@@ -7,14 +7,12 @@ namespace LaminasTest\Paginator\ScrollingStyle;
 use Laminas\Paginator\Adapter\ArrayAdapter;
 use Laminas\Paginator\Paginator;
 use Laminas\Paginator\ScrollingStyle\Jumping;
-use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 use function array_combine;
 use function assert;
 use function range;
 
-#[Group('Laminas_Paginator')]
 final class JumpingTest extends TestCase
 {
     private ?Jumping $scrollingStyle;

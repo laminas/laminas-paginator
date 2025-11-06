@@ -4,415 +4,93 @@ declare(strict_types=1);
 
 namespace Laminas\Paginator;
 
-use ArrayAccess;
 use ArrayIterator;
 use Countable;
+use Iterator;
 use IteratorAggregate;
-use Laminas\Cache\Storage\IteratorInterface as CacheIterator;
-use Laminas\Cache\Storage\StorageInterface as CacheStorage;
-use Laminas\Db\ResultSet\AbstractResultSet;
-use Laminas\Filter\FilterInterface;
 use Laminas\Paginator\Adapter\AdapterInterface;
+use Laminas\Paginator\ScrollingStyle\ScrollingStyleFactory;
 use Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface;
-use Laminas\ServiceManager\ServiceManager;
-use Laminas\Stdlib\ArrayUtils;
-use Laminas\View;
-use Laminas\View\Renderer\RendererInterface;
-use ReturnTypeWillChange;
-use stdClass;
-use Stringable;
-use Throwable;
 use Traversable;
 
+use function array_values;
 use function assert;
 use function ceil;
-use function class_exists;
 use function count;
-use function get_debug_type;
-use function gettype;
-use function is_array;
 use function is_countable;
+use function is_numeric;
 use function is_string;
 use function iterator_count;
-use function json_encode;
+use function iterator_to_array;
 use function max;
-use function md5;
 use function min;
-use function sprintf;
-use function str_starts_with;
-use function strlen;
-use function strtolower;
-use function substr;
-use function trigger_error;
-
-use const E_USER_WARNING;
-use const JSON_HEX_AMP;
-use const JSON_HEX_APOS;
-use const JSON_HEX_QUOT;
-use const JSON_HEX_TAG;
 
 /**
- * @template TKey of int
+ * @template TKey of array-key
  * @template TValue
  * @implements IteratorAggregate<TKey, TValue>
- * @psalm-type PagesType = object{
- *     pageCount: int,
- *     itemCountPerPage: int,
- *     first: int,
- *     current: int,
- *     last: int,
- *     previous?: int,
- *     next?: int,
- *     pagesInRange: array<int, int>,
- *     firstPageInRange: int,
- *     lastPageInRange: int,
- *     currentItemCount: int,
- *     totalItemCount: int,
- *     firstItemNumber: int,
- *     lastItemNumber: int,
- * }
- * @final
  */
-class Paginator implements Countable, IteratorAggregate, Stringable
+final class Paginator implements Countable, IteratorAggregate
 {
-    /**
-     * The cache tag prefix used to namespace Paginator results in the cache
-     */
-    public const CACHE_TAG_PREFIX = 'Laminas_Paginator_';
-
-    /**
-     * Adapter plugin manager
-     *
-     * @var AdapterPluginManager|null
-     */
-    protected static $adapters;
-
-    /**
-     * Configuration file
-     *
-     * @var array|null
-     */
-    protected static $config;
-
-    /**
-     * Default scrolling style
-     *
-     * @var string
-     */
-    protected static $defaultScrollingStyle = 'Sliding';
-
-    /**
-     * Default item count per page
-     *
-     * @var int
-     */
-    protected static $defaultItemCountPerPage = 10;
-
-    /**
-     * Scrolling style plugin manager
-     *
-     * @var ScrollingStylePluginManager
-     */
-    protected static $scrollingStyles;
-
-    /**
-     * Cache object
-     *
-     * @var CacheStorage
-     */
-    protected static $cache;
-
-    /**
-     * Enable or disable the cache by Laminas\Paginator\Paginator instance
-     *
-     * @var bool
-     */
-    protected $cacheEnabled = true;
-
-    /**
-     * Adapter
-     *
-     * @var AdapterInterface<TKey, TValue>
-     */
-    protected $adapter;
+    /** @var AdapterInterface<TKey, TValue> */
+    private readonly AdapterInterface $adapter;
 
     /**
      * Number of items in the current page
      *
-     * @var int|null
+     * @var int<0, max>|null
      */
-    protected $currentItemCount;
+    private int|null $currentItemCount = null;
 
     /**
      * Current page items
      *
      * @var iterable<TKey, TValue>|null
      */
-    protected $currentItems;
+    private iterable|null $currentItems = null;
 
     /**
      * Current page number (starting from 1)
      *
-     * @var int
+     * @var positive-int
      */
-    protected $currentPageNumber = 1;
-
-    /**
-     * Result filter
-     *
-     * @var FilterInterface|null
-     */
-    protected $filter;
-
-    /**
-     * Number of items per page
-     *
-     * @var int
-     */
-    protected $itemCountPerPage;
+    private int $currentPageNumber = 1;
 
     /**
      * Number of pages
      *
-     * @var int
+     * @var int<0, max>|null
      */
-    protected $pageCount;
-
-    /**
-     * Number of local pages (i.e., the number of discrete page numbers
-     * that will be displayed, including the current page number)
-     *
-     * @var int
-     */
-    protected $pageRange = 10;
-
-    /**
-     * Pages
-     *
-     * @var PagesType|null
-     */
-    protected $pages;
-
-    /**
-     * View instance used for self rendering
-     *
-     * @var RendererInterface|null
-     */
-    protected $view;
-
-    /**
-     * Set a global config
-     *
-     * @deprecated Since 2.22.0 In 3.0.0 defaults will be declared in configuration and injected via DI.
-     *
-     * @param array|Traversable $config
-     * @throws Exception\InvalidArgumentException
-     * @return void
-     */
-    public static function setGlobalConfig($config)
-    {
-        if ($config instanceof Traversable) {
-            $config = ArrayUtils::iteratorToArray($config);
-        }
-        if (! is_array($config)) {
-            throw new Exception\InvalidArgumentException(__METHOD__ . ' expects an array or Traversable');
-        }
-
-        static::$config = $config;
-
-        if (
-            isset($config['scrolling_style_plugins'])
-            && null !== ($adapters = $config['scrolling_style_plugins'])
-        ) {
-            static::setScrollingStylePluginManager($adapters);
-        }
-
-        $scrollingStyle = $config['scrolling_style'] ?? null;
-
-        if ($scrollingStyle !== null) {
-            static::setDefaultScrollingStyle($scrollingStyle);
-        }
-    }
-
-    /**
-     * Returns the default scrolling style.
-     *
-     * @deprecated Since 2.22.0. In 3.0, defaults will no longer be stored in static properties of the Paginator
-     *
-     * @return  string
-     */
-    public static function getDefaultScrollingStyle()
-    {
-        return static::$defaultScrollingStyle;
-    }
-
-    /**
-     * Get the default item count per page
-     *
-     * @deprecated Since 2.22.0. In 3.0, defaults will no longer be stored in static properties of the Paginator
-     *
-     * @return int
-     */
-    public static function getDefaultItemCountPerPage()
-    {
-        return static::$defaultItemCountPerPage;
-    }
-
-    /**
-     * Set the default item count per page
-     *
-     * @deprecated Since 2.22.0. In 3.0, defaults will no longer be stored in static properties of the Paginator
-     *
-     * @param int $count
-     * @return void
-     */
-    public static function setDefaultItemCountPerPage($count)
-    {
-        static::$defaultItemCountPerPage = (int) $count;
-    }
-
-    /**
-     * Sets a cache object
-     *
-     * @deprecated Since 2.22.0. Caching features will be removed in 3.0 in favour of users implementing custom adapters
-     *
-     * @return void
-     */
-    public static function setCache(CacheStorage $cache)
-    {
-        static::$cache = $cache;
-    }
-
-    /**
-     * Sets the default scrolling style.
-     *
-     * @deprecated Since 2.22.0. In 3.0, defaults will no longer be stored in static properties of the Paginator
-     *
-     * @param string $scrollingStyle
-     * @return void
-     */
-    public static function setDefaultScrollingStyle($scrollingStyle = 'Sliding')
-    {
-        static::$defaultScrollingStyle = $scrollingStyle;
-    }
-
-    /**
-     * @deprecated Since 2.22.0. In 3.0, the scrolling style plugin manager no longer exists
-     *
-     * @param string|ScrollingStylePluginManager $scrollingAdapters
-     * @return void
-     */
-    public static function setScrollingStylePluginManager($scrollingAdapters)
-    {
-        if (is_string($scrollingAdapters)) {
-            if (! class_exists($scrollingAdapters)) {
-                throw new Exception\InvalidArgumentException(sprintf(
-                    'Unable to locate scrolling style plugin manager with class "%s"; class not found',
-                    $scrollingAdapters
-                ));
-            }
-            $scrollingAdapters = new $scrollingAdapters(new ServiceManager());
-        }
-        if (! $scrollingAdapters instanceof ScrollingStylePluginManager) {
-            throw new Exception\InvalidArgumentException(sprintf(
-                'Pagination scrolling-style manager must extend ScrollingStylePluginManager; received "%s"',
-                get_debug_type($scrollingAdapters)
-            ));
-        }
-        static::$scrollingStyles = $scrollingAdapters;
-    }
-
-    /**
-     * Returns the scrolling style manager.  If it doesn't exist it's
-     * created.
-     *
-     * @deprecated Since 2.22.0. In 3.0, the scrolling style plugin manager no longer exists
-     *
-     * @return ScrollingStylePluginManager
-     */
-    public static function getScrollingStylePluginManager()
-    {
-        if (static::$scrollingStyles === null) {
-            static::$scrollingStyles = new ScrollingStylePluginManager(new ServiceManager());
-        }
-
-        return static::$scrollingStyles;
-    }
+    private int|null $pageCount = null;
 
     /**
      * @param AdapterInterface<TKey, TValue>|AdapterAggregateInterface<TKey, TValue> $adapter
+     * @param positive-int $itemCountPerPage
+     * @param positive-int $pageRange
      * @throws Exception\InvalidArgumentException
      */
-    public function __construct($adapter)
-    {
-        if ($adapter instanceof AdapterInterface) {
-            $this->adapter = $adapter;
-        } elseif ($adapter instanceof AdapterAggregateInterface) {
-            $this->adapter = $adapter->getPaginatorAdapter();
-        } else {
-            throw new Exception\InvalidArgumentException(
-                'Laminas\Paginator only accepts instances of the type '
-                . 'Laminas\Paginator\Adapter\AdapterInterface or Laminas\Paginator\AdapterAggregateInterface.'
-            );
+    public function __construct(
+        AdapterInterface|AdapterAggregateInterface $adapter,
+        private int $itemCountPerPage = 10,
+        private int $pageRange = 10,
+        private readonly ScrollingStyleInterface|string|null $scrollingStyle = null,
+    ) {
+        if ($adapter instanceof AdapterAggregateInterface) {
+            $adapter = $adapter->getPaginatorAdapter();
         }
 
-        $config = static::$config;
-
-        if (is_array($config) && $config !== []) {
-            $setupMethods = ['ItemCountPerPage', 'PageRange'];
-
-            foreach ($setupMethods as $setupMethod) {
-                $key   = strtolower($setupMethod);
-                $value = $config[$key] ?? null;
-
-                if ($value !== null) {
-                    $setupMethod = 'set' . $setupMethod;
-                    $this->$setupMethod($value);
-                }
-            }
-        }
-    }
-
-    /**
-     * Serializes the object as a string.  Proxies to {@link render()}.
-     *
-     * @deprecated Since 2.22.0. In 3.0.0 laminas-view integration will be removed without replacement
-     */
-    public function __toString(): string
-    {
-        try {
-            return $this->render();
-        } catch (Throwable $e) {
-            trigger_error($e->getMessage(), E_USER_WARNING);
-        }
-
-        return '';
-    }
-
-    /**
-     * Enables/Disables the cache for this instance
-     *
-     * @deprecated Since 2.22.0. Caching features will be removed in 3.0 in favour of users implementing custom adapters
-     *
-     * @param bool $enable
-     * @return Paginator
-     */
-    public function setCacheEnabled($enable)
-    {
-        $this->cacheEnabled = (bool) $enable;
-        return $this;
+        $this->adapter = $adapter;
     }
 
     /**
      * Returns the number of pages.
      *
-     * @return int
+     * @return int<0, max>
      */
-    #[ReturnTypeWillChange]
-    public function count()
+    public function count(): int
     {
         if ($this->pageCount === null) {
-            $this->pageCount = $this->_calculatePageCount();
+            $this->pageCount = $this->calculatePageCount();
         }
 
         return $this->pageCount;
@@ -421,79 +99,44 @@ class Paginator implements Countable, IteratorAggregate, Stringable
     /**
      * Returns the total number of items available.
      *
-     * @return int
+     * @return int<0, max>
      */
-    public function getTotalItemCount()
+    public function getTotalItemCount(): int
     {
         return count($this->getAdapter());
     }
 
     /**
-     * Clear the page item cache.
-     *
-     * @deprecated Since 2.22.0. Caching features will be removed in 3.0 in favour of users implementing custom adapters
-     *
-     * @param int $pageNumber
-     * @return Paginator
-     */
-    public function clearPageItemCache($pageNumber = null)
-    {
-        if (! $this->cacheEnabled()) {
-            return $this;
-        }
-
-        if (null === $pageNumber) {
-            $prefixLength  = strlen(self::CACHE_TAG_PREFIX);
-            $cacheIterator = static::$cache->getIterator();
-            $cacheIterator->setMode(CacheIterator::CURRENT_AS_KEY);
-            foreach ($cacheIterator as $key) {
-                if (str_starts_with($key, self::CACHE_TAG_PREFIX)) {
-                    static::$cache->removeItem($this->_getCacheId((int) substr($key, $prefixLength)));
-                }
-            }
-        } else {
-            $cleanId = $this->_getCacheId($pageNumber);
-            static::$cache->removeItem($cleanId);
-        }
-        return $this;
-    }
-
-    /**
      * Returns the absolute item number for the specified item.
      *
-     * @param  int $relativeItemNumber Relative item number
-     * @param  int $pageNumber Page number
-     * @return int
+     * @param TKey|int $relativeItemNumber Relative item number
+     * @return TKey
      */
-    public function getAbsoluteItemNumber($relativeItemNumber, $pageNumber = null)
+    public function getAbsoluteItemNumber(int|string $relativeItemNumber, int|null $pageNumber = null): int|string
     {
-        $relativeItemNumber = $this->normalizeItemNumber($relativeItemNumber);
-
-        if ($pageNumber === null) {
-            $pageNumber = $this->getCurrentPageNumber();
+        if (is_string($relativeItemNumber) && ! is_numeric($relativeItemNumber)) {
+            return $relativeItemNumber;
         }
 
-        $pageNumber = $this->normalizePageNumber($pageNumber);
+        $relativeItemNumber = $this->normalizeItemNumber($relativeItemNumber);
+        $pageNumber         = $this->normalizePageNumber($pageNumber ?? $this->getCurrentPageNumber());
 
+        /** @psalm-var TKey */
         return (($pageNumber - 1) * $this->getItemCountPerPage()) + $relativeItemNumber;
     }
 
     /**
-     * Returns the adapter.
-     *
-     * @return AdapterInterface
+     * Returns the adapter
      */
-    public function getAdapter()
+    public function getAdapter(): AdapterInterface
     {
         return $this->adapter;
     }
 
     /**
      * Returns the number of items for the current page.
-     *
-     * @return int
      */
-    public function getCurrentItemCount()
+    public function getCurrentItemCount(): int
     {
         if ($this->currentItemCount === null) {
             $this->currentItemCount = $this->getItemCount($this->getCurrentItems());
@@ -507,7 +150,7 @@ class Paginator implements Countable, IteratorAggregate, Stringable
      *
      * @return iterable<TKey, TValue>
      */
-    public function getCurrentItems()
+    public function getCurrentItems(): iterable
     {
         if ($this->currentItems === null) {
             $this->currentItems = $this->getItemsByPage($this->getCurrentPageNumber());
@@ -519,9 +162,9 @@ class Paginator implements Countable, IteratorAggregate, Stringable
     /**
      * Returns the current page number.
      *
-     * @return int
+     * @return int<1, max>
      */
-    public function getCurrentPageNumber()
+    public function getCurrentPageNumber(): int
     {
         return $this->normalizePageNumber($this->currentPageNumber);
     }
@@ -529,42 +172,14 @@ class Paginator implements Countable, IteratorAggregate, Stringable
     /**
      * Sets the current page number.
      *
-     * @param  int $pageNumber Page number
-     * @return Paginator $this
+     * @param int<1, max> $pageNumber
+     * @return $this
      */
-    public function setCurrentPageNumber($pageNumber)
+    public function setCurrentPageNumber(int $pageNumber): self
     {
-        $this->currentPageNumber = (int) $pageNumber;
+        $this->currentPageNumber = $pageNumber;
         $this->currentItems      = null;
         $this->currentItemCount  = null;
-
-        return $this;
-    }
-
-    /**
-     * Get the filter
-     *
-     * @deprecated  Since 2.22.0. Paginator filters are undocumented and ill-advised. This method will be removed in 3.0
-     *              without replacement.
-     *
-     * @return FilterInterface|null
-     */
-    public function getFilter()
-    {
-        return $this->filter;
-    }
-
-    /**
-     * Set a filter chain
-     *
-     * @deprecated Since 2.22.0. Paginator filters are undocumented and ill-advised. This method will be removed in 3.0
-     *             without replacement.
-     *
-     * @return Paginator
-     */
-    public function setFilter(FilterInterface $filter)
-    {
-        $this->filter = $filter;
 
         return $this;
     }
@@ -573,12 +188,11 @@ class Paginator implements Countable, IteratorAggregate, Stringable
      * Returns an item from a page.  The current page is used if there's no
      * page specified.
      *
-     * @param  int $itemNumber Item number (1 to itemCountPerPage)
-     * @param  int $pageNumber
+     * @param int $itemNumber Item number (1 to itemCountPerPage)
      * @throws Exception\InvalidArgumentException
      * @return TValue
      */
-    public function getItem($itemNumber, $pageNumber = null)
+    public function getItem(int $itemNumber, int|null $pageNumber = null): mixed
     {
         if ($pageNumber === null) {
             $pageNumber = $this->getCurrentPageNumber();
@@ -593,7 +207,7 @@ class Paginator implements Countable, IteratorAggregate, Stringable
             throw new Exception\InvalidArgumentException('Page ' . $pageNumber . ' does not exist');
         }
 
-        if ($itemNumber < 0) {
+        if ($itemNumber <= 0) {
             $itemNumber = ($itemCount + 1) + $itemNumber;
         }
 
@@ -605,7 +219,7 @@ class Paginator implements Countable, IteratorAggregate, Stringable
             );
         }
 
-        assert(is_array($page) || $page instanceof ArrayAccess);
+        $page = $page instanceof Traversable ? iterator_to_array($page, false) : array_values($page);
 
         return $page[$itemNumber - 1];
     }
@@ -613,30 +227,29 @@ class Paginator implements Countable, IteratorAggregate, Stringable
     /**
      * Returns the number of items per page.
      *
-     * @return int
+     * @return int<1, max>
      */
-    public function getItemCountPerPage()
+    public function getItemCountPerPage(): int
     {
-        if (empty($this->itemCountPerPage)) {
-            $this->itemCountPerPage = static::getDefaultItemCountPerPage();
-        }
-
         return $this->itemCountPerPage;
     }
 
     /**
      * Sets the number of items per page.
      *
-     * @param  int $itemCountPerPage
-     * @return Paginator $this
+     * Setting a value of zero or less disables pagination
+     *
+     * @return $this
      */
-    public function setItemCountPerPage($itemCountPerPage = -1)
+    public function setItemCountPerPage(int $itemCountPerPage = -1): self
     {
-        $this->itemCountPerPage = (int) $itemCountPerPage;
-        if ($this->itemCountPerPage < 1) {
-            $this->itemCountPerPage = $this->getTotalItemCount();
+        if ($itemCountPerPage < 1) {
+            $this->itemCountPerPage = max(1, $this->getTotalItemCount());
+        } else {
+            $this->itemCountPerPage = $itemCountPerPage;
         }
-        $this->pageCount        = $this->_calculatePageCount();
+
+        $this->pageCount        = $this->calculatePageCount();
         $this->currentItems     = null;
         $this->currentItemCount = null;
 
@@ -646,10 +259,9 @@ class Paginator implements Countable, IteratorAggregate, Stringable
     /**
      * Returns the number of items in a collection.
      *
-     * @param  mixed $items Items
-     * @return int
+     * @return int<0, max>
      */
-    public function getItemCount(mixed $items)
+    public function getItemCount(mixed $items): int
     {
         $itemCount = 0;
 
@@ -665,39 +277,18 @@ class Paginator implements Countable, IteratorAggregate, Stringable
     /**
      * Returns the items for a given page.
      *
-     * @param int $pageNumber
      * @return iterable<TKey, TValue>
      */
-    public function getItemsByPage($pageNumber)
+    public function getItemsByPage(int $pageNumber): iterable
     {
         $pageNumber = $this->normalizePageNumber($pageNumber);
-
-        if ($this->cacheEnabled()) {
-            /** @psalm-var iterable<TKey, TValue> $data Forced because cache will always return mixed */
-            $data = static::$cache->getItem($this->_getCacheId($pageNumber));
-            if ($data) {
-                return $data;
-            }
-        }
 
         $offset = ($pageNumber - 1) * $this->getItemCountPerPage();
 
         $items = $this->adapter->getItems($offset, $this->getItemCountPerPage());
 
-        $filter = $this->getFilter();
-
-        if ($filter !== null) {
-            /** @psalm-var iterable<TKey, TValue> $items Forced because the filter cannot be annotated */
-            $items = $filter->filter($items);
-        }
-
         if (! $items instanceof Traversable) {
             $items = new ArrayIterator($items);
-        }
-
-        if ($this->cacheEnabled()) {
-            $cacheId = $this->_getCacheId($pageNumber);
-            static::$cache->setItem($cacheId, $items);
         }
 
         return $items;
@@ -709,22 +300,25 @@ class Paginator implements Countable, IteratorAggregate, Stringable
      * @throws Exception\RuntimeException
      * @return Traversable<TKey, TValue>
      */
-    #[ReturnTypeWillChange]
-    public function getIterator()
+    public function getIterator(): Traversable
     {
-        try {
-            return $this->getCurrentItems();
-        } catch (Throwable $e) {
-            throw new Exception\RuntimeException('Error producing an iterator', (int) $e->getCode(), $e);
-        }
+        $items = $this->getCurrentItems();
+        assert($items instanceof Iterator);
+
+        /**
+         * Forcing here because we lose inference by returning `iterable<k, v>` in all methods
+         *
+         * @psalm-var Traversable<TKey, TValue> $items
+         */
+        return $items;
     }
 
     /**
      * Returns the page range (see property declaration above).
      *
-     * @return int
+     * @return int<1, max>
      */
-    public function getPageRange()
+    public function getPageRange(): int
     {
         return $this->pageRange;
     }
@@ -732,29 +326,24 @@ class Paginator implements Countable, IteratorAggregate, Stringable
     /**
      * Sets the page range (see property declaration above).
      *
-     * @param  int $pageRange
-     * @return Paginator $this
+     * @param int<1, max> $pageRange
+     * @return $this
      */
-    public function setPageRange($pageRange)
+    public function setPageRange(int $pageRange): self
     {
-        $this->pageRange = (int) $pageRange;
+        $this->pageRange = $pageRange;
 
         return $this;
     }
 
     /**
      * Returns the page collection.
-     *
-     * @param  string $scrollingStyle Scrolling style
-     * @return PagesType
      */
-    public function getPages($scrollingStyle = null)
+    public function getPages(string|ScrollingStyleInterface|null $scrollingStyle = null): Pages
     {
-        if ($this->pages === null) {
-            $this->pages = $this->_createPages($scrollingStyle);
-        }
+        $style = $this->loadScrollingStyle($scrollingStyle ?? $this->scrollingStyle);
 
-        return $this->pages;
+        return $this->createPages($style);
     }
 
     /**
@@ -762,9 +351,9 @@ class Paginator implements Countable, IteratorAggregate, Stringable
      *
      * @param  int $lowerBound Lower bound of the range
      * @param  int $upperBound Upper bound of the range
-     * @return array<int, int>
+     * @return non-empty-array<int, int>
      */
-    public function getPagesInRange($lowerBound, $upperBound)
+    public function getPagesInRange(int $lowerBound, int $upperBound): array
     {
         $lowerBound = $this->normalizePageNumber($lowerBound);
         $upperBound = $this->normalizePageNumber($upperBound);
@@ -775,74 +364,16 @@ class Paginator implements Countable, IteratorAggregate, Stringable
             $pages[$pageNumber] = $pageNumber;
         }
 
+        assert($pages !== []);
+
         return $pages;
     }
 
     /**
-     * Returns the page item cache.
-     *
-     * @deprecated Since 2.22.0. Caching features will be removed in 3.0 in favour of users implementing custom adapters
-     *
-     * @return array
-     */
-    public function getPageItemCache()
-    {
-        $data = [];
-        if ($this->cacheEnabled()) {
-            $prefixLength  = strlen(self::CACHE_TAG_PREFIX);
-            $cacheIterator = static::$cache->getIterator();
-            $cacheIterator->setMode(CacheIterator::CURRENT_AS_VALUE);
-            foreach ($cacheIterator as $key => $value) {
-                if (str_starts_with($key, self::CACHE_TAG_PREFIX)) {
-                    $data[(int) substr($key, $prefixLength)] = $value;
-                }
-            }
-        }
-        return $data;
-    }
-
-    /**
-     * Retrieves the view instance.
-     *
-     * If none registered, instantiates a PhpRenderer instance.
-     *
-     * @deprecated Since 2.22.0. In 3.0.0 laminas-view integration will be removed without replacement
-     *
-     * @return RendererInterface|null
-     */
-    public function getView()
-    {
-        if ($this->view === null) {
-            $this->setView(new View\Renderer\PhpRenderer());
-        }
-
-        return $this->view;
-    }
-
-    /**
-     * Sets the view object.
-     *
-     * @deprecated Since 2.22.0. In 3.0.0 laminas-view integration will be removed without replacement
-     *
-     * @return Paginator
-     */
-    public function setView(?View\Renderer\RendererInterface $view = null)
-    {
-        $this->view = $view;
-
-        return $this;
-    }
-
-    /**
      * Brings the item number in range of the page.
-     *
-     * @param  int $itemNumber
-     * @return int
      */
-    public function normalizeItemNumber($itemNumber)
+    public function normalizeItemNumber(int $itemNumber): int
     {
-        $itemNumber = (int) $itemNumber;
-
         if ($itemNumber < 1) {
             $itemNumber = 1;
         }
@@ -857,13 +388,10 @@ class Paginator implements Countable, IteratorAggregate, Stringable
     /**
      * Brings the page number in range of the paginator.
      *
-     * @param  int $pageNumber
-     * @return int
+     * @return int<1, max>
      */
-    public function normalizePageNumber($pageNumber)
+    public function normalizePageNumber(int $pageNumber): int
     {
-        $pageNumber = (int) $pageNumber;
-
         if ($pageNumber < 1) {
             $pageNumber = 1;
         }
@@ -878,201 +406,84 @@ class Paginator implements Countable, IteratorAggregate, Stringable
     }
 
     /**
-     * Renders the paginator.
-     *
-     * @deprecated Since 2.22.0. In 3.0.0 laminas-view integration will be removed without replacement
-     *
-     * @return string
-     */
-    public function render(?View\Renderer\RendererInterface $view = null)
-    {
-        if (null !== $view) {
-            $this->setView($view);
-        }
-
-        $view = $this->getView();
-
-        return $view->paginationControl($this);
-    }
-
-    /**
-     * Returns the items of the current page as JSON.
-     *
-     * @deprecated Since 2.22.0. This method will be removed in 3.0. Serialising items to json can be accomplished
-     *             with `json_encode($paginator->getCurrentItems())` if your data set is serializable
-     *
-     * @return string
-     */
-    public function toJson()
-    {
-        $currentItems  = $this->getCurrentItems();
-        $encodeOptions = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP;
-
-        /** @psalm-suppress UndefinedClass */
-        if ($currentItems instanceof AbstractResultSet) {
-            return json_encode($currentItems->toArray(), $encodeOptions);
-        }
-
-        return json_encode($currentItems, $encodeOptions);
-    }
-
-    /**
-     * Tells if there is an active cache object
-     * and if the cache has not been disabled
-     *
-     * @deprecated Since 2.22.0. Caching features will be removed in 3.0 in favour of users implementing custom adapters
-     *
-     * @return bool
-     */
-    protected function cacheEnabled()
-    {
-        return (static::$cache !== null) && $this->cacheEnabled;
-    }
-
-    /**
-     * Makes an Id for the cache
-     * Depends on the adapter object and the page number
-     *
-     * Used to store item in cache from that Paginator instance
-     *  and that current page
-     *
-     * @deprecated Since 2.22.0. Caching features will be removed in 3.0 in favour of users implementing custom adapters
-     *
-     * @param int $page
-     * @return string
-     */
-    // @codingStandardsIgnoreStart
-    protected function _getCacheId($page = null)
-    {
-        // @codingStandardsIgnoreEnd
-        if ($page === null) {
-            $page = $this->getCurrentPageNumber();
-        }
-        return self::CACHE_TAG_PREFIX . $page . '_' . $this->_getCacheInternalId();
-    }
-
-    /**
-     * Get the internal cache id
-     * Depends on the adapter and the item count per page
-     *
-     * Used to tag that unique Paginator instance in cache
-     *
-     * @deprecated Since 2.22.0. Caching features will be removed in 3.0 in favour of users implementing custom adapters
-     *
-     * @return string
-     */
-    // @codingStandardsIgnoreStart
-    protected function _getCacheInternalId()
-    {
-        $adapter            = $this->getAdapter();
-        $adapterToSerialize = method_exists($adapter, 'getArrayCopy')
-            ? $adapter->getArrayCopy()
-            : $adapter;
-
-        // @codingStandardsIgnoreEnd
-        return md5(
-            $adapter::class
-            . json_encode($adapterToSerialize)
-            . $this->getItemCountPerPage()
-        );
-    }
-
-    /**
      * Calculates the page count.
      *
-     * @return int
+     * @return int<0, max>
      */
-    // @codingStandardsIgnoreStart
-    protected function _calculatePageCount()
+    private function calculatePageCount(): int
     {
-        // @codingStandardsIgnoreEnd
-        return (int) ceil($this->getAdapter()->count() / $this->getItemCountPerPage());
+        $count = (int) ceil($this->getAdapter()->count() / $this->getItemCountPerPage());
+        assert($count >= 0);
+
+        return $count;
     }
 
     /**
      * Creates the page collection.
-     *
-     * @param  string $scrollingStyle Scrolling style
-     * @return PagesType
      */
-    // @codingStandardsIgnoreStart
-    protected function _createPages($scrollingStyle = null)
+    private function createPages(ScrollingStyleInterface $scrollingStyle): Pages
     {
-        // @codingStandardsIgnoreEnd
         $pageCount         = $this->count();
         $currentPageNumber = $this->getCurrentPageNumber();
 
-        $pages                   = new stdClass();
-        $pages->pageCount        = $pageCount;
-        $pages->itemCountPerPage = $this->getItemCountPerPage();
-        $pages->first            = 1;
-        $pages->current          = $currentPageNumber;
-        $pages->last             = $pageCount;
-
         // Previous and next
+        $previous = $next = null;
         if ($currentPageNumber - 1 > 0) {
-            $pages->previous = $currentPageNumber - 1;
+            $previous = $currentPageNumber - 1;
+            assert($previous >= 1);
         }
 
         if ($currentPageNumber + 1 <= $pageCount) {
-            $pages->next = $currentPageNumber + 1;
+            $next = $currentPageNumber + 1;
         }
 
         // Pages in range
-        $scrollingStyle          = $this->_loadScrollingStyle($scrollingStyle);
-        $pages->pagesInRange     = $scrollingStyle->getPages($this);
-        $pages->firstPageInRange = min($pages->pagesInRange);
-        $pages->lastPageInRange  = max($pages->pagesInRange);
+        $pagesInRange     = $scrollingStyle->getPages($this, $this->pageRange);
+        $firstPageInRange = min($pagesInRange);
+        $lastPageInRange  = max($pagesInRange);
+        assert($firstPageInRange >= 1);
+        assert($lastPageInRange >= 1);
 
         // Item numbers
-        $pages->currentItemCount = $this->getCurrentItemCount();
-        $pages->totalItemCount   = $this->getTotalItemCount();
-        $pages->firstItemNumber  = $pages->totalItemCount
-            ? (($currentPageNumber - 1) * $pages->itemCountPerPage) + 1
+        $currentItemCount = $this->getCurrentItemCount();
+        assert($currentItemCount >= 0);
+        $totalItemCount  = $this->getTotalItemCount();
+        $firstItemNumber = $totalItemCount
+            ? (($currentPageNumber - 1) * $this->itemCountPerPage) + 1
             : 0;
-        $pages->lastItemNumber   = $pages->totalItemCount
-            ? $pages->firstItemNumber + $pages->currentItemCount - 1
+        $lastItemNumber  = $totalItemCount
+            ? $firstItemNumber + $currentItemCount - 1
             : 0;
+        assert($lastItemNumber >= 0);
 
-        return $pages;
+        return new Pages(
+            $pageCount,
+            $this->itemCountPerPage,
+            1,
+            $currentPageNumber,
+            $pageCount === 0 ? 1 : $pageCount,
+            $previous,
+            $next,
+            $pagesInRange,
+            $firstPageInRange,
+            $lastPageInRange,
+            $currentItemCount,
+            $totalItemCount,
+            $firstItemNumber,
+            $lastItemNumber,
+        );
     }
 
     /**
-     * Loads a scrolling style.
-     *
-     * @param string $scrollingStyle
-     * @return ScrollingStyleInterface
-     * @throws Exception\InvalidArgumentException
+     * Resolve the given scrolling style or return the default style
      */
-    // @codingStandardsIgnoreStart
-    protected function _loadScrollingStyle($scrollingStyle = null)
-    {
-        // @codingStandardsIgnoreEnd
-        if ($scrollingStyle === null) {
-            $scrollingStyle = static::$defaultScrollingStyle;
+    private function loadScrollingStyle(
+        string|ScrollingStyleInterface|null $scrollingStyle = null,
+    ): ScrollingStyleInterface {
+        if ($scrollingStyle instanceof ScrollingStyleInterface) {
+            return $scrollingStyle;
         }
 
-        switch (strtolower(gettype($scrollingStyle))) {
-            case 'object':
-                if (! $scrollingStyle instanceof ScrollingStyleInterface) {
-                    throw new Exception\InvalidArgumentException(
-                        'Scrolling style must implement Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface'
-                    );
-                }
-
-                return $scrollingStyle;
-
-            case 'string':
-                return static::getScrollingStylePluginManager()->get($scrollingStyle);
-
-            case 'null':
-                // Fall through to default case
-
-            default:
-                throw new Exception\InvalidArgumentException(
-                    'Scrolling style must be a class '
-                    . 'name or object implementing Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface'
-                );
-        }
+        return ScrollingStyleFactory::fromString((string) $scrollingStyle);
     }
 }

@@ -15,17 +15,11 @@ use function count;
  * the end of the page set, at which point it will continue on to
  * the end of the range and the last page in the set.
  *
- * @link       http://search.yahoo.com/search?p=Laminas+Framework
+ * @link https://search.yahoo.com/search?p=Laminas+Framework
  */
-class Sliding implements ScrollingStyleInterface
+final class Sliding implements ScrollingStyleInterface
 {
-    /**
-     * Returns an array of "local" pages given a page number and range.
-     *
-     * @param  int $pageRange (Optional) Page range
-     * @return array<int, int>
-     */
-    public function getPages(Paginator $paginator, $pageRange = null)
+    public function getPages(Paginator $paginator, int|null $pageRange = null): array
     {
         if ($pageRange === null) {
             $pageRange = $paginator->getPageRange();

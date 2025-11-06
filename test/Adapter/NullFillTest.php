@@ -10,43 +10,25 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 use function array_fill;
-use function assert;
 
-#[Group('Laminas_Paginator')]
 final class NullFillTest extends TestCase
 {
-    private ?Adapter\NullFill $adapter;
+    private Adapter\NullFill $adapter;
 
-    /**
-     * Prepares the environment before running a test.
-     */
     protected function setUp(): void
     {
         parent::setUp();
         $this->adapter = new Adapter\NullFill(101);
     }
 
-    /**
-     * Cleans up the environment after running a test.
-     */
-    protected function tearDown(): void
-    {
-        $this->adapter = null;
-        parent::tearDown();
-    }
-
     public function testGetsItems(): void
     {
-        assert($this->adapter instanceof Adapter\NullFill);
-
         $actual = $this->adapter->getItems(0, 10);
         $this->assertEquals(array_fill(0, 10, null), $actual);
     }
 
     public function testReturnsCorrectCount(): void
     {
-        assert($this->adapter instanceof Adapter\NullFill);
-
         $this->assertEquals(101, $this->adapter->count());
     }
 

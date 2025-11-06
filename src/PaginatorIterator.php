@@ -4,48 +4,43 @@ declare(strict_types=1);
 
 namespace Laminas\Paginator;
 
+use ArrayIterator;
+use Iterator;
 use OuterIterator;
-use ReturnTypeWillChange;
+use Traversable;
 
-use function assert;
 use function count;
 use function is_int;
+use function iterator_to_array;
 
 /**
  * Class allowing for the continuous iteration of a Laminas\Paginator\Paginator instance.
  * Useful for representing remote paginated data sources as a single Iterator
  *
- * @template TKey of int
+ * @template TKey of array-key
  * @template TValue
  * @implements OuterIterator<TKey, TValue>
- * @final
  */
-class PaginatorIterator implements OuterIterator
+final class PaginatorIterator implements OuterIterator
 {
-    /**
-     * Value for valid method
-     *
-     * @var bool $valid
-     */
-    protected $valid = true;
+    private bool $valid = true;
 
     /**
      * @param Paginator<TKey, TValue> $paginator Internal Paginator for iteration
      */
     public function __construct(
-        protected Paginator $paginator
+        private readonly Paginator $paginator
     ) {
     }
 
     /**
      * Return the current element
      *
-     * @link http://php.net/manual/en/iterator.current.php
+     * @link https://php.net/manual/iterator.current.php
      *
-     * @return TValue Can return any type.
+     * @return TValue
      */
-    #[ReturnTypeWillChange]
-    public function current()
+    public function current(): mixed
     {
         return $this->getInnerIterator()->current();
     }
@@ -53,12 +48,9 @@ class PaginatorIterator implements OuterIterator
     /**
      * Move forward to next element
      *
-     * @link http://php.net/manual/en/iterator.next.php
-     *
-     * @return void Any returned value is ignored.
+     * @link https://php.net/manual/iterator.next.php
      */
-    #[ReturnTypeWillChange]
-    public function next()
+    public function next(): void
     {
         $innerIterator = $this->getInnerIterator();
         $innerIterator->next();
@@ -80,51 +72,50 @@ class PaginatorIterator implements OuterIterator
     /**
      * Return the key of the current element
      *
-     * @link http://php.net/manual/en/iterator.key.php
+     * @link https://php.net/manual/iterator.key.php
      *
-     * @return TKey|null scalar on success, or null on failure.
+     * @return TKey
      */
-    #[ReturnTypeWillChange]
-    public function key()
+    public function key(): int|string
     {
         $innerKey = $this->getInnerIterator()->key();
-        assert(is_int($innerKey));
-        ++$innerKey; //Laminas\Paginator\Paginator normalizes 0 to 1
-        assert(is_int($innerKey));
+        if (is_int($innerKey)) {
+            $innerKey++;
+        }
 
-        $this->paginator->getCurrentPageNumber();
-        return ($this->paginator->getAbsoluteItemNumber(
+        /** @psalm-var TKey $innerKey */
+        $absoluteNumber = $this->paginator->getAbsoluteItemNumber(
             $innerKey,
             $this->paginator->getCurrentPageNumber()
-        )) - 1;
+        );
+        if (is_int($absoluteNumber)) {
+            $absoluteNumber--;
+        }
+
+        /** @psalm-var TKey $absoluteNumber */
+        return $absoluteNumber;
     }
 
     /**
      * Checks if current position is valid
      *
-     * @link http://php.net/manual/en/iterator.valid.php
-     *
-     * @return boolean The return value will be casted to boolean and then evaluated.
-     * Returns true on success or false on failure.
+     * @link https://php.net/manual/iterator.valid.php
      */
-    #[ReturnTypeWillChange]
-    public function valid()
+    public function valid(): bool
     {
         if (count($this->paginator) < 1) {
             $this->valid = false;
         }
+
         return $this->valid;
     }
 
     /**
      * Rewind the Iterator to the first element
      *
-     * @link http://php.net/manual/en/iterator.rewind.php
-     *
-     * @return void Any returned value is ignored.
+     * @link https://php.net/manual/iterator.rewind.php
      */
-    #[ReturnTypeWillChange]
-    public function rewind()
+    public function rewind(): void
     {
         $this->paginator->setCurrentPageNumber(1);
         $this->valid = true;
@@ -133,13 +124,20 @@ class PaginatorIterator implements OuterIterator
     /**
      * Returns the inner iterator for the current entry.
      *
-     * @link http://php.net/manual/en/outeriterator.getinneriterator.php
+     * @link https://php.net/manual/outeriterator.getinneriterator.php
      *
-     * @return iterable<TKey, TValue> The inner iterator for the current entry.
+     * @return Iterator<TKey, TValue> The inner iterator for the current entry.
      */
-    #[ReturnTypeWillChange]
-    public function getInnerIterator()
+    public function getInnerIterator(): Iterator
     {
-        return $this->paginator->getCurrentItems();
+        $items = $this->paginator->getCurrentItems();
+        if ($items instanceof Iterator) {
+            /** @psalm-var Iterator<TKey, TValue> */
+            return $items;
+        }
+
+        return $items instanceof Traversable
+            ? new ArrayIterator(iterator_to_array($items))
+            : new ArrayIterator($items);
     }
 }

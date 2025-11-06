@@ -12,3 +12,6 @@
 /renovate.json export-ignore
 /composer.lock export-ignore
 /Makefile export-ignore
+.psr-container.php.stub export-ignore
+/tools export-ignore
+/.infection.json5.dist export-ignore

@@ -28,8 +28,6 @@ final class AdapterPluginManagerTest extends TestCase
     }
 
     /**
-     * Note: does not return expectations for db-based adapters, as they are deprecated.
-     *
      * @psalm-return iterable<string, array{
      *   0: string,
      *   1: array<array-key, mixed>,
@@ -53,7 +51,7 @@ final class AdapterPluginManagerTest extends TestCase
     #[DataProvider('pluginProvider')]
     public function testCanRetrieveAdapterPlugin(string $pluginName, array $options, string $expectedType): void
     {
-        $plugin = $this->adapterPluginManager->get($pluginName, $options);
+        $plugin = $this->adapterPluginManager->build($pluginName, $options);
         $this->assertInstanceOf($expectedType, $plugin);
     }
 }

@@ -9,3 +9,4 @@
 /vendor/
 .markdownlint.json
 .phpunit.cache
+infection.json5

@@ -6,6 +6,7 @@ namespace Laminas\Paginator\ScrollingStyle;
 
 use Laminas\Paginator\Paginator;
 
+use function assert;
 use function count;
 
 /**
@@ -13,19 +14,11 @@ use function count;
  * twice the given page range, then behaves like a slider.  See the example
  * link.
  *
- * @link       http://www.google.com/search?q=Laminas+Framework
- *
- * @final
+ * @link https://www.google.com/search?q=Laminas+Framework
  */
-class Elastic extends Sliding
+final class Elastic implements ScrollingStyleInterface
 {
-    /**
-     * Returns an array of "local" pages given a page number and range.
-     *
-     * @param  int $pageRange Unused
-     * @return array<int, int>
-     */
-    public function getPages(Paginator $paginator, $pageRange = null)
+    public function getPages(Paginator $paginator, int|null $pageRange = null): array
     {
         $pageRange  = $paginator->getPageRange();
         $pageNumber = $paginator->getCurrentPageNumber();
@@ -39,6 +32,10 @@ class Elastic extends Sliding
             $pageRange = $originalPageRange + $count - $pageNumber;
         }
 
-        return parent::getPages($paginator, $pageRange);
+        assert($pageRange > 0);
+
+        $sliding = new Sliding();
+
+        return $sliding->getPages($paginator, $pageRange);
     }
 }

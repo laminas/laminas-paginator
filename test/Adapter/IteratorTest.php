@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace LaminasTest\Paginator\Adapter;
 
 use ArrayIterator;
-use Laminas\Paginator\Adapter;
 use Laminas\Paginator\Adapter\Exception\InvalidArgumentException;
+use Laminas\Paginator\Adapter\Iterator;
 use Laminas\Paginator\Paginator;
 use Laminas\Paginator\SerializableLimitIterator;
 use LimitIterator;
@@ -14,42 +14,29 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Traversable;
 
-use function assert;
 use function iterator_to_array;
 use function range;
 use function serialize;
 use function unserialize;
 
-#[Group('Laminas_Paginator')]
 final class IteratorTest extends TestCase
 {
-    private ?Adapter\Iterator $adapter;
+    /** @var Iterator<int, int> */
+    private Iterator $adapter;
 
-    /**
-     * Prepares the environment before running a test.
-     */
     protected function setUp(): void
     {
         parent::setUp();
-        $iterator      = new ArrayIterator(range(1, 101));
-        $this->adapter = new Adapter\Iterator($iterator);
-    }
+        /** @psalm-var Iterator<int, int> $iterator */
+        $iterator = new Iterator(new ArrayIterator(range(1, 101)));
 
-    /**
-     * Cleans up the environment after running a test.
-     */
-    protected function tearDown(): void
-    {
-        $this->adapter = null;
-        parent::tearDown();
+        $this->adapter = $iterator;
     }
 
     public function testGetsItemsAtOffsetZero(): void
     {
-        assert($this->adapter instanceof Adapter\Iterator);
-
         $actual = $this->adapter->getItems(0, 10);
-        $this->assertInstanceOf('LimitIterator', $actual);
+        $this->assertInstanceOf(SerializableLimitIterator::class, $actual);
 
         $i = 1;
         foreach ($actual as $item) {
@@ -60,10 +47,8 @@ final class IteratorTest extends TestCase
 
     public function testGetsItemsAtOffsetTen(): void
     {
-        assert($this->adapter instanceof Adapter\Iterator);
-
         $actual = $this->adapter->getItems(10, 10);
-        $this->assertInstanceOf('LimitIterator', $actual);
+        $this->assertInstanceOf(SerializableLimitIterator::class, $actual);
 
         $i = 11;
         foreach ($actual as $item) {
@@ -74,8 +59,6 @@ final class IteratorTest extends TestCase
 
     public function testReturnsCorrectCount(): void
     {
-        assert($this->adapter instanceof Adapter\Iterator);
-
         $this->assertEquals(101, $this->adapter->count());
     }
 
@@ -85,13 +68,13 @@ final class IteratorTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Iterator must implement Countable');
-        new Adapter\Iterator($iterator);
+        new Iterator($iterator);
     }
 
     #[Group('Laminas-4151')]
     public function testDoesNotThrowOutOfBoundsExceptionIfIteratorIsEmpty(): void
     {
-        $paginator = new Paginator(new Adapter\Iterator(new ArrayIterator([])));
+        $paginator = new Paginator(new Iterator(new ArrayIterator([])));
         $items     = $paginator->getCurrentItems();
 
         self::assertInstanceOf(Traversable::class, $items);
@@ -102,25 +85,51 @@ final class IteratorTest extends TestCase
     #[Group('Laminas-8084')]
     public function testGetItemsSerializable(): void
     {
-        assert($this->adapter instanceof Adapter\Iterator);
+        $items = $this->adapter->getItems(0, 1);
+        self::assertInstanceOf(SerializableLimitIterator::class, $items);
 
-        /** @psalm-var SerializableLimitIterator $items */
-        $items         = $this->adapter->getItems(0, 1);
         $innerIterator = $items->getInnerIterator();
         $items         = unserialize(serialize($items));
+        self::assertInstanceOf(SerializableLimitIterator::class, $items);
         $this->assertEquals(
             $items->getInnerIterator(),
             $innerIterator,
-            'getItems has to be serializable to use caching'
+            'getItems has to be serializable to use caching',
         );
     }
 
     #[Group('Laminas-4151')]
     public function testEmptySet(): void
     {
-        $iterator      = new ArrayIterator([]);
-        $this->adapter = new Adapter\Iterator($iterator);
-        $actual        = $this->adapter->getItems(0, 10);
-        $this->assertEquals([], $actual);
+        $adapter = new Iterator(new ArrayIterator([]));
+        $actual  = $adapter->getItems(0, 10);
+        self::assertInstanceOf(SerializableLimitIterator::class, $actual);
+        $this->assertSame([], iterator_to_array($actual));
+    }
+
+    public function testBasicBehaviourWithStringKeys(): void
+    {
+        $adapter = new Iterator(new ArrayIterator([
+            'a' => 'a',
+            'b' => 'b',
+            'c' => 'c',
+        ]));
+
+        self::assertCount(3, $adapter);
+
+        self::assertSame(
+            ['a' => 'a'],
+            iterator_to_array($adapter->getItems(0, 1)),
+        );
+
+        self::assertSame(
+            ['b' => 'b'],
+            iterator_to_array($adapter->getItems(1, 1)),
+        );
+
+        self::assertSame(
+            ['c' => 'c'],
+            iterator_to_array($adapter->getItems(2, 1)),
+        );
     }
 }

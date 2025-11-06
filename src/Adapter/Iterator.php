@@ -5,38 +5,32 @@ declare(strict_types=1);
 namespace Laminas\Paginator\Adapter;
 
 use Countable;
+use Iterator as SplIterator;
 use Laminas\Paginator\SerializableLimitIterator;
-use ReturnTypeWillChange;
 
 use function count;
 
 /**
- * @template TKey of int
+ * @template TKey of array-key
  * @template TValue
  * @implements AdapterInterface<TKey, TValue>
- *     @final
  */
-class Iterator implements AdapterInterface
+final readonly class Iterator implements AdapterInterface
 {
     /**
      * Iterator which implements Countable
      *
-     * @var \Iterator<TKey, TValue>&Countable
+     * @var (SplIterator<TKey, TValue>)&Countable
      */
-    protected $iterator;
+    private SplIterator $iterator;
+
+    private int $count;
 
     /**
-     * Item count
-     *
-     * @var int
-     */
-    protected $count;
-
-    /**
-     * @param  \Iterator<TKey, TValue> $iterator Iterator to paginate
+     * @param SplIterator<TKey, TValue> $iterator Iterator to paginate
      * @throws Exception\InvalidArgumentException
      */
-    public function __construct(\Iterator $iterator)
+    public function __construct(SplIterator $iterator)
     {
         if (! $iterator instanceof Countable) {
             throw new Exception\InvalidArgumentException('Iterator must implement Countable');
@@ -46,29 +40,13 @@ class Iterator implements AdapterInterface
         $this->count    = count($iterator);
     }
 
-    /**
-     * Returns an iterator of items for a page, or an empty array.
-     *
-     * @param  int $offset Page offset
-     * @param  int $itemCountPerPage Number of items per page
-     * @return iterable<TKey, TValue>
-     */
-    public function getItems($offset, $itemCountPerPage)
+    /** @return SerializableLimitIterator<TKey, TValue> */
+    public function getItems(int $offset, int $itemCountPerPage): iterable
     {
-        if ($this->count === 0) {
-            return [];
-        }
-
         return new SerializableLimitIterator($this->iterator, $offset, $itemCountPerPage);
     }
 
-    /**
-     * Returns the total number of rows in the collection.
-     *
-     * @return int
-     */
-    #[ReturnTypeWillChange]
-    public function count()
+    public function count(): int
     {
         return $this->count;
     }
