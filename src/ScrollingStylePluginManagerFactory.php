@@ -12,6 +12,8 @@ use Psr\Container\ContainerInterface;
 use function is_array;
 
 /**
+ * @deprecated Since 2.22.0 This class will be removed in 3.0.0 without replacement
+ *
  * @psalm-import-type ServiceManagerConfiguration from ServiceManager
  * @final
  */

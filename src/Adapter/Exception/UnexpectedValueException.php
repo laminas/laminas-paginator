@@ -6,7 +6,11 @@ namespace Laminas\Paginator\Adapter\Exception;
 
 use Laminas\Paginator\Exception;
 
-/** @final */
+/**
+ * @deprecated Since 2.22.0 This exception type will be removed in 3.0 without replacement
+ *
+ * @final
+ */
 class UnexpectedValueException extends Exception\UnexpectedValueException implements
     ExceptionInterface
 {

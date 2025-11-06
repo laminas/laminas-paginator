@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace Laminas\Paginator;
 
-/** @final */
+/**
+ * @deprecated Since 2.22.0. This class will be removed in 3.0.0 without replacement.
+ *
+ * @final
+ */
 class Module
 {
     /**

@@ -116,6 +116,8 @@ class AdapterPluginManager extends AbstractPluginManager
     /**
      * Validate that a plugin is an adapter (v2)
      *
+     * @deprecated Since 2.22.0. This method will be removed in 3.0 without replacement.
+     *
      * @throws Exception\RuntimeException
      * @return void
      * @psalm-assert AdapterInterface $instance
