@@ -484,6 +484,6 @@ final class Paginator implements Countable, IteratorAggregate
             return $scrollingStyle;
         }
 
-        return ScrollingStyleFactory::fromString((string) $scrollingStyle, true);
+        return ScrollingStyleFactory::fromString((string) $scrollingStyle);
     }
 }

@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace LaminasTest\Paginator;
 
+use ArrayIterator;
+use ArrayObject;
 use Laminas\Paginator\Adapter\ArrayAdapter;
+use Laminas\Paginator\Adapter\Callback;
+use Laminas\Paginator\Adapter\Iterator;
 use Laminas\Paginator\Paginator;
 use Laminas\Paginator\PaginatorIterator;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -97,5 +101,20 @@ final class PaginatorIteratorTest extends TestCase
 
         $iterator->rewind();
         $this->assertFalse($iterator->valid());
+    }
+
+    public function testTheInnerIteratorIsAlwaysAnIterator(): void
+    {
+        /** @psalm-suppress UnusedClosureParam */
+        $items     = new Callback(
+            static fn(int $a, int $b): iterable => new ArrayObject([1, 2, 3]),
+            static fn(): int => 3,
+        );
+        $paginator = new Paginator($items);
+        self::assertFalse($paginator->getCurrentItems() instanceof Iterator);
+
+        $iterator = new PaginatorIterator($paginator);
+        $inner    = $iterator->getInnerIterator();
+        self::assertInstanceOf(ArrayIterator::class, $inner);
     }
 }
