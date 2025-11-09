@@ -41,10 +41,11 @@ final class AdapterPluginManager extends AbstractPluginManager
             'Iterator' => Adapter\Iterator::class,
         ],
         'factories' => [
-            Adapter\Callback::class     => Adapter\Service\CallbackFactory::class,
-            Adapter\NullFill::class     => Adapter\Service\NullFillFactory::class,
-            Adapter\Iterator::class     => Adapter\Service\IteratorFactory::class,
-            Adapter\ArrayAdapter::class => InvokableFactory::class,
+            Adapter\CachingAdapter::class => Adapter\Service\CachingAdapterFactory::class,
+            Adapter\Callback::class       => Adapter\Service\CallbackFactory::class,
+            Adapter\NullFill::class       => Adapter\Service\NullFillFactory::class,
+            Adapter\Iterator::class       => Adapter\Service\IteratorFactory::class,
+            Adapter\ArrayAdapter::class   => InvokableFactory::class,
         ],
     ];
 

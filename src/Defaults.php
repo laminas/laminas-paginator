@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Laminas\Paginator;
 
+use DateInterval;
 use Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface;
+use Psr\Cache\CacheItemPoolInterface;
 
 /**
  * @internal
@@ -22,6 +24,8 @@ final readonly class Defaults
         public int $itemCountPerPage,
         public int $pageRange,
         public ScrollingStyleInterface $scrollingStyle,
+        public CacheItemPoolInterface|null $defaultCache,
+        public DateInterval|null $defaultCacheTtl,
     ) {
     }
 }

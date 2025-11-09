@@ -5,14 +5,17 @@ declare(strict_types=1);
 namespace Laminas\Paginator;
 
 use ArrayAccess;
+use DateInterval;
 use Laminas\Paginator\Exception\ExceptionInterface;
 use Laminas\Paginator\Exception\RuntimeException;
 use Laminas\Paginator\ScrollingStyle\ScrollingStyleFactory;
 use Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
+use Psr\Cache\CacheItemPoolInterface;
 use Psr\Container\ContainerInterface;
 
 use function assert;
+use function get_debug_type;
 use function is_array;
 use function is_int;
 use function is_string;
@@ -75,10 +78,48 @@ final readonly class DefaultsFactory implements FactoryInterface
             $style = $instance;
         }
 
+        $cache = $options['defaultCache'] ?? null;
+        if ($cache !== null && (! is_string($cache) || $cache === '')) {
+            throw new RuntimeException(
+                'The default cache should be a non-empty string when set',
+            );
+        }
+
+        if ($cache !== null) {
+            /** @psalm-var mixed $cache */
+            $cache = $container->get($cache);
+            if (! $cache instanceof CacheItemPoolInterface) {
+                throw new RuntimeException(sprintf(
+                    'The default cache should resolve to an instance of "%s", Received "%s"',
+                    CacheItemPoolInterface::class,
+                    get_debug_type($cache),
+                ));
+            }
+        }
+
+        /** @var mixed $defaultTtl */
+        $defaultTtl = $options['defaultCacheTTL'] ?? null;
+        if (is_int($defaultTtl)) {
+            $defaultTtl = new DateInterval(sprintf('PT%dS', $defaultTtl));
+        }
+
+        if (is_string($defaultTtl) && $defaultTtl !== '') {
+            $defaultTtl = new DateInterval($defaultTtl);
+        }
+
+        if (! $defaultTtl instanceof DateInterval && $defaultTtl !== null) {
+            throw new RuntimeException(sprintf(
+                'The default TTL must be configured as a date interval string, integer or null. Received %s',
+                get_debug_type($defaultTtl),
+            ));
+        }
+
         return new Defaults(
             $itemCount,
             $range,
             $style,
+            $cache,
+            $defaultTtl,
         );
     }
 }
