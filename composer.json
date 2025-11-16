@@ -32,10 +32,14 @@
     "require": {
         "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
         "laminas/laminas-servicemanager": "^4.5.0",
+        "psr/cache": "^2.0 || ^3.0",
         "psr/container": "^1 || ^2.0.2"
     },
     "require-dev": {
+        "laminas/laminas-cache": "^4.1",
+        "laminas/laminas-cache-storage-adapter-memory": "^3.1",
         "laminas/laminas-coding-standard": "^3.1.0",
+        "lcobucci/clock": "^3.3",
         "phpunit/phpunit": "^11.5.43",
         "psalm/plugin-phpunit": "^0.19.5",
         "vimeo/psalm": "^6.13.1"

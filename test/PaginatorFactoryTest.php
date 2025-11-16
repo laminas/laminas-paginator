@@ -6,12 +6,15 @@ namespace LaminasTest\Paginator;
 
 use ArrayIterator;
 use Laminas\Paginator\Adapter\ArrayAdapter;
+use Laminas\Paginator\Adapter\CachingAdapter;
 use Laminas\Paginator\ConfigProvider;
+use Laminas\Paginator\Exception\RuntimeException;
 use Laminas\Paginator\PaginatorFactoryFactory;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 use Laminas\ServiceManager\ServiceManager;
 use LaminasTest\Paginator\TestAsset\TestArrayAggregate;
 use PHPUnit\Framework\TestCase;
+use Psr\Cache\CacheItemPoolInterface;
 
 use function array_replace_recursive;
 use function iterator_to_array;
@@ -166,5 +169,42 @@ final class PaginatorFactoryTest extends TestCase
         ], $pager->getPages()->pagesInRange);
 
         self::assertEquals([13, 14, 15], iterator_to_array($pager->getCurrentItems()));
+    }
+
+    public function testCachingAdaptersCannotBeBuiltWhenThereIsNoDefaultCache(): void
+    {
+        $container = $this->containerWithConfig();
+        $factory   = (new PaginatorFactoryFactory())->__invoke($container, 'foo');
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage(
+            'You cannot generate caching paginators without configuring the '
+            . 'cache service under `paginators.defaultCache`',
+        );
+
+        $factory->withCachingAdapter(new ArrayAdapter([]), 'foo');
+    }
+
+    public function testACachingAdapterCanBeSuccessfullyBuilt(): void
+    {
+        $cache     = $this->createMock(CacheItemPoolInterface::class);
+        $container = $this->containerWithConfig([
+            'paginator'    => [
+                'defaultCache' => 'Muppets',
+            ],
+            'dependencies' => [
+                'services' => [
+                    'Muppets' => $cache,
+                ],
+            ],
+        ]);
+        $factory   = (new PaginatorFactoryFactory())->__invoke($container, 'foo');
+
+        $paginator = $factory->withCachingAdapter(
+            new ArrayAdapter([]),
+            'foo',
+        );
+
+        self::assertInstanceOf(CachingAdapter::class, $paginator->getAdapter());
     }
 }
