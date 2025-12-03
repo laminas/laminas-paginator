@@ -4,7 +4,7 @@
 
 laminas-paginator ships with a plugin manager for adapters, `Laminas\Paginator\AdapterPluginManager`.
 The plugin manager can be used to retrieve adapters.
-Since most adapters require constructor arguments, they may be passed as the second argument to the `get()` method in the same order they appear in the constructor.
+Since most adapters require constructor arguments, they may be passed as the second argument to the `build()` method in the same order they appear in the constructor.
 
 ### Examples
 
@@ -15,42 +15,37 @@ use Laminas\Paginator\AdapterPluginManager;
 $pluginManager = new AdapterPluginManager();
 
 // Get an array adapter for an array of items
-$arrayAdapter = $pluginManager->get(Adapter\ArrayAdapter::class, [$arrayOfItems]);
+$arrayAdapter = $pluginManager->build(Adapter\ArrayAdapter::class, [$arrayOfItems]);
 
 // Get an Iterator adapter based on an iterator:
-$iteratorAdapter = $pluginManager->get(Adapter\Iterator::class, [$iterator]);
+$iteratorAdapter = $pluginManager->build(Adapter\Iterator::class, [$iterator]);
 ```
 
 ## Custom data source adapters
 
-At some point you may run across a data type that is not covered by the packaged
-adapters. In this case, you will need to write your own.
+At some point you may run across a data type that is not covered by the packaged adapters.
+In this case, you will need to write your own.
 
-To do so, you must implement `Laminas\Paginator\Adapter\AdapterInterface`. There
-are two methods required to do this:
+To do so, you must implement `Laminas\Paginator\Adapter\AdapterInterface`.
+There are two methods required to do this:
 
-- `count() : int`
-- `getItems(int $offset, int $itemCountPerPage) | array`
+- `count(): int`
+- `getItems(int $offset, int $itemCountPerPage): iterable`
 
-Additionally, you'll typically implement a constructor that takes your data
-source as a parameter.
+Additionally, you'll typically implement a constructor that takes your data source as a parameter.
 
-If you've ever used the SPL interface [Countable](http://php.net/Countable),
-you're familiar with `count()`. As used with laminas-paginator, this is the total
-number of items in the data collection; `Laminas\Paginator\Paginator::countAllItems`
-proxies to this method.
+If you've ever used the SPL interface [Countable](http://php.net/Countable), you're familiar with `count()`.
+As used with `laminas-paginator`, this is the total number of items in the data collection; `Laminas\Paginator\Paginator::countAllItems` proxies to this method.
 
-When retrieving items for the current page, `Laminas\Paginator\Paginator` calls on
-your adapter's `getItems()` method, providing it with an offset and the number
-of items to display per page; your job is to return the appropriate slice of
-data. For an array, that would be:
+When retrieving items for the current page, `Laminas\Paginator\Paginator` calls on your adapter's `getItems()` method, providing it with an offset and the number of items to display per page;
+your job is to return the appropriate slice of data.
+For an array, that would be:
 
 ```php
 return array_slice($this->array, $offset, $itemCountPerPage);
 ```
 
-Take a look at the packaged adapters for ideas of how you might go about
-implementing your own.
+Take a look at the packaged adapters for ideas of how you might go about implementing your own.
 
 ### Registering Your Adapter with the Plugin Manager
 
@@ -85,47 +80,8 @@ class SomeServiceFactory
     public function __invoke(ContainerInterface $container)
     {
         $paginators = $container->get(AdapterPluginManager::class);
-        $paginator  = new Paginator($paginators->get(YourCustomPaginatorAdapter::class));
+        $paginator  = new Paginator($paginators->build(YourCustomPaginatorAdapter::class, $someOptions));
         // ...
     }
 }
-```
-
-## Custom scrolling styles
-
-Creating your own scrolling style requires that you implement
-`Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface`, which defines a single
-method:
-
-```php
-getPages(Paginator $paginator, int $pageRange = null) : array
-```
-
-This method should calculate a lower and upper bound for page numbers within the
-range of so-called "local" pages (that is, pages that are nearby the current
-page).
-
-Unless it extends another scrolling style (see
-`Laminas\Paginator\ScrollingStyle\Elastic` for an example), your custom scrolling
-style will inevitably end with something similar to the following line of code:
-
-```php
-return $paginator->getPagesInRange($lowerBound, $upperBound);
-```
-
-There's nothing special about this call; it's merely a convenience method to
-check the validity of the lower and upper bound and return an array with the range
-to the paginator.
-
-When you're ready to use your new scrolling style, you'll need to notif
-`Laminas\Paginator\Paginator`:
-
-```php
-use My\Paginator\ScrollingStyle;
-use Laminas\Paginator\Paginator;
-use Laminas\ServiceManager\Factory\InvokableFactory;
-
-$manager = Paginator::getScrollingStyleManager();
-$manager->setAlias('my-style', ScrollingStyle::class);
-$manager->setFactory(ScrollingStyle::class, InvokableFactory::class);
 ```

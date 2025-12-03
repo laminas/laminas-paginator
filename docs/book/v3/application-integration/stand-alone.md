@@ -1,7 +1,6 @@
 # Stand-Alone
 
-The paginator can also be used stand-alone, outside of a Mezzio or laminas-mvc
-application.
+The paginator can be used stand-alone, outside a Mezzio or laminas-mvc application.
 
 The example uses the following directory structure:
 
@@ -9,8 +8,6 @@ The example uses the following directory structure:
 example-app/
 |-- public/
 |   `-- index.php
-|-- templates/
-|   `-- pagination-control.phtml
 `-- vendor
     `-- …
 ```
