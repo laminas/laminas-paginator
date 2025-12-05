@@ -10,7 +10,7 @@ Version 3 of Laminas Paginator contains several backward incompatible changes.
 
 ### Re-worked, Optional Caching with `psr/cache`
 
-With the removal of caching from the paginator itself, it is now possible to decorate adapters as needed with the `CachingAdapter`:
+With the [removal of caching](#caching) from the paginator itself, it is now possible to decorate adapters as needed with the `CachingAdapter`:
 
 ```php
 use Laminas\Paginator\Adapter\ArrayAdapter;
@@ -26,7 +26,7 @@ $paginator = new Paginator(
 );
 ```
 
-[Further Documentation](CachingDocs)
+[Further Documentation](../caching.md)
 
 ## Bug Fixes & General Improvements
 
@@ -100,7 +100,7 @@ $json = json_encode($paginator->getCurrentItems());
 ### Removal of "Global Config" via Static Properties
 
 The method `Laminas\Paginator\Paginator::setGlobalConfig()` has been removed.
-To create pagers with consistent and centralised configuration defaults, use the [newly introduced `PaginatorFactory`](PagerFactory).
+To create pagers with consistent and centralised configuration defaults, use the [newly introduced `PaginatorFactory`](../configuration.md#the-paginator-factory-service).
 
 ### Removal of Unused Exception Types
 
@@ -118,7 +118,4 @@ It is possible to use the shipped `ConfigProvider` to ensure that the library is
 ### Removal of the `Factory` class
 
 The class `Laminas\Paginator\Factory` has been removed.
-Its conceptual functionality is replaced with the `Laminas\Paginator\PaginatorFactory` class which is [documented in detail here](PagerFactory).
-
-[PagerFactory]: ../does-not-exist-yet.md
-[CachingDocs]: ../does-not-exist-yet.md
+Its conceptual functionality is replaced with the `Laminas\Paginator\PaginatorFactory` class which is [documented in detail here](../configuration.md#the-paginator-factory-service).

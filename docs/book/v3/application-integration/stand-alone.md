@@ -90,7 +90,7 @@ foreach ($paginator as $item) {
 }
 ```
 
-Retrieving the [current status data of the paginator](../usage.md#listing-of-properties):
+Retrieving the [current status data of the paginator](../usage.md#inspecting-paginator-state):
 
 ```php
 var_dump($paginator->getPages()->previous); // 1

@@ -8,6 +8,7 @@ nav:
         - Usage: v3/usage.md
         - Configuration: v3/configuration.md
         - "Advanced Usage": v3/advanced.md
+        - "Caching Paged Result Sets": v3/caching.md
         - 'Application Integration':
             - 'Stand-Alone': v3/application-integration/stand-alone.md
         - 'Migration':
