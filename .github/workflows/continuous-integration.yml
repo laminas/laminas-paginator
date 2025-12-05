@@ -48,7 +48,7 @@ jobs:
         with:
           php-version: ${{ env.default_php }}
           tools: composer
-      - uses: ramsey/composer-install@v3
+      - uses: ramsey/composer-install@3.1.1
       - run: make install-tools
       - run: make unused-ci
 
@@ -77,6 +77,6 @@ jobs:
         with:
           php-version: ${{ env.default_php }}
           tools: composer
-      - uses: ramsey/composer-install@v3
+      - uses: ramsey/composer-install@3.1.1
       - run: make install-tools
       - run: make rector-ci
