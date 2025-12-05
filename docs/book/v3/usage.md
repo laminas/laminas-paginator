@@ -48,10 +48,10 @@ return [
 ];
 ```
 
-With the above route (and using [laminas-mvc](https://docs.laminas.dev/laminas-mvc/) controllers), you might set the current page number in your controller action like so:
+With the above route, in a [Mezzio](https://docs.mezzio.dev) application, you might set the current page number in your middleware like so:
 
 ```php
-$paginator->setCurrentPageNumber($this->params()->fromRoute('page'));
+$paginator->setCurrentPageNumber((int) $request->getAttribute('page'));
 ```
 
 Now we have a paginator filled with data, and the current page number is known, we can iterate over the paginated items:
@@ -277,3 +277,27 @@ $paginator->getPages(new ScrollingStyle());
 ```
 
 For further details on the other available options; see the [Configuration chapter](configuration.md).
+
+## Inspecting Paginator State
+
+The paginator keeps track of its current position and provides a number of methods to retrieve information about its state:
+
+```php
+assert($pager instanceof Laminas\Paginator\Paginator);
+
+printf("The current page number is %d\n", $pager->getCurrentPageNumber());
+printf("The current page contains %d items\n", $pager->getCurrentItemCount());
+printf("In total there are %d items\n", $pager->getTotalItemCount());
+
+$pagesResult = $pager->getPages();
+
+printf("The first page number is %d\n", $pagesResult->first);
+printf("The first page number in range is %d\n", $pagesResult->firstPageInRange);
+printf("The last page number is %d\n", $pagesResult->last);
+printf("The last page number in range is %d\n", $pagesResult->lastPageInRange);
+printf("The next page number is %s\n", $pagesResult->next ?? 'NONE');
+printf("The previous page number is %s\n", $pagesResult->previous ?? 'NONE');
+printf("The total number of pages is %d\n", $pagesResult->pageCount);
+```
+
+The `Laminas\Paginator\Pages` value object retrieved from `$pager->getPages()` provides all the information needed to create a page navigation user interface.

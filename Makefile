@@ -139,11 +139,11 @@ unused-ci: vendor/bin/composer-unused
 
 rector: ## Run Rector and show the diff
 	@$(call MK_INFO,"Checking for syntax consistency with rector")
-	@docker run $(DOCKER_PHP) tools/rector/vendor/bin/rector process --dry-run -vv -c tools/rector/rector.php
+	@docker run $(DOCKER_PHP) tools/rector/vendor/bin/rector process --dry-run -c tools/rector/rector.php
 .PHONY: rector
 
 rector-ci: ## Run Rector and show the diff in GitHub format for CI
-	tools/rector/vendor/bin/rector process --dry-run --output-format=github -vv -c tools/rector/rector.php
+	tools/rector/vendor/bin/rector process --dry-run --output-format=github -c tools/rector/rector.php
 .PHONY: rector
 
 rector-fix: ## Apply Rector changes
