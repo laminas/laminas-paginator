@@ -1,4 +1,4 @@
-# Caching paginator pages
+# Caching Paginator Pages
 
 It is possible to cache pagination results by wrapping adapters in the shipped `CachingAdapter`.
 The `CachingAdapter` requires a pagination adapter, a PSR cache item pool and a unique cache-key prefix.
@@ -62,7 +62,7 @@ Paginator assumes that you will likely use a single cache pool for all paginator
 
 Finally, you can also provide an optional TTL in the form of a [`DateInterval`](https://www.php.net/manual/class.dateinterval.php) object.
 
-## `PaginatorFactory` integration and setting defaults
+## `PaginatorFactory` Integration and Setting Defaults
 
 The shipped `PaginatorFactory` class is capable of decorating adapters for you, providing some configuration is in-place, thereby reducing the previous example to:
 

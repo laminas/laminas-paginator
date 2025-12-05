@@ -278,7 +278,7 @@ $paginator->getPages(new ScrollingStyle());
 
 For further details on the other available options; see the [Configuration chapter](configuration.md).
 
-## Inspecting paginator state
+## Inspecting Paginator State
 
 The paginator keeps track of its current position and provides a number of methods to retrieve information about its state:
 
