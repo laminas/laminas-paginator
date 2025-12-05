@@ -15,10 +15,10 @@
     <meta name="docsearch:language" content="en">
     <meta name="docsearch:component" content="laminas-paginator">
 
-    <link rel="canonical" href="https://docs.laminas.dev/laminas-paginator/v2/intro/">
+    <link rel="canonical" href="https://docs.laminas.dev/laminas-paginator/v3/caching/">
     <link rel="shortcut icon" href="https://docs.laminas.dev/img/trademark-laminas-foundation-rgb.svg">
 
-    <title>Introduction - laminas-paginator - Laminas Docs</title>
+    <title>Caching Paged Result Sets - laminas-paginator - Laminas Docs</title>
 
     <link rel="stylesheet" href="https://docs.laminas.dev/css/styles.css">
     
@@ -128,18 +128,10 @@
 
                 
                 
-
-                    
-                    
-                
-            
-
-                
-                
                     
                         
-    <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Introduction</a>
+    <li class="subnavigation__list-item ">
+        <a href="../intro/" class="subnavigation__link">Introduction</a>
     </li>
 
                     
@@ -168,6 +160,12 @@
 
                     
                         
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Caching Paged Result Sets</a>
+    </li>
+
+                    
+                        
     <li class="subnavigation__list-item">
         <span class="subnavigation__headline">Application Integration</span>
         <ul class="subnavigation__list">
@@ -181,6 +179,29 @@
         </ul>
     </li>
 
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Migration</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../migration/from-v2-to-v3/" class="subnavigation__link">From v2 to v3</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                
+            
+
+                
+                
+
+                    
                     
                 
             
@@ -234,13 +255,13 @@
     <div class="btn-group">
         <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
             
-                v2
+                v3
             
         </button>
         <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="version-selector-dropdown">
             
                 
-                    <a href="../../v3/intro/" class="dropdown-item">
+                    <a href="../intro/" class="dropdown-item active">
                         
                             v3 (latest)
                         
@@ -248,7 +269,7 @@
                 
             
                 
-                    <a href="./" class="dropdown-item active">
+                    <a href="../../v2/intro/" class="dropdown-item">
                         
                             v2
                         
@@ -283,6 +304,17 @@
 
     
     
+        <div class="toc">
+            <h6 class="toc__headline">On this page</h6>
+            <ul class="toc__list">
+                
+                    <li class="toc__entry">
+                        <a href="#paginatorfactory-integration-and-setting-defaults" class="toc__link nav-link">PaginatorFactory Integration and Setting Defaults</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
 
                 
 
@@ -309,7 +341,7 @@
                     
                 
 
-                <li class="breadcrumb-item active" aria-current="page">Introduction</li>
+                <li class="breadcrumb-item active" aria-current="page">Caching Paged Result Sets</li>
             
         
     </ol>
@@ -317,31 +349,97 @@
 
 
 
-    <div class="alert alert-danger" role="alert">
-        <h4>Caution</h4>
-        <p>
-            The documentation you are viewing is for an older version of this component.<br>
-            <a href="../..">Switch to the latest (v3) version.</a>
-        </p>
-    </div>
-
 
 
 
     
     
 
-    <h1 id="introduction">Introduction</h1>
-<p>laminas-paginator is a flexible component for paginating collections of data and
-presenting that data to users.</p>
-<p>The primary design goals of laminas-paginator are as follows:</p>
+    <h1 id="caching-paginator-pages">Caching Paginator Pages</h1>
+<p>It is possible to cache pagination results by wrapping adapters in the shipped <code>CachingAdapter</code>.
+The <code>CachingAdapter</code> requires a pagination adapter, a PSR cache item pool and a unique cache-key prefix.</p>
+<pre class="highlight"><code class="language-php">use DateInterval;
+use Laminas\Paginator\Adapter\AdapterInterface;
+use Psr\Cache\CacheItemPoolInterface;
+
+final readonly class CachingAdapter implements AdapterInterface
+{
+    /**
+     * @param AdapterInterface&lt;TKey, TValue&gt; $adapter
+     * @param non-empty-string $cacheKeyPrefix
+     */
+    public function __construct(
+        private AdapterInterface $adapter,
+        private string $cacheKeyPrefix,
+        private CacheItemPoolInterface $cache,
+        private DateInterval|null $ttl,
+    ) {
+    }
+
+    // ...
+}</code></pre>
+<p>To <em>manually</em> create a paginator that will cache results as they are retrieved, the following would be required:</p>
+<pre class="highlight"><code class="language-php">use Laminas\Paginator\Adapter\AdapterInterface;
+use Laminas\Paginator\Adapter\CachingAdapter;
+use Laminas\Paginator\Paginator;
+use Psr\Cache\CacheItemPoolInterface;
+
+$adapter = new \SpecialCustomAdapter(/** With some data that needs to be cached */);
+
+// Assume we have some ready-prepared objects:
+assert($cachePool instanceof CacheItemPoolInterface);
+assert($adapter instanceof AdapterInterface);
+
+$paginator = new Paginator(
+    new CachingAdapter(
+        $adapter,
+        'my-unique-prefix',
+        $cachePool,
+        new DateInterval('PT30M'),
+    ),
+    10,
+    10,
+    'Sliding',
+);</code></pre>
+<p>The above example assumes that <code>\SpecialCustomAdapter</code> is an adapter that makes expensive database calls or other I/O where caching is a useful performance improvement.</p>
+<p>The cache pool argument can be any <a href="https://www.php-fig.org/psr/psr-6/">PSR-6</a> implementation.
+<a href="https://docs.laminas.dev/laminas-cache/v4/psr6/">laminas-cache</a> provides a PSR-6 implementation along with <a href="https://packagist.org/providers/psr/cache-implementation">many other libraries</a>.</p>
+<p>Paginator assumes that you will likely use a single cache pool for all paginators, therefore a unique key prefix is required to prevent cache-key collisions with other paginator instances used elsewhere in your application.</p>
+<p>Finally, you can also provide an optional TTL in the form of a <a href="https://www.php.net/manual/class.dateinterval.php"><code>DateInterval</code></a> object.</p>
+<h2 id="paginatorfactory-integration-and-setting-defaults"><code>PaginatorFactory</code> Integration and Setting Defaults</h2>
+<p>The shipped <code>PaginatorFactory</code> class is capable of decorating adapters for you, providing some configuration is in-place, thereby reducing the previous example to:</p>
+<pre class="highlight"><code class="language-php">use Laminas\Paginator\PaginatorFactory;
+use Psr\Container\ContainerInterface;
+
+assert($container instanceof ContainerInterface);
+
+$adapter = new \SpecialCustomAdapter(/** With some data that needs to be cached */);
+
+$factory = $container-&gt;get(PaginatorFactory::class);
+$paginator = $factory-&gt;withCachingAdapter($adapter, 'my-unique-prefix');</code></pre>
+<p>Using the factory assumes that a single cache item pool will be used for all paginators <em>(Which is why the unique prefix is necessary)</em>.
+To take advantage of the paginator factory, you must ensure that you configure the necessary services.
+The following example assumes that you are using <a href="https://docs.laminas.dev/laminas-servicemanager">Laminas Service Manager</a> for dependency injection.</p>
+<pre class="highlight"><code class="language-php">return [
+    // Laminas Service Manager Configuration:
+    'dependencies' =&gt; [
+        'factories' =&gt; [
+            'PaginatorCachePool' =&gt; \SomeFactoryThatWillProduceACacheItemPoolInterface::class,
+        ],
+    ],
+
+    // Telling the paginator factory which "Service" to pull from the container:
+    'paginator' =&gt; [
+        'defaultCache' =&gt; 'PaginatorCachePool',
+        'defaultCacheTTL' =&gt; 'PT30M',
+    ],
+];</code></pre>
+<p>Further information:</p>
 <ul>
-<li>Paginate arbitrary data, not just relational databases.</li>
-<li>Fetch only the results that need to be displayed.</li>
-<li>Do not force users to adhere to only one way of displaying data or rendering
-  pagination controls.</li>
-<li>Loosely couple to other Laminas components so that users who wish to
-  use it independently of laminas-view, laminas-cache, etc. can do so.</li>
+<li><a href="../advanced/#custom-data-source-adapters">Custom Paginator Adapters</a></li>
+<li><a href="https://docs.laminas.dev/laminas-servicemanager/v4/configuring-the-service-manager/#factories">More information on writing factories with Laminas Service Manager</a></li>
+<li><a href="https://docs.laminas.dev/laminas-cache/v4/psr6/">Using Laminas Cache as a PSR-6 Cache Pool</a></li>
+<li><a href="https://www.php-fig.org/psr/psr-6/">The PSR-6 Specification</a></li>
 </ul>
 
 
@@ -353,10 +451,10 @@ presenting that data to users.</p>
         
         <li class="page-nav__item">
             
-                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../../v3/migration/from-v2-to-v3/">
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../advanced/">
                     <small class="page-nav__label">Previous</small>
                     <i class="fa fa-chevron-left"></i>
-                    From v2 to v3
+                    Advanced Usage
                 </a>
             
         </li>
@@ -364,9 +462,9 @@ presenting that data to users.</p>
         
         <li class="page-nav__item">
             
-                <a rel="next" class="page-nav__link page-nav__link--next" href="../installation/">
+                <a rel="next" class="page-nav__link page-nav__link--next" href="../application-integration/stand-alone/">
                     <small class="page-nav__label">Next</small>
-                    Installation
+                    Stand-Alone
                     <i class="fa fa-chevron-right"></i>
                 </a>
             
@@ -414,18 +512,10 @@ presenting that data to users.</p>
 
                 
                 
-
-                    
-                    
-                
-            
-
-                
-                
                     
                         
-    <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Introduction</a>
+    <li class="subnavigation__list-item ">
+        <a href="../intro/" class="subnavigation__link">Introduction</a>
     </li>
 
                     
@@ -454,6 +544,12 @@ presenting that data to users.</p>
 
                     
                         
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Caching Paged Result Sets</a>
+    </li>
+
+                    
+                        
     <li class="subnavigation__list-item">
         <span class="subnavigation__headline">Application Integration</span>
         <ul class="subnavigation__list">
@@ -467,6 +563,29 @@ presenting that data to users.</p>
         </ul>
     </li>
 
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Migration</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../migration/from-v2-to-v3/" class="subnavigation__link">From v2 to v3</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                
+            
+
+                
+                
+
+                    
                     
                 
             

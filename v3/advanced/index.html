@@ -15,10 +15,10 @@
     <meta name="docsearch:language" content="en">
     <meta name="docsearch:component" content="laminas-paginator">
 
-    <link rel="canonical" href="https://docs.laminas.dev/laminas-paginator/v2/intro/">
+    <link rel="canonical" href="https://docs.laminas.dev/laminas-paginator/v3/advanced/">
     <link rel="shortcut icon" href="https://docs.laminas.dev/img/trademark-laminas-foundation-rgb.svg">
 
-    <title>Introduction - laminas-paginator - Laminas Docs</title>
+    <title>Advanced Usage - laminas-paginator - Laminas Docs</title>
 
     <link rel="stylesheet" href="https://docs.laminas.dev/css/styles.css">
     
@@ -128,18 +128,10 @@
 
                 
                 
-
-                    
-                    
-                
-            
-
-                
-                
                     
                         
-    <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Introduction</a>
+    <li class="subnavigation__list-item ">
+        <a href="../intro/" class="subnavigation__link">Introduction</a>
     </li>
 
                     
@@ -162,8 +154,14 @@
 
                     
                         
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Advanced Usage</a>
+    </li>
+
+                    
+                        
     <li class="subnavigation__list-item ">
-        <a href="../advanced/" class="subnavigation__link">Advanced Usage</a>
+        <a href="../caching/" class="subnavigation__link">Caching Paged Result Sets</a>
     </li>
 
                     
@@ -181,6 +179,29 @@
         </ul>
     </li>
 
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Migration</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../migration/from-v2-to-v3/" class="subnavigation__link">From v2 to v3</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                
+            
+
+                
+                
+
+                    
                     
                 
             
@@ -234,13 +255,13 @@
     <div class="btn-group">
         <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
             
-                v2
+                v3
             
         </button>
         <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="version-selector-dropdown">
             
                 
-                    <a href="../../v3/intro/" class="dropdown-item">
+                    <a href="../intro/" class="dropdown-item active">
                         
                             v3 (latest)
                         
@@ -248,7 +269,7 @@
                 
             
                 
-                    <a href="./" class="dropdown-item active">
+                    <a href="../../v2/intro/" class="dropdown-item">
                         
                             v2
                         
@@ -283,6 +304,21 @@
 
     
     
+        <div class="toc">
+            <h6 class="toc__headline">On this page</h6>
+            <ul class="toc__list">
+                
+                    <li class="toc__entry">
+                        <a href="#using-the-paginator-adapter-plugin-manager" class="toc__link nav-link">Using the Paginator Adapter Plugin Manager</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#custom-data-source-adapters" class="toc__link nav-link">Custom data source adapters</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
 
                 
 
@@ -309,7 +345,7 @@
                     
                 
 
-                <li class="breadcrumb-item active" aria-current="page">Introduction</li>
+                <li class="breadcrumb-item active" aria-current="page">Advanced Usage</li>
             
         
     </ol>
@@ -317,32 +353,72 @@
 
 
 
-    <div class="alert alert-danger" role="alert">
-        <h4>Caution</h4>
-        <p>
-            The documentation you are viewing is for an older version of this component.<br>
-            <a href="../..">Switch to the latest (v3) version.</a>
-        </p>
-    </div>
-
 
 
 
     
     
 
-    <h1 id="introduction">Introduction</h1>
-<p>laminas-paginator is a flexible component for paginating collections of data and
-presenting that data to users.</p>
-<p>The primary design goals of laminas-paginator are as follows:</p>
+    <h1 id="advanced-usage">Advanced usage</h1>
+<h2 id="using-the-paginator-adapter-plugin-manager">Using the Paginator Adapter Plugin Manager</h2>
+<p>laminas-paginator ships with a plugin manager for adapters, <code>Laminas\Paginator\AdapterPluginManager</code>.
+The plugin manager can be used to retrieve adapters.
+Since most adapters require constructor arguments, they may be passed as the second argument to the <code>build()</code> method in the same order they appear in the constructor.</p>
+<h3 id="examples">Examples</h3>
+<pre class="highlight"><code class="language-php">use Laminas\Paginator\Adapter;
+use Laminas\Paginator\AdapterPluginManager;
+
+$pluginManager = new AdapterPluginManager();
+
+// Get an array adapter for an array of items
+$arrayAdapter = $pluginManager-&gt;build(Adapter\ArrayAdapter::class, [$arrayOfItems]);
+
+// Get an Iterator adapter based on an iterator:
+$iteratorAdapter = $pluginManager-&gt;build(Adapter\Iterator::class, [$iterator]);</code></pre>
+<h2 id="custom-data-source-adapters">Custom data source adapters</h2>
+<p>At some point you may run across a data type that is not covered by the packaged adapters.
+In this case, you will need to write your own.</p>
+<p>To do so, you must implement <code>Laminas\Paginator\Adapter\AdapterInterface</code>.
+There are two methods required to do this:</p>
 <ul>
-<li>Paginate arbitrary data, not just relational databases.</li>
-<li>Fetch only the results that need to be displayed.</li>
-<li>Do not force users to adhere to only one way of displaying data or rendering
-  pagination controls.</li>
-<li>Loosely couple to other Laminas components so that users who wish to
-  use it independently of laminas-view, laminas-cache, etc. can do so.</li>
+<li><code>count(): int</code></li>
+<li><code>getItems(int $offset, int $itemCountPerPage): iterable</code></li>
 </ul>
+<p>Additionally, you'll typically implement a constructor that takes your data source as a parameter.</p>
+<p>If you've ever used the SPL interface <a href="http://php.net/Countable">Countable</a>, you're familiar with <code>count()</code>.
+As used with <code>laminas-paginator</code>, this is the total number of items in the data collection; <code>Laminas\Paginator\Paginator::countAllItems</code> proxies to this method.</p>
+<p>When retrieving items for the current page, <code>Laminas\Paginator\Paginator</code> calls on your adapter's <code>getItems()</code> method, providing it with an offset and the number of items to display per page;
+your job is to return the appropriate slice of data.
+For an array, that would be:</p>
+<pre class="highlight"><code class="language-php">return array_slice($this-&gt;array, $offset, $itemCountPerPage);</code></pre>
+<p>Take a look at the packaged adapters for ideas of how you might go about implementing your own.</p>
+<h3 id="registering-your-adapter-with-the-plugin-manager">Registering Your Adapter with the Plugin Manager</h3>
+<p>If you want to register your adapter with the <code>Laminas\Pagiantor\AdapterPluginManager</code>, you can do so via configuration.
+The "paginators" configuration key can contain <a href="https://docs.laminas.dev/laminas-servicemanager/configuring-the-service-manager/">standard laminas-servicemanager-style configuration</a>.</p>
+<p>One possibility is to add it to the <code>config/autoload/global.php</code> file:</p>
+<pre class="highlight"><code class="language-php">return [
+    // ...
+    'paginators' =&gt; [
+        'factories' =&gt; [
+            YourCustomPaginationAdapter::class =&gt; YourCustomPaginationAdapterFactory::class,
+        ],
+    ],
+];</code></pre>
+<p>This allows you to retrieve the <code>AdapterPluginManager</code> in a factory, and then pull your adapter from it.
+As an example, consider the following factory:</p>
+<pre class="highlight"><code class="language-php">use Laminas\Paginator\AdapterPluginManager;
+use Laminas\Paginator\Paginator;
+use Psr\Container\ContainerInterface;
+
+class SomeServiceFactory
+{
+    public function __invoke(ContainerInterface $container)
+    {
+        $paginators = $container-&gt;get(AdapterPluginManager::class);
+        $paginator  = new Paginator($paginators-&gt;build(YourCustomPaginatorAdapter::class, $someOptions));
+        // ...
+    }
+}</code></pre>
 
 
 
@@ -353,10 +429,10 @@ presenting that data to users.</p>
         
         <li class="page-nav__item">
             
-                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../../v3/migration/from-v2-to-v3/">
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../configuration/">
                     <small class="page-nav__label">Previous</small>
                     <i class="fa fa-chevron-left"></i>
-                    From v2 to v3
+                    Configuration
                 </a>
             
         </li>
@@ -364,9 +440,9 @@ presenting that data to users.</p>
         
         <li class="page-nav__item">
             
-                <a rel="next" class="page-nav__link page-nav__link--next" href="../installation/">
+                <a rel="next" class="page-nav__link page-nav__link--next" href="../caching/">
                     <small class="page-nav__label">Next</small>
-                    Installation
+                    Caching Paged Result Sets
                     <i class="fa fa-chevron-right"></i>
                 </a>
             
@@ -414,18 +490,10 @@ presenting that data to users.</p>
 
                 
                 
-
-                    
-                    
-                
-            
-
-                
-                
                     
                         
-    <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Introduction</a>
+    <li class="subnavigation__list-item ">
+        <a href="../intro/" class="subnavigation__link">Introduction</a>
     </li>
 
                     
@@ -448,8 +516,14 @@ presenting that data to users.</p>
 
                     
                         
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Advanced Usage</a>
+    </li>
+
+                    
+                        
     <li class="subnavigation__list-item ">
-        <a href="../advanced/" class="subnavigation__link">Advanced Usage</a>
+        <a href="../caching/" class="subnavigation__link">Caching Paged Result Sets</a>
     </li>
 
                     
@@ -467,6 +541,29 @@ presenting that data to users.</p>
         </ul>
     </li>
 
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Migration</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../migration/from-v2-to-v3/" class="subnavigation__link">From v2 to v3</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                
+            
+
+                
+                
+
+                    
                     
                 
             

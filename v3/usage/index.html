@@ -15,10 +15,10 @@
     <meta name="docsearch:language" content="en">
     <meta name="docsearch:component" content="laminas-paginator">
 
-    <link rel="canonical" href="https://docs.laminas.dev/laminas-paginator/v2/intro/">
+    <link rel="canonical" href="https://docs.laminas.dev/laminas-paginator/v3/usage/">
     <link rel="shortcut icon" href="https://docs.laminas.dev/img/trademark-laminas-foundation-rgb.svg">
 
-    <title>Introduction - laminas-paginator - Laminas Docs</title>
+    <title>Usage - laminas-paginator - Laminas Docs</title>
 
     <link rel="stylesheet" href="https://docs.laminas.dev/css/styles.css">
     
@@ -128,18 +128,10 @@
 
                 
                 
-
-                    
-                    
-                
-            
-
-                
-                
                     
                         
-    <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Introduction</a>
+    <li class="subnavigation__list-item ">
+        <a href="../intro/" class="subnavigation__link">Introduction</a>
     </li>
 
                     
@@ -150,8 +142,8 @@
 
                     
                         
-    <li class="subnavigation__list-item ">
-        <a href="../usage/" class="subnavigation__link">Usage</a>
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Usage</a>
     </li>
 
                     
@@ -164,6 +156,12 @@
                         
     <li class="subnavigation__list-item ">
         <a href="../advanced/" class="subnavigation__link">Advanced Usage</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../caching/" class="subnavigation__link">Caching Paged Result Sets</a>
     </li>
 
                     
@@ -181,6 +179,29 @@
         </ul>
     </li>
 
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Migration</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../migration/from-v2-to-v3/" class="subnavigation__link">From v2 to v3</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                
+            
+
+                
+                
+
+                    
                     
                 
             
@@ -234,13 +255,13 @@
     <div class="btn-group">
         <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
             
-                v2
+                v3
             
         </button>
         <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="version-selector-dropdown">
             
                 
-                    <a href="../../v3/intro/" class="dropdown-item">
+                    <a href="../intro/" class="dropdown-item active">
                         
                             v3 (latest)
                         
@@ -248,7 +269,7 @@
                 
             
                 
-                    <a href="./" class="dropdown-item active">
+                    <a href="../../v2/intro/" class="dropdown-item">
                         
                             v2
                         
@@ -283,6 +304,29 @@
 
     
     
+        <div class="toc">
+            <h6 class="toc__headline">On this page</h6>
+            <ul class="toc__list">
+                
+                    <li class="toc__entry">
+                        <a href="#paginating-data-collections" class="toc__link nav-link">Paginating data collections</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#setting-page-size-and-page-range" class="toc__link nav-link">Setting Page Size and Page Range</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#pagination-controls" class="toc__link nav-link">Pagination Controls</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#inspecting-paginator-state" class="toc__link nav-link">Inspecting Paginator State</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
 
                 
 
@@ -309,7 +353,7 @@
                     
                 
 
-                <li class="breadcrumb-item active" aria-current="page">Introduction</li>
+                <li class="breadcrumb-item active" aria-current="page">Usage</li>
             
         
     </ol>
@@ -317,32 +361,278 @@
 
 
 
-    <div class="alert alert-danger" role="alert">
-        <h4>Caution</h4>
-        <p>
-            The documentation you are viewing is for an older version of this component.<br>
-            <a href="../..">Switch to the latest (v3) version.</a>
-        </p>
-    </div>
-
 
 
 
     
     
 
-    <h1 id="introduction">Introduction</h1>
-<p>laminas-paginator is a flexible component for paginating collections of data and
-presenting that data to users.</p>
-<p>The primary design goals of laminas-paginator are as follows:</p>
-<ul>
-<li>Paginate arbitrary data, not just relational databases.</li>
-<li>Fetch only the results that need to be displayed.</li>
-<li>Do not force users to adhere to only one way of displaying data or rendering
-  pagination controls.</li>
-<li>Loosely couple to other Laminas components so that users who wish to
-  use it independently of laminas-view, laminas-cache, etc. can do so.</li>
-</ul>
+    <h1 id="usage">Usage</h1>
+<h2 id="paginating-data-collections">Paginating data collections</h2>
+<p>In order to paginate items into pages, <code>Laminas\Paginator</code> must have a generic way of accessing that data.
+For that reason, all data access takes place through data source adapters.
+Several adapters ship with laminas-paginator by default:</p>
+<div class="table-responsive"><table>
+<thead>
+<tr>
+<th>Adapter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ArrayAdapter</td>
+<td>Accepts a PHP array.</td>
+</tr>
+<tr>
+<td>Callback</td>
+<td>Accepts closures that return underlying data sets.</td>
+</tr>
+<tr>
+<td>Iterator</td>
+<td>Accepts any <code>Iterator</code> instance.</td>
+</tr>
+<tr>
+<td>NullFill</td>
+<td>Produces a configurable volume of nulls, typically useful for testing.</td>
+</tr>
+</tbody>
+</table></div>
+<p>To create a paginator instance, you must supply an adapter to the constructor:</p>
+<pre class="highlight"><code class="language-php">use Laminas\Paginator\Adapter;
+use Laminas\Paginator\Paginator;
+
+$paginator = new Paginator(new Adapter\ArrayAdapter($array));</code></pre>
+<p>Although the instance is technically usable in this state, in your application, you'll need to tell the paginator what page number the user requested.
+This allows advancing through the paginated data.</p>
+<pre class="highlight"><code class="language-php">$paginator-&gt;setCurrentPageNumber($page);</code></pre>
+<p>The simplest way to keep track of this value is through a URL parameter.
+The following is an example using <a href="https://docs.laminas.dev/laminas-router/">laminas-router</a> route configuration:</p>
+<pre class="highlight"><code class="language-php">return [
+    'routes' =&gt; [
+        'some-route' =&gt; [
+            'type' =&gt; 'segment',
+            'options' =&gt; [
+                'route' =&gt; '/show-something/[page/:page]',
+                'defaults' =&gt; [
+                    'page' =&gt; 1,
+                ],
+            ],
+        ],
+    ],
+];</code></pre>
+<p>With the above route, in a <a href="https://docs.mezzio.dev">Mezzio</a> application, you might set the current page number in your middleware like so:</p>
+<pre class="highlight"><code class="language-php">$paginator-&gt;setCurrentPageNumber((int) $request-&gt;getAttribute('page'));</code></pre>
+<p>Now we have a paginator filled with data, and the current page number is known, we can iterate over the paginated items:</p>
+<pre class="highlight"><code class="language-php">foreach ($paginator as $item) {
+    // Display the _item_ somehow
+}</code></pre>
+<h2 id="setting-page-size-and-page-range">Setting Page Size and Page Range</h2>
+<p>During construction, <code>Paginator</code> can accept values for <code>$itemCountPerPage</code> <em>(page size)</em> and <code>$pageRange</code> <em>(The number of pages to "display")</em>:</p>
+<pre class="highlight"><code class="language-php">use Laminas\Paginator\Adapter\ArrayAdapter;
+use Laminas\Paginator\Paginator;
+
+$paginator = new Paginator(new ArrayAdapter($array), 12, 5);</code></pre>
+<p>Page range and page size can be changed at runtime via instance setters:</p>
+<pre class="highlight"><code class="language-php">/** @var \Laminas\Paginator\Paginator $paginator */
+$paginator-&gt;setItemCountPerPage(6);
+$paginator-&gt;setPageRange(4);</code></pre>
+<h3 id="default-settings">Default Settings</h3>
+<p>It is also possible to set <em>defaults</em> for paginators, providing you make use of the <code>PaginatorFactory</code> service.
+This is useful when you have project-wide defaults for consistent presentation.</p>
+<p>More information about setting and overriding defaults can be found in the <a href="../configuration/">configuration chapter</a>.</p>
+<p>Without specifying constructor arguments for page size and range, a value of <code>10</code> will be used for both.</p>
+<h2 id="pagination-controls">Pagination Controls</h2>
+<p>In order to be more flexible for users of other templating systems, <code>laminas-paginator</code> no longer comes with built-in templates and rendering of pagination controls.
+In future, we may release dedicated libraries for popular templating engines.
+In the short-term, this library exposes a value object representing the current state of the paginator for the purposes of rendering pagination controls:</p>
+<pre class="highlight"><code class="language-php">namespace Laminas\Paginator;
+
+final readonly class Pages
+{
+    /**
+     * @param int&lt;0, max&gt; $pageCount
+     * @param int&lt;1, max&gt; $itemCountPerPage
+     * @param int&lt;1, max&gt; $first
+     * @param int&lt;1, max&gt; $current
+     * @param int&lt;1, max&gt; $last
+     * @param int&lt;1, max&gt;|null $previous
+     * @param int&lt;2, max&gt;|null $next
+     * @param array&lt;int, int&gt; $pagesInRange
+     * @param int&lt;1, max&gt; $firstPageInRange
+     * @param int&lt;1, max&gt; $lastPageInRange
+     * @param int&lt;0, max&gt; $currentItemCount
+     * @param int&lt;0, max&gt; $totalItemCount
+     * @param int&lt;0, max&gt; $firstItemNumber
+     * @param int&lt;0, max&gt; $lastItemNumber
+     */
+    public function __construct(
+        public int $pageCount,
+        public int $itemCountPerPage,
+        public int $first,
+        public int $current,
+        public int $last,
+        public int|null $previous,
+        public int|null $next,
+        public array $pagesInRange,
+        public int $firstPageInRange,
+        public int $lastPageInRange,
+        public int $currentItemCount,
+        public int $totalItemCount,
+        public int $firstItemNumber,
+        public int $lastItemNumber,
+    ) {
+    }
+}</code></pre>
+<h3 id="scrolling-styles">Scrolling Styles</h3>
+<p><code>laminas-paginator</code> ships 4 "scrolling styles" that emulate common pagination views.
+Scrolling styles are responsible for computing which pages should be visible when there are many.</p>
+<h4 id="all">All</h4>
+<p>The <code>All</code> style is the easiest to consider as it simply ignores the page range returning every page:</p>
+<pre class="highlight"><code class="language-php">use Laminas\Paginator\Adapter\ArrayAdapter;
+use Laminas\Paginator\Paginator;
+use Laminas\Paginator\ScrollingStyle\All;
+
+// 20 Pages of data
+$paginator = new Paginator(
+    adapter: new ArrayAdapter(range(1, 200)),
+    itemCountPerPage: 10,
+    pageRange: 5,
+);
+
+$pages = $paginator-&gt;getPages(new All());
+
+var_dump($pages-&gt;pagesInRange); // [1 =&gt; 1, 2 =&gt; 2, ..., 200 =&gt; 200]</code></pre>
+<h4 id="elastic">Elastic</h4>
+<p><code>Elastic</code> is much like Google's pagination - the deeper in the set the current page number is, the more pages are shown:</p>
+<pre class="highlight"><code class="language-php">use Laminas\Paginator\Adapter\ArrayAdapter;
+use Laminas\Paginator\Paginator;
+use Laminas\Paginator\ScrollingStyle\Elastic;
+
+// 20 Pages of data
+$paginator = new Paginator(
+    adapter: new ArrayAdapter(range(1, 200)),
+    itemCountPerPage: 10,
+    pageRange: 5,
+);
+
+$pages = $paginator-&gt;getPages(new Elastic());
+
+var_dump($pages-&gt;pagesInRange); // Pages 1 - 5
+
+$paginator-&gt;setCurrentPageNumber(10);
+
+$pages = $paginator-&gt;getPages(new Elastic());
+
+var_dump($pages-&gt;pagesInRange); // Pages 6 - 14. Note that 8 pages are shown here instead of 5</code></pre>
+<h4 id="sliding">Sliding</h4>
+<p>The <code>Sliding</code> style keeps the current page number in the middle, keeping the page-range consistent.</p>
+<pre class="highlight"><code class="language-php">use Laminas\Paginator\Adapter\ArrayAdapter;
+use Laminas\Paginator\Paginator;
+use Laminas\Paginator\ScrollingStyle\Sliding;
+
+// 20 Pages of data
+$paginator = new Paginator(
+    adapter: new ArrayAdapter(range(1, 200)),
+    itemCountPerPage: 10,
+    pageRange: 5,
+);
+
+$pages = $paginator-&gt;getPages(new Sliding());
+
+var_dump($pages-&gt;pagesInRange); // Pages 1 - 5
+
+$paginator-&gt;setCurrentPageNumber(10);
+
+$pages = $paginator-&gt;getPages(new Sliding());
+
+var_dump($pages-&gt;pagesInRange); // Pages 8 - 12</code></pre>
+<h4 id="jumping">Jumping</h4>
+<p>The <code>Jumping</code> style yields the same chunk of pages for as long as the page number is within range:</p>
+<pre class="highlight"><code class="language-php">use Laminas\Paginator\Adapter\ArrayAdapter;
+use Laminas\Paginator\Paginator;
+use Laminas\Paginator\ScrollingStyle\Jumping;
+
+// 20 Pages of data
+$paginator = new Paginator(
+    adapter: new ArrayAdapter(range(1, 200)),
+    itemCountPerPage: 10,
+    pageRange: 5,
+);
+
+$paginator-&gt;setCurrentPageNumber(5);
+$pages = $paginator-&gt;getPages(new Jumping());
+
+var_dump($pages-&gt;pagesInRange); // Pages 1 - 5
+
+$paginator-&gt;setCurrentPageNumber(6);
+$pages = $paginator-&gt;getPages(new Jumping());
+
+var_dump($pages-&gt;pagesInRange); // Pages 6 - 10</code></pre>
+<p>When providing the chosen scrolling style to either the paginator constructor, or to its <code>getPages()</code> method, you can choose to provide an instance, or a string.
+When providing a string, note that it is case-insensitive, so <code>sliding</code>, <code>Sliding</code> and <code>SlIDiNg</code> are all equivalent.</p>
+<div class="table-responsive"><table>
+<thead>
+<tr>
+<th>Scrolling Style</th>
+<th>Acceptable string</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Laminas\Paginator\ScrollingStyle\All</code></td>
+<td>all</td>
+</tr>
+<tr>
+<td><code>Laminas\Paginator\ScrollingStyle\Elastic</code></td>
+<td>elastic</td>
+</tr>
+<tr>
+<td><code>Laminas\Paginator\ScrollingStyle\Sliding</code></td>
+<td>sliding</td>
+</tr>
+<tr>
+<td><code>Laminas\Paginator\ScrollingStyle\Jumping</code></td>
+<td>jumping</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="custom-scrolling-styles">Custom Scrolling Styles</h3>
+<p>You can use custom scrolling styles by implementing <code>Laminas\Paginator\ScrollingStyle\ScrollingStyleInterface</code>.
+<strong>You cannot refer to custom implementations with a string</strong>, so you must provide an instance to the paginator constructor, or to its <code>getPages()</code> method.</p>
+<pre class="highlight"><code class="language-php">use Laminas\Paginator\Adapter\ArrayAdapter;
+use Laminas\Paginator\Paginator;
+use My\Custom\ScrollingStyle;
+
+$paginator = new Paginator(
+    adapter: new ArrayAdapter(range(1, 200)),
+    itemCountPerPage: 10,
+    pageRange: 5,
+    scrollingStyle: new ScrollingStyle(),
+);
+
+// or provide the style when retrieving the Pages value object:
+
+$paginator-&gt;getPages(new ScrollingStyle());</code></pre>
+<p>For further details on the other available options; see the <a href="../configuration/">Configuration chapter</a>.</p>
+<h2 id="inspecting-paginator-state">Inspecting Paginator State</h2>
+<p>The paginator keeps track of its current position and provides a number of methods to retrieve information about its state:</p>
+<pre class="highlight"><code class="language-php">assert($pager instanceof Laminas\Paginator\Paginator);
+
+printf("The current page number is %d\n", $pager-&gt;getCurrentPageNumber());
+printf("The current page contains %d items\n", $pager-&gt;getCurrentItemCount());
+printf("In total there are %d items\n", $pager-&gt;getTotalItemCount());
+
+$pagesResult = $pager-&gt;getPages();
+
+printf("The first page number is %d\n", $pagesResult-&gt;first);
+printf("The first page number in range is %d\n", $pagesResult-&gt;firstPageInRange);
+printf("The last page number is %d\n", $pagesResult-&gt;last);
+printf("The last page number in range is %d\n", $pagesResult-&gt;lastPageInRange);
+printf("The next page number is %s\n", $pagesResult-&gt;next ?? 'NONE');
+printf("The previous page number is %s\n", $pagesResult-&gt;previous ?? 'NONE');
+printf("The total number of pages is %d\n", $pagesResult-&gt;pageCount);</code></pre>
+<p>The <code>Laminas\Paginator\Pages</code> value object retrieved from <code>$pager-&gt;getPages()</code> provides all the information needed to create a page navigation user interface.</p>
 
 
 
@@ -353,10 +643,10 @@ presenting that data to users.</p>
         
         <li class="page-nav__item">
             
-                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../../v3/migration/from-v2-to-v3/">
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../installation/">
                     <small class="page-nav__label">Previous</small>
                     <i class="fa fa-chevron-left"></i>
-                    From v2 to v3
+                    Installation
                 </a>
             
         </li>
@@ -364,9 +654,9 @@ presenting that data to users.</p>
         
         <li class="page-nav__item">
             
-                <a rel="next" class="page-nav__link page-nav__link--next" href="../installation/">
+                <a rel="next" class="page-nav__link page-nav__link--next" href="../configuration/">
                     <small class="page-nav__label">Next</small>
-                    Installation
+                    Configuration
                     <i class="fa fa-chevron-right"></i>
                 </a>
             
@@ -414,18 +704,10 @@ presenting that data to users.</p>
 
                 
                 
-
-                    
-                    
-                
-            
-
-                
-                
                     
                         
-    <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Introduction</a>
+    <li class="subnavigation__list-item ">
+        <a href="../intro/" class="subnavigation__link">Introduction</a>
     </li>
 
                     
@@ -436,8 +718,8 @@ presenting that data to users.</p>
 
                     
                         
-    <li class="subnavigation__list-item ">
-        <a href="../usage/" class="subnavigation__link">Usage</a>
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Usage</a>
     </li>
 
                     
@@ -450,6 +732,12 @@ presenting that data to users.</p>
                         
     <li class="subnavigation__list-item ">
         <a href="../advanced/" class="subnavigation__link">Advanced Usage</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../caching/" class="subnavigation__link">Caching Paged Result Sets</a>
     </li>
 
                     
@@ -467,6 +755,29 @@ presenting that data to users.</p>
         </ul>
     </li>
 
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Migration</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../migration/from-v2-to-v3/" class="subnavigation__link">From v2 to v3</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                
+            
+
+                
+                
+
+                    
                     
                 
             

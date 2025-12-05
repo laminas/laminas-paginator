@@ -15,10 +15,10 @@
     <meta name="docsearch:language" content="en">
     <meta name="docsearch:component" content="laminas-paginator">
 
-    <link rel="canonical" href="https://docs.laminas.dev/laminas-paginator/v2/intro/">
+    <link rel="canonical" href="https://docs.laminas.dev/laminas-paginator/v3/application-integration/stand-alone/">
     <link rel="shortcut icon" href="https://docs.laminas.dev/img/trademark-laminas-foundation-rgb.svg">
 
-    <title>Introduction - laminas-paginator - Laminas Docs</title>
+    <title>Stand-Alone - laminas-paginator - Laminas Docs</title>
 
     <link rel="stylesheet" href="https://docs.laminas.dev/css/styles.css">
     
@@ -113,7 +113,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="../..">
+            <a href="../../..">
                 
                 
     laminas-paginator
@@ -128,42 +128,40 @@
 
                 
                 
-
-                    
-                    
-                
-            
-
-                
-                
                     
                         
-    <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Introduction</a>
+    <li class="subnavigation__list-item ">
+        <a href="../../intro/" class="subnavigation__link">Introduction</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="../installation/" class="subnavigation__link">Installation</a>
+        <a href="../../installation/" class="subnavigation__link">Installation</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="../usage/" class="subnavigation__link">Usage</a>
+        <a href="../../usage/" class="subnavigation__link">Usage</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="../configuration/" class="subnavigation__link">Configuration</a>
+        <a href="../../configuration/" class="subnavigation__link">Configuration</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="../advanced/" class="subnavigation__link">Advanced Usage</a>
+        <a href="../../advanced/" class="subnavigation__link">Advanced Usage</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../../caching/" class="subnavigation__link">Caching Paged Result Sets</a>
     </li>
 
                     
@@ -173,14 +171,37 @@
         <ul class="subnavigation__list">
             
                 
-    <li class="subnavigation__list-item ">
-        <a href="../application-integration/stand-alone/" class="subnavigation__link">Stand-Alone</a>
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Stand-Alone</a>
     </li>
 
             
         </ul>
     </li>
 
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Migration</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../migration/from-v2-to-v3/" class="subnavigation__link">From v2 to v3</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                
+            
+
+                
+                
+
+                    
                     
                 
             
@@ -234,13 +255,13 @@
     <div class="btn-group">
         <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
             
-                v2
+                v3
             
         </button>
         <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="version-selector-dropdown">
             
                 
-                    <a href="../../v3/intro/" class="dropdown-item">
+                    <a href="../../intro/" class="dropdown-item active">
                         
                             v3 (latest)
                         
@@ -248,7 +269,7 @@
                 
             
                 
-                    <a href="./" class="dropdown-item active">
+                    <a href="../../../v2/intro/" class="dropdown-item">
                         
                             v2
                         
@@ -283,6 +304,21 @@
 
     
     
+        <div class="toc">
+            <h6 class="toc__headline">On this page</h6>
+            <ul class="toc__list">
+                
+                    <li class="toc__entry">
+                        <a href="#create-and-configure-paginator" class="toc__link nav-link">Create and Configure Paginator</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#output-pure-data" class="toc__link nav-link">Output Pure Data</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
 
                 
 
@@ -295,7 +331,7 @@
 
             
                 <li class="breadcrumb-item">
-                    <a href="../..">
+                    <a href="../../..">
                         
     laminas-paginator
 
@@ -308,8 +344,15 @@
                         
                     
                 
+                    
+                        
+                        
+                            <li class="breadcrumb-item">Application Integration</li>
+                        
+                    
+                
 
-                <li class="breadcrumb-item active" aria-current="page">Introduction</li>
+                <li class="breadcrumb-item active" aria-current="page">Stand-Alone</li>
             
         
     </ol>
@@ -317,32 +360,91 @@
 
 
 
-    <div class="alert alert-danger" role="alert">
-        <h4>Caution</h4>
-        <p>
-            The documentation you are viewing is for an older version of this component.<br>
-            <a href="../..">Switch to the latest (v3) version.</a>
-        </p>
-    </div>
-
 
 
 
     
     
+        <h2 class="chapter__headline">Application Integration</h2>
+    
 
-    <h1 id="introduction">Introduction</h1>
-<p>laminas-paginator is a flexible component for paginating collections of data and
-presenting that data to users.</p>
-<p>The primary design goals of laminas-paginator are as follows:</p>
-<ul>
-<li>Paginate arbitrary data, not just relational databases.</li>
-<li>Fetch only the results that need to be displayed.</li>
-<li>Do not force users to adhere to only one way of displaying data or rendering
-  pagination controls.</li>
-<li>Loosely couple to other Laminas components so that users who wish to
-  use it independently of laminas-view, laminas-cache, etc. can do so.</li>
-</ul>
+    <h1 id="stand-alone">Stand-Alone</h1>
+<p>The paginator can be used stand-alone, outside a Mezzio or laminas-mvc application.</p>
+<p>The example uses the following directory structure:</p>
+<pre class="highlight"><code class="language-treeview">example-app/
+|-- public/
+|   `-- index.php
+`-- vendor
+    `-- …</code></pre>
+<h2 id="create-and-configure-paginator">Create and Configure Paginator</h2>
+<p><a href="../../usage/#paginating-data-collections">Create a paginator and a related adapter</a>,
+set the item count for one page and the current page number in <code>public/index.php</code>:</p>
+<pre class="highlight"><code class="language-php">// Create paginator
+$paginator = new Laminas\Paginator\Paginator(
+    new Laminas\Paginator\Adapter\ArrayAdapter($albums)
+);
+
+// Configure paginator
+$paginator-&gt;setItemCountPerPage(4);
+$paginator-&gt;setCurrentPageNumber((int) ($_GET['page'] ?? 1));</code></pre>
+<!-- markdownlint-disable-next-line MD033-->
+<details><summary>Example Data</summary>
+
+<pre class="highlight"><code class="language-php">$albums = [
+    [
+        'artist' =&gt; 'David Bowie',
+        'title'  =&gt; 'The Next Day (Deluxe Version)',
+    ],
+    [
+        'artist' =&gt; 'Bastille',
+        'title'  =&gt; 'Bad Blood',
+    ],
+    [
+        'artist' =&gt; 'Bruno Mars',
+        'title'  =&gt; 'Unorthodox Jukebox',
+    ],
+    [
+        'artist' =&gt; 'Emeli Sandé',
+        'title'  =&gt; 'Our Version of Events (Special Edition)',
+    ],
+    [
+        'artist' =&gt; 'Bon Jovi',
+        'title'  =&gt; 'What About Now (Deluxe Version)',
+    ],
+    [
+        'artist' =&gt; 'Justin Timberlake',
+        'title'  =&gt; 'The 20/20 Experience (Deluxe Version)',
+    ],
+    [
+        'artist' =&gt; 'Bastille',
+        'title'  =&gt; 'Bad Blood (The Extended Cut)',
+    ],
+    [
+        'artist' =&gt; 'P!nk',
+        'title'  =&gt; 'The Truth About Love',
+    ],
+    [
+        'artist' =&gt; 'Sound City - Real to Reel',
+        'title'  =&gt; 'Sound City - Real to Reel',
+    ],
+    [
+        'artist' =&gt; 'Jake Bugg',
+        'title'  =&gt; 'Jake Bugg',
+    ],
+];</code></pre>
+
+<!-- markdownlint-disable-next-line MD033-->
+</details>
+
+<h2 id="output-pure-data">Output Pure Data</h2>
+<p>The data of each sub-array is returned by iteration over the paginator:</p>
+<pre class="highlight"><code class="language-php">foreach ($paginator as $item) {
+    var_dump($item['artist']); // "Bon Jovi", "Justin Timberlake", …
+    var_dump($item['title']); // "What About Now (Deluxe Version)", "The 20/20 Experience (Deluxe Version)", …
+}</code></pre>
+<p>Retrieving the <a href="../../usage/#inspecting-paginator-state">current status data of the paginator</a>:</p>
+<pre class="highlight"><code class="language-php">var_dump($paginator-&gt;getPages()-&gt;previous); // 1
+var_dump($paginator-&gt;getPages()-&gt;next); // 3</code></pre>
 
 
 
@@ -353,10 +455,10 @@ presenting that data to users.</p>
         
         <li class="page-nav__item">
             
-                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../../v3/migration/from-v2-to-v3/">
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../../caching/">
                     <small class="page-nav__label">Previous</small>
                     <i class="fa fa-chevron-left"></i>
-                    From v2 to v3
+                    Caching Paged Result Sets
                 </a>
             
         </li>
@@ -364,9 +466,9 @@ presenting that data to users.</p>
         
         <li class="page-nav__item">
             
-                <a rel="next" class="page-nav__link page-nav__link--next" href="../installation/">
+                <a rel="next" class="page-nav__link page-nav__link--next" href="../../migration/from-v2-to-v3/">
                     <small class="page-nav__label">Next</small>
-                    Installation
+                    From v2 to v3
                     <i class="fa fa-chevron-right"></i>
                 </a>
             
@@ -399,7 +501,7 @@ presenting that data to users.</p>
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="../..">
+            <a href="../../..">
                 
                 
     laminas-paginator
@@ -414,42 +516,40 @@ presenting that data to users.</p>
 
                 
                 
-
-                    
-                    
-                
-            
-
-                
-                
                     
                         
-    <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Introduction</a>
+    <li class="subnavigation__list-item ">
+        <a href="../../intro/" class="subnavigation__link">Introduction</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="../installation/" class="subnavigation__link">Installation</a>
+        <a href="../../installation/" class="subnavigation__link">Installation</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="../usage/" class="subnavigation__link">Usage</a>
+        <a href="../../usage/" class="subnavigation__link">Usage</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="../configuration/" class="subnavigation__link">Configuration</a>
+        <a href="../../configuration/" class="subnavigation__link">Configuration</a>
     </li>
 
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="../advanced/" class="subnavigation__link">Advanced Usage</a>
+        <a href="../../advanced/" class="subnavigation__link">Advanced Usage</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../../caching/" class="subnavigation__link">Caching Paged Result Sets</a>
     </li>
 
                     
@@ -459,14 +559,37 @@ presenting that data to users.</p>
         <ul class="subnavigation__list">
             
                 
-    <li class="subnavigation__list-item ">
-        <a href="../application-integration/stand-alone/" class="subnavigation__link">Stand-Alone</a>
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Stand-Alone</a>
     </li>
 
             
         </ul>
     </li>
 
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Migration</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../migration/from-v2-to-v3/" class="subnavigation__link">From v2 to v3</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                
+            
+
+                
+                
+
+                    
                     
                 
             
@@ -556,13 +679,13 @@ presenting that data to users.</p>
 </footer>
 
     <script>
-        let base_url = '../..',
+        let base_url = '../../..',
             project  = "components",
             siteName = 'laminas-paginator';
     </script>
     <script src="https://docs.laminas.dev/js/scripts.js"></script>
     
-        <script src="../../search/main.js"></script>
+        <script src="../../../search/main.js"></script>
     
 
     
