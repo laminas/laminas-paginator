@@ -49,8 +49,6 @@ Take a look at the packaged adapters for ideas of how you might go about impleme
 
 ### Registering Your Adapter with the Plugin Manager
 
-> Available since version 2.10.0.
-
 If you want to register your adapter with the `Laminas\Pagiantor\AdapterPluginManager`, you can do so via configuration.
 The "paginators" configuration key can contain [standard laminas-servicemanager-style configuration](https://docs.laminas.dev/laminas-servicemanager/configuring-the-service-manager/).
 
