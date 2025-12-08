@@ -1,6 +1,6 @@
-# Usage
+# Basic Usage
 
-## Paginating data collections
+## Paginating Data Collections
 
 In order to paginate items into pages, `Laminas\Paginator` must have a generic way of accessing that data.
 For that reason, all data access takes place through data source adapters.
@@ -284,19 +284,73 @@ The paginator keeps track of its current position and provides a number of metho
 
 ```php
 assert($pager instanceof Laminas\Paginator\Paginator);
+```
 
+### Current Page Number
+
+```php
 printf("The current page number is %d\n", $pager->getCurrentPageNumber());
+```
+
+### Current Items Per Page
+
+```php
 printf("The current page contains %d items\n", $pager->getCurrentItemCount());
+```
+
+### Total Items
+
+```php
 printf("In total there are %d items\n", $pager->getTotalItemCount());
+```
 
+### Page Results
+
+The `getPages()` method returns a `Laminas\Paginator\Pages` immutable value object containing information about the current page and the total number of pages:
+
+```php
 $pagesResult = $pager->getPages();
+```
 
+#### First Page Number
+
+```php
 printf("The first page number is %d\n", $pagesResult->first);
+```
+
+#### First Page Number in Range
+
+```php
 printf("The first page number in range is %d\n", $pagesResult->firstPageInRange);
+```
+
+#### Last Page Number
+
+```php
 printf("The last page number is %d\n", $pagesResult->last);
+```
+
+#### Last Page Number in Range
+
+```php
 printf("The last page number in range is %d\n", $pagesResult->lastPageInRange);
+```
+
+#### Next Page Number
+
+```php
 printf("The next page number is %s\n", $pagesResult->next ?? 'NONE');
+```
+
+#### Previous Page Number
+
+```php
 printf("The previous page number is %s\n", $pagesResult->previous ?? 'NONE');
+```
+
+#### Total Number of Pages
+
+```php
 printf("The total number of pages is %d\n", $pagesResult->pageCount);
 ```
 
