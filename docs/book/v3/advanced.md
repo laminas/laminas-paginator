@@ -1,4 +1,4 @@
-# Advanced usage
+# Advanced Usage
 
 ## Using the Paginator Adapter Plugin Manager
 
@@ -21,7 +21,7 @@ $arrayAdapter = $pluginManager->build(Adapter\ArrayAdapter::class, [$arrayOfItem
 $iteratorAdapter = $pluginManager->build(Adapter\Iterator::class, [$iterator]);
 ```
 
-## Custom data source adapters
+## Custom Data Source Adapters
 
 At some point you may run across a data type that is not covered by the packaged adapters.
 In this case, you will need to write your own.
