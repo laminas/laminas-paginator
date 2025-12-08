@@ -18,7 +18,7 @@
     <link rel="canonical" href="https://docs.laminas.dev/laminas-paginator/v3/usage/">
     <link rel="shortcut icon" href="https://docs.laminas.dev/img/trademark-laminas-foundation-rgb.svg">
 
-    <title>Usage - laminas-paginator - Laminas Docs</title>
+    <title>Basic Usage - laminas-paginator - Laminas Docs</title>
 
     <link rel="stylesheet" href="https://docs.laminas.dev/css/styles.css">
     
@@ -143,7 +143,7 @@
                     
                         
     <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Usage</a>
+        <a href="./" class="subnavigation__link">Basic Usage</a>
     </li>
 
                     
@@ -161,7 +161,7 @@
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="../caching/" class="subnavigation__link">Caching Paged Result Sets</a>
+        <a href="../caching/" class="subnavigation__link">Caching Paginator Pages</a>
     </li>
 
                     
@@ -309,7 +309,7 @@
             <ul class="toc__list">
                 
                     <li class="toc__entry">
-                        <a href="#paginating-data-collections" class="toc__link nav-link">Paginating data collections</a>
+                        <a href="#paginating-data-collections" class="toc__link nav-link">Paginating Data Collections</a>
                     </li>
                 
                     <li class="toc__entry">
@@ -353,7 +353,7 @@
                     
                 
 
-                <li class="breadcrumb-item active" aria-current="page">Usage</li>
+                <li class="breadcrumb-item active" aria-current="page">Basic Usage</li>
             
         
     </ol>
@@ -367,8 +367,8 @@
     
     
 
-    <h1 id="usage">Usage</h1>
-<h2 id="paginating-data-collections">Paginating data collections</h2>
+    <h1 id="basic-usage">Basic Usage</h1>
+<h2 id="paginating-data-collections">Paginating Data Collections</h2>
 <p>In order to paginate items into pages, <code>Laminas\Paginator</code> must have a generic way of accessing that data.
 For that reason, all data access takes place through data source adapters.
 Several adapters ship with laminas-paginator by default:</p>
@@ -617,21 +617,30 @@ $paginator-&gt;getPages(new ScrollingStyle());</code></pre>
 <p>For further details on the other available options; see the <a href="../configuration/">Configuration chapter</a>.</p>
 <h2 id="inspecting-paginator-state">Inspecting Paginator State</h2>
 <p>The paginator keeps track of its current position and provides a number of methods to retrieve information about its state:</p>
-<pre class="highlight"><code class="language-php">assert($pager instanceof Laminas\Paginator\Paginator);
-
-printf("The current page number is %d\n", $pager-&gt;getCurrentPageNumber());
-printf("The current page contains %d items\n", $pager-&gt;getCurrentItemCount());
-printf("In total there are %d items\n", $pager-&gt;getTotalItemCount());
-
-$pagesResult = $pager-&gt;getPages();
-
-printf("The first page number is %d\n", $pagesResult-&gt;first);
-printf("The first page number in range is %d\n", $pagesResult-&gt;firstPageInRange);
-printf("The last page number is %d\n", $pagesResult-&gt;last);
-printf("The last page number in range is %d\n", $pagesResult-&gt;lastPageInRange);
-printf("The next page number is %s\n", $pagesResult-&gt;next ?? 'NONE');
-printf("The previous page number is %s\n", $pagesResult-&gt;previous ?? 'NONE');
-printf("The total number of pages is %d\n", $pagesResult-&gt;pageCount);</code></pre>
+<pre class="highlight"><code class="language-php">assert($pager instanceof Laminas\Paginator\Paginator);</code></pre>
+<h3 id="current-page-number">Current Page Number</h3>
+<pre class="highlight"><code class="language-php">printf("The current page number is %d\n", $pager-&gt;getCurrentPageNumber());</code></pre>
+<h3 id="current-items-per-page">Current Items Per Page</h3>
+<pre class="highlight"><code class="language-php">printf("The current page contains %d items\n", $pager-&gt;getCurrentItemCount());</code></pre>
+<h3 id="total-items">Total Items</h3>
+<pre class="highlight"><code class="language-php">printf("In total there are %d items\n", $pager-&gt;getTotalItemCount());</code></pre>
+<h3 id="page-results">Page Results</h3>
+<p>The <code>getPages()</code> method returns a <code>Laminas\Paginator\Pages</code> immutable value object containing information about the current page and the total number of pages:</p>
+<pre class="highlight"><code class="language-php">$pagesResult = $pager-&gt;getPages();</code></pre>
+<h4 id="first-page-number">First Page Number</h4>
+<pre class="highlight"><code class="language-php">printf("The first page number is %d\n", $pagesResult-&gt;first);</code></pre>
+<h4 id="first-page-number-in-range">First Page Number in Range</h4>
+<pre class="highlight"><code class="language-php">printf("The first page number in range is %d\n", $pagesResult-&gt;firstPageInRange);</code></pre>
+<h4 id="last-page-number">Last Page Number</h4>
+<pre class="highlight"><code class="language-php">printf("The last page number is %d\n", $pagesResult-&gt;last);</code></pre>
+<h4 id="last-page-number-in-range">Last Page Number in Range</h4>
+<pre class="highlight"><code class="language-php">printf("The last page number in range is %d\n", $pagesResult-&gt;lastPageInRange);</code></pre>
+<h4 id="next-page-number">Next Page Number</h4>
+<pre class="highlight"><code class="language-php">printf("The next page number is %s\n", $pagesResult-&gt;next ?? 'NONE');</code></pre>
+<h4 id="previous-page-number">Previous Page Number</h4>
+<pre class="highlight"><code class="language-php">printf("The previous page number is %s\n", $pagesResult-&gt;previous ?? 'NONE');</code></pre>
+<h4 id="total-number-of-pages">Total Number of Pages</h4>
+<pre class="highlight"><code class="language-php">printf("The total number of pages is %d\n", $pagesResult-&gt;pageCount);</code></pre>
 <p>The <code>Laminas\Paginator\Pages</code> value object retrieved from <code>$pager-&gt;getPages()</code> provides all the information needed to create a page navigation user interface.</p>
 
 
@@ -719,7 +728,7 @@ printf("The total number of pages is %d\n", $pagesResult-&gt;pageCount);</code><
                     
                         
     <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Usage</a>
+        <a href="./" class="subnavigation__link">Basic Usage</a>
     </li>
 
                     
@@ -737,7 +746,7 @@ printf("The total number of pages is %d\n", $pagesResult-&gt;pageCount);</code><
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="../caching/" class="subnavigation__link">Caching Paged Result Sets</a>
+        <a href="../caching/" class="subnavigation__link">Caching Paginator Pages</a>
     </li>
 
                     

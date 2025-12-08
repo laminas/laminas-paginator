@@ -143,7 +143,7 @@
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="../usage/" class="subnavigation__link">Usage</a>
+        <a href="../usage/" class="subnavigation__link">Basic Usage</a>
     </li>
 
                     
@@ -161,7 +161,7 @@
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="../caching/" class="subnavigation__link">Caching Paged Result Sets</a>
+        <a href="../caching/" class="subnavigation__link">Caching Paginator Pages</a>
     </li>
 
                     
@@ -313,7 +313,7 @@
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#custom-data-source-adapters" class="toc__link nav-link">Custom data source adapters</a>
+                        <a href="#custom-data-source-adapters" class="toc__link nav-link">Custom Data Source Adapters</a>
                     </li>
                 
             </ul>
@@ -359,7 +359,7 @@
     
     
 
-    <h1 id="advanced-usage">Advanced usage</h1>
+    <h1 id="advanced-usage">Advanced Usage</h1>
 <h2 id="using-the-paginator-adapter-plugin-manager">Using the Paginator Adapter Plugin Manager</h2>
 <p>laminas-paginator ships with a plugin manager for adapters, <code>Laminas\Paginator\AdapterPluginManager</code>.
 The plugin manager can be used to retrieve adapters.
@@ -375,7 +375,7 @@ $arrayAdapter = $pluginManager-&gt;build(Adapter\ArrayAdapter::class, [$arrayOfI
 
 // Get an Iterator adapter based on an iterator:
 $iteratorAdapter = $pluginManager-&gt;build(Adapter\Iterator::class, [$iterator]);</code></pre>
-<h2 id="custom-data-source-adapters">Custom data source adapters</h2>
+<h2 id="custom-data-source-adapters">Custom Data Source Adapters</h2>
 <p>At some point you may run across a data type that is not covered by the packaged adapters.
 In this case, you will need to write your own.</p>
 <p>To do so, you must implement <code>Laminas\Paginator\Adapter\AdapterInterface</code>.
@@ -442,7 +442,7 @@ class SomeServiceFactory
             
                 <a rel="next" class="page-nav__link page-nav__link--next" href="../caching/">
                     <small class="page-nav__label">Next</small>
-                    Caching Paged Result Sets
+                    Caching Paginator Pages
                     <i class="fa fa-chevron-right"></i>
                 </a>
             
@@ -505,7 +505,7 @@ class SomeServiceFactory
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="../usage/" class="subnavigation__link">Usage</a>
+        <a href="../usage/" class="subnavigation__link">Basic Usage</a>
     </li>
 
                     
@@ -523,7 +523,7 @@ class SomeServiceFactory
                     
                         
     <li class="subnavigation__list-item ">
-        <a href="../caching/" class="subnavigation__link">Caching Paged Result Sets</a>
+        <a href="../caching/" class="subnavigation__link">Caching Paginator Pages</a>
     </li>
 
                     
