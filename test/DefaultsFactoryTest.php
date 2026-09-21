@@ -145,7 +145,7 @@ final class DefaultsFactoryTest extends TestCase
             ],
             'dependencies' => [
                 'factories' => [
-                    'foo' => fn (): ScrollingStyleInterface => $style,
+                    'foo' => static fn (): ScrollingStyleInterface => $style,
                 ],
             ],
         ]);

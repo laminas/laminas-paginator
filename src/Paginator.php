@@ -109,8 +109,9 @@ final class Paginator implements Countable, IteratorAggregate
     /**
      * Returns the absolute item number for the specified item.
      *
-     * @param TKey|int $relativeItemNumber Relative item number
-     * @return TKey
+     * @template TItemNumber of array-key
+     * @param TItemNumber $relativeItemNumber Relative item number
+     * @return (TItemNumber is int ? int : TItemNumber|int)
      */
     public function getAbsoluteItemNumber(int|string $relativeItemNumber, int|null $pageNumber = null): int|string
     {
@@ -121,7 +122,6 @@ final class Paginator implements Countable, IteratorAggregate
         $relativeItemNumber = $this->normalizeItemNumber($relativeItemNumber);
         $pageNumber         = $this->normalizePageNumber($pageNumber ?? $this->getCurrentPageNumber());
 
-        /** @psalm-var TKey */
         return (($pageNumber - 1) * $this->getItemCountPerPage()) + $relativeItemNumber;
     }
 

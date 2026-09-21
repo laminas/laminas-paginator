@@ -36,6 +36,7 @@
         "psr/container": "^1 || ^2.0.2"
     },
     "require-dev": {
+        "boundwize/structarmed": "^0.17.12",
         "laminas/laminas-cache": "^4.3",
         "laminas/laminas-cache-storage-adapter-memory": "^3.2",
         "laminas/laminas-coding-standard": "^3.1.0",
