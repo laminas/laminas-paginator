@@ -25,7 +25,6 @@ final class SlidingTest extends TestCase
      */
     protected function setUp(): void
     {
-        parent::setUp();
         $this->_scrollingStyle = new Sliding();
         $this->paginator       = new Paginator(new ArrayAdapter(range(1, 101)));
         $this->paginator->setItemCountPerPage(10);
@@ -39,7 +38,6 @@ final class SlidingTest extends TestCase
     {
         $this->_scrollingStyle = null;
         $this->paginator       = null;
-        parent::tearDown();
     }
 
     public function testGetsPagesInRangeForFirstPage(): void

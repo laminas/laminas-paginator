@@ -89,9 +89,7 @@ final class Paginator implements Countable, IteratorAggregate
      */
     public function count(): int
     {
-        if ($this->pageCount === null) {
-            $this->pageCount = $this->calculatePageCount();
-        }
+        $this->pageCount ??= $this->calculatePageCount();
 
         return $this->pageCount;
     }
@@ -138,9 +136,7 @@ final class Paginator implements Countable, IteratorAggregate
      */
     public function getCurrentItemCount(): int
     {
-        if ($this->currentItemCount === null) {
-            $this->currentItemCount = $this->getItemCount($this->getCurrentItems());
-        }
+        $this->currentItemCount ??= $this->getItemCount($this->getCurrentItems());
 
         return $this->currentItemCount;
     }
@@ -152,9 +148,7 @@ final class Paginator implements Countable, IteratorAggregate
      */
     public function getCurrentItems(): iterable
     {
-        if ($this->currentItems === null) {
-            $this->currentItems = $this->getItemsByPage($this->getCurrentPageNumber());
-        }
+        $this->currentItems ??= $this->getItemsByPage($this->getCurrentPageNumber());
 
         return $this->currentItems;
     }

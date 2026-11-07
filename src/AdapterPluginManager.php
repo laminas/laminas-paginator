@@ -26,7 +26,7 @@ use function sprintf;
  */
 final class AdapterPluginManager extends AbstractPluginManager
 {
-    private const DEFAULT_CONFIG = [
+    private const array DEFAULT_CONFIG = [
         'aliases'   => [
             'callback' => Adapter\Callback::class,
             'Callback' => Adapter\Callback::class,

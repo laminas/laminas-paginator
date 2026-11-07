@@ -21,9 +21,7 @@ final class Sliding implements ScrollingStyleInterface
 {
     public function getPages(Paginator $paginator, int|null $pageRange = null): array
     {
-        if ($pageRange === null) {
-            $pageRange = $paginator->getPageRange();
-        }
+        $pageRange ??= $paginator->getPageRange();
 
         $pageNumber = $paginator->getCurrentPageNumber();
         $pageCount  = count($paginator);
