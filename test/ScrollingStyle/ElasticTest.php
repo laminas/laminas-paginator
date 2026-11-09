@@ -24,7 +24,6 @@ final class ElasticTest extends TestCase
      */
     protected function setUp(): void
     {
-        parent::setUp();
         $this->scrollingStyle = new Elastic();
         $this->paginator      = new Paginator(new ArrayAdapter(range(1, 101)));
         $this->paginator->setItemCountPerPage(5);
@@ -38,7 +37,6 @@ final class ElasticTest extends TestCase
     {
         $this->scrollingStyle = null;
         $this->paginator      = null;
-        parent::tearDown();
     }
 
     public function testGetsPagesInRangeForFirstPage(): void

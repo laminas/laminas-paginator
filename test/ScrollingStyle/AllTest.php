@@ -24,7 +24,6 @@ final class AllTest extends TestCase
      */
     protected function setUp(): void
     {
-        parent::setUp();
         $this->scrollingStyle = new All();
         $this->paginator      = new Paginator(new ArrayAdapter(range(1, 101)));
         $this->paginator->setItemCountPerPage(10);
@@ -37,7 +36,6 @@ final class AllTest extends TestCase
     {
         $this->scrollingStyle = null;
         $this->paginator      = null;
-        parent::tearDown();
     }
 
     public function testGetsPages(): void

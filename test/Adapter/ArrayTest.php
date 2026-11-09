@@ -17,7 +17,6 @@ final class ArrayTest extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
         $this->adapter = new ArrayAdapter(range(1, 101));
     }
 

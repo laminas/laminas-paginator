@@ -25,8 +25,6 @@ final class CachingAdapterTest extends TestCase
 
     public function setUp(): void
     {
-        parent::setUp();
-
         $this->clock = new FrozenClock(new DateTimeImmutable('2025-01-01 10:00:00', new DateTimeZone('UTC')));
         $this->cache = new CacheItemPoolDecorator(new Memory(), $this->clock);
     }

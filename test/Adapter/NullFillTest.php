@@ -17,7 +17,6 @@ final class NullFillTest extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
         $this->adapter = new Adapter\NullFill(101);
     }
 

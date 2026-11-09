@@ -26,7 +26,6 @@ final class IteratorTest extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
         /** @psalm-var Iterator<int, int> $iterator */
         $iterator = new Iterator(new ArrayIterator(range(1, 101)));
 
